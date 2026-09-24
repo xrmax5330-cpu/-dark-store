@@ -1,647 +1,810 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050505">
-  <title>DARK STORE | متجر شحن</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
 
-  <style>
-    :root{
-      --bg:#050505;
-      --card:#0d0d0d;
-      --card2:#111111;
-      --line:#242424;
-      --text:#ffffff;
-      --muted:#999;
-      --blue:#168cff;
-      --blue2:#006eff;
-    }
+<title>Dark Store | متجر شحن</title>
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+<style>
 
-    html{
-      scroll-behavior:smooth;
-    }
+:root{
+  --bg:#050505;
+  --card:#0d0d0d;
+  --line:#242424;
+  --text:#fff;
+  --muted:#999;
+  --blue:#168cff;
+}
 
-    body{
-      background:
-        radial-gradient(circle at top,#101010 0%,#050505 45%,#020202 100%);
-      color:var(--text);
-      font-family:Arial,Tahoma,sans-serif;
-      min-height:100vh;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    header{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      background:rgba(5,5,5,.92);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--line);
-    }
+body{
+  background:radial-gradient(
+    circle at top,
+    #111 0%,
+    #050505 45%,
+    #020202 100%
+  );
+  color:var(--text);
+  font-family:Arial,Tahoma,sans-serif;
+  min-height:100vh;
+}
 
-    nav{
-      height:70px;
-      max-width:1100px;
-      margin:auto;
-      padding:0 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
+button{
+  font-family:inherit;
+}
 
-    .brand{
-      font-size:22px;
-      font-weight:900;
-      letter-spacing:2px;
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,5,5,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
 
-    .nav-btn{
-      background:#111;
-      border:1px solid #333;
-      border-radius:12px;
-      padding:10px 16px;
-      cursor:pointer;
-      color:#fff;
-      font-size:15px;
-    }
+nav{
+  height:70px;
+  max-width:1100px;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-    .hero{
-      max-width:1100px;
-      margin:auto;
-      padding:70px 20px 35px;
-      text-align:center;
-    }
+.brand{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+}
 
-    .hero h1{
-      font-size:clamp(38px,8vw,72px);
-      font-weight:900;
-      margin-bottom:12px;
-    }
+.nav-btn{
+  background:#111;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  color:#fff;
+  font-size:15px;
+}
 
-    .hero h1 span{
-      color:var(--blue);
-    }
+.hero{
+  max-width:1100px;
+  margin:auto;
+  padding:45px 20px 35px;
+  text-align:center;
+}
 
-    .hero p{
-      color:var(--muted);
-      font-size:17px;
-      line-height:1.8;
-    }
+/* صورة المتجر */
 
-    section{
-      max-width:1100px;
-      margin:auto;
-      padding:45px 20px;
-    }
+.logo{
+  width:170px;
+  height:170px;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
+  margin:0 auto 25px;
+  border:2px solid #333;
+  box-shadow:
+    0 0 25px rgba(255,255,255,.12),
+    0 0 60px rgba(255,255,255,.05);
+}
 
-    .title{
-      text-align:center;
-      margin-bottom:25px;
-    }
+.hero h1{
+  font-size:clamp(38px,8vw,68px);
+  font-weight:900;
+  margin-bottom:10px;
+}
 
-    .title h2{
-      font-size:32px;
-      margin-bottom:8px;
-    }
+.hero h1 span{
+  color:var(--blue);
+}
 
-    .title p{
-      color:var(--muted);
-    }
+.hero p{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.8;
+}
 
-    /* اختيار الشركة */
-    .provider-box{
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      margin-bottom:25px;
-      flex-wrap:wrap;
-    }
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:45px 20px;
+}
 
-    .provider-btn{
-      min-width:140px;
-      padding:13px 24px;
-      border-radius:14px;
-      border:1px solid #333;
-      background:#0d0d0d;
-      color:#aaa;
-      font-size:16px;
-      font-weight:800;
-      cursor:pointer;
-      transition:.2s;
-    }
+.title{
+  text-align:center;
+  margin-bottom:20px;
+}
 
-    .provider-btn:hover{
-      border-color:var(--blue);
-      color:#fff;
-    }
+.title h2{
+  font-size:32px;
+  margin-bottom:8px;
+}
 
-    .provider-btn.active{
-      background:var(--blue);
-      border-color:var(--blue);
-      color:#fff;
-      box-shadow:0 0 20px rgba(22,140,255,.22);
-    }
+.title p{
+  color:var(--muted);
+}
 
-    .prices{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-      gap:15px;
-    }
+.provider-box{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+}
 
-    .price-card{
-      background:linear-gradient(145deg,#111,#090909);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:20px;
-      text-align:center;
-      transition:.2s;
-      cursor:pointer;
-    }
+.provider-btn{
+  min-width:140px;
+  padding:13px 24px;
+  border-radius:14px;
+  border:1px solid #333;
+  background:#0d0d0d;
+  color:#aaa;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+}
 
-    .price-card:hover{
-      transform:translateY(-4px);
-      border-color:var(--blue);
-      box-shadow:0 10px 30px rgba(0,0,0,.35);
-    }
+.provider-btn:hover{
+  border-color:var(--blue);
+  color:#fff;
+}
 
-    .robux{
-      font-size:25px;
-      font-weight:900;
-      margin-bottom:8px;
-    }
+.provider-btn.active{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#fff;
+  box-shadow:0 0 20px rgba(22,140,255,.22);
+}
 
-    .robux span{
-      color:#aaa;
-      font-size:14px;
-      font-weight:normal;
-    }
+.prices{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:15px;
+}
 
-    .price{
-      font-size:19px;
-      font-weight:800;
-      color:var(--blue);
-    }
+.price-card{
+  background:linear-gradient(145deg,#111,#090909);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  transition:.2s;
+  cursor:pointer;
+}
 
-    .buy{
-      margin-top:14px;
-      width:100%;
-      padding:10px;
-      border:0;
-      border-radius:10px;
-      background:#151515;
-      color:#fff;
-      border:1px solid #292929;
-      cursor:pointer;
-      font-weight:bold;
-    }
+.price-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--blue);
+}
 
-    .price-card:hover .buy{
-      background:var(--blue);
-      border-color:var(--blue);
-    }
+.robux{
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:8px;
+}
 
-    .notice{
-      margin-top:25px;
-      padding:15px;
-      background:#0b0b0b;
-      border:1px solid #202020;
-      border-radius:14px;
-      text-align:center;
-      color:#888;
-      font-size:14px;
-    }
+.price{
+  font-size:19px;
+  font-weight:800;
+  color:var(--blue);
+}
 
-    footer{
-      border-top:1px solid var(--line);
-      margin-top:40px;
-      padding:30px 20px;
-      text-align:center;
-      color:#777;
-    }
+.buy{
+  margin-top:14px;
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  background:#151515;
+  color:#fff;
+  border:1px solid #292929;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    /* نافذة الشراء */
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.75);
-      backdrop-filter:blur(8px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:2000;
-      padding:20px;
-    }
+.price-card:hover .buy{
+  background:var(--blue);
+  border-color:var(--blue);
+}
 
-    .modal.show{
-      display:flex;
-    }
+.notice{
+  margin-top:25px;
+  padding:15px;
+  background:#0b0b0b;
+  border:1px solid #202020;
+  border-radius:14px;
+  text-align:center;
+  color:#888;
+  font-size:14px;
+}
 
-    .modal-box{
-      width:100%;
-      max-width:430px;
-      background:#0d0d0d;
-      border:1px solid #292929;
-      border-radius:22px;
-      padding:25px;
-      box-shadow:0 20px 70px rgba(0,0,0,.6);
-    }
+footer{
+  border-top:1px solid var(--line);
+  margin-top:40px;
+  padding:30px 20px;
+  text-align:center;
+  color:#777;
+}
 
-    .modal-box h3{
-      text-align:center;
-      font-size:24px;
-      margin-bottom:8px;
-    }
+/* نافذة الطلب */
 
-    .selected{
-      text-align:center;
-      color:var(--blue);
-      margin-bottom:20px;
-      font-weight:bold;
-    }
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+  padding:20px;
+}
 
-    .input{
-      width:100%;
-      padding:14px;
-      margin-bottom:12px;
-      background:#050505;
-      color:#fff;
-      border:1px solid #292929;
-      border-radius:12px;
-      outline:none;
-      font-size:15px;
-    }
+.modal.show{
+  display:flex;
+}
 
-    .input:focus{
-      border-color:var(--blue);
-    }
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#0d0d0d;
+  border:1px solid #292929;
+  border-radius:22px;
+  padding:25px;
+}
 
-    .confirm{
-      width:100%;
-      padding:14px;
-      background:var(--blue);
-      border:0;
-      border-radius:12px;
-      color:#fff;
-      font-size:16px;
-      font-weight:900;
-      cursor:pointer;
-    }
+.modal-box h3{
+  text-align:center;
+  font-size:24px;
+  margin-bottom:8px;
+}
 
-    .close{
-      width:100%;
-      padding:12px;
-      margin-top:9px;
-      background:#171717;
-      border:1px solid #292929;
-      border-radius:12px;
-      color:#aaa;
-      cursor:pointer;
-    }
+.selected{
+  text-align:center;
+  color:var(--blue);
+  margin-bottom:20px;
+  font-weight:bold;
+}
 
-    @media(max-width:500px){
-      .prices{
-        grid-template-columns:repeat(2,1fr);
-      }
+.input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  background:#050505;
+  color:#fff;
+  border:1px solid #292929;
+  border-radius:12px;
+  outline:none;
+  font-size:15px;
+}
 
-      .price-card{
-        padding:16px 10px;
-      }
+.input:focus{
+  border-color:var(--blue);
+}
 
-      .robux{
-        font-size:21px;
-      }
+.confirm{
+  width:100%;
+  padding:14px;
+  background:var(--blue);
+  border:0;
+  border-radius:12px;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
 
-      .price{
-        font-size:16px;
-      }
-    }
-  </style>
+.close{
+  width:100%;
+  padding:12px;
+  margin-top:9px;
+  background:#171717;
+  border:1px solid #292929;
+  border-radius:12px;
+  color:#aaa;
+  cursor:pointer;
+}
+
+@media(max-width:500px){
+
+  .prices{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .price-card{
+    padding:16px 10px;
+  }
+
+  .robux{
+    font-size:21px;
+  }
+
+  .price{
+    font-size:16px;
+  }
+
+  .logo{
+    width:145px;
+    height:145px;
+  }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
+
 <header>
-  <nav>
-    <div class="brand">DARK STORE</div>
-    <button class="nav-btn" onclick="scrollToPrices()">الأسعار</button>
-  </nav>
+
+<nav>
+
+<div class="brand">
+Dark Store
+</div>
+
+<button class="nav-btn" onclick="scrollToPrices()">
+الأسعار
+</button>
+
+</nav>
+
 </header>
+
 
 <main>
 
-  <div class="hero">
-    <h1>DARK <span>STORE</span></h1>
-    <p>
-      متجر شحن روبوكس سريع وآمن
-      <br>
-      اختر شركة الدفع ثم اختر كمية الروبوكس
-    </p>
-  </div>
 
-  <section id="pricesSection">
+<div class="hero">
 
-    <div class="title">
-      <h2>الأسعار</h2>
-      <p>اختر طريقة الدفع</p>
-    </div>
+<img
+src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
+class="logo"
+alt="Dark Store"
+>
 
-    <!-- اختيار مدار / ليبيانا -->
-    <div class="provider-box">
-      <button
-        id="mDaratBtn"
-        class="provider-btn active"
-        onclick="showPrices('madar')">
-        مدار
-      </button>
+<h1>
+Dark <span>Store</span>
+</h1>
 
-      <button
-        id="libyanaBtn"
-        class="provider-btn"
-        onclick="showPrices('libyana')">
-        ليبيانا
-      </button>
-    </div>
-
-    <!-- الأسعار -->
-    <div id="prices" class="prices"></div>
-
-    <div class="notice">
-      اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
-    </div>
-
-  </section>
-
-</main>
-
-<footer>
-  DARK STORE © 2026
-</footer>
-
-
-<!-- نافذة الشراء -->
-<div id="modal" class="modal">
-
-  <div class="modal-box">
-
-    <h3>إتمام الطلب</h3>
-
-    <div id="selectedInfo" class="selected"></div>
-
-    <input
-      id="robloxUser"
-      class="input"
-      type="text"
-      placeholder="يوزر حسابك في روبلوكس">
-
-    <input
-      id="phone"
-      class="input"
-      type="tel"
-      placeholder="رقمك">
-
-    <input
-      id="name"
-      class="input"
-      type="text"
-      placeholder="اسمك">
-
-    <button class="confirm" onclick="sendOrder()">
-      إرسال الطلب
-    </button>
-
-    <button class="close" onclick="closeModal()">
-      إلغاء
-    </button>
-
-  </div>
+<p>
+متجر شحن روبوكس سريع وآمن
+<br>
+اختر شركة الدفع ثم اختر كمية الروبوكس
+</p>
 
 </div>
 
 
+
+<section id="pricesSection">
+
+
+<div class="title">
+
+<h2>
+الأسعار
+</h2>
+
+<p>
+اختر طريقة الدفع
+</p>
+
+</div>
+
+
+
+<div class="provider-box">
+
+<button
+id="madarBtn"
+class="provider-btn active"
+onclick="showPrices('madar')"
+>
+مدار
+</button>
+
+
+<button
+id="libyanaBtn"
+class="provider-btn"
+onclick="showPrices('libyana')"
+>
+ليبيانا
+</button>
+
+</div>
+
+
+
+<div
+id="prices"
+class="prices"
+></div>
+
+
+<div class="notice">
+اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+Dark Store © 2026
+
+</footer>
+
+
+
+<!-- نافذة الطلب -->
+
+<div
+id="modal"
+class="modal"
+>
+
+<div class="modal-box">
+
+
+<h3>
+إتمام الطلب
+</h3>
+
+
+<div
+id="selectedInfo"
+class="selected"
+></div>
+
+
+<input
+id="robloxUser"
+class="input"
+type="text"
+placeholder="يوزر حسابك في روبلوكس"
+>
+
+
+<input
+id="phone"
+class="input"
+type="tel"
+placeholder="رقمك"
+>
+
+
+<input
+id="name"
+class="input"
+type="text"
+placeholder="اسمك"
+>
+
+
+<button
+class="confirm"
+onclick="sendOrder()"
+>
+إرسال الطلب
+</button>
+
+
+<button
+class="close"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+
+</div>
+
+</div>
+
+
+
 <script>
 
-  /* =========================
-     أسعار مدار
-  ========================= */
 
-  const madarPrices = [
-    { robux: 10,  price: 5 },
-    { robux: 20,  price: 7 },
-    { robux: 30,  price: 10 },
-    { robux: 40,  price: 15 },
-    { robux: 80,  price: 22 },
-    { robux: 120, price: 33 },
-    { robux: 160, price: 42 },
-    { robux: 200, price: 50 },
-    { robux: 400, price: 82 },
-    { robux: 1000, price: 140 }
-  ];
+/* أسعار مدار */
 
-  /* =========================
-     أسعار ليبيانا
-  ========================= */
+const madarPrices = [
 
-  const libyanaPrices = [
-    { robux: 10,   price: 3 },
-    { robux: 20,   price: 5 },
-    { robux: 30,   price: 7 },
-    { robux: 40,   price: 10 },
-    { robux: 50,   price: 13 },
-    { robux: 80,   price: 15 },
-    { robux: 120,  price: 30 },
-    { robux: 160,  price: 40 },
-    { robux: 400,  price: 72 },
-    { robux: 520,  price: 95 },
-    { robux: 1000, price: 130 }
-  ];
+{robux:10,price:5},
+{robux:20,price:7},
+{robux:30,price:10},
+{robux:40,price:15},
+{robux:80,price:22},
+{robux:120,price:33},
+{robux:160,price:42},
+{robux:200,price:50},
+{robux:400,price:82},
+{robux:1000,price:140}
 
-  let currentProvider = "madar";
-  let selectedProduct = null;
+];
 
 
-  /* عرض الأسعار */
 
-  function showPrices(provider){
+/* أسعار ليبيانا */
 
-    currentProvider = provider;
+const libyanaPrices = [
 
-    const pricesBox = document.getElementById("prices");
-    const madarBtn = document.getElementById("mDaratBtn");
-    const libyanaBtn = document.getElementById("libyanaBtn");
+{robux:10,price:3},
+{robux:20,price:5},
+{robux:30,price:7},
+{robux:40,price:10},
+{robux:50,price:13},
+{robux:80,price:15},
+{robux:120,price:30},
+{robux:160,price:40},
+{robux:400,price:72},
+{robux:520,price:95},
+{robux:1000,price:130}
 
-    if(provider === "madar"){
+];
 
-      madarBtn.classList.add("active");
-      libyanaBtn.classList.remove("active");
 
-    }else{
+let currentProvider = "madar";
 
-      libyanaBtn.classList.add("active");
-      madarBtn.classList.remove("active");
+let selectedProduct = null;
 
-    }
 
-    const list =
-      provider === "madar"
-      ? madarPrices
-      : libyanaPrices;
 
-    pricesBox.innerHTML = "";
+/* عرض الأسعار */
 
-    list.forEach(item => {
+function showPrices(provider){
 
-      const card = document.createElement("div");
+currentProvider = provider;
 
-      card.className = "price-card";
+const pricesBox =
+document.getElementById("prices");
 
-      card.innerHTML = `
-        <div class="robux">
-          ${item.robux} روب
-        </div>
+const madarBtn =
+document.getElementById("madarBtn");
 
-        <div class="price">
-          ${item.price} ${provider === "madar" ? "مدار" : "ليبيانا"}
-        </div>
+const libyanaBtn =
+document.getElementById("libyanaBtn");
 
-        <button class="buy">
-          شراء
-        </button>
-      `;
 
-      card.addEventListener("click", function(){
+if(provider === "madar"){
 
-        openModal(item);
+madarBtn.classList.add("active");
+libyanaBtn.classList.remove("active");
 
-      });
+}else{
 
-      pricesBox.appendChild(card);
+libyanaBtn.classList.add("active");
+madarBtn.classList.remove("active");
 
-    });
+}
 
-  }
 
+const list =
+provider === "madar"
+? madarPrices
+: libyanaPrices;
 
-  /* فتح نافذة الطلب */
 
-  function openModal(item){
+pricesBox.innerHTML = "";
 
-    selectedProduct = item;
 
-    const providerName =
-      currentProvider === "madar"
-      ? "مدار"
-      : "ليبيانا";
+list.forEach(item => {
 
-    document.getElementById("selectedInfo").textContent =
-      `${item.robux} روبوكس — ${item.price} ${providerName}`;
+const card =
+document.createElement("div");
 
-    document.getElementById("modal").classList.add("show");
+card.className = "price-card";
 
-  }
 
+card.innerHTML = `
 
-  /* إغلاق النافذة */
+<div class="robux">
+${item.robux} روب
+</div>
 
-  function closeModal(){
+<div class="price">
+${item.price}
+${provider === "madar" ? "مدار" : "ليبيانا"}
+</div>
 
-    document.getElementById("modal").classList.remove("show");
+<button class="buy">
+شراء
+</button>
 
-  }
+`;
 
 
-  /* إرسال الطلب */
+card.addEventListener(
+"click",
+() => openModal(item)
+);
 
-  function sendOrder(){
 
-    const robloxUser =
-      document.getElementById("robloxUser").value.trim();
+pricesBox.appendChild(card);
 
-    const phone =
-      document.getElementById("phone").value.trim();
+});
 
-    const name =
-      document.getElementById("name").value.trim();
+}
 
-    if(!robloxUser || !phone || !name){
 
-      alert("يرجى تعبئة جميع البيانات");
 
-      return;
+/* فتح الطلب */
 
-    }
+function openModal(item){
 
-    const providerName =
-      currentProvider === "madar"
-      ? "مدار"
-      : "ليبيانا";
+selectedProduct = item;
 
-    const message =
-      `طلب جديد%0A%0A` +
-      `الاسم: ${name}%0A` +
-      `رقم الهاتف: ${phone}%0A` +
-      `يوزر روبلوكس: ${robloxUser}%0A` +
-      `الكمية: ${selectedProduct.robux} روبوكس%0A` +
-      `السعر: ${selectedProduct.price} ${providerName}`;
 
-    /*
-      ضع رقم الواتساب الخاص بالمتجر هنا
-      بدل 218XXXXXXXXXX
-    */
+const providerName =
+currentProvider === "madar"
+? "مدار"
+: "ليبيانا";
 
-    const whatsappNumber = "218XXXXXXXXXX";
 
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${message}`,
-      "_blank"
-    );
+document.getElementById(
+"selectedInfo"
+).textContent =
+`${item.robux} روبوكس — ${item.price} ${providerName}`;
 
-  }
 
+document.getElementById(
+"modal"
+).classList.add("show");
 
-  /* زر الأسعار */
+}
 
-  function scrollToPrices(){
 
-    document.getElementById("pricesSection")
-      .scrollIntoView({
-        behavior:"smooth"
-      });
 
-  }
+/* إغلاق الطلب */
 
+function closeModal(){
 
-  /* تشغيل الأسعار عند فتح الموقع */
+document.getElementById(
+"modal"
+).classList.remove("show");
 
-  showPrices("madar");
+}
 
 
-  /* إغلاق النافذة عند الضغط خارجها */
 
-  document.getElementById("modal").addEventListener(
-    "click",
-    function(e){
+/* إرسال الطلب للواتساب */
 
-      if(e.target === this){
+function sendOrder(){
 
-        closeModal();
+const robloxUser =
+document.getElementById(
+"robloxUser"
+).value.trim();
 
-      }
 
-    }
-  );
+const phone =
+document.getElementById(
+"phone"
+).value.trim();
+
+
+const name =
+document.getElementById(
+"name"
+).value.trim();
+
+
+if(
+!robloxUser ||
+!phone ||
+!name
+){
+
+alert("يرجى تعبئة جميع البيانات");
+
+return;
+
+}
+
+
+const providerName =
+currentProvider === "madar"
+? "مدار"
+: "ليبيانا";
+
+
+const message =
+
+`طلب جديد%0A%0A` +
+
+`الاسم: ${name}%0A` +
+
+`رقم الهاتف: ${phone}%0A` +
+
+`يوزر روبلوكس: ${robloxUser}%0A` +
+
+`الكمية: ${selectedProduct.robux} روبوكس%0A` +
+
+`السعر: ${selectedProduct.price} ${providerName}`;
+
+
+/*
+غيّر هذا الرقم إلى رقم واتساب متجرك
+
+مثال:
+218927816884
+*/
+
+const whatsappNumber =
+"218927816884";
+
+
+window.open(
+`https://wa.me/${whatsappNumber}?text=${message}`,
+"_blank"
+);
+
+}
+
+
+
+/* زر الأسعار */
+
+function scrollToPrices(){
+
+document
+.getElementById("pricesSection")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+
+/* إغلاق النافذة عند الضغط خارجها */
+
+document
+.getElementById("modal")
+.addEventListener(
+"click",
+function(e){
+
+if(e.target === this){
+
+closeModal();
+
+}
+
+}
+);
+
+
+/* تشغيل مدار عند فتح الموقع */
+
+showPrices("madar");
 
 </script>
 
+
 </body>
+
 </html>
