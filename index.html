@@ -1,725 +1,647 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#050505">
-
   <title>DARK STORE | متجر شحن</title>
 
-  <meta name="description" content="DARK STORE - متجر شحن وخدمات رقمية">
-
   <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root{
+      --bg:#050505;
+      --card:#0d0d0d;
+      --card2:#111111;
+      --line:#242424;
+      --text:#ffffff;
+      --muted:#999;
+      --blue:#168cff;
+      --blue2:#006eff;
     }
 
-    body {
-      font-family: Arial, sans-serif;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
       background:
-        radial-gradient(circle at top, #151515 0%, #050505 45%, #000 100%);
-      color: white;
-      min-height: 100vh;
+        radial-gradient(circle at top,#101010 0%,#050505 45%,#020202 100%);
+      color:var(--text);
+      font-family:Arial,Tahoma,sans-serif;
+      min-height:100vh;
     }
 
-    header {
-      width: 100%;
-      padding: 15px 20px;
-      background: rgba(10,10,10,0.92);
-      border-bottom: 1px solid #252525;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 
-    nav {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(5,5,5,.92);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--line);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 21px;
-      font-weight: 900;
+    nav{
+      height:70px;
+      max-width:1100px;
+      margin:auto;
+      padding:0 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
     }
 
-    .logo {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #333;
-      box-shadow: 0 0 20px rgba(255,255,255,0.08);
+    .brand{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:2px;
     }
 
-    .hero {
-      max-width: 1100px;
-      margin: auto;
-      padding: 65px 20px 45px;
-      text-align: center;
+    .nav-btn{
+      background:#111;
+      border:1px solid #333;
+      border-radius:12px;
+      padding:10px 16px;
+      cursor:pointer;
+      color:#fff;
+      font-size:15px;
     }
 
-    .logo-big {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #333;
-      box-shadow: 0 0 35px rgba(255,255,255,0.12);
-      margin-bottom: 25px;
+    .hero{
+      max-width:1100px;
+      margin:auto;
+      padding:70px 20px 35px;
+      text-align:center;
     }
 
-    h1 {
-      font-size: clamp(40px, 10vw, 75px);
-      font-weight: 900;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
+    .hero h1{
+      font-size:clamp(38px,8vw,72px);
+      font-weight:900;
+      margin-bottom:12px;
     }
 
-    .subtitle {
-      color: #aaa;
-      font-size: 18px;
-      margin-bottom: 30px;
+    .hero h1 span{
+      color:var(--blue);
     }
 
-    .main-btn {
-      display: inline-block;
-      padding: 14px 28px;
-      background: white;
-      color: black;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
+    .hero p{
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.8;
     }
 
-    section {
-      max-width: 1100px;
-      margin: auto;
-      padding: 35px 20px;
+    section{
+      max-width:1100px;
+      margin:auto;
+      padding:45px 20px;
     }
 
-    .title {
-      text-align: center;
-      font-size: 30px;
-      margin-bottom: 25px;
-      font-weight: 900;
+    .title{
+      text-align:center;
+      margin-bottom:25px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
+    .title h2{
+      font-size:32px;
+      margin-bottom:8px;
     }
 
-    .card {
-      background: linear-gradient(145deg, #151515, #090909);
-      border: 1px solid #292929;
-      border-radius: 18px;
-      padding: 25px 15px;
-      text-align: center;
-      transition: 0.2s;
+    .title p{
+      color:var(--muted);
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #555;
+    /* اختيار الشركة */
+    .provider-box{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin-bottom:25px;
+      flex-wrap:wrap;
     }
 
-    .card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
+    .provider-btn{
+      min-width:140px;
+      padding:13px 24px;
+      border-radius:14px;
+      border:1px solid #333;
+      background:#0d0d0d;
+      color:#aaa;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.2s;
     }
 
-    .price {
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 15px;
+    .provider-btn:hover{
+      border-color:var(--blue);
+      color:#fff;
     }
 
-    .buy {
-      display: inline-block;
-      width: 100%;
-      background: white;
-      color: black;
-      padding: 11px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
+    .provider-btn.active{
+      background:var(--blue);
+      border-color:var(--blue);
+      color:#fff;
+      box-shadow:0 0 20px rgba(22,140,255,.22);
     }
 
-    .buy:active {
-      transform: scale(0.97);
+    .prices{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:15px;
     }
 
-    .info {
-      background: #0d0d0d;
-      border: 1px solid #252525;
-      border-radius: 18px;
-      padding: 25px;
-      text-align: center;
-      line-height: 2;
+    .price-card{
+      background:linear-gradient(145deg,#111,#090909);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+      text-align:center;
+      transition:.2s;
+      cursor:pointer;
     }
 
-    footer {
-      text-align: center;
-      padding: 35px 15px;
-      color: #777;
-      border-top: 1px solid #222;
-      margin-top: 40px;
+    .price-card:hover{
+      transform:translateY(-4px);
+      border-color:var(--blue);
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
     }
 
-
-    /* =========================
-       نافذة الطلب
-    ========================= */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.82);
-      z-index: 999;
-      padding: 20px;
-      align-items: center;
-      justify-content: center;
+    .robux{
+      font-size:25px;
+      font-weight:900;
+      margin-bottom:8px;
     }
 
-    .modal.active {
-      display: flex;
+    .robux span{
+      color:#aaa;
+      font-size:14px;
+      font-weight:normal;
     }
 
-    .order-box {
-      width: 100%;
-      max-width: 430px;
-      background: #101010;
-      border: 1px solid #303030;
-      border-radius: 22px;
-      padding: 25px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-      animation: showBox 0.2s ease;
+    .price{
+      font-size:19px;
+      font-weight:800;
+      color:var(--blue);
     }
 
-    @keyframes showBox {
-      from {
-        transform: scale(0.94);
-        opacity: 0;
+    .buy{
+      margin-top:14px;
+      width:100%;
+      padding:10px;
+      border:0;
+      border-radius:10px;
+      background:#151515;
+      color:#fff;
+      border:1px solid #292929;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .price-card:hover .buy{
+      background:var(--blue);
+      border-color:var(--blue);
+    }
+
+    .notice{
+      margin-top:25px;
+      padding:15px;
+      background:#0b0b0b;
+      border:1px solid #202020;
+      border-radius:14px;
+      text-align:center;
+      color:#888;
+      font-size:14px;
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      margin-top:40px;
+      padding:30px 20px;
+      text-align:center;
+      color:#777;
+    }
+
+    /* نافذة الشراء */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.75);
+      backdrop-filter:blur(8px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+      padding:20px;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .modal-box{
+      width:100%;
+      max-width:430px;
+      background:#0d0d0d;
+      border:1px solid #292929;
+      border-radius:22px;
+      padding:25px;
+      box-shadow:0 20px 70px rgba(0,0,0,.6);
+    }
+
+    .modal-box h3{
+      text-align:center;
+      font-size:24px;
+      margin-bottom:8px;
+    }
+
+    .selected{
+      text-align:center;
+      color:var(--blue);
+      margin-bottom:20px;
+      font-weight:bold;
+    }
+
+    .input{
+      width:100%;
+      padding:14px;
+      margin-bottom:12px;
+      background:#050505;
+      color:#fff;
+      border:1px solid #292929;
+      border-radius:12px;
+      outline:none;
+      font-size:15px;
+    }
+
+    .input:focus{
+      border-color:var(--blue);
+    }
+
+    .confirm{
+      width:100%;
+      padding:14px;
+      background:var(--blue);
+      border:0;
+      border-radius:12px;
+      color:#fff;
+      font-size:16px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .close{
+      width:100%;
+      padding:12px;
+      margin-top:9px;
+      background:#171717;
+      border:1px solid #292929;
+      border-radius:12px;
+      color:#aaa;
+      cursor:pointer;
+    }
+
+    @media(max-width:500px){
+      .prices{
+        grid-template-columns:repeat(2,1fr);
       }
 
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .order-title {
-      text-align: center;
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 7px;
-    }
-
-    .order-subtitle {
-      text-align: center;
-      color: #888;
-      margin-bottom: 22px;
-      font-size: 14px;
-    }
-
-    .selected-package {
-      background: #181818;
-      border: 1px solid #292929;
-      border-radius: 12px;
-      padding: 13px;
-      text-align: center;
-      margin-bottom: 18px;
-      font-weight: bold;
-    }
-
-    .input-group {
-      margin-bottom: 14px;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 7px;
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 11px;
-      border: 1px solid #333;
-      background: #080808;
-      color: white;
-      outline: none;
-      font-size: 16px;
-      text-align: right;
-    }
-
-    .input-group input:focus {
-      border-color: #777;
-    }
-
-    .send-btn {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      background: white;
-      color: black;
-      font-size: 17px;
-      font-weight: 900;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-
-    .close-btn {
-      width: 100%;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 13px;
-      background: #151515;
-      color: #aaa;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-
-      header {
-        padding: 12px 15px;
+      .price-card{
+        padding:16px 10px;
       }
 
-      .logo {
-        width: 45px;
-        height: 45px;
+      .robux{
+        font-size:21px;
       }
 
-      .hero {
-        padding-top: 50px;
-      }
-
-      .logo-big {
-        width: 125px;
-        height: 125px;
-      }
-
-      .order-box {
-        padding: 20px;
+      .price{
+        font-size:16px;
       }
     }
-
   </style>
 </head>
 
-
 <body>
 
+<header>
+  <nav>
+    <div class="brand">DARK STORE</div>
+    <button class="nav-btn" onclick="scrollToPrices()">الأسعار</button>
+  </nav>
+</header>
 
-  <!-- =========================
-       الهيدر
-  ========================== -->
+<main>
 
-  <header>
+  <div class="hero">
+    <h1>DARK <span>STORE</span></h1>
+    <p>
+      متجر شحن روبوكس سريع وآمن
+      <br>
+      اختر شركة الدفع ثم اختر كمية الروبوكس
+    </p>
+  </div>
 
-    <nav>
+  <section id="pricesSection">
 
-      <div class="brand">
-
-        <img
-          class="logo"
-          src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
-          alt="DARK STORE"
-        >
-
-        <span>DARK STORE</span>
-
-      </div>
-
-    </nav>
-
-  </header>
-
-
-
-  <!-- =========================
-       بداية الموقع
-  ========================== -->
-
-  <main>
-
-    <div class="hero">
-
-      <img
-        class="logo-big"
-        src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
-        alt="DARK STORE"
-      >
-
-      <h1>DARK STORE</h1>
-
-      <p class="subtitle">
-        متجر شحن وخدمات رقمية
-      </p>
-
-      <a href="#prices" class="main-btn">
-        عرض الأسعار
-      </a>
-
+    <div class="title">
+      <h2>الأسعار</h2>
+      <p>اختر طريقة الدفع</p>
     </div>
 
-
-
-    <!-- =========================
-         الأسعار
-    ========================== -->
-
-    <section id="prices">
-
-      <h2 class="title">
-        أسعار الشحن
-      </h2>
-
-      <div class="grid">
-
-
-        <div class="card">
-
-          <h3>40 روبوكس</h3>
-
-          <div class="price">
-            10 د.ل
-          </div>
-
-          <button
-            class="buy"
-            onclick="openOrder('40 روبوكس', '10 د.ل')">
-            شراء
-          </button>
-
-        </div>
-
-
-
-        <div class="card">
-
-          <h3>80 روبوكس</h3>
-
-          <div class="price">
-            15 د.ل
-          </div>
-
-          <button
-            class="buy"
-            onclick="openOrder('80 روبوكس', '15 د.ل')">
-            شراء
-          </button>
-
-        </div>
-
-
-
-        <div class="card">
-
-          <h3>120 روبوكس</h3>
-
-          <div class="price">
-            30 د.ل
-          </div>
-
-          <button
-            class="buy"
-            onclick="openOrder('120 روبوكس', '30 د.ل')">
-            شراء
-          </button>
-
-        </div>
-
-
-
-        <div class="card">
-
-          <h3>160 روبوكس</h3>
-
-          <div class="price">
-            40 د.ل
-          </div>
-
-          <button
-            class="buy"
-            onclick="openOrder('160 روبوكس', '40 د.ل')">
-            شراء
-          </button>
-
-        </div>
-
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         معلومات المتجر
-    ========================== -->
-
-    <section>
-
-      <div class="info">
-
-        <h2>🖤 DARK STORE</h2>
-
-        <p>
-          شحن سريع وآمن 🎮
-        </p>
-
-        <p>
-          بعد إرسال الطلب سيتم التواصل معك.
-        </p>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-
-  <!-- =========================
-       نافذة الطلب
-  ========================== -->
-
-  <div class="modal" id="orderModal">
-
-    <div class="order-box">
-
-      <div class="order-title">
-        إتمام الطلب
-      </div>
-
-      <div class="order-subtitle">
-        أدخل معلوماتك لإرسال طلب الشحن
-      </div>
-
-
-      <div class="selected-package" id="selectedPackage">
-        الباقة
-      </div>
-
-
-      <!-- اسم المستخدم Roblox -->
-
-      <div class="input-group">
-
-        <label>
-          يوزر حسابك في Roblox
-        </label>
-
-        <input
-          type="text"
-          id="robloxUsername"
-          placeholder="مثال: RobloxUser123"
-        >
-
-      </div>
-
-
-      <!-- رقم الهاتف -->
-
-      <div class="input-group">
-
-        <label>
-          رقم الهاتف
-        </label>
-
-        <input
-          type="tel"
-          id="phoneNumber"
-          placeholder="مثال: 092xxxxxxx"
-        >
-
-      </div>
-
-
-      <!-- الاسم -->
-
-      <div class="input-group">
-
-        <label>
-          اسمك
-        </label>
-
-        <input
-          type="text"
-          id="customerName"
-          placeholder="اكتب اسمك"
-        >
-
-      </div>
-
-
+    <!-- اختيار مدار / ليبيانا -->
+    <div class="provider-box">
       <button
-        class="send-btn"
-        onclick="sendOrder()">
-
-        إرسال الطلب عبر واتساب
-
+        id="mDaratBtn"
+        class="provider-btn active"
+        onclick="showPrices('madar')">
+        مدار
       </button>
 
-
       <button
-        class="close-btn"
-        onclick="closeOrder()">
-
-        إلغاء
-
+        id="libyanaBtn"
+        class="provider-btn"
+        onclick="showPrices('libyana')">
+        ليبيانا
       </button>
-
     </div>
+
+    <!-- الأسعار -->
+    <div id="prices" class="prices"></div>
+
+    <div class="notice">
+      اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  DARK STORE © 2026
+</footer>
+
+
+<!-- نافذة الشراء -->
+<div id="modal" class="modal">
+
+  <div class="modal-box">
+
+    <h3>إتمام الطلب</h3>
+
+    <div id="selectedInfo" class="selected"></div>
+
+    <input
+      id="robloxUser"
+      class="input"
+      type="text"
+      placeholder="يوزر حسابك في روبلوكس">
+
+    <input
+      id="phone"
+      class="input"
+      type="tel"
+      placeholder="رقمك">
+
+    <input
+      id="name"
+      class="input"
+      type="text"
+      placeholder="اسمك">
+
+    <button class="confirm" onclick="sendOrder()">
+      إرسال الطلب
+    </button>
+
+    <button class="close" onclick="closeModal()">
+      إلغاء
+    </button>
 
   </div>
 
+</div>
 
 
-  <!-- =========================
-       JavaScript
-  ========================== -->
+<script>
 
-  <script>
+  /* =========================
+     أسعار مدار
+  ========================= */
 
-    let selectedProduct = "";
-    let selectedPrice = "";
+  const madarPrices = [
+    { robux: 10,  price: 5 },
+    { robux: 20,  price: 7 },
+    { robux: 30,  price: 10 },
+    { robux: 40,  price: 15 },
+    { robux: 80,  price: 22 },
+    { robux: 120, price: 33 },
+    { robux: 160, price: 42 },
+    { robux: 200, price: 50 },
+    { robux: 400, price: 82 },
+    { robux: 1000, price: 140 }
+  ];
 
+  /* =========================
+     أسعار ليبيانا
+  ========================= */
 
-    function openOrder(product, price) {
+  const libyanaPrices = [
+    { robux: 10,   price: 3 },
+    { robux: 20,   price: 5 },
+    { robux: 30,   price: 7 },
+    { robux: 40,   price: 10 },
+    { robux: 50,   price: 13 },
+    { robux: 80,   price: 15 },
+    { robux: 120,  price: 30 },
+    { robux: 160,  price: 40 },
+    { robux: 400,  price: 72 },
+    { robux: 520,  price: 95 },
+    { robux: 1000, price: 130 }
+  ];
 
-      selectedProduct = product;
-      selectedPrice = price;
-
-      document.getElementById("selectedPackage").innerHTML =
-        product + " — " + price;
-
-      document.getElementById("orderModal")
-        .classList.add("active");
-
-    }
-
-
-    function closeOrder() {
-
-      document.getElementById("orderModal")
-        .classList.remove("active");
-
-    }
-
-
-    function sendOrder() {
-
-      const username =
-        document.getElementById("robloxUsername").value.trim();
-
-      const phone =
-        document.getElementById("phoneNumber").value.trim();
-
-      const name =
-        document.getElementById("customerName").value.trim();
+  let currentProvider = "madar";
+  let selectedProduct = null;
 
 
-      if (!username || !phone || !name) {
+  /* عرض الأسعار */
 
-        alert("يرجى تعبئة جميع الخانات أولاً.");
+  function showPrices(provider){
 
-        return;
+    currentProvider = provider;
 
-      }
+    const pricesBox = document.getElementById("prices");
+    const madarBtn = document.getElementById("mDaratBtn");
+    const libyanaBtn = document.getElementById("libyanaBtn");
 
+    if(provider === "madar"){
 
-      /*
-        رقم واتساب المتجر
-        غيّر الرقم هنا إذا كان رقم واتساب مختلف.
-        
-        اكتب الرقم بدون + وبدون مسافات.
-        مثال ليبيا:
-        218927816884
-      */
+      madarBtn.classList.add("active");
+      libyanaBtn.classList.remove("active");
 
-      const storeWhatsApp = "218927816884";
+    }else{
 
-
-      const message =
-        "🖤 DARK STORE%0A%0A" +
-
-        "📦 طلب جديد%0A" +
-
-        "━━━━━━━━━━━━%0A" +
-
-        "🎮 الباقة: " + selectedProduct + "%0A" +
-
-        "💰 السعر: " + selectedPrice + "%0A%0A" +
-
-        "👤 الاسم: " + name + "%0A" +
-
-        "🎮 يوزر Roblox: " + username + "%0A" +
-
-        "📱 رقم الهاتف: " + phone + "%0A" +
-
-        "━━━━━━━━━━━━%0A" +
-
-        "شكراً لطلبك من DARK STORE 🖤";
-
-
-      const whatsappURL =
-        "https://wa.me/" +
-        storeWhatsApp +
-        "?text=" +
-        message;
-
-
-      window.location.href = whatsappURL;
+      libyanaBtn.classList.add("active");
+      madarBtn.classList.remove("active");
 
     }
 
+    const list =
+      provider === "madar"
+      ? madarPrices
+      : libyanaPrices;
 
-    /* إغلاق النافذة عند الضغط خارجها */
+    pricesBox.innerHTML = "";
 
-    document.getElementById("orderModal")
-      .addEventListener("click", function(event) {
+    list.forEach(item => {
 
-        if (event.target === this) {
+      const card = document.createElement("div");
 
-          closeOrder();
+      card.className = "price-card";
 
-        }
+      card.innerHTML = `
+        <div class="robux">
+          ${item.robux} روب
+        </div>
+
+        <div class="price">
+          ${item.price} ${provider === "madar" ? "مدار" : "ليبيانا"}
+        </div>
+
+        <button class="buy">
+          شراء
+        </button>
+      `;
+
+      card.addEventListener("click", function(){
+
+        openModal(item);
 
       });
 
-  </script>
+      pricesBox.appendChild(card);
+
+    });
+
+  }
 
 
-  <footer>
+  /* فتح نافذة الطلب */
 
-    © 2026 DARK STORE — جميع الحقوق محفوظة
+  function openModal(item){
 
-  </footer>
+    selectedProduct = item;
 
+    const providerName =
+      currentProvider === "madar"
+      ? "مدار"
+      : "ليبيانا";
+
+    document.getElementById("selectedInfo").textContent =
+      `${item.robux} روبوكس — ${item.price} ${providerName}`;
+
+    document.getElementById("modal").classList.add("show");
+
+  }
+
+
+  /* إغلاق النافذة */
+
+  function closeModal(){
+
+    document.getElementById("modal").classList.remove("show");
+
+  }
+
+
+  /* إرسال الطلب */
+
+  function sendOrder(){
+
+    const robloxUser =
+      document.getElementById("robloxUser").value.trim();
+
+    const phone =
+      document.getElementById("phone").value.trim();
+
+    const name =
+      document.getElementById("name").value.trim();
+
+    if(!robloxUser || !phone || !name){
+
+      alert("يرجى تعبئة جميع البيانات");
+
+      return;
+
+    }
+
+    const providerName =
+      currentProvider === "madar"
+      ? "مدار"
+      : "ليبيانا";
+
+    const message =
+      `طلب جديد%0A%0A` +
+      `الاسم: ${name}%0A` +
+      `رقم الهاتف: ${phone}%0A` +
+      `يوزر روبلوكس: ${robloxUser}%0A` +
+      `الكمية: ${selectedProduct.robux} روبوكس%0A` +
+      `السعر: ${selectedProduct.price} ${providerName}`;
+
+    /*
+      ضع رقم الواتساب الخاص بالمتجر هنا
+      بدل 218XXXXXXXXXX
+    */
+
+    const whatsappNumber = "218XXXXXXXXXX";
+
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${message}`,
+      "_blank"
+    );
+
+  }
+
+
+  /* زر الأسعار */
+
+  function scrollToPrices(){
+
+    document.getElementById("pricesSection")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+  }
+
+
+  /* تشغيل الأسعار عند فتح الموقع */
+
+  showPrices("madar");
+
+
+  /* إغلاق النافذة عند الضغط خارجها */
+
+  document.getElementById("modal").addEventListener(
+    "click",
+    function(e){
+
+      if(e.target === this){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+</script>
 
 </body>
 </html>
