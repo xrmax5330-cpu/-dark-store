@@ -1,272 +1,810 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>القائمة الجانبية</title>
-  <!-- خط تجوال من Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-  
-  <style>
-    /* الإعدادات العامة للموقع */
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', sans-serif;
-      background-color: #0b0f12;
-      color: #ffffff;
-      direction: rtl;
-    }
+<title>Dark Store | متجر شحن</title>
 
-    /* حاوية القائمة الجانبية */
-    .sidebar-drawer {
-      width: 320px;
-      max-width: 100%;
-      background-color: #0f1317;
-      height: 100vh;
-      padding: 20px 16px;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
+<style>
 
-    /* رأس القائمة (الشعار والزر إغلاق) */
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
+:root{
+  --bg:#050505;
+  --card:#0d0d0d;
+  --line:#242424;
+  --text:#fff;
+  --muted:#999;
+  --blue:#168cff;
+}
 
-    .logo-section {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .logo-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #1e262c;
-      border: 1px solid #2d3740;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 13px;
-      color: #fff;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    .logo-text h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 700;
-    }
+body{
+  background:radial-gradient(
+    circle at top,
+    #111 0%,
+    #050505 45%,
+    #020202 100%
+  );
+  color:var(--text);
+  font-family:Arial,Tahoma,sans-serif;
+  min-height:100vh;
+}
 
-    .logo-text span {
-      font-size: 12px;
-      color: #8b96a0;
-    }
+button{
+  font-family:inherit;
+}
 
-    .close-btn {
-      background: none;
-      border: none;
-      color: #8b96a0;
-      font-size: 26px;
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,5,5,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
 
-    /* عناصر القائمة (البطاقات) */
-    .drawer-content {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+nav{
+  height:70px;
+  max-width:1100px;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-    .menu-card {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #161b22;
-      padding: 14px 16px;
-      border-radius: 16px;
-      text-decoration: none;
-      color: #ffffff;
-      border: 1px solid transparent;
-      transition: background-color 0.2s, border-color 0.2s;
-    }
+.brand{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+}
 
-    .menu-card:hover {
-      background-color: #1c232c;
-    }
+.nav-btn{
+  background:#111;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:10px 16px;
+  cursor:pointer;
+  color:#fff;
+  font-size:15px;
+}
 
-    .menu-card.active-border {
-      border-color: #1b4332;
-    }
+.hero{
+  max-width:1100px;
+  margin:auto;
+  padding:45px 20px 35px;
+  text-align:center;
+}
 
-    .card-info h4 {
-      margin: 0 0 4px 0;
-      font-size: 15px;
-      font-weight: 700;
-    }
+/* صورة المتجر */
 
-    .card-info p {
-      margin: 0;
-      font-size: 12px;
-      color: #8b96a0;
-    }
+.logo{
+  width:170px;
+  height:170px;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
+  margin:0 auto 25px;
+  border:2px solid #333;
+  box-shadow:
+    0 0 25px rgba(255,255,255,.12),
+    0 0 60px rgba(255,255,255,.05);
+}
 
-    /* ألوان الأيقونات الدائرية */
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+.hero h1{
+  font-size:clamp(38px,8vw,68px);
+  font-weight:900;
+  margin-bottom:10px;
+}
 
-    .icon-green {
-      background-color: #152922;
-      color: #34d399;
-    }
+.hero h1 span{
+  color:var(--blue);
+}
 
-    .icon-yellow {
-      background-color: #2a2515;
-      color: #fbbf24;
-    }
+.hero p{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.8;
+}
 
-    /* قسم تواصل معنا */
-    .section-title {
-      margin-top: 14px;
-      margin-bottom: 2px;
-      font-size: 14px;
-      color: #ffffff;
-      font-weight: 700;
-    }
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:45px 20px;
+}
 
-    .whatsapp-card {
-      background-color: #0c271d;
-      border: 1px solid #134e38;
-    }
+.title{
+  text-align:center;
+  margin-bottom:20px;
+}
 
-    .whatsapp-card .card-icon {
-      background-color: transparent;
-      color: #ffffff;
-    }
+.title h2{
+  font-size:32px;
+  margin-bottom:8px;
+}
 
-    .links-card {
-      background-color: #121d2b;
-      border: 1px solid #1e2e42;
-    }
+.title p{
+  color:var(--muted);
+}
 
-    .links-card .card-icon {
-      background-color: transparent;
-      color: #ffffff;
-    }
-  </style>
+.provider-box{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+}
+
+.provider-btn{
+  min-width:140px;
+  padding:13px 24px;
+  border-radius:14px;
+  border:1px solid #333;
+  background:#0d0d0d;
+  color:#aaa;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.provider-btn:hover{
+  border-color:var(--blue);
+  color:#fff;
+}
+
+.provider-btn.active{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#fff;
+  box-shadow:0 0 20px rgba(22,140,255,.22);
+}
+
+.prices{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:15px;
+}
+
+.price-card{
+  background:linear-gradient(145deg,#111,#090909);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.price-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--blue);
+}
+
+.robux{
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.price{
+  font-size:19px;
+  font-weight:800;
+  color:var(--blue);
+}
+
+.buy{
+  margin-top:14px;
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  background:#151515;
+  color:#fff;
+  border:1px solid #292929;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.price-card:hover .buy{
+  background:var(--blue);
+  border-color:var(--blue);
+}
+
+.notice{
+  margin-top:25px;
+  padding:15px;
+  background:#0b0b0b;
+  border:1px solid #202020;
+  border-radius:14px;
+  text-align:center;
+  color:#888;
+  font-size:14px;
+}
+
+footer{
+  border-top:1px solid var(--line);
+  margin-top:40px;
+  padding:30px 20px;
+  text-align:center;
+  color:#777;
+}
+
+/* نافذة الطلب */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#0d0d0d;
+  border:1px solid #292929;
+  border-radius:22px;
+  padding:25px;
+}
+
+.modal-box h3{
+  text-align:center;
+  font-size:24px;
+  margin-bottom:8px;
+}
+
+.selected{
+  text-align:center;
+  color:var(--blue);
+  margin-bottom:20px;
+  font-weight:bold;
+}
+
+.input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  background:#050505;
+  color:#fff;
+  border:1px solid #292929;
+  border-radius:12px;
+  outline:none;
+  font-size:15px;
+}
+
+.input:focus{
+  border-color:var(--blue);
+}
+
+.confirm{
+  width:100%;
+  padding:14px;
+  background:var(--blue);
+  border:0;
+  border-radius:12px;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.close{
+  width:100%;
+  padding:12px;
+  margin-top:9px;
+  background:#171717;
+  border:1px solid #292929;
+  border-radius:12px;
+  color:#aaa;
+  cursor:pointer;
+}
+
+@media(max-width:500px){
+
+  .prices{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .price-card{
+    padding:16px 10px;
+  }
+
+  .robux{
+    font-size:21px;
+  }
+
+  .price{
+    font-size:16px;
+  }
+
+  .logo{
+    width:145px;
+    height:145px;
+  }
+
+}
+
+</style>
 </head>
+
+
 <body>
 
-  <!-- القائمة الجانبية -->
-  <div class="sidebar-drawer">
-    
-    <!-- رأس القائمة -->
-    <div class="drawer-header">
-      <div class="logo-section">
-        <div class="logo-icon">MD+</div>
-        <div class="logo-text">
-          <h3>متجر MDCard</h3>
-          <span>اشتراكات رقمية</span>
-        </div>
-      </div>
-      <button class="close-btn">&times;</button>
-    </div>
 
-    <!-- المحتوى والروابط -->
-    <div class="drawer-content">
-      
-      <!-- حسابي -->
-      <a href="#" class="menu-card">
-        <div class="card-info">
-          <h4>حسابي</h4>
-          <p>عرض حسابك وااشتراكاتك</p>
-        </div>
-        <div class="card-icon icon-green">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        </div>
-      </a>
+<header>
 
-      <!-- المنتجات -->
-      <a href="#" class="menu-card">
-        <div class="card-info">
-          <h4>المنتجات</h4>
-          <p>تصفح جميع المنتجات</p>
-        </div>
-        <div class="card-icon icon-green">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-        </div>
-      </a>
+<nav>
 
-      <!-- التقييمات -->
-      <a href="#" class="menu-card active-border">
-        <div class="card-info">
-          <h4>التقييمات</h4>
-          <p>تقييمات عملائنا</p>
-        </div>
-        <div class="card-icon icon-yellow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-      </a>
+<div class="brand">
+Dark Store
+</div>
 
-      <!-- الأسئلة الشائعة -->
-      <a href="#" class="menu-card">
-        <div class="card-info">
-          <h4>الأسئلة الشائعة</h4>
-          <p>إجابات عن معظم الاستفسارات</p>
-        </div>
-        <div class="card-icon icon-yellow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-        </div>
-      </a>
+<button class="nav-btn" onclick="scrollToPrices()">
+الأسعار
+</button>
 
-      <!-- قسم تواصل معنا -->
-      <div class="section-title">تواصل معنا</div>
+</nav>
 
-      <!-- واتساب -->
-      <a href="https://wa.me/218943190471" class="menu-card whatsapp-card" target="_blank">
-        <div class="card-info">
-          <h4>واتساب</h4>
-          <p dir="ltr">+218 943 190 471</p>
-        </div>
-        <div class="card-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-        </div>
-      </a>
+</header>
 
-      <!-- جميع الروابط -->
-      <a href="#" class="menu-card links-card">
-        <div class="card-info">
-          <h4>جميع الروابط</h4>
-          <p>تابعنا على جميع المنصات</p>
-        </div>
-        <div class="card-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-        </div>
-      </a>
 
-    </div>
-  </div>
+<main>
+
+
+<div class="hero">
+
+<img
+src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
+class="logo"
+alt="Dark Store"
+>
+
+<h1>
+Dark <span>Store</span>
+</h1>
+
+<p>
+متجر شحن روبوكس سريع وآمن
+<br>
+اختر شركة الدفع ثم اختر كمية الروبوكس
+</p>
+
+</div>
+
+
+
+<section id="pricesSection">
+
+
+<div class="title">
+
+<h2>
+الأسعار
+</h2>
+
+<p>
+اختر طريقة الدفع
+</p>
+
+</div>
+
+
+
+<div class="provider-box">
+
+<button
+id="madarBtn"
+class="provider-btn active"
+onclick="showPrices('madar')"
+>
+مدار
+</button>
+
+
+<button
+id="libyanaBtn"
+class="provider-btn"
+onclick="showPrices('libyana')"
+>
+ليبيانا
+</button>
+
+</div>
+
+
+
+<div
+id="prices"
+class="prices"
+></div>
+
+
+<div class="notice">
+اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+Dark Store © 2026
+
+</footer>
+
+
+
+<!-- نافذة الطلب -->
+
+<div
+id="modal"
+class="modal"
+>
+
+<div class="modal-box">
+
+
+<h3>
+إتمام الطلب
+</h3>
+
+
+<div
+id="selectedInfo"
+class="selected"
+></div>
+
+
+<input
+id="robloxUser"
+class="input"
+type="text"
+placeholder="يوزر حسابك في روبلوكس"
+>
+
+
+<input
+id="phone"
+class="input"
+type="tel"
+placeholder="رقمك"
+>
+
+
+<input
+id="name"
+class="input"
+type="text"
+placeholder="اسمك"
+>
+
+
+<button
+class="confirm"
+onclick="sendOrder()"
+>
+إرسال الطلب
+</button>
+
+
+<button
+class="close"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+/* أسعار مدار */
+
+const madarPrices = [
+
+{robux:10,price:5},
+{robux:20,price:7},
+{robux:30,price:10},
+{robux:40,price:15},
+{robux:80,price:22},
+{robux:120,price:33},
+{robux:160,price:42},
+{robux:200,price:50},
+{robux:400,price:82},
+{robux:1000,price:140}
+
+];
+
+
+
+/* أسعار ليبيانا */
+
+const libyanaPrices = [
+
+{robux:10,price:3},
+{robux:20,price:5},
+{robux:30,price:7},
+{robux:40,price:10},
+{robux:50,price:13},
+{robux:80,price:15},
+{robux:120,price:30},
+{robux:160,price:40},
+{robux:400,price:72},
+{robux:520,price:95},
+{robux:1000,price:130}
+
+];
+
+
+let currentProvider = "madar";
+
+let selectedProduct = null;
+
+
+
+/* عرض الأسعار */
+
+function showPrices(provider){
+
+currentProvider = provider;
+
+const pricesBox =
+document.getElementById("prices");
+
+const madarBtn =
+document.getElementById("madarBtn");
+
+const libyanaBtn =
+document.getElementById("libyanaBtn");
+
+
+if(provider === "madar"){
+
+madarBtn.classList.add("active");
+libyanaBtn.classList.remove("active");
+
+}else{
+
+libyanaBtn.classList.add("active");
+madarBtn.classList.remove("active");
+
+}
+
+
+const list =
+provider === "madar"
+? madarPrices
+: libyanaPrices;
+
+
+pricesBox.innerHTML = "";
+
+
+list.forEach(item => {
+
+const card =
+document.createElement("div");
+
+card.className = "price-card";
+
+
+card.innerHTML = `
+
+<div class="robux">
+${item.robux} روب
+</div>
+
+<div class="price">
+${item.price}
+${provider === "madar" ? "مدار" : "ليبيانا"}
+</div>
+
+<button class="buy">
+شراء
+</button>
+
+`;
+
+
+card.addEventListener(
+"click",
+() => openModal(item)
+);
+
+
+pricesBox.appendChild(card);
+
+});
+
+}
+
+
+
+/* فتح الطلب */
+
+function openModal(item){
+
+selectedProduct = item;
+
+
+const providerName =
+currentProvider === "madar"
+? "مدار"
+: "ليبيانا";
+
+
+document.getElementById(
+"selectedInfo"
+).textContent =
+`${item.robux} روبوكس — ${item.price} ${providerName}`;
+
+
+document.getElementById(
+"modal"
+).classList.add("show");
+
+}
+
+
+
+/* إغلاق الطلب */
+
+function closeModal(){
+
+document.getElementById(
+"modal"
+).classList.remove("show");
+
+}
+
+
+
+/* إرسال الطلب للواتساب */
+
+function sendOrder(){
+
+const robloxUser =
+document.getElementById(
+"robloxUser"
+).value.trim();
+
+
+const phone =
+document.getElementById(
+"phone"
+).value.trim();
+
+
+const name =
+document.getElementById(
+"name"
+).value.trim();
+
+
+if(
+!robloxUser ||
+!phone ||
+!name
+){
+
+alert("يرجى تعبئة جميع البيانات");
+
+return;
+
+}
+
+
+const providerName =
+currentProvider === "madar"
+? "مدار"
+: "ليبيانا";
+
+
+const message =
+
+`طلب جديد%0A%0A` +
+
+`الاسم: ${name}%0A` +
+
+`رقم الهاتف: ${phone}%0A` +
+
+`يوزر روبلوكس: ${robloxUser}%0A` +
+
+`الكمية: ${selectedProduct.robux} روبوكس%0A` +
+
+`السعر: ${selectedProduct.price} ${providerName}`;
+
+
+/*
+غيّر هذا الرقم إلى رقم واتساب متجرك
+
+مثال:
+218927816884
+*/
+
+const whatsappNumber =
+"218927816884";
+
+
+window.open(
+`https://wa.me/${whatsappNumber}?text=${message}`,
+"_blank"
+);
+
+}
+
+
+
+/* زر الأسعار */
+
+function scrollToPrices(){
+
+document
+.getElementById("pricesSection")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+
+/* إغلاق النافذة عند الضغط خارجها */
+
+document
+.getElementById("modal")
+.addEventListener(
+"click",
+function(e){
+
+if(e.target === this){
+
+closeModal();
+
+}
+
+}
+);
+
+
+/* تشغيل مدار عند فتح الموقع */
+
+showPrices("madar");
+
+</script>
+
 
 </body>
+
 </html>
