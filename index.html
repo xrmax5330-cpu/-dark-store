@@ -95,7 +95,6 @@ nav {
   text-align: center;
 }
 
-/* صورة المتجر */
 .logo {
   width: 170px;
   height: 170px;
@@ -149,14 +148,14 @@ section {
 .provider-box {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 15px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
 .provider-btn {
-  min-width: 140px;
-  padding: 13px 24px;
+  min-width: 150px;
+  padding: 12px 24px;
   border-radius: 14px;
   border: 1px solid var(--card-border);
   background: #181512;
@@ -164,7 +163,18 @@ section {
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   transition: all 0.3s ease;
+}
+
+.provider-btn img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .provider-btn:hover {
@@ -193,8 +203,6 @@ section {
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
 }
 
 .price-card:hover {
@@ -254,7 +262,6 @@ footer {
   color: var(--text-muted);
 }
 
-/* نافذة الطلب */
 .modal {
   position: fixed;
   inset: 0;
@@ -406,10 +413,13 @@ footer {
 
     <div class="provider-box">
       <button id="madarBtn" class="provider-btn active" onclick="showPrices('madar')">
-        مدار
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Al-Madar_Al-Jadid_Logo.svg/512px-Al-Madar_Al-Jadid_Logo.svg.png" alt="مدار">
+        <span>مدار</span>
       </button>
+      
       <button id="libyanaBtn" class="provider-btn" onclick="showPrices('libyana')">
-        ليبيانا
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Libyana_Logo.svg" alt="ليبيانا">
+        <span>ليبيانا</span>
       </button>
     </div>
 
