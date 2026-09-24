@@ -216,6 +216,16 @@ section {
   font-weight: 900;
   margin-bottom: 8px;
   color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.robux-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
 }
 
 .price {
@@ -363,7 +373,12 @@ footer {
   }
 
   .robux {
-    font-size: 21px;
+    font-size: 20px;
+  }
+
+  .robux-icon {
+    width: 22px;
+    height: 22px;
   }
 
   .price {
@@ -489,6 +504,9 @@ const libyanaPrices = [
 let currentProvider = "madar";
 let selectedProduct = null;
 
+/* رابط صورة الروبوكس الذهبية */
+const robuxIconUrl = "https://images.rbxcdn.com/e2e316e6d1e4c7987019685934571936.png";
+
 /* عرض الأسعار */
 function showPrices(provider){
   currentProvider = provider;
@@ -512,7 +530,10 @@ function showPrices(provider){
     card.className = "price-card";
 
     card.innerHTML = `
-      <div class="robux">${item.robux} روب</div>
+      <div class="robux">
+        <span>${item.robux} روب</span>
+        <img class="robux-icon" src="${robuxIconUrl}" alt="robux">
+      </div>
       <div class="price">${item.price} ${provider === "madar" ? "مدار" : "ليبيانا"}</div>
       <button class="buy">شراء</button>
     `;
