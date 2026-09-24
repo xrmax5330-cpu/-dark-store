@@ -66,14 +66,14 @@
   <h2 class="title">اطلب شحنتك</h2><p class="subtitle">املأ البيانات وسيتم تجهيز رسالة الطلب.</p>
   <form class="order" onsubmit="sendOrder(event)">
     <div class="row">
-      <div><label>اسمك</label><input id="name" required placeholder="اكتب اسمك"></div>
+      <div><label>رقمك</label>ك</label><input id="name" required placeholder="اكتب اسمك"></div>
       <div><label>اسم حساب Roblox</label><input id="user" required placeholder="Username"></div>
     </div>
     <label>المنتج</label>
     <select id="product" required>
       <option value="">اختر المنتج</option>
-      <option>40 Robux - 5 د.ل</option><option>80 Robux - 13 د.ل</option>
-      <option>120 Robux - 23 د.ل</option><option>160 Robux - 28 د.ل</option>
+      <option>40 Robux - 10 د.ل</option><option>80 Robux - 13 د.ل</option>
+      <option>120 Robux - 30 د.ل</option><option>160 Robux - 28 د.ل</option>
     </select>
     <label>طريقة الدفع</label>
     <select id="payment" required><option value="">اختر طريقة الدفع</option><option>ليبيانا</option><option>مدار</option><option>أخرى</option></select>
@@ -87,7 +87,7 @@
 <footer><div class="wrap">© 2026 DARK STORE — جميع الحقوق محفوظة</div></footer>
 
 <script>
-const WHATSAPP_NUMBER = "YOUR_WHATSAPP_NUMBER";
+const WHATSAPP_NUMBER = "218927816884";
 function pick(p){document.querySelector('#product').value=p;document.querySelector('#order').scrollIntoView({behavior:'smooth'});}
 function sendOrder(e){
   e.preventDefault();
