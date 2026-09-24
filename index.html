@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
   <meta name="description" content="DARK STORE - متجر شحن وخدمات رقمية">
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -26,8 +28,8 @@
 
     header {
       width: 100%;
-      padding: 18px 25px;
-      background: rgba(10,10,10,0.9);
+      padding: 15px 20px;
+      background: rgba(10,10,10,0.92);
       border-bottom: 1px solid #252525;
       position: sticky;
       top: 0;
@@ -47,14 +49,13 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 900;
     }
 
-    /* صورة المتجر الدائرية */
     .logo {
-      width: 55px;
-      height: 55px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #333;
@@ -64,11 +65,11 @@
     .hero {
       max-width: 1100px;
       margin: auto;
-      padding: 70px 20px 50px;
+      padding: 65px 20px 45px;
       text-align: center;
     }
 
-    .hero .logo-big {
+    .logo-big {
       width: 150px;
       height: 150px;
       border-radius: 50%;
@@ -91,7 +92,7 @@
       margin-bottom: 30px;
     }
 
-    .btn {
+    .main-btn {
       display: inline-block;
       padding: 14px 28px;
       background: white;
@@ -99,12 +100,6 @@
       border-radius: 12px;
       text-decoration: none;
       font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.85;
     }
 
     section {
@@ -153,12 +148,20 @@
 
     .buy {
       display: inline-block;
+      width: 100%;
       background: white;
       color: black;
-      padding: 10px 20px;
+      padding: 11px 20px;
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .buy:active {
+      transform: scale(0.97);
     }
 
     .info {
@@ -178,7 +181,128 @@
       margin-top: 40px;
     }
 
+
+    /* =========================
+       نافذة الطلب
+    ========================= */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      z-index: 999;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .order-box {
+      width: 100%;
+      max-width: 430px;
+      background: #101010;
+      border: 1px solid #303030;
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      animation: showBox 0.2s ease;
+    }
+
+    @keyframes showBox {
+      from {
+        transform: scale(0.94);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .order-title {
+      text-align: center;
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .order-subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
+
+    .selected-package {
+      background: #181818;
+      border: 1px solid #292929;
+      border-radius: 12px;
+      padding: 13px;
+      text-align: center;
+      margin-bottom: 18px;
+      font-weight: bold;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 7px;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 11px;
+      border: 1px solid #333;
+      background: #080808;
+      color: white;
+      outline: none;
+      font-size: 16px;
+      text-align: right;
+    }
+
+    .input-group input:focus {
+      border-color: #777;
+    }
+
+    .send-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      background: white;
+      color: black;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .close-btn {
+      width: 100%;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 13px;
+      background: #151515;
+      color: #aaa;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
     @media (max-width: 600px) {
+
       header {
         padding: 12px 15px;
       }
@@ -192,18 +316,29 @@
         padding-top: 50px;
       }
 
-      .hero .logo-big {
+      .logo-big {
         width: 125px;
         height: 125px;
       }
+
+      .order-box {
+        padding: 20px;
+      }
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- الهيدر -->
+
+  <!-- =========================
+       الهيدر
+  ========================== -->
+
   <header>
+
     <nav>
 
       <div class="brand">
@@ -219,10 +354,15 @@
       </div>
 
     </nav>
+
   </header>
 
 
-  <!-- بداية الموقع -->
+
+  <!-- =========================
+       بداية الموقع
+  ========================== -->
+
   <main>
 
     <div class="hero">
@@ -239,50 +379,108 @@
         متجر شحن وخدمات رقمية
       </p>
 
-      <a href="#prices" class="btn">
+      <a href="#prices" class="main-btn">
         عرض الأسعار
       </a>
 
     </div>
 
 
-    <!-- الأسعار -->
+
+    <!-- =========================
+         الأسعار
+    ========================== -->
+
     <section id="prices">
 
-      <h2 class="title">أسعار الشحن</h2>
+      <h2 class="title">
+        أسعار الشحن
+      </h2>
 
       <div class="grid">
 
+
         <div class="card">
+
           <h3>40 روبوكس</h3>
-          <div class="price">5 د.ل</div>
-          <a href="#" class="buy">شراء</a>
+
+          <div class="price">
+            5 د.ل
+          </div>
+
+          <button
+            class="buy"
+            onclick="openOrder('40 روبوكس', '5 د.ل')">
+            شراء
+          </button>
+
         </div>
 
+
+
         <div class="card">
+
           <h3>80 روبوكس</h3>
-          <div class="price">13 د.ل</div>
-          <a href="#" class="buy">شراء</a>
+
+          <div class="price">
+            13 د.ل
+          </div>
+
+          <button
+            class="buy"
+            onclick="openOrder('80 روبوكس', '13 د.ل')">
+            شراء
+          </button>
+
         </div>
 
+
+
         <div class="card">
+
           <h3>120 روبوكس</h3>
-          <div class="price">23 د.ل</div>
-          <a href="#" class="buy">شراء</a>
+
+          <div class="price">
+            23 د.ل
+          </div>
+
+          <button
+            class="buy"
+            onclick="openOrder('120 روبوكس', '23 د.ل')">
+            شراء
+          </button>
+
         </div>
 
+
+
         <div class="card">
+
           <h3>160 روبوكس</h3>
-          <div class="price">28 د.ل</div>
-          <a href="#" class="buy">شراء</a>
+
+          <div class="price">
+            28 د.ل
+          </div>
+
+          <button
+            class="buy"
+            onclick="openOrder('160 روبوكس', '28 د.ل')">
+            شراء
+          </button>
+
         </div>
+
 
       </div>
 
     </section>
 
 
-    <!-- معلومات -->
+
+    <!-- =========================
+         معلومات المتجر
+    ========================== -->
+
     <section>
 
       <div class="info">
@@ -294,7 +492,7 @@
         </p>
 
         <p>
-          للدفع والاستفسار تواصل معنا
+          بعد إرسال الطلب سيتم التواصل معك.
         </p>
 
       </div>
@@ -304,9 +502,224 @@
   </main>
 
 
+
+  <!-- =========================
+       نافذة الطلب
+  ========================== -->
+
+  <div class="modal" id="orderModal">
+
+    <div class="order-box">
+
+      <div class="order-title">
+        إتمام الطلب
+      </div>
+
+      <div class="order-subtitle">
+        أدخل معلوماتك لإرسال طلب الشحن
+      </div>
+
+
+      <div class="selected-package" id="selectedPackage">
+        الباقة
+      </div>
+
+
+      <!-- اسم المستخدم Roblox -->
+
+      <div class="input-group">
+
+        <label>
+          يوزر حسابك في Roblox
+        </label>
+
+        <input
+          type="text"
+          id="robloxUsername"
+          placeholder="مثال: RobloxUser123"
+        >
+
+      </div>
+
+
+      <!-- رقم الهاتف -->
+
+      <div class="input-group">
+
+        <label>
+          رقم الهاتف
+        </label>
+
+        <input
+          type="tel"
+          id="phoneNumber"
+          placeholder="مثال: 092xxxxxxx"
+        >
+
+      </div>
+
+
+      <!-- الاسم -->
+
+      <div class="input-group">
+
+        <label>
+          اسمك
+        </label>
+
+        <input
+          type="text"
+          id="customerName"
+          placeholder="اكتب اسمك"
+        >
+
+      </div>
+
+
+      <button
+        class="send-btn"
+        onclick="sendOrder()">
+
+        إرسال الطلب عبر واتساب
+
+      </button>
+
+
+      <button
+        class="close-btn"
+        onclick="closeOrder()">
+
+        إلغاء
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       JavaScript
+  ========================== -->
+
+  <script>
+
+    let selectedProduct = "";
+    let selectedPrice = "";
+
+
+    function openOrder(product, price) {
+
+      selectedProduct = product;
+      selectedPrice = price;
+
+      document.getElementById("selectedPackage").innerHTML =
+        product + " — " + price;
+
+      document.getElementById("orderModal")
+        .classList.add("active");
+
+    }
+
+
+    function closeOrder() {
+
+      document.getElementById("orderModal")
+        .classList.remove("active");
+
+    }
+
+
+    function sendOrder() {
+
+      const username =
+        document.getElementById("robloxUsername").value.trim();
+
+      const phone =
+        document.getElementById("phoneNumber").value.trim();
+
+      const name =
+        document.getElementById("customerName").value.trim();
+
+
+      if (!username || !phone || !name) {
+
+        alert("يرجى تعبئة جميع الخانات أولاً.");
+
+        return;
+
+      }
+
+
+      /*
+        رقم واتساب المتجر
+        غيّر الرقم هنا إذا كان رقم واتساب مختلف.
+        
+        اكتب الرقم بدون + وبدون مسافات.
+        مثال ليبيا:
+        218927816884
+      */
+
+      const storeWhatsApp = "218927816884";
+
+
+      const message =
+        "🖤 DARK STORE%0A%0A" +
+
+        "📦 طلب جديد%0A" +
+
+        "━━━━━━━━━━━━%0A" +
+
+        "🎮 الباقة: " + selectedProduct + "%0A" +
+
+        "💰 السعر: " + selectedPrice + "%0A%0A" +
+
+        "👤 الاسم: " + name + "%0A" +
+
+        "🎮 يوزر Roblox: " + username + "%0A" +
+
+        "📱 رقم الهاتف: " + phone + "%0A" +
+
+        "━━━━━━━━━━━━%0A" +
+
+        "شكراً لطلبك من DARK STORE 🖤";
+
+
+      const whatsappURL =
+        "https://wa.me/" +
+        storeWhatsApp +
+        "?text=" +
+        message;
+
+
+      window.location.href = whatsappURL;
+
+    }
+
+
+    /* إغلاق النافذة عند الضغط خارجها */
+
+    document.getElementById("orderModal")
+      .addEventListener("click", function(event) {
+
+        if (event.target === this) {
+
+          closeOrder();
+
+        }
+
+      });
+
+  </script>
+
+
   <footer>
+
     © 2026 DARK STORE — جميع الحقوق محفوظة
+
   </footer>
+
 
 </body>
 </html>
