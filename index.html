@@ -1,105 +1,312 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#050505">
+
   <title>DARK STORE | متجر شحن</title>
-  <meta name="description" content="DARK STORE - متجر شحن رقمي سريع وآمن.">
+
+  <meta name="description" content="DARK STORE - متجر شحن وخدمات رقمية">
+
   <style>
-    :root{--bg:#050505;--card:#0d0d0d;--line:#252525;--text:#f5f5f5;--muted:#a7a7a7;--accent:#fff}
-    *{box-sizing:border-box} html{scroll-behavior:smooth}
-    body{margin:0;background:radial-gradient(circle at 50% -10%,#252525 0,#090909 35%,#050505 65%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-    a{text-decoration:none;color:inherit}.wrap{width:min(1100px,92%);margin:auto}
-    header{position:sticky;top:0;z-index:10;background:rgba(5,5,5,.86);backdrop-filter:blur(12px);border-bottom:1px solid #181818}
-    nav{height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-    .brand{font-weight:900;letter-spacing:2px}.navlinks{display:flex;gap:18px;color:#bbb;font-size:14px}.navlinks a:hover{color:#fff}
-    .hero{padding:70px 0 45px;text-align:center}.logo{width:min(250px,65vw);aspect-ratio:1;object-fit:cover;border-radius:28px;border:1px solid #333;box-shadow:0 0 45px #000;margin-bottom:25px}
-    h1{font-size:clamp(38px,8vw,72px);margin:0;letter-spacing:3px}.hero p{color:var(--muted);font-size:18px;max-width:650px;margin:15px auto 28px;line-height:1.8}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 22px;border-radius:13px;background:#fff;color:#000;font-weight:800;border:0;cursor:pointer}.btn.secondary{background:#121212;color:#fff;border:1px solid #303030;margin-right:8px}
-    section{padding:55px 0}.title{text-align:center;font-size:30px;margin:0 0 10px}.subtitle{text-align:center;color:#888;margin:0 0 30px}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:linear-gradient(180deg,#111,#0a0a0a);border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}.card h3{margin:7px 0}.price{font-size:25px;font-weight:900;margin:10px 0 17px}.small{font-size:13px;color:#888}
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.feature{padding:24px;border:1px solid var(--line);border-radius:18px;background:#0b0b0b}.feature b{display:block;margin-bottom:8px}.feature p{color:#999;line-height:1.7;margin:0}
-    .order{max-width:700px;margin:auto;background:#0b0b0b;border:1px solid var(--line);border-radius:22px;padding:24px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    label{display:block;color:#bbb;font-size:14px;margin:12px 0 7px}input,select,textarea{width:100%;padding:13px;border-radius:12px;border:1px solid #2a2a2a;background:#111;color:#fff;outline:none}textarea{min-height:100px;resize:vertical}
-    .full{width:100%;margin-top:18px}.notice{font-size:12px;color:#777;text-align:center;margin-top:10px}
-    footer{border-top:1px solid #181818;padding:30px 0;color:#777;text-align:center}
-    @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}.navlinks{display:none}}
-    @media(max-width:480px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.hero{padding-top:45px}}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, #151515 0%, #050505 45%, #000 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      padding: 18px 25px;
+      background: rgba(10,10,10,0.9);
+      border-bottom: 1px solid #252525;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    /* صورة المتجر الدائرية */
+    .logo {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #333;
+      box-shadow: 0 0 20px rgba(255,255,255,0.08);
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px 50px;
+      text-align: center;
+    }
+
+    .hero .logo-big {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #333;
+      box-shadow: 0 0 35px rgba(255,255,255,0.12);
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 10vw, 75px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: white;
+      color: black;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.85;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 25px;
+      font-weight: 900;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #151515, #090909);
+      border: 1px solid #292929;
+      border-radius: 18px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #555;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    .buy {
+      display: inline-block;
+      background: white;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .info {
+      background: #0d0d0d;
+      border: 1px solid #252525;
+      border-radius: 18px;
+      padding: 25px;
+      text-align: center;
+      line-height: 2;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px 15px;
+      color: #777;
+      border-top: 1px solid #222;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 12px 15px;
+      }
+
+      .logo {
+        width: 45px;
+        height: 45px;
+      }
+
+      .hero {
+        padding-top: 50px;
+      }
+
+      .hero .logo-big {
+        width: 125px;
+        height: 125px;
+      }
+    }
   </style>
 </head>
+
 <body>
-<header><div class="wrap"><nav>
-  <div class="brand">DARK STORE</div>
-  <div class="navlinks"><a href="#products">المنتجات</a><a href="#why">المميزات</a><a href="#order">اطلب الآن</a></div>
-</nav></div></header>
 
-<main>
-<section class="hero">
+  <!-- الهيدر -->
+  <header>
+    <nav>
 
-  <h1>DARK STORE</h1>
-  <p>متجر شحن رقمي بتصميم Dark — اختر المنتج، أرسل طلبك، وتابع عملية الشحن بسهولة.</p>
-  <a class="btn" href="#products">شوف المنتجات</a>
-  <a class="btn secondary" href="#order">اطلب الآن</a>
-</section>
-<section id="products"><div class="wrap">
-  <h2 class="title">شحن Robux</h2><p class="subtitle">الأسعار الحالية — عدّلها من ملف الموقع متى ما أردت.</p>
-  <div class="grid">
-    <article class="card"><div class="small">ROBLOX</div><h3>40 Robux</h3><div class="price">5 د.ل</div><button class="btn" onclick="pick('40 Robux - 5 د.ل')">اختيار</button></article>
-    <article class="card"><div class="small">ROBLOX</div><h3>80 Robux</h3><div class="price">13 د.ل</div><button class="btn" onclick="pick('80 Robux - 13 د.ل')">اختيار</button></article>
-    <article class="card"><div class="small">ROBLOX</div><h3>120 Robux</h3><div class="price">23 د.ل</div><button class="btn" onclick="pick('120 Robux - 23 د.ل')">اختيار</button></article>
-    <article class="card"><div class="small">ROBLOX</div><h3>160 Robux</h3><div class="price">28 د.ل</div><button class="btn" onclick="pick('160 Robux - 28 د.ل')">اختيار</button></article>
-  </div>
-</div></section>
+      <div class="brand">
 
-<section id="why"><div class="wrap">
-  <h2 class="title">متجر المضلم DARK STORE؟</h2><p class="subtitle">كل الأشياء الأساسية موجودة في صفحة واحدة.</p>
-  <div class="features">
-    <div class="feature"><b>⚡ تنفيذ سريع</b><p>استلام الطلب ومراجعته بسرعة بعد وصول بيانات الدفع.</p></div>
-    <div class="feature"><b>🔒 طلب واضح</b><p>العميل يحدد المنتج واسم الحساب وطريقة الدفع قبل الإرسال.</p></div>
-    <div class="feature"><b>📱 مناسب للجوال</b><p>تصميم متجاوب يعمل على الآيفون والأندرويد والكمبيوتر.</p></div>
-  </div>
-</div></section>
+        <img
+          class="logo"
+          src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
+          alt="DARK STORE"
+        >
 
-<section id="order"><div class="wrap">
-  <h2 class="title">اطلب شحنتك</h2><p class="subtitle">املأ البيانات وسيتم تجهيز رسالة الطلب.</p>
-  <form class="order" onsubmit="sendOrder(event)">
-    <div class="row">
-      <div><label>رقمك</label>رقمك</label><input id="name" required placeholder="اكتب اسمك"></div>
-      <div><label>اسم حساب Roblox</label><input id="user" required placeholder="Username"></div>
+        <span>DARK STORE</span>
+
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- بداية الموقع -->
+  <main>
+
+    <div class="hero">
+
+      <img
+        class="logo-big"
+        src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
+        alt="DARK STORE"
+      >
+
+      <h1>DARK STORE</h1>
+
+      <p class="subtitle">
+        متجر شحن وخدمات رقمية
+      </p>
+
+      <a href="#prices" class="btn">
+        عرض الأسعار
+      </a>
+
     </div>
-    <label>المنتج</label>
-    <select id="product" required>
-      <option value="">اختر المنتج</option>
-      <option>40 Robux - 10 د.ل</option><option>80 Robux - 15 د.ل</option>
-      <option>120 Robux - 30 د.ل</option><option>160 Robux - 43 د.ل</option>
-      <option>10 Robux - 3 د.ل</option><option>20 Robux - 5 د.ل</option>
-    </select>
-    <label>طريقة الدفع</label>
-    <select id="payment" required><option value="">اختر طريقة الدفع</option><option>ليبيانا</option><option>مدار</option><option>أخرى</option></select>
-    <label>ملاحظات</label><textarea id="notes" placeholder="أي ملاحظة إضافية..."></textarea>
-    <button class="btn full" type="submit">إرسال الطلب</button>
-    <div class="notice">مهم: غيّر رقم واتساب داخل الكود قبل نشر الموقع.</div>
-  </form>
-</div></section>
-</main>
 
-<footer><div class="wrap">© 2026 DARK STORE — جميع الحقوق محفوظة</div></footer>
 
-<script>
-const WHATSAPP_NUMBER = "218927816884";
-function pick(p){document.querySelector('#product').value=p;document.querySelector('#order').scrollIntoView({behavior:'smooth'});}
-function sendOrder(e){
-  e.preventDefault();
-  const name=document.querySelector('#name').value.trim();
-  const user=document.querySelector('#user').value.trim();
-  const product=document.querySelector('#product').value;
-  const payment=document.querySelector('#payment').value;
-  const notes=document.querySelector('#notes').value.trim();
-  const msg=`طلب جديد - DARK STORE%0A%0Aالاسم: ${encodeURIComponent(name)}%0Aحساب Roblox: ${encodeURIComponent(user)}%0Aالمنتج: ${encodeURIComponent(product)}%0Aالدفع: ${encodeURIComponent(payment)}%0Aملاحظات: ${encodeURIComponent(notes||'لا يوجد')}`;
-  if(WHATSAPP_NUMBER==="YOUR_WHATSAPP_NUMBER"){alert("الموقع جاهز، لكن لازم نحط رقم واتساب المتجر أولاً.");return;}
-  window.location.href=`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-}
-</script>
+    <!-- الأسعار -->
+    <section id="prices">
+
+      <h2 class="title">أسعار الشحن</h2>
+
+      <div class="grid">
+
+        <div class="card">
+          <h3>40 روبوكس</h3>
+          <div class="price">5 د.ل</div>
+          <a href="#" class="buy">شراء</a>
+        </div>
+
+        <div class="card">
+          <h3>80 روبوكس</h3>
+          <div class="price">13 د.ل</div>
+          <a href="#" class="buy">شراء</a>
+        </div>
+
+        <div class="card">
+          <h3>120 روبوكس</h3>
+          <div class="price">23 د.ل</div>
+          <a href="#" class="buy">شراء</a>
+        </div>
+
+        <div class="card">
+          <h3>160 روبوكس</h3>
+          <div class="price">28 د.ل</div>
+          <a href="#" class="buy">شراء</a>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- معلومات -->
+    <section>
+
+      <div class="info">
+
+        <h2>🖤 DARK STORE</h2>
+
+        <p>
+          شحن سريع وآمن 🎮
+        </p>
+
+        <p>
+          للدفع والاستفسار تواصل معنا
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    © 2026 DARK STORE — جميع الحقوق محفوظة
+  </footer>
+
 </body>
 </html>
