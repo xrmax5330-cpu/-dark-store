@@ -4,684 +4,512 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050505">
+<meta name="theme-color" content="#12100e">
 
-<title>Dark Store | متجر شحن ومحفظة رقمية</title>
+<title>Desert Store | متجر شحن</title>
 
 <style>
-
-:root{
-  --bg:#050505;
-  --card:#0d0d0d;
-  --line:#242424;
-  --text:#fff;
-  --muted:#999;
-  --blue:#168cff;
-  --green:#10b981;
-  --red:#ef4444;
+:root {
+  --bg-dark: #12100e;
+  --bg-gradient: radial-gradient(circle at top, #241d15 0%, #12100e 60%, #0a0908 100%);
+  --card-bg: #1a1714;
+  --card-border: #2e2820;
+  --sand-gold: #d4af37;
+  --sand-light: #f3e5ab;
+  --sand-accent: #e5c158;
+  --text-main: #fcfbf7;
+  --text-muted: #b3a998;
+  --line: #332b22;
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html{
-  scroll-behavior:smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-body{
-  background:radial-gradient(
-    circle at top,
-    #111 0%,
-    #050505 45%,
-    #020202 100%
-  );
-  color:var(--text);
-  font-family:Arial,Tahoma,sans-serif;
-  min-height:100vh;
+body {
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
 }
 
-button, input, select{
-  font-family:inherit;
+button {
+  font-family: inherit;
 }
 
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(5,5,5,.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(18, 16, 14, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
 }
 
-nav{
-  height:70px;
-  max-width:1100px;
-  margin:auto;
-  padding:0 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+nav {
+  height: 70px;
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.brand{
-  font-size:23px;
-  font-weight:900;
-  letter-spacing:1px;
+.brand {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--sand-gold);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
-.nav-btns{
-  display:flex;
-  gap:10px;
+.nav-btn {
+  background: #1a1714;
+  border: 1px solid var(--sand-gold);
+  border-radius: 12px;
+  padding: 10px 18px;
+  cursor: pointer;
+  color: var(--sand-gold);
+  font-size: 15px;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
-.nav-btn{
-  background:#111;
-  border:1px solid #333;
-  border-radius:12px;
-  padding:10px 16px;
-  cursor:pointer;
-  color:#fff;
-  font-size:15px;
-  transition:.2s;
+.nav-btn:hover {
+  background: var(--sand-gold);
+  color: #12100e;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-.nav-btn:hover{
-  border-color:var(--blue);
+.hero {
+  max-width: 1100px;
+  margin: auto;
+  padding: 45px 20px 35px;
+  text-align: center;
 }
 
-.hero{
-  max-width:1100px;
-  margin:auto;
-  padding:45px 20px 25px;
-  text-align:center;
+.logo {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 25px;
+  border: 3px solid var(--sand-gold);
+  box-shadow: 
+    0 0 25px rgba(212, 175, 55, 0.25),
+    0 0 60px rgba(212, 175, 55, 0.1);
 }
 
-.logo{
-  width:150px;
-  height:150px;
-  object-fit:cover;
-  border-radius:50%;
-  display:block;
-  margin:0 auto 20px;
-  border:2px solid #333;
-  box-shadow:
-    0 0 25px rgba(255,255,255,.12),
-    0 0 60px rgba(255,255,255,.05);
+.hero h1 {
+  font-size: clamp(38px, 8vw, 68px);
+  font-weight: 900;
+  margin-bottom: 10px;
 }
 
-.hero h1{
-  font-size:clamp(36px,7vw,60px);
-  font-weight:900;
-  margin-bottom:10px;
+.hero h1 span {
+  color: var(--sand-gold);
 }
 
-.hero h1 span{
-  color:var(--blue);
+.hero p {
+  color: var(--text-muted);
+  font-size: 17px;
+  line-height: 1.8;
 }
 
-.hero p{
-  color:var(--muted);
-  font-size:16px;
-  line-height:1.8;
+section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 45px 20px;
 }
 
-section{
-  max-width:1100px;
-  margin:auto;
-  padding:25px 20px;
+.title {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-.title{
-  text-align:center;
-  margin-bottom:20px;
+.title h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: var(--sand-light);
 }
 
-.title h2{
-  font-size:28px;
-  margin-bottom:8px;
+.title p {
+  color: var(--text-muted);
 }
 
-.title p{
-  color:var(--muted);
+.provider-box {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
-/* قسم المحفظة */
-
-.wallet-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:30px;
+.provider-btn {
+  min-width: 150px;
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  background: #181512;
+  color: var(--text-muted);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
 }
 
-.wallet-header{
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-bottom:1px solid var(--line);
-  padding-bottom:15px;
+.provider-btn img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.balances-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-  gap:15px;
-  margin-bottom:25px;
+.provider-btn:hover {
+  border-color: var(--sand-gold);
+  color: var(--sand-light);
 }
 
-.balance-box{
-  background:#121212;
-  border:1px solid #2a2a2a;
-  border-radius:14px;
-  padding:18px;
+.provider-btn.active {
+  background: linear-gradient(135deg, var(--sand-gold), #b89320);
+  border-color: var(--sand-gold);
+  color: #12100e;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
 }
 
-.balance-box .label{
-  font-size:14px;
-  color:var(--muted);
-  margin-bottom:8px;
+.prices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 18px;
 }
 
-.balance-box .val{
-  font-size:26px;
-  font-weight:900;
-  color:#fff;
+.price-card {
+  background: linear-gradient(145deg, #1e1a16, #14110e);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 22px 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.balance-box .unit{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:4px;
+.price-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sand-gold);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
 }
 
-/* نموذج شحن المحفظة */
-
-.recharge-box{
-  background:#111;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px;
+.robux {
+  font-size: 25px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.recharge-box h3{
-  font-size:18px;
-  margin-bottom:15px;
-  color:var(--blue);
+.robux-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
 }
 
-.form-group{
-  margin-bottom:14px;
+.price {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--sand-gold);
 }
 
-.form-group label{
-  display:block;
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:6px;
+.buy {
+  margin-top: 14px;
+  width: 100%;
+  padding: 11px;
+  border-radius: 10px;
+  background: #26211b;
+  color: var(--sand-light);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
-.input{
-  width:100%;
-  padding:13px;
-  background:#050505;
-  color:#fff;
-  border:1px solid #292929;
-  border-radius:12px;
-  outline:none;
-  font-size:15px;
+.price-card:hover .buy {
+  background: var(--sand-gold);
+  color: #12100e;
+  border-color: var(--sand-gold);
 }
 
-.input:focus{
-  border-color:var(--blue);
+.notice {
+  margin-top: 25px;
+  padding: 15px;
+  background: #181512;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
-/* سجل العمليات */
-
-.history-box{
-  margin-top:25px;
+footer {
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--text-muted);
 }
 
-.history-title{
-  font-size:15px;
-  font-weight:bold;
-  margin-bottom:10px;
-  color:var(--muted);
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
 }
 
-.table-wrapper{
-  overflow-x:auto;
+.modal.show {
+  display: flex;
 }
 
-.history-table{
-  width:100%;
-  border-collapse:collapse;
-  background:#090909;
-  border-radius:12px;
-  overflow:hidden;
-  font-size:14px;
+.modal-box {
+  width: 100%;
+  max-width: 430px;
+  background: #1a1714;
+  border: 1px solid var(--sand-gold);
+  border-radius: 22px;
+  padding: 25px;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
 }
 
-.history-table th, .history-table td{
-  padding:12px 15px;
-  text-align:right;
-  border-bottom:1px solid #1a1a1a;
+.modal-box h3 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: var(--sand-light);
 }
 
-.history-table th{
-  background:#141414;
-  color:var(--muted);
+.selected {
+  text-align: center;
+  color: var(--sand-gold);
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
-.badge-deposit{ color:var(--green); font-weight:bold; }
-.badge-withdraw{ color:var(--red); font-weight:bold; }
-
-/* قسم الأسعار */
-
-.provider-box{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-bottom:25px;
-  flex-wrap:wrap;
+.input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #100e0c;
+  color: var(--text-main);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s;
 }
 
-.provider-btn{
-  min-width:140px;
-  padding:13px 24px;
-  border-radius:14px;
-  border:1px solid #333;
-  background:#0d0d0d;
-  color:#aaa;
-  font-size:16px;
-  font-weight:800;
-  cursor:pointer;
-  transition:.2s;
+.input:focus {
+  border-color: var(--sand-gold);
 }
 
-.provider-btn:hover{
-  border-color:var(--blue);
-  color:#fff;
+.confirm {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--sand-gold), #b89320);
+  border: 0;
+  border-radius: 12px;
+  color: #12100e;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
-.provider-btn.active{
-  background:var(--blue);
-  border-color:var(--blue);
-  color:#fff;
-  box-shadow:0 0 20px rgba(22,140,255,.22);
+.confirm:hover {
+  opacity: 0.9;
 }
 
-.prices{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:15px;
+.close {
+  width: 100%;
+  padding: 12px;
+  margin-top: 9px;
+  background: #24201a;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.price-card{
-  background:linear-gradient(145deg,#111,#090909);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:20px;
-  text-align:center;
-  transition:.2s;
-  cursor:pointer;
+.close:hover {
+  color: var(--text-main);
+  background: #2e2922;
 }
 
-.price-card:hover{
-  transform:translateY(-4px);
-  border-color:var(--blue);
-}
-
-.robux{
-  font-size:25px;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.price{
-  font-size:19px;
-  font-weight:800;
-  color:var(--blue);
-}
-
-.buy{
-  margin-top:14px;
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  background:#151515;
-  color:#fff;
-  border:1px solid #292929;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.price-card:hover .buy{
-  background:var(--blue);
-  border-color:var(--blue);
-}
-
-.notice{
-  margin-top:25px;
-  padding:15px;
-  background:#0b0b0b;
-  border:1px solid #202020;
-  border-radius:14px;
-  text-align:center;
-  color:#888;
-  font-size:14px;
-}
-
-footer{
-  border-top:1px solid var(--line);
-  margin-top:40px;
-  padding:30px 20px;
-  text-align:center;
-  color:#777;
-}
-
-/* النافذة المنبثقة */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(8px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:2000;
-  padding:20px;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:100%;
-  max-width:430px;
-  background:#0d0d0d;
-  border:1px solid #292929;
-  border-radius:22px;
-  padding:25px;
-}
-
-.modal-box h3{
-  text-align:center;
-  font-size:24px;
-  margin-bottom:8px;
-}
-
-.selected{
-  text-align:center;
-  color:var(--blue);
-  margin-bottom:20px;
-  font-weight:bold;
-}
-
-.confirm{
-  width:100%;
-  padding:14px;
-  background:var(--blue);
-  border:0;
-  border-radius:12px;
-  color:#fff;
-  font-size:16px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.close{
-  width:100%;
-  padding:12px;
-  margin-top:9px;
-  background:#171717;
-  border:1px solid #292929;
-  border-radius:12px;
-  color:#aaa;
-  cursor:pointer;
-}
-
-@media(max-width:500px){
-  .prices{
-    grid-template-columns:repeat(2,1fr);
+@media(max-width:500px) {
+  .prices {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .price-card{
-    padding:16px 10px;
+  .price-card {
+    padding: 16px 10px;
   }
 
-  .robux{
-    font-size:21px;
+  .robux {
+    font-size: 20px;
   }
 
-  .price{
-    font-size:16px;
+  .robux-icon {
+    width: 22px;
+    height: 22px;
   }
 
-  .logo{
-    width:130px;
-    height:130px;
+  .price {
+    font-size: 16px;
+  }
+
+  .logo {
+    width: 145px;
+    height: 145px;
   }
 }
-
 </style>
 </head>
-
 
 <body>
 
 <header>
   <nav>
-    <div class="brand">Dark Store</div>
-    <div class="nav-btns">
-      <button class="nav-btn" onclick="scrollToSection('walletSection')">المحفظة</button>
-      <button class="nav-btn" onclick="scrollToSection('pricesSection')">الأسعار</button>
+    <div class="brand">
+      Dark Store
     </div>
+    <button class="nav-btn" onclick="scrollToPrices()">
+      الأسعار
+    </button>
   </nav>
 </header>
-
 
 <main>
 
   <div class="hero">
     <img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png" class="logo" alt="Dark Store">
-    <h1>Dark <span>Store</span></h1>
+    <h1>
+      Dark <span>Store</span>
+    </h1>
     <p>
-      متجر شحن روبوكس سريع وآمن عبر المحفظة الرقمية
+      متجر شحن روبوكس سريع وآمن
       <br>
-      اختر رصيد مدار أو ليبيانا للشحن والشراء
+      اختر شركة الدفع ثم اختر كمية الروبوكس
     </p>
   </div>
 
-
-  <!-- قسم المحفظة -->
-  <section id="walletSection">
-    <div class="wallet-card">
-      <div class="wallet-header">
-        👛 محفظتي
-      </div>
-
-      <!-- الأرصدة المتاحة (مدار وليبيانا فقط) -->
-      <div class="balances-grid">
-        <div class="balance-box">
-          <div class="label">📱 رصيد مدار</div>
-          <div class="val" id="madarBalance">67.66</div>
-          <div class="unit">وحدة رصيد</div>
-        </div>
-
-        <div class="balance-box">
-          <div class="label">📱 رصيد ليبيانا</div>
-          <div class="val" id="libyanaBalance">0.5</div>
-          <div class="unit">وحدة رصيد</div>
-        </div>
-      </div>
-
-      <!-- نموذج طلب الشحن -->
-      <div class="recharge-box" id="rechargeForm">
-        <h3>⚡ شحن المحفظة (تحويل رصيد)</h3>
-
-        <div class="form-group">
-          <label>الشبكة</label>
-          <select id="rechargeNetwork" class="input">
-            <option value="madar">مدار (091/093) — أقصى تحويل 20 سقف يومي</option>
-            <option value="libyana">ليبيانا (092/094) — أقصى تحويل 50 سقف يومي</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>رقمك الذي ستُحول منه (يجب أن يكون من نفس الشبكة)</label>
-          <input id="rechargePhone" type="tel" class="input" placeholder="09xxxxxxxx">
-        </div>
-
-        <div class="form-group">
-          <label>المبلغ الكلي الذي ستُحوله (د.ل)</label>
-          <input id="rechargeAmount" type="number" class="input" placeholder="مثال: 20">
-        </div>
-
-        <button class="confirm" onclick="sendRechargeOrder()">فتح طلب الشحن</button>
-        <p style="font-size: 12px; color: var(--muted); margin-top: 10px; text-align: center;">
-          بعد فتح الطلب سيظهر لك رقم التحويل، حوّل بعد فتح الطلب حتى تُحسب تحويلاتك تلقائياً.
-        </p>
-      </div>
-
-      <!-- سجل العمليات -->
-      <div class="history-box">
-        <div class="history-title">📜 حركة الرصيد الأخيرة</div>
-        <div class="table-wrapper">
-          <table class="history-table">
-            <thead>
-              <tr>
-                <th>التاريخ</th>
-                <th>النوع</th>
-                <th>المبلغ</th>
-                <th>الرصيد بعد</th>
-              </tr>
-            </thead>
-            <tbody id="historyList">
-              <tr>
-                <td>2026-09-25</td>
-                <td class="badge-deposit">إيداع +</td>
-                <td>40 (مدار)</td>
-                <td>67.66</td>
-              </tr>
-              <tr>
-                <td>2026-09-25</td>
-                <td class="badge-withdraw">خصم -</td>
-                <td>92 (مدار)</td>
-                <td>27.66</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- قسم الأسعار والشراء -->
   <section id="pricesSection">
-
     <div class="title">
-      <h2>الأسعار والكميات</h2>
-      <p>اختر الشركة لشراء كمية الروبوكس المناسبة</p>
+      <h2>الأسعار</h2>
+      <p>اختر طريقة الدفع</p>
     </div>
 
     <div class="provider-box">
-      <button id="madarBtn" class="provider-btn active" onclick="showPrices('madar')">مدار</button>
-      <button id="libyanaBtn" class="provider-btn" onclick="showPrices('libyana')">ليبيانا</button>
+      <button id="madarBtn" class="provider-btn active" onclick="showPrices('madar')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Al-Madar_Al-Jadid_Logo.svg/512px-Al-Madar_Al-Jadid_Logo.svg.png" alt="مدار">
+        <span>مدار</span>
+      </button>
+      
+      <button id="libyanaBtn" class="provider-btn" onclick="showPrices('libyana')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Libyana_Logo.svg" alt="ليبيانا">
+        <span>ليبيانا</span>
+      </button>
     </div>
 
     <div id="prices" class="prices"></div>
 
     <div class="notice">
-      اختر كمية الروبوكس المناسبة لك ثم اضغط شراء لتأكيد الخصم من رصيدك.
+      اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
     </div>
-
   </section>
 
 </main>
-
 
 <footer>
   Dark Store © 2026
 </footer>
 
-
-<!-- نافذة الشراء المنبثقة -->
+<!-- نافذة الطلب -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <h3>إتمام الطلب</h3>
     <div id="selectedInfo" class="selected"></div>
 
-    <input id="robloxUser" class="input" type="text" placeholder="يوزر حسابك في روبلوكس" style="margin-bottom:12px;">
-    <input id="phone" class="input" type="tel" placeholder="رقم هاتفك" style="margin-bottom:12px;">
-    <input id="name" class="input" type="text" placeholder="اسمك" style="margin-bottom:12px;">
+    <input id="robloxUser" class="input" type="text" placeholder="يوزر حسابك في روبلوكس">
+    <input id="phone" class="input" type="tel" placeholder="رقمك">
+    <input id="name" class="input" type="text" placeholder="اسمك">
 
-    <button class="confirm" onclick="processPurchase()">إرسال الطلب</button>
-    <button class="close" onclick="closeModal()">إلغاء</button>
+    <button class="confirm" onclick="sendOrder()">
+      إرسال الطلب
+    </button>
+
+    <button class="close" onclick="closeModal()">
+      إلغاء
+    </button>
   </div>
 </div>
 
-
 <script>
-
-// أرصدة المحفظة (مدار وليبيانا فقط)
-let userWallet = {
-  madar: 67.66,
-  libyana: 0.5
-};
-
 /* أسعار مدار */
 const madarPrices = [
-  {robux:10,price:5},
-  {robux:20,price:7},
-  {robux:30,price:10},
-  {robux:40,price:15},
-  {robux:80,price:22},
-  {robux:120,price:33},
-  {robux:160,price:42},
-  {robux:200,price:50},
-  {robux:400,price:82},
-  {robux:1000,price:140}
+  {robux:10, price:5},
+  {robux:20, price:7},
+  {robux:30, price:10},
+  {robux:40, price:15},
+  {robux:80, price:22},
+  {robux:120, price:33},
+  {robux:160, price:42},
+  {robux:200, price:50},
+  {robux:400, price:82},
+  {robux:1000, price:140}
 ];
 
 /* أسعار ليبيانا */
 const libyanaPrices = [
-  {robux:10,price:3},
-  {robux:20,price:5},
-  {robux:30,price:7},
-  {robux:40,price:10},
-  {robux:50,price:13},
-  {robux:80,price:15},
-  {robux:120,price:30},
-  {robux:160,price:40},
-  {robux:400,price:72},
-  {robux:520,price:95},
-  {robux:1000,price:130}
+  {robux:10, price:3},
+  {robux:20, price:5},
+  {robux:30, price:7},
+  {robux:40, price:10},
+  {robux:50, price:13},
+  {robux:80, price:15},
+  {robux:120, price:30},
+  {robux:160, price:40},
+  {robux:400, price:72},
+  {robux:520, price:95},
+  {robux:1000, price:130}
 ];
 
 let currentProvider = "madar";
 let selectedProduct = null;
 
-/* تحديث أرقام المحفظة */
-function updateWalletUI() {
-  document.getElementById("madarBalance").textContent = userWallet.madar;
-  document.getElementById("libyanaBalance").textContent = userWallet.libyana;
-}
+/* رابط صورة الروبوكس الذهبية */
+const robuxIconUrl = "https://images.rbxcdn.com/e2e316e6d1e4c7987019685934571936.png";
 
 /* عرض الأسعار */
 function showPrices(provider){
   currentProvider = provider;
-
   const pricesBox = document.getElementById("prices");
   const madarBtn = document.getElementById("madarBtn");
   const libyanaBtn = document.getElementById("libyanaBtn");
@@ -689,7 +517,7 @@ function showPrices(provider){
   if(provider === "madar"){
     madarBtn.classList.add("active");
     libyanaBtn.classList.remove("active");
-  }else{
+  } else {
     libyanaBtn.classList.add("active");
     madarBtn.classList.remove("active");
   }
@@ -702,7 +530,10 @@ function showPrices(provider){
     card.className = "price-card";
 
     card.innerHTML = `
-      <div class="robux">${item.robux} روب</div>
+      <div class="robux">
+        <span>${item.robux} روب</span>
+        <img class="robux-icon" src="${robuxIconUrl}" alt="robux">
+      </div>
       <div class="price">${item.price} ${provider === "madar" ? "مدار" : "ليبيانا"}</div>
       <button class="buy">شراء</button>
     `;
@@ -712,46 +543,21 @@ function showPrices(provider){
   });
 }
 
-/* فتح نافذة الطلب */
+/* فتح الطلب */
 function openModal(item){
   selectedProduct = item;
   const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
-
-  document.getElementById("selectedInfo").textContent = 
-    `${item.robux} روبوكس — ${item.price} ${providerName}`;
-
+  document.getElementById("selectedInfo").textContent = `${item.robux} روبوكس — ${item.price} ${providerName}`;
   document.getElementById("modal").classList.add("show");
 }
 
-/* إغلاق نافذة الطلب */
+/* إغلاق الطلب */
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
 }
 
-/* طلب شحن المحفظة (التحويل لـ WhatsApp) */
-function sendRechargeOrder(){
-  const phone = document.getElementById("rechargePhone").value.trim();
-  const amount = document.getElementById("rechargeAmount").value.trim();
-  const network = document.getElementById("rechargeNetwork").value;
-  const networkName = network === "madar" ? "مدار" : "ليبيانا";
-
-  if(!phone || !amount){
-    alert("يرجى إدخال جميع بيانات شحن المحفظة");
-    return;
-  }
-
-  const message = 
-    `طلب شحن محفظة جديد%0A%0A` +
-    `الشبكة: ${networkName}%0A` +
-    `رقم الهاتف المحول منه: ${phone}%0A` +
-    `المبلغ المطلوب شحنه: ${amount} د.ل`;
-
-  const whatsappNumber = "218927816884";
-  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
-}
-
-/* إتمام عملية الشراء من المحفظة */
-function processPurchase(){
+/* إرسال الطلب للواتساب */
+function sendOrder(){
   const robloxUser = document.getElementById("robloxUser").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const name = document.getElementById("name").value.trim();
@@ -761,64 +567,37 @@ function processPurchase(){
     return;
   }
 
-  // التحقق من كفاية الرصيد
-  const availableBalance = userWallet[currentProvider];
-  if(availableBalance < selectedProduct.price){
-    alert(`رصيد محفظتك غير كافٍ! تحتاج إلى ${selectedProduct.price} من رصيد ${currentProvider === "madar" ? "مدار" : "ليبيانا"}`);
-    return;
-  }
-
-  // خصم الرصيد
-  userWallet[currentProvider] -= selectedProduct.price;
-  updateWalletUI();
-
-  // إضافة العملية إلى جدول السجل
-  const historyList = document.getElementById("historyList");
-  const newRow = document.createElement("tr");
-  const today = new Date().toISOString().split('T')[0];
-
-  newRow.innerHTML = `
-    <td>${today}</td>
-    <td class="badge-withdraw">خصم -</td>
-    <td>${selectedProduct.price} (${currentProvider === "madar" ? "مدار" : "ليبيانا"})</td>
-    <td>${userWallet[currentProvider].toFixed(2)}</td>
-  `;
-  historyList.insertBefore(newRow, historyList.firstChild);
-
-  // تجهيز رسالة الواتساب
   const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
   const message = 
-    `طلب شراء جديد%0A%0A` +
+    `طلب جديد%0A%0A` +
     `الاسم: ${name}%0A` +
     `رقم الهاتف: ${phone}%0A` +
     `يوزر روبلوكس: ${robloxUser}%0A` +
     `الكمية: ${selectedProduct.robux} روبوكس%0A` +
-    `خصم من محفظة: ${selectedProduct.price} ${providerName}`;
+    `السعر: ${selectedProduct.price} ${providerName}`;
 
   const whatsappNumber = "218927816884";
 
-  alert("تمت العملية بنجاح! وخصم المبلغ من رصيدك.");
-  closeModal();
-
-  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+  window.open(
+    `https://wa.me/${whatsappNumber}?text=${message}`,
+    "_blank"
+  );
 }
 
-/* التنقل بين الأقسام */
-function scrollToSection(id){
-  document.getElementById(id).scrollIntoView({ behavior:"smooth" });
+/* زر الأسعار */
+function scrollToPrices(){
+  document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
 }
 
-/* إغلاق النافذة المنبثقة عند الضغط خارجها */
+/* إغلاق النافذة عند الضغط خارجها */
 document.getElementById("modal").addEventListener("click", function(e){
   if(e.target === this){
     closeModal();
   }
 });
 
-/* التشغيل المبدئي */
-updateWalletUI();
+/* تشغيل مدار عند فتح الموقع */
 showPrices("madar");
-
 </script>
 
 </body>
