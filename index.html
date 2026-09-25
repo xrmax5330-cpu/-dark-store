@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#12100e">
 
-<title>Desert Store | متجر شحن</title>
+<title>Dark Store | متجر شحن</title>
 
 <style>
 :root {
@@ -428,12 +428,12 @@ footer {
 
     <div class="provider-box">
       <button id="madarBtn" class="provider-btn active" onclick="showPrices('madar')">
-        <img id="<a href="https://imgbb.com/"><img src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="IMG 3779" border="0"></a><br /><a target='_blank' href='https://ar.imgbb.com/'>imgbb pro</a><br />" src="" alt="مدار">
+        <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار">
         <span>مدار</span>
       </button>
       
       <button id="libyanaBtn" class="provider-btn" onclick="showPrices('libyana')">
-        <img id="<a href="https://imgbb.com/"><img src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" alt="IMG 3778" border="0"></a>" src="" alt="ليبيانا">
+        <img id="libyanaLogoImg" src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" alt="ليبيانا">
         <span>ليبيانا</span>
       </button>
     </div>
@@ -472,11 +472,12 @@ footer {
 </div>
 
 <script>
-/* ترميز الصور التي أرسلتها بصيغة Data URIs لتضمينها مباشرة دون روابط خارجية */
-const robuxIconUrl = "https://images.rbxcdn.com/e2e316e6d1e4c7987019685934571936.png";
+// رابط أيقونة الروبوكس الصحيحة المباشرة
+const robuxIconUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3a/Robux_2019_Logo.svg";
 
-const madarImgData = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Al-Madar_Al-Jadid_Logo.svg/512px-Al-Madar_Al-Jadid_Logo.svg.png";
-const libyanaImgData = "https://upload.wikimedia.org/wikipedia/commons/d/df/Libyana_Logo.svg";
+// روابط صور مدار وليبيانا المباشرة
+const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
+const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
 // تعيين أزرار الشعارات عند التحميل
 document.addEventListener("DOMContentLoaded", () => {
@@ -578,7 +579,7 @@ function sendOrder(){
     return;
   }
 
-  const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
+  const providerName = currentProvider === "madar" ? "مدar" : "ليبيانا";
   const message = 
     `طلب جديد%0A%0A` +
     `الاسم: ${name}%0A` +
