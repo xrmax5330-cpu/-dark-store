@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050505">
 
-<title>Dark Store | متجر شحن</title>
+<title>Dark Store | متجر شحن ومحفظة رقمية</title>
 
 <style>
 
@@ -17,6 +17,8 @@
   --text:#fff;
   --muted:#999;
   --blue:#168cff;
+  --green:#10b981;
+  --red:#ef4444;
 }
 
 *{
@@ -41,7 +43,7 @@ body{
   min-height:100vh;
 }
 
-button{
+button, input, select{
   font-family:inherit;
 }
 
@@ -70,6 +72,11 @@ nav{
   letter-spacing:1px;
 }
 
+.nav-btns{
+  display:flex;
+  gap:10px;
+}
+
 .nav-btn{
   background:#111;
   border:1px solid #333;
@@ -78,24 +85,27 @@ nav{
   cursor:pointer;
   color:#fff;
   font-size:15px;
+  transition:.2s;
+}
+
+.nav-btn:hover{
+  border-color:var(--blue);
 }
 
 .hero{
   max-width:1100px;
   margin:auto;
-  padding:45px 20px 35px;
+  padding:45px 20px 25px;
   text-align:center;
 }
 
-/* صورة المتجر */
-
 .logo{
-  width:170px;
-  height:170px;
+  width:150px;
+  height:150px;
   object-fit:cover;
   border-radius:50%;
   display:block;
-  margin:0 auto 25px;
+  margin:0 auto 20px;
   border:2px solid #333;
   box-shadow:
     0 0 25px rgba(255,255,255,.12),
@@ -103,7 +113,7 @@ nav{
 }
 
 .hero h1{
-  font-size:clamp(38px,8vw,68px);
+  font-size:clamp(36px,7vw,60px);
   font-weight:900;
   margin-bottom:10px;
 }
@@ -114,14 +124,14 @@ nav{
 
 .hero p{
   color:var(--muted);
-  font-size:17px;
+  font-size:16px;
   line-height:1.8;
 }
 
 section{
   max-width:1100px;
   margin:auto;
-  padding:45px 20px;
+  padding:25px 20px;
 }
 
 .title{
@@ -130,13 +140,149 @@ section{
 }
 
 .title h2{
-  font-size:32px;
+  font-size:28px;
   margin-bottom:8px;
 }
 
 .title p{
   color:var(--muted);
 }
+
+/* قسم المحفظة */
+
+.wallet-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:30px;
+}
+
+.wallet-header{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:15px;
+}
+
+.balances-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.balance-box{
+  background:#121212;
+  border:1px solid #2a2a2a;
+  border-radius:14px;
+  padding:18px;
+}
+
+.balance-box .label{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+.balance-box .val{
+  font-size:26px;
+  font-weight:900;
+  color:#fff;
+}
+
+.balance-box .unit{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+/* نموذج شحن المحفظة */
+
+.recharge-box{
+  background:#111;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+}
+
+.recharge-box h3{
+  font-size:18px;
+  margin-bottom:15px;
+  color:var(--blue);
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.input{
+  width:100%;
+  padding:13px;
+  background:#050505;
+  color:#fff;
+  border:1px solid #292929;
+  border-radius:12px;
+  outline:none;
+  font-size:15px;
+}
+
+.input:focus{
+  border-color:var(--blue);
+}
+
+/* سجل العمليات */
+
+.history-box{
+  margin-top:25px;
+}
+
+.history-title{
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:10px;
+  color:var(--muted);
+}
+
+.table-wrapper{
+  overflow-x:auto;
+}
+
+.history-table{
+  width:100%;
+  border-collapse:collapse;
+  background:#090909;
+  border-radius:12px;
+  overflow:hidden;
+  font-size:14px;
+}
+
+.history-table th, .history-table td{
+  padding:12px 15px;
+  text-align:right;
+  border-bottom:1px solid #1a1a1a;
+}
+
+.history-table th{
+  background:#141414;
+  color:var(--muted);
+}
+
+.badge-deposit{ color:var(--green); font-weight:bold; }
+.badge-withdraw{ color:var(--red); font-weight:bold; }
+
+/* قسم الأسعار */
 
 .provider-box{
   display:flex;
@@ -240,7 +386,7 @@ footer{
   color:#777;
 }
 
-/* نافذة الطلب */
+/* النافذة المنبثقة */
 
 .modal{
   position:fixed;
@@ -280,22 +426,6 @@ footer{
   font-weight:bold;
 }
 
-.input{
-  width:100%;
-  padding:14px;
-  margin-bottom:12px;
-  background:#050505;
-  color:#fff;
-  border:1px solid #292929;
-  border-radius:12px;
-  outline:none;
-  font-size:15px;
-}
-
-.input:focus{
-  border-color:var(--blue);
-}
-
 .confirm{
   width:100%;
   padding:14px;
@@ -320,7 +450,6 @@ footer{
 }
 
 @media(max-width:500px){
-
   .prices{
     grid-template-columns:repeat(2,1fr);
   }
@@ -338,10 +467,9 @@ footer{
   }
 
   .logo{
-    width:145px;
-    height:145px;
+    width:130px;
+    height:130px;
   }
-
 }
 
 </style>
@@ -350,461 +478,348 @@ footer{
 
 <body>
 
-
 <header>
-
-<nav>
-
-<div class="brand">
-Dark Store
-</div>
-
-<button class="nav-btn" onclick="scrollToPrices()">
-الأسعار
-</button>
-
-</nav>
-
+  <nav>
+    <div class="brand">Dark Store</div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="scrollToSection('walletSection')">المحفظة</button>
+      <button class="nav-btn" onclick="scrollToSection('pricesSection')">الأسعار</button>
+    </div>
+  </nav>
 </header>
 
 
 <main>
 
-
-<div class="hero">
-
-<img
-src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png"
-class="logo"
-alt="Dark Store"
->
-
-<h1>
-Dark <span>Store</span>
-</h1>
-
-<p>
-متجر شحن روبوكس سريع وآمن
-<br>
-اختر شركة الدفع ثم اختر كمية الروبوكس
-</p>
-
-</div>
+  <div class="hero">
+    <img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png" class="logo" alt="Dark Store">
+    <h1>Dark <span>Store</span></h1>
+    <p>
+      متجر شحن روبوكس سريع وآمن عبر المحفظة الرقمية
+      <br>
+      اختر رصيد مدار أو ليبيانا للشحن والشراء
+    </p>
+  </div>
 
 
+  <!-- قسم المحفظة -->
+  <section id="walletSection">
+    <div class="wallet-card">
+      <div class="wallet-header">
+        👛 محفظتي
+      </div>
 
-<section id="pricesSection">
+      <!-- الأرصدة المتاحة (مدار وليبيانا فقط) -->
+      <div class="balances-grid">
+        <div class="balance-box">
+          <div class="label">📱 رصيد مدار</div>
+          <div class="val" id="madarBalance">67.66</div>
+          <div class="unit">وحدة رصيد</div>
+        </div>
+
+        <div class="balance-box">
+          <div class="label">📱 رصيد ليبيانا</div>
+          <div class="val" id="libyanaBalance">0.5</div>
+          <div class="unit">وحدة رصيد</div>
+        </div>
+      </div>
+
+      <!-- نموذج طلب الشحن -->
+      <div class="recharge-box" id="rechargeForm">
+        <h3>⚡ شحن المحفظة (تحويل رصيد)</h3>
+
+        <div class="form-group">
+          <label>الشبكة</label>
+          <select id="rechargeNetwork" class="input">
+            <option value="madar">مدار (091/093) — أقصى تحويل 20 سقف يومي</option>
+            <option value="libyana">ليبيانا (092/094) — أقصى تحويل 50 سقف يومي</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>رقمك الذي ستُحول منه (يجب أن يكون من نفس الشبكة)</label>
+          <input id="rechargePhone" type="tel" class="input" placeholder="09xxxxxxxx">
+        </div>
+
+        <div class="form-group">
+          <label>المبلغ الكلي الذي ستُحوله (د.ل)</label>
+          <input id="rechargeAmount" type="number" class="input" placeholder="مثال: 20">
+        </div>
+
+        <button class="confirm" onclick="sendRechargeOrder()">فتح طلب الشحن</button>
+        <p style="font-size: 12px; color: var(--muted); margin-top: 10px; text-align: center;">
+          بعد فتح الطلب سيظهر لك رقم التحويل، حوّل بعد فتح الطلب حتى تُحسب تحويلاتك تلقائياً.
+        </p>
+      </div>
+
+      <!-- سجل العمليات -->
+      <div class="history-box">
+        <div class="history-title">📜 حركة الرصيد الأخيرة</div>
+        <div class="table-wrapper">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>التاريخ</th>
+                <th>النوع</th>
+                <th>المبلغ</th>
+                <th>الرصيد بعد</th>
+              </tr>
+            </thead>
+            <tbody id="historyList">
+              <tr>
+                <td>2026-09-25</td>
+                <td class="badge-deposit">إيداع +</td>
+                <td>40 (مدار)</td>
+                <td>67.66</td>
+              </tr>
+              <tr>
+                <td>2026-09-25</td>
+                <td class="badge-withdraw">خصم -</td>
+                <td>92 (مدار)</td>
+                <td>27.66</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
 
-<div class="title">
+  <!-- قسم الأسعار والشراء -->
+  <section id="pricesSection">
 
-<h2>
-الأسعار
-</h2>
+    <div class="title">
+      <h2>الأسعار والكميات</h2>
+      <p>اختر الشركة لشراء كمية الروبوكس المناسبة</p>
+    </div>
 
-<p>
-اختر طريقة الدفع
-</p>
+    <div class="provider-box">
+      <button id="madarBtn" class="provider-btn active" onclick="showPrices('madar')">مدار</button>
+      <button id="libyanaBtn" class="provider-btn" onclick="showPrices('libyana')">ليبيانا</button>
+    </div>
 
-</div>
+    <div id="prices" class="prices"></div>
 
+    <div class="notice">
+      اختر كمية الروبوكس المناسبة لك ثم اضغط شراء لتأكيد الخصم من رصيدك.
+    </div>
 
-
-<div class="provider-box">
-
-<button
-id="madarBtn"
-class="provider-btn active"
-onclick="showPrices('madar')"
->
-مدار
-</button>
-
-
-<button
-id="libyanaBtn"
-class="provider-btn"
-onclick="showPrices('libyana')"
->
-ليبيانا
-</button>
-
-</div>
-
-
-
-<div
-id="prices"
-class="prices"
-></div>
-
-
-<div class="notice">
-اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
-</div>
-
-
-</section>
-
+  </section>
 
 </main>
 
 
-
 <footer>
-
-Dark Store © 2026
-
+  Dark Store © 2026
 </footer>
 
 
+<!-- نافذة الشراء المنبثقة -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h3>إتمام الطلب</h3>
+    <div id="selectedInfo" class="selected"></div>
 
-<!-- نافذة الطلب -->
+    <input id="robloxUser" class="input" type="text" placeholder="يوزر حسابك في روبلوكس" style="margin-bottom:12px;">
+    <input id="phone" class="input" type="tel" placeholder="رقم هاتفك" style="margin-bottom:12px;">
+    <input id="name" class="input" type="text" placeholder="اسمك" style="margin-bottom:12px;">
 
-<div
-id="modal"
-class="modal"
->
-
-<div class="modal-box">
-
-
-<h3>
-إتمام الطلب
-</h3>
-
-
-<div
-id="selectedInfo"
-class="selected"
-></div>
-
-
-<input
-id="robloxUser"
-class="input"
-type="text"
-placeholder="يوزر حسابك في روبلوكس"
->
-
-
-<input
-id="phone"
-class="input"
-type="tel"
-placeholder="رقمك"
->
-
-
-<input
-id="name"
-class="input"
-type="text"
-placeholder="اسمك"
->
-
-
-<button
-class="confirm"
-onclick="sendOrder()"
->
-إرسال الطلب
-</button>
-
-
-<button
-class="close"
-onclick="closeModal()"
->
-إلغاء
-</button>
-
-
+    <button class="confirm" onclick="processPurchase()">إرسال الطلب</button>
+    <button class="close" onclick="closeModal()">إلغاء</button>
+  </div>
 </div>
-
-</div>
-
 
 
 <script>
 
+// أرصدة المحفظة (مدار وليبيانا فقط)
+let userWallet = {
+  madar: 67.66,
+  libyana: 0.5
+};
 
 /* أسعار مدار */
-
 const madarPrices = [
-
-{robux:10,price:5},
-{robux:20,price:7},
-{robux:30,price:10},
-{robux:40,price:15},
-{robux:80,price:22},
-{robux:120,price:33},
-{robux:160,price:42},
-{robux:200,price:50},
-{robux:400,price:82},
-{robux:1000,price:140}
-
+  {robux:10,price:5},
+  {robux:20,price:7},
+  {robux:30,price:10},
+  {robux:40,price:15},
+  {robux:80,price:22},
+  {robux:120,price:33},
+  {robux:160,price:42},
+  {robux:200,price:50},
+  {robux:400,price:82},
+  {robux:1000,price:140}
 ];
-
-
 
 /* أسعار ليبيانا */
-
 const libyanaPrices = [
-
-{robux:10,price:3},
-{robux:20,price:5},
-{robux:30,price:7},
-{robux:40,price:10},
-{robux:50,price:13},
-{robux:80,price:15},
-{robux:120,price:30},
-{robux:160,price:40},
-{robux:400,price:72},
-{robux:520,price:95},
-{robux:1000,price:130}
-
+  {robux:10,price:3},
+  {robux:20,price:5},
+  {robux:30,price:7},
+  {robux:40,price:10},
+  {robux:50,price:13},
+  {robux:80,price:15},
+  {robux:120,price:30},
+  {robux:160,price:40},
+  {robux:400,price:72},
+  {robux:520,price:95},
+  {robux:1000,price:130}
 ];
 
-
 let currentProvider = "madar";
-
 let selectedProduct = null;
 
-
+/* تحديث أرقام المحفظة */
+function updateWalletUI() {
+  document.getElementById("madarBalance").textContent = userWallet.madar;
+  document.getElementById("libyanaBalance").textContent = userWallet.libyana;
+}
 
 /* عرض الأسعار */
-
 function showPrices(provider){
+  currentProvider = provider;
 
-currentProvider = provider;
+  const pricesBox = document.getElementById("prices");
+  const madarBtn = document.getElementById("madarBtn");
+  const libyanaBtn = document.getElementById("libyanaBtn");
 
-const pricesBox =
-document.getElementById("prices");
+  if(provider === "madar"){
+    madarBtn.classList.add("active");
+    libyanaBtn.classList.remove("active");
+  }else{
+    libyanaBtn.classList.add("active");
+    madarBtn.classList.remove("active");
+  }
 
-const madarBtn =
-document.getElementById("madarBtn");
+  const list = provider === "madar" ? madarPrices : libyanaPrices;
+  pricesBox.innerHTML = "";
 
-const libyanaBtn =
-document.getElementById("libyanaBtn");
+  list.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "price-card";
 
+    card.innerHTML = `
+      <div class="robux">${item.robux} روب</div>
+      <div class="price">${item.price} ${provider === "madar" ? "مدار" : "ليبيانا"}</div>
+      <button class="buy">شراء</button>
+    `;
 
-if(provider === "madar"){
-
-madarBtn.classList.add("active");
-libyanaBtn.classList.remove("active");
-
-}else{
-
-libyanaBtn.classList.add("active");
-madarBtn.classList.remove("active");
-
+    card.addEventListener("click", () => openModal(item));
+    pricesBox.appendChild(card);
+  });
 }
 
-
-const list =
-provider === "madar"
-? madarPrices
-: libyanaPrices;
-
-
-pricesBox.innerHTML = "";
-
-
-list.forEach(item => {
-
-const card =
-document.createElement("div");
-
-card.className = "price-card";
-
-
-card.innerHTML = `
-
-<div class="robux">
-${item.robux} روب
-</div>
-
-<div class="price">
-${item.price}
-${provider === "madar" ? "مدار" : "ليبيانا"}
-</div>
-
-<button class="buy">
-شراء
-</button>
-
-`;
-
-
-card.addEventListener(
-"click",
-() => openModal(item)
-);
-
-
-pricesBox.appendChild(card);
-
-});
-
-}
-
-
-
-/* فتح الطلب */
-
+/* فتح نافذة الطلب */
 function openModal(item){
+  selectedProduct = item;
+  const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
 
-selectedProduct = item;
+  document.getElementById("selectedInfo").textContent = 
+    `${item.robux} روبوكس — ${item.price} ${providerName}`;
 
-
-const providerName =
-currentProvider === "madar"
-? "مدار"
-: "ليبيانا";
-
-
-document.getElementById(
-"selectedInfo"
-).textContent =
-`${item.robux} روبوكس — ${item.price} ${providerName}`;
-
-
-document.getElementById(
-"modal"
-).classList.add("show");
-
+  document.getElementById("modal").classList.add("show");
 }
 
-
-
-/* إغلاق الطلب */
-
+/* إغلاق نافذة الطلب */
 function closeModal(){
-
-document.getElementById(
-"modal"
-).classList.remove("show");
-
+  document.getElementById("modal").classList.remove("show");
 }
 
+/* طلب شحن المحفظة (التحويل لـ WhatsApp) */
+function sendRechargeOrder(){
+  const phone = document.getElementById("rechargePhone").value.trim();
+  const amount = document.getElementById("rechargeAmount").value.trim();
+  const network = document.getElementById("rechargeNetwork").value;
+  const networkName = network === "madar" ? "مدار" : "ليبيانا";
 
+  if(!phone || !amount){
+    alert("يرجى إدخال جميع بيانات شحن المحفظة");
+    return;
+  }
 
-/* إرسال الطلب للواتساب */
+  const message = 
+    `طلب شحن محفظة جديد%0A%0A` +
+    `الشبكة: ${networkName}%0A` +
+    `رقم الهاتف المحول منه: ${phone}%0A` +
+    `المبلغ المطلوب شحنه: ${amount} د.ل`;
 
-function sendOrder(){
-
-const robloxUser =
-document.getElementById(
-"robloxUser"
-).value.trim();
-
-
-const phone =
-document.getElementById(
-"phone"
-).value.trim();
-
-
-const name =
-document.getElementById(
-"name"
-).value.trim();
-
-
-if(
-!robloxUser ||
-!phone ||
-!name
-){
-
-alert("يرجى تعبئة جميع البيانات");
-
-return;
-
+  const whatsappNumber = "218927816884";
+  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
 }
 
+/* إتمام عملية الشراء من المحفظة */
+function processPurchase(){
+  const robloxUser = document.getElementById("robloxUser").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const name = document.getElementById("name").value.trim();
 
-const providerName =
-currentProvider === "madar"
-? "مدار"
-: "ليبيانا";
+  if(!robloxUser || !phone || !name){
+    alert("يرجى تعبئة جميع البيانات");
+    return;
+  }
 
+  // التحقق من كفاية الرصيد
+  const availableBalance = userWallet[currentProvider];
+  if(availableBalance < selectedProduct.price){
+    alert(`رصيد محفظتك غير كافٍ! تحتاج إلى ${selectedProduct.price} من رصيد ${currentProvider === "madar" ? "مدار" : "ليبيانا"}`);
+    return;
+  }
 
-const message =
+  // خصم الرصيد
+  userWallet[currentProvider] -= selectedProduct.price;
+  updateWalletUI();
 
-`طلب جديد%0A%0A` +
+  // إضافة العملية إلى جدول السجل
+  const historyList = document.getElementById("historyList");
+  const newRow = document.createElement("tr");
+  const today = new Date().toISOString().split('T')[0];
 
-`الاسم: ${name}%0A` +
+  newRow.innerHTML = `
+    <td>${today}</td>
+    <td class="badge-withdraw">خصم -</td>
+    <td>${selectedProduct.price} (${currentProvider === "madar" ? "مدار" : "ليبيانا"})</td>
+    <td>${userWallet[currentProvider].toFixed(2)}</td>
+  `;
+  historyList.insertBefore(newRow, historyList.firstChild);
 
-`رقم الهاتف: ${phone}%0A` +
+  // تجهيز رسالة الواتساب
+  const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
+  const message = 
+    `طلب شراء جديد%0A%0A` +
+    `الاسم: ${name}%0A` +
+    `رقم الهاتف: ${phone}%0A` +
+    `يوزر روبلوكس: ${robloxUser}%0A` +
+    `الكمية: ${selectedProduct.robux} روبوكس%0A` +
+    `خصم من محفظة: ${selectedProduct.price} ${providerName}`;
 
-`يوزر روبلوكس: ${robloxUser}%0A` +
+  const whatsappNumber = "218927816884";
 
-`الكمية: ${selectedProduct.robux} روبوكس%0A` +
+  alert("تمت العملية بنجاح! وخصم المبلغ من رصيدك.");
+  closeModal();
 
-`السعر: ${selectedProduct.price} ${providerName}`;
-
-
-/*
-غيّر هذا الرقم إلى رقم واتساب متجرك
-
-مثال:
-218927816884
-*/
-
-const whatsappNumber =
-"218927816884";
-
-
-window.open(
-`https://wa.me/${whatsappNumber}?text=${message}`,
-"_blank"
-);
-
+  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
 }
 
+/* التنقل بين الأقسام */
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({ behavior:"smooth" });
+}
 
-
-/* زر الأسعار */
-
-function scrollToPrices(){
-
-document
-.getElementById("pricesSection")
-.scrollIntoView({
-behavior:"smooth"
+/* إغلاق النافذة المنبثقة عند الضغط خارجها */
+document.getElementById("modal").addEventListener("click", function(e){
+  if(e.target === this){
+    closeModal();
+  }
 });
 
-}
-
-
-
-/* إغلاق النافذة عند الضغط خارجها */
-
-document
-.getElementById("modal")
-.addEventListener(
-"click",
-function(e){
-
-if(e.target === this){
-
-closeModal();
-
-}
-
-}
-);
-
-
-/* تشغيل مدار عند فتح الموقع */
-
+/* التشغيل المبدئي */
+updateWalletUI();
 showPrices("madar");
 
 </script>
 
-
 </body>
-
 </html>
