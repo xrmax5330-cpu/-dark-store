@@ -225,7 +225,8 @@ section {
 .robux-icon {
   width: 24px;
   height: 24px;
-  object-fit: contain;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 .price {
@@ -472,8 +473,8 @@ footer {
 </div>
 
 <script>
-// رابط أيقونة الروبوكس الصحيحة المباشرة
-const robuxIconUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3a/Robux_2019_Logo.svg";
+// رابط الصورة الجديد المباشر المرفق
+const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 
 // روابط صور مدار وليبيانا المباشرة
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
@@ -579,7 +580,7 @@ function sendOrder(){
     return;
   }
 
-  const providerName = currentProvider === "madar" ? "مدar" : "ليبيانا";
+  const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
   const message = 
     `طلب جديد%0A%0A` +
     `الاسم: ${name}%0A` +
