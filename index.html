@@ -146,31 +146,31 @@ section {
   color: var(--text-muted);
 }
 
-/* اختيار الأقسام (روبوكس / أيتونز / ببجي) */
+/* اختيار الأقسام */
 .category-box {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
 .cat-btn {
   flex: 1;
-  min-width: 160px;
-  max-width: 220px;
-  padding: 14px 16px;
+  min-width: 120px;
+  max-width: 160px;
+  padding: 12px 8px;
   border-radius: 16px;
   border: 2px solid var(--card-border);
   background: #181512;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 6px;
   transition: all 0.3s ease;
 }
 
@@ -237,6 +237,66 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 18px;
+}
+
+/* شبكة الأفكتمات المربعة */
+.effects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.effect-card {
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(145deg, #1e1a16, #14110e);
+  border: 2px solid var(--card-border);
+  border-radius: 18px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.effect-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sand-gold);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+}
+
+.effect-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sand-light);
+  margin-top: 5px;
+}
+
+.effect-price {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--sand-gold);
+}
+
+.effect-buy-btn {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  background: #26211b;
+  color: var(--sand-light);
+  border: 1px solid var(--card-border);
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.effect-card:hover .effect-buy-btn {
+  background: var(--sand-gold);
+  color: #12100e;
+  border-color: var(--sand-gold);
 }
 
 /* بطاقات الروبوكس */
@@ -318,7 +378,7 @@ section {
   border-color: transparent;
 }
 
-/* بطاقات أيتونز وببجي بتصميم العرض التوضيحي */
+/* بطاقات الألعاب والبطاقات المباشرة */
 .item-card {
   background: linear-gradient(145deg, #1e1a16, #14110e);
   border: 1px solid var(--card-border);
@@ -495,6 +555,10 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .effects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .price-card, .item-card {
     padding: 16px 10px;
   }
@@ -541,7 +605,7 @@ footer {
       Dark <span>Store</span>
     </h1>
     <p>
-      متجر شحن روبوكس، أيتونز، وببجي موبايل سريع وآمن
+      متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس سريع وآمن
     </p>
   </div>
 
@@ -552,11 +616,21 @@ footer {
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
         <span>🎮 روبوكس</span>
       </button>
+      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
+        <span>✨ الأفكتات</span>
+      </button>
       <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
-        <span>🎵 أيتونز أمريكي</span>
+        <span>🎵 أيتونز</span>
+      </button>
+
+      <button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">
+        <span>🎮 بلايستيشن</span>
+      </button>
+      <button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">
+        <span>🟢 إكس بوكس</span>
       </button>
       <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
-        <span>🔫 ببجي موبايل</span>
+        <span>🔫 ببجي</span>
       </button>
     </div>
 
@@ -580,11 +654,27 @@ footer {
       </div>
     </div>
 
+    <!-- العنوان الخاص بقسم الأفكتات -->
+    <div id="effectsHeader" style="display: none;">
+      <div class="title">
+        <h2>✨ أفكتات روبلوكس</h2>
+        <p>الدفع عن طريق ليبيانا</p>
+      </div>
+    </div>
+
     <!-- العنوان الخاص بقسم أيتونز -->
     <div id="itunesHeader" style="display: none;">
       <div class="title">
         <h2>أيتونز ( أمريكا ) 🇺🇸</h2>
-        <p>الدفع عن طريق رصيد ليبيانا</p>
+        <p>الدفع عن طريق كروت ليبيانا</p>
+      </div>
+    </div>
+
+    <!-- العنوان الخاص بقسم بلايستيشن -->
+    <div id="psHeader" style="display: none;">
+      <div class="title">
+        <h2>شبكة بلاي ستيشن ( أمريكا ) 🇺🇸🎮</h2>
+        <p>بطاقات بلايستيشن ستور الأمريكية - الدفع بليبيانا</p>
       </div>
     </div>
 
@@ -596,11 +686,19 @@ footer {
       </div>
     </div>
 
+    <!-- العنوان الخاص بقسم إكس بوكس -->
+    <div id="xboxHeader" style="display: none;">
+      <div class="title">
+        <h2>إكس بوكس ( أمريكا ) 🇺🇸🟢</h2>
+        <p>بطاقات هدايا أمريكية - الدفع بليبيانا</p>
+      </div>
+    </div>
+
     <!-- شبكة المنتجات -->
     <div id="prices" class="prices"></div>
 
     <div id="noticeBox" class="notice">
-      اختر الكمية المناسبة لك ثم اضغط شراء.
+      اختر الكمية أو الأفكت المناسب لك ثم اضغط شراء.
     </div>
   </section>
 
@@ -617,7 +715,7 @@ footer {
     <div id="selectedInfo" class="selected"></div>
 
     <div id="accountInputGroup">
-      <input id="accountInput" class="input" type="text" placeholder="يوزر حسابك">
+      <input id="accountInput" class="input" type="text" placeholder="يوزر حسابك في روبلوكس">
     </div>
     
     <input id="phone" class="input" type="tel" placeholder="رقمك">
@@ -670,6 +768,24 @@ const libyanaPrices = [
   {robux:1000, price: 130}
 ];
 
+/* أسعار الأفكتات (ليبيانا) */
+const effectsList = [
+  { name: "افكت الرجعية", price: 12 },
+  { name: "افكت الإنهاء", price: 12 },
+  { name: "افكت المال", price: 12 },
+  { name: "افكت الانفجار", price: 12 },
+  { name: "افكت مساحة فرعية", price: 12 },
+  { name: "افكت تيكس", price: 12 },
+  { name: "افكت حرق", price: 17 },
+  { name: "افكت بلوكي", price: 17 },
+  { name: "افكت خالي من الوزن", price: 17 },
+  { name: "افكت بالون", price: 33 },
+  { name: "افكت قلب اسود", price: 33 },
+  { name: "افكت دهب", price: 33 },
+  { name: "افكت رعد", price: 33 },
+  { name: "افكت فضة", price: 33 }
+];
+
 /* أسعار أيتونز أمريكي (ليبيانا) */
 const itunesPrices = [
   { amount: "2$", price: 27 },
@@ -680,6 +796,12 @@ const itunesPrices = [
   { amount: "25$", price: 330 }
 ];
 
+/* أسعار بلايستيشن أمريكي (ليبيانا) */
+const psPrices = [
+  { amount: "10$", price: 130 },
+  { amount: "25$", price: 320 }
+];
+
 /* أسعار ببجي موبايل (ليبيانا) */
 const pubgPrices = [
   { uc: "60 UC", price: 13 },
@@ -688,11 +810,17 @@ const pubgPrices = [
   { uc: "660 UC", price: 128 }
 ];
 
-let currentCategory = "robux"; // robux | itunes | pubg
+/* أسعار إكس بوكس أمريكي (ليبيانا) */
+const xboxPrices = [
+  { amount: "10$", price: 130 },
+  { amount: "15$", price: 190 },
+  { amount: "25$", price: 315 }
+];
+
+let currentCategory = "robux"; 
 let currentProvider = "madar";
 let selectedProduct = null;
 
-// تعيين أزرار الشعارات عند التحميل
 document.addEventListener("DOMContentLoaded", () => {
   const mImg = document.getElementById("madarLogoImg");
   const lImg = document.getElementById("libyanaLogoImg");
@@ -706,29 +834,50 @@ document.addEventListener("DOMContentLoaded", () => {
 function switchCategory(cat) {
   currentCategory = cat;
   const robuxBtn = document.getElementById("catRobuxBtn");
+  const effectsBtn = document.getElementById("catEffectsBtn");
   const itunesBtn = document.getElementById("catItunesBtn");
+  const psBtn = document.getElementById("catPsBtn");
   const pubgBtn = document.getElementById("catPubgBtn");
+  const xboxBtn = document.getElementById("catXboxBtn");
   
   const robuxHeader = document.getElementById("robuxHeader");
+  const effectsHeader = document.getElementById("effectsHeader");
   const itunesHeader = document.getElementById("itunesHeader");
+  const psHeader = document.getElementById("psHeader");
   const pubgHeader = document.getElementById("pubgHeader");
+  const xboxHeader = document.getElementById("xboxHeader");
 
-  // إعادة ضبط الأزرار
-  [robuxBtn, itunesBtn, pubgBtn].forEach(b => b.classList.remove("active"));
-  [robuxHeader, itunesHeader, pubgHeader].forEach(h => h.style.display = "none");
+  [robuxBtn, effectsBtn, itunesBtn, psBtn, pubgBtn, xboxBtn].forEach(b => b.classList.remove("active"));
+  [robuxHeader, effectsHeader, itunesHeader, psHeader, pubgHeader, xboxHeader].forEach(h => h.style.display = "none");
+
+  const pricesBox = document.getElementById("prices");
+  pricesBox.className = "prices";
 
   if(cat === "robux") {
     robuxBtn.classList.add("active");
     robuxHeader.style.display = "block";
     showRobuxPrices(currentProvider);
+  } else if(cat === "effects") {
+    effectsBtn.classList.add("active");
+    effectsHeader.style.display = "block";
+    pricesBox.className = "effects-grid";
+    showEffectsPrices();
   } else if(cat === "itunes") {
     itunesBtn.classList.add("active");
     itunesHeader.style.display = "block";
     showItunesPrices();
+  } else if(cat === "ps") {
+    psBtn.classList.add("active");
+    psHeader.style.display = "block";
+    showPsPrices();
   } else if(cat === "pubg") {
     pubgBtn.classList.add("active");
     pubgHeader.style.display = "block";
     showPubgPrices();
+  } else if(cat === "xbox") {
+    xboxBtn.classList.add("active");
+    xboxHeader.style.display = "block";
+    showXboxPrices();
   }
 }
 
@@ -778,6 +927,32 @@ function showRobuxPrices(provider){
   });
 }
 
+/* عرض أسعار الأفكتات */
+function showEffectsPrices(){
+  const pricesBox = document.getElementById("prices");
+  pricesBox.innerHTML = "";
+
+  effectsList.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "effect-card";
+
+    card.innerHTML = `
+      <div class="effect-title">${item.name}</div>
+      <div class="effect-price">${item.price} د.ل</div>
+      <button class="effect-buy-btn">شراء الآن</button>
+    `;
+
+    card.addEventListener("click", () => openModal({
+      type: 'effect',
+      title: item.name,
+      price: `${item.price} د.ل`,
+      provider: "ليبيانا"
+    }));
+
+    pricesBox.appendChild(card);
+  });
+}
+
 /* عرض أسعار أيتونز */
 function showItunesPrices(){
   const pricesBox = document.getElementById("prices");
@@ -815,6 +990,43 @@ function showItunesPrices(){
   });
 }
 
+/* عرض أسعار بلايستيشن */
+function showPsPrices(){
+  const pricesBox = document.getElementById("prices");
+  pricesBox.innerHTML = "";
+
+  psPrices.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item-card";
+
+    card.innerHTML = `
+      <div>
+        <div class="item-header">
+          <div>
+            <div class="item-title">شبكة بلاي ستيشن ( أمريكا )</div>
+            <div class="item-sub">PSN ${item.amount}</div>
+          </div>
+          <span class="badge-icon">🇺🇸</span>
+        </div>
+        <div class="item-price-box">
+          <div class="item-price-label">السعر</div>
+          <div class="item-price-val">${item.price} د.ل</div>
+        </div>
+      </div>
+      <button class="buy">شراء الآن</button>
+    `;
+
+    card.addEventListener("click", () => openModal({
+      type: 'ps',
+      title: `شبكة بلاي ستيشن ( أمريكا ) (${item.amount})`,
+      price: `${item.price} د.ل`,
+      provider: "ليبيانا"
+    }));
+
+    pricesBox.appendChild(card);
+  });
+}
+
 /* عرض أسعار ببجي */
 function showPubgPrices(){
   const pricesBox = document.getElementById("prices");
@@ -831,7 +1043,7 @@ function showPubgPrices(){
             <div class="item-title">بيجي موبايل</div>
             <div class="item-sub">${item.uc}</div>
           </div>
-          <span class="badge-icon">💵</span>
+          <span class="badge-icon">🔫</span>
         </div>
         <div class="item-price-box">
           <div class="item-price-label">السعر</div>
@@ -852,13 +1064,50 @@ function showPubgPrices(){
   });
 }
 
+/* عرض أسعار إكس بوكس */
+function showXboxPrices(){
+  const pricesBox = document.getElementById("prices");
+  pricesBox.innerHTML = "";
+
+  xboxPrices.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item-card";
+
+    card.innerHTML = `
+      <div>
+        <div class="item-header">
+          <div>
+            <div class="item-title">إكس بوكس ( أمريكا )</div>
+            <div class="item-sub">Xbox ${item.amount}</div>
+          </div>
+          <span class="badge-icon">🇺🇸</span>
+        </div>
+        <div class="item-price-box">
+          <div class="item-price-label">السعر</div>
+          <div class="item-price-val">${item.price} د.ل</div>
+        </div>
+      </div>
+      <button class="buy">شراء الآن</button>
+    `;
+
+    card.addEventListener("click", () => openModal({
+      type: 'xbox',
+      title: `بطاقة إكس بوكس أمريكي (${item.amount})`,
+      price: `${item.price} د.ل`,
+      provider: "ليبيانا"
+    }));
+
+    pricesBox.appendChild(card);
+  });
+}
+
 /* فتح نافذة الطلب */
 function openModal(item){
   selectedProduct = item;
   const accountGroup = document.getElementById("accountInputGroup");
   const accountInput = document.getElementById("accountInput");
 
-  if(item.type === 'robux') {
+  if(item.type === 'robux' || item.type === 'effect') {
     document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
     accountGroup.style.display = "block";
     accountInput.placeholder = "يوزر حسابك في روبلوكس";
@@ -868,7 +1117,7 @@ function openModal(item){
     accountInput.placeholder = "الأيدي (ID) الخاص بحسابك في ببجي";
   } else {
     document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
-    accountGroup.style.display = "none"; // أيتونز لا يحتاج يوزر
+    accountGroup.style.display = "none";
   }
 
   document.getElementById("modal").classList.add("show");
@@ -890,8 +1139,13 @@ function sendOrder(){
     return;
   }
 
-  if((selectedProduct.type === 'robux' || selectedProduct.type === 'pubg') && !accountInput) {
-    alert(selectedProduct.type === 'robux' ? "يرجى كتابة يوزر حسابك في روبلوكس" : "يرجى كتابة ID حسابك في ببجي");
+  if((selectedProduct.type === 'robux' || selectedProduct.type === 'effect') && !accountInput) {
+    alert("يرجى كتابة يوزر حسابك في روبلوكس");
+    return;
+  }
+
+  if(selectedProduct.type === 'pubg' && !accountInput) {
+    alert("يرجى كتابة ID حسابك في ببجي");
     return;
   }
 
@@ -900,7 +1154,7 @@ function sendOrder(){
   message += `الاسم: ${name}%0A`;
   message += `رقم الهاتف: ${phone}%0A`;
   
-  if(selectedProduct.type === 'robux'){
+  if(selectedProduct.type === 'robux' || selectedProduct.type === 'effect'){
     message += `يوزر روبلوكس: ${accountInput}%0A`;
   } else if(selectedProduct.type === 'pubg'){
     message += `ID ببجي: ${accountInput}%0A`;
