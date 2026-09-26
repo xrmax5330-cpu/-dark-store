@@ -146,30 +146,31 @@ section {
   color: var(--text-muted);
 }
 
-/* اختيار الأقسام (روبوكس / أيتونز) */
+/* اختيار الأقسام (روبوكس / أيتونز / ببجي) */
 .category-box {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
 .cat-btn {
   flex: 1;
-  max-width: 250px;
-  padding: 16px 20px;
+  min-width: 160px;
+  max-width: 220px;
+  padding: 14px 16px;
   border-radius: 16px;
   border: 2px solid var(--card-border);
   background: #181512;
   color: var(--text-muted);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   transition: all 0.3s ease;
 }
 
@@ -304,7 +305,7 @@ section {
 }
 
 .price-card:hover:not(.disabled) .buy,
-.itunes-card:hover .buy {
+.item-card:hover .buy {
   background: var(--sand-gold);
   color: #12100e;
   border-color: var(--sand-gold);
@@ -317,8 +318,8 @@ section {
   border-color: transparent;
 }
 
-/* بطاقات أيتونز تصميم خاص شبيه بالصورة */
-.itunes-card {
+/* بطاقات أيتونز وببجي بتصميم العرض التوضيحي */
+.item-card {
   background: linear-gradient(145deg, #1e1a16, #14110e);
   border: 1px solid var(--card-border);
   border-radius: 18px;
@@ -332,13 +333,13 @@ section {
   overflow: hidden;
 }
 
-.itunes-card:hover {
+.item-card:hover {
   transform: translateY(-5px);
   border-color: var(--sand-gold);
   box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
 }
 
-.itunes-header {
+.item-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -347,33 +348,33 @@ section {
   padding-bottom: 10px;
 }
 
-.itunes-title {
+.item-title {
   font-size: 16px;
   font-weight: 800;
   color: var(--sand-light);
 }
 
-.itunes-sub {
+.item-sub {
   font-size: 13px;
   color: var(--text-muted);
   margin-top: 3px;
 }
 
-.flag-icon {
+.badge-icon {
   font-size: 20px;
 }
 
-.itunes-price-box {
+.item-price-box {
   text-align: right;
   margin-bottom: 10px;
 }
 
-.itunes-price-label {
+.item-price-label {
   font-size: 12px;
   color: var(--text-muted);
 }
 
-.itunes-price-val {
+.item-price-val {
   font-size: 22px;
   font-weight: 900;
   color: var(--sand-gold);
@@ -494,7 +495,7 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .price-card, .itunes-card {
+  .price-card, .item-card {
     padding: 16px 10px;
   }
 
@@ -540,7 +541,7 @@ footer {
       Dark <span>Store</span>
     </h1>
     <p>
-      متجر شحن روبوكس وبطاقات أيتونز سريع وآمن
+      متجر شحن روبوكس، أيتونز، وببجي موبايل سريع وآمن
     </p>
   </div>
 
@@ -553,6 +554,9 @@ footer {
       </button>
       <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
         <span>🎵 أيتونز أمريكي</span>
+      </button>
+      <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
+        <span>🔫 ببجي موبايل</span>
       </button>
     </div>
 
@@ -580,7 +584,15 @@ footer {
     <div id="itunesHeader" style="display: none;">
       <div class="title">
         <h2>أيتونز ( أمريكا ) 🇺🇸</h2>
-        <p>الدفع عن طريق كروت ليبيانا</p>
+        <p>الدفع عن طريق رصيد ليبيانا</p>
+      </div>
+    </div>
+
+    <!-- العنوان الخاص بقسم ببجي -->
+    <div id="pubgHeader" style="display: none;">
+      <div class="title">
+        <h2>بيجي موبايل 🔫</h2>
+        <p>شحن عن طريق الأيدي (ID) - الدفع بليبيانا</p>
       </div>
     </div>
 
@@ -605,7 +617,7 @@ footer {
     <div id="selectedInfo" class="selected"></div>
 
     <div id="accountInputGroup">
-      <input id="accountInput" class="input" type="text" placeholder="يوزر حسابك في روبلوكس">
+      <input id="accountInput" class="input" type="text" placeholder="يوزر حسابك">
     </div>
     
     <input id="phone" class="input" type="tel" placeholder="رقمك">
@@ -668,7 +680,15 @@ const itunesPrices = [
   { amount: "25$", price: 330 }
 ];
 
-let currentCategory = "robux"; // robux OR itunes
+/* أسعار ببجي موبايل (ليبيانا) */
+const pubgPrices = [
+  { uc: "60 UC", price: 13 },
+  { uc: "160 UC", price: 27 },
+  { uc: "325 UC", price: 64 },
+  { uc: "660 UC", price: 128 }
+];
+
+let currentCategory = "robux"; // robux | itunes | pubg
 let currentProvider = "madar";
 let selectedProduct = null;
 
@@ -682,26 +702,33 @@ document.addEventListener("DOMContentLoaded", () => {
   switchCategory("robux");
 });
 
-/* التبديل بين الأقسام (روبوكس / أيتونز) */
+/* التبديل بين الأقسام */
 function switchCategory(cat) {
   currentCategory = cat;
   const robuxBtn = document.getElementById("catRobuxBtn");
   const itunesBtn = document.getElementById("catItunesBtn");
+  const pubgBtn = document.getElementById("catPubgBtn");
+  
   const robuxHeader = document.getElementById("robuxHeader");
   const itunesHeader = document.getElementById("itunesHeader");
+  const pubgHeader = document.getElementById("pubgHeader");
+
+  // إعادة ضبط الأزرار
+  [robuxBtn, itunesBtn, pubgBtn].forEach(b => b.classList.remove("active"));
+  [robuxHeader, itunesHeader, pubgHeader].forEach(h => h.style.display = "none");
 
   if(cat === "robux") {
     robuxBtn.classList.add("active");
-    itunesBtn.classList.remove("active");
     robuxHeader.style.display = "block";
-    itunesHeader.style.display = "none";
     showRobuxPrices(currentProvider);
-  } else {
+  } else if(cat === "itunes") {
     itunesBtn.classList.add("active");
-    robuxBtn.classList.remove("active");
-    robuxHeader.style.display = "none";
     itunesHeader.style.display = "block";
     showItunesPrices();
+  } else if(cat === "pubg") {
+    pubgBtn.classList.add("active");
+    pubgHeader.style.display = "block";
+    showPubgPrices();
   }
 }
 
@@ -758,20 +785,20 @@ function showItunesPrices(){
 
   itunesPrices.forEach(item => {
     const card = document.createElement("div");
-    card.className = "itunes-card";
+    card.className = "item-card";
 
     card.innerHTML = `
       <div>
-        <div class="itunes-header">
+        <div class="item-header">
           <div>
-            <div class="itunes-title">أيتونز ( أمريكا )</div>
-            <div class="itunes-sub">iTunes ${item.amount}</div>
+            <div class="item-title">أيتونز ( أمريكا )</div>
+            <div class="item-sub">iTunes ${item.amount}</div>
           </div>
-          <span class="flag-icon">🇺🇸</span>
+          <span class="badge-icon">🇺🇸</span>
         </div>
-        <div class="itunes-price-box">
-          <div class="itunes-price-label">السعر</div>
-          <div class="itunes-price-val">${item.price} د.ل</div>
+        <div class="item-price-box">
+          <div class="item-price-label">السعر</div>
+          <div class="item-price-val">${item.price} د.ل</div>
         </div>
       </div>
       <button class="buy">شراء الآن</button>
@@ -780,6 +807,43 @@ function showItunesPrices(){
     card.addEventListener("click", () => openModal({
       type: 'itunes',
       title: `بطاقة أيتونز أمريكي (${item.amount})`,
+      price: `${item.price} د.ل`,
+      provider: "ليبيانا"
+    }));
+
+    pricesBox.appendChild(card);
+  });
+}
+
+/* عرض أسعار ببجي */
+function showPubgPrices(){
+  const pricesBox = document.getElementById("prices");
+  pricesBox.innerHTML = "";
+
+  pubgPrices.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item-card";
+
+    card.innerHTML = `
+      <div>
+        <div class="item-header">
+          <div>
+            <div class="item-title">بيجي موبايل</div>
+            <div class="item-sub">${item.uc}</div>
+          </div>
+          <span class="badge-icon">💵</span>
+        </div>
+        <div class="item-price-box">
+          <div class="item-price-label">السعر</div>
+          <div class="item-price-val">${item.price} د.ل</div>
+        </div>
+      </div>
+      <button class="buy">شراء الآن</button>
+    `;
+
+    card.addEventListener("click", () => openModal({
+      type: 'pubg',
+      title: `ببجي موبايل (${item.uc})`,
       price: `${item.price} د.ل`,
       provider: "ليبيانا"
     }));
@@ -798,9 +862,13 @@ function openModal(item){
     document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
     accountGroup.style.display = "block";
     accountInput.placeholder = "يوزر حسابك في روبلوكس";
+  } else if(item.type === 'pubg') {
+    document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
+    accountGroup.style.display = "block";
+    accountInput.placeholder = "الأيدي (ID) الخاص بحسابك في ببجي";
   } else {
     document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
-    accountGroup.style.display = "none"; // أيتونز لا يحتاج يوزر روبلوكس
+    accountGroup.style.display = "none"; // أيتونز لا يحتاج يوزر
   }
 
   document.getElementById("modal").classList.add("show");
@@ -822,18 +890,20 @@ function sendOrder(){
     return;
   }
 
-  if(selectedProduct.type === 'robux' && !accountInput) {
-    alert("يرجى كتابة يوزر حسابك في روبلوكس");
+  if((selectedProduct.type === 'robux' || selectedProduct.type === 'pubg') && !accountInput) {
+    alert(selectedProduct.type === 'robux' ? "يرجى كتابة يوزر حسابك في روبلوكس" : "يرجى كتابة ID حسابك في ببجي");
     return;
   }
 
-  let message = `طلب جديد (%0A%0A`;
+  let message = `طلب جديد %0A%0A`;
   message += `النوع: ${selectedProduct.title}%0A`;
   message += `الاسم: ${name}%0A`;
   message += `رقم الهاتف: ${phone}%0A`;
   
   if(selectedProduct.type === 'robux'){
     message += `يوزر روبلوكس: ${accountInput}%0A`;
+  } else if(selectedProduct.type === 'pubg'){
+    message += `ID ببجي: ${accountInput}%0A`;
   }
   
   message += `السعر: ${selectedProduct.price} (${selectedProduct.provider})`;
