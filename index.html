@@ -68,6 +68,7 @@ nav {
   letter-spacing: 1px;
   color: var(--sand-gold);
   text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  cursor: pointer;
 }
 
 .nav-btn {
@@ -91,7 +92,7 @@ nav {
 .hero {
   max-width: 1100px;
   margin: auto;
-  padding: 45px 20px 35px;
+  padding: 45px 20px 25px;
   text-align: center;
 }
 
@@ -127,7 +128,7 @@ nav {
 section {
   max-width: 1100px;
   margin: auto;
-  padding: 45px 20px;
+  padding: 25px 20px 45px;
 }
 
 .title {
@@ -145,6 +146,47 @@ section {
   color: var(--text-muted);
 }
 
+/* اختيار الأقسام (روبوكس / أيتونز) */
+.category-box {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  flex: 1;
+  max-width: 250px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 2px solid var(--card-border);
+  background: #181512;
+  color: var(--text-muted);
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.cat-btn:hover {
+  border-color: var(--sand-gold);
+  color: var(--sand-light);
+  transform: translateY(-2px);
+}
+
+.cat-btn.active {
+  background: linear-gradient(135deg, #2a231b, #1a1612);
+  border-color: var(--sand-gold);
+  color: var(--sand-gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+}
+
+/* اختيار الشركات (مدار / ليبيانا) */
 .provider-box {
   display: flex;
   justify-content: center;
@@ -154,13 +196,13 @@ section {
 }
 
 .provider-btn {
-  min-width: 150px;
-  padding: 12px 24px;
-  border-radius: 14px;
+  min-width: 140px;
+  padding: 10px 20px;
+  border-radius: 12px;
   border: 1px solid var(--card-border);
   background: #181512;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
@@ -171,8 +213,8 @@ section {
 }
 
 .provider-btn img {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -186,15 +228,17 @@ section {
   background: linear-gradient(135deg, var(--sand-gold), #b89320);
   border-color: var(--sand-gold);
   color: #12100e;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
+/* شبكة الأسعار */
 .prices {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 18px;
 }
 
+/* بطاقات الروبوكس */
 .price-card {
   background: linear-gradient(145deg, #1e1a16, #14110e);
   border: 1px solid var(--card-border);
@@ -259,7 +303,8 @@ section {
   transition: all 0.2s ease;
 }
 
-.price-card:hover:not(.disabled) .buy {
+.price-card:hover:not(.disabled) .buy,
+.itunes-card:hover .buy {
   background: var(--sand-gold);
   color: #12100e;
   border-color: var(--sand-gold);
@@ -270,6 +315,68 @@ section {
   color: #666;
   cursor: not-allowed;
   border-color: transparent;
+}
+
+/* بطاقات أيتونز تصميم خاص شبيه بالصورة */
+.itunes-card {
+  background: linear-gradient(145deg, #1e1a16, #14110e);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.itunes-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sand-gold);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+}
+
+.itunes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.itunes-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sand-light);
+}
+
+.itunes-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.flag-icon {
+  font-size: 20px;
+}
+
+.itunes-price-box {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.itunes-price-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.itunes-price-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--sand-gold);
 }
 
 .notice {
@@ -387,7 +494,7 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .price-card {
+  .price-card, .itunes-card {
     padding: 16px 10px;
   }
 
@@ -416,7 +523,7 @@ footer {
 
 <header>
   <nav>
-    <div class="brand">
+    <div class="brand" onclick="switchCategory('robux')">
       Dark Store
     </div>
     <button class="nav-btn" onclick="scrollToPrices()">
@@ -433,34 +540,55 @@ footer {
       Dark <span>Store</span>
     </h1>
     <p>
-      متجر شحن روبوكس سريع وآمن
-      <br>
-      اختر شركة الدفع ثم اختر كمية الروبوكس
+      متجر شحن روبوكس وبطاقات أيتونز سريع وآمن
     </p>
   </div>
 
   <section id="pricesSection">
-    <div class="title">
-      <h2>ملاحظة: الشحن حالياً داخل الحساب فقط</h2>
-      <p>اختر طريقة الدفع</p>
-    </div>
-
-    <div class="provider-box">
-      <button id="madarBtn" class="provider-btn active" onclick="showPrices('madar')">
-        <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار">
-        <span>مدار</span>
+    
+    <!-- اختيار القسم -->
+    <div class="category-box">
+      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
+        <span>🎮 روبوكس</span>
       </button>
-      
-      <button id="libyanaBtn" class="provider-btn" onclick="showPrices('libyana')">
-        <img id="libyanaLogoImg" src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" alt="ليبيانا">
-        <span>ليبيانا</span>
+      <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
+        <span>🎵 أيتونز أمريكي</span>
       </button>
     </div>
 
+    <!-- العنوان والدفع الخاص بقسم الروبوكس -->
+    <div id="robuxHeader">
+      <div class="title">
+        <h2>ملاحظة: الشحن حالياً داخل الحساب فقط</h2>
+        <p>اختر طريقة الدفع</p>
+      </div>
+
+      <div class="provider-box">
+        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
+          <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار">
+          <span>مدار</span>
+        </button>
+        
+        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">
+          <img id="libyanaLogoImg" src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" alt="ليبيانا">
+          <span>ليبيانا</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- العنوان الخاص بقسم أيتونز -->
+    <div id="itunesHeader" style="display: none;">
+      <div class="title">
+        <h2>أيتونز ( أمريكا ) 🇺🇸</h2>
+        <p>الدفع عن طريق كروت ليبيانا</p>
+      </div>
+    </div>
+
+    <!-- شبكة المنتجات -->
     <div id="prices" class="prices"></div>
 
-    <div class="notice">
-      اختر كمية الروبوكس المناسبة لك ثم اضغط شراء.
+    <div id="noticeBox" class="notice">
+      اختر الكمية المناسبة لك ثم اضغط شراء.
     </div>
   </section>
 
@@ -476,7 +604,10 @@ footer {
     <h3>إتمام الطلب</h3>
     <div id="selectedInfo" class="selected"></div>
 
-    <input id="robloxUser" class="input" type="text" placeholder="يوزر حسابك في روبلوكس">
+    <div id="accountInputGroup">
+      <input id="accountInput" class="input" type="text" placeholder="يوزر حسابك في روبلوكس">
+    </div>
+    
     <input id="phone" class="input" type="tel" placeholder="رقمك">
     <input id="name" class="input" type="text" placeholder="اسمك">
 
@@ -491,23 +622,14 @@ footer {
 </div>
 
 <script>
-// رابط الصورة الجديد المباشر المرفق
+// رابط صورة الروبوكس
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 
 // روابط صور مدار وليبيانا المباشرة
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
-// تعيين أزرار الشعارات عند التحميل
-document.addEventListener("DOMContentLoaded", () => {
-  const mImg = document.getElementById("madarLogoImg");
-  const lImg = document.getElementById("libyanaLogoImg");
-  if(mImg) mImg.src = madarImgData;
-  if(lImg) lImg.src = libyanaImgData;
-  showPrices("madar");
-});
-
-/* أسعار مدار */
+/* أسعار روبوكس مدار */
 const madarPrices = [
   {robux:10, price: "غير متوفر"},
   {robux:20, price: "غير متوفر"},
@@ -521,7 +643,7 @@ const madarPrices = [
   {robux:1000, price: 140}
 ];
 
-/* أسعار ليبيانا */
+/* أسعار روبوكس ليبيانا */
 const libyanaPrices = [
   {robux:10, price: "غير متوفر"},
   {robux:20, price: "غير متوفر"},
@@ -536,11 +658,55 @@ const libyanaPrices = [
   {robux:1000, price: 130}
 ];
 
+/* أسعار أيتونز أمريكي (ليبيانا) */
+const itunesPrices = [
+  { amount: "2$", price: 27 },
+  { amount: "3$", price: 31 },
+  { amount: "4$", price: 54 },
+  { amount: "5$", price: 68 },
+  { amount: "10$", price: 134 },
+  { amount: "25$", price: 330 }
+];
+
+let currentCategory = "robux"; // robux OR itunes
 let currentProvider = "madar";
 let selectedProduct = null;
 
-/* عرض الأسعار */
-function showPrices(provider){
+// تعيين أزرار الشعارات عند التحميل
+document.addEventListener("DOMContentLoaded", () => {
+  const mImg = document.getElementById("madarLogoImg");
+  const lImg = document.getElementById("libyanaLogoImg");
+  if(mImg) mImg.src = madarImgData;
+  if(lImg) lImg.src = libyanaImgData;
+  
+  switchCategory("robux");
+});
+
+/* التبديل بين الأقسام (روبوكس / أيتونز) */
+function switchCategory(cat) {
+  currentCategory = cat;
+  const robuxBtn = document.getElementById("catRobuxBtn");
+  const itunesBtn = document.getElementById("catItunesBtn");
+  const robuxHeader = document.getElementById("robuxHeader");
+  const itunesHeader = document.getElementById("itunesHeader");
+
+  if(cat === "robux") {
+    robuxBtn.classList.add("active");
+    itunesBtn.classList.remove("active");
+    robuxHeader.style.display = "block";
+    itunesHeader.style.display = "none";
+    showRobuxPrices(currentProvider);
+  } else {
+    itunesBtn.classList.add("active");
+    robuxBtn.classList.remove("active");
+    robuxHeader.style.display = "none";
+    itunesHeader.style.display = "block";
+    showItunesPrices();
+  }
+}
+
+/* عرض أسعار الروبوكس */
+function showRobuxPrices(provider){
   currentProvider = provider;
   const pricesBox = document.getElementById("prices");
   const madarBtn = document.getElementById("madarBtn");
@@ -574,17 +740,69 @@ function showPrices(provider){
     `;
 
     if(isAvailable) {
-      card.addEventListener("click", () => openModal(item));
+      card.addEventListener("click", () => openModal({
+        type: 'robux',
+        title: `${item.robux} روبوكس`,
+        price: `${item.price} د.ل`,
+        provider: currentProvider === "madar" ? "مدار" : "ليبيانا"
+      }));
     }
     pricesBox.appendChild(card);
   });
 }
 
-/* فتح الطلب */
+/* عرض أسعار أيتونز */
+function showItunesPrices(){
+  const pricesBox = document.getElementById("prices");
+  pricesBox.innerHTML = "";
+
+  itunesPrices.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "itunes-card";
+
+    card.innerHTML = `
+      <div>
+        <div class="itunes-header">
+          <div>
+            <div class="itunes-title">أيتونز ( أمريكا )</div>
+            <div class="itunes-sub">iTunes ${item.amount}</div>
+          </div>
+          <span class="flag-icon">🇺🇸</span>
+        </div>
+        <div class="itunes-price-box">
+          <div class="itunes-price-label">السعر</div>
+          <div class="itunes-price-val">${item.price} د.ل</div>
+        </div>
+      </div>
+      <button class="buy">شراء الآن</button>
+    `;
+
+    card.addEventListener("click", () => openModal({
+      type: 'itunes',
+      title: `بطاقة أيتونز أمريكي (${item.amount})`,
+      price: `${item.price} د.ل`,
+      provider: "ليبيانا"
+    }));
+
+    pricesBox.appendChild(card);
+  });
+}
+
+/* فتح نافذة الطلب */
 function openModal(item){
   selectedProduct = item;
-  const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
-  document.getElementById("selectedInfo").textContent = `${item.robux} روبوكس — ${item.price} د.ل (${providerName})`;
+  const accountGroup = document.getElementById("accountInputGroup");
+  const accountInput = document.getElementById("accountInput");
+
+  if(item.type === 'robux') {
+    document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
+    accountGroup.style.display = "block";
+    accountInput.placeholder = "يوزر حسابك في روبلوكس";
+  } else {
+    document.getElementById("selectedInfo").textContent = `${item.title} — ${item.price} (${item.provider})`;
+    accountGroup.style.display = "none"; // أيتونز لا يحتاج يوزر روبلوكس
+  }
+
   document.getElementById("modal").classList.add("show");
 }
 
@@ -595,23 +813,30 @@ function closeModal(){
 
 /* إرسال الطلب للواتساب */
 function sendOrder(){
-  const robloxUser = document.getElementById("robloxUser").value.trim();
+  const accountInput = document.getElementById("accountInput").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const name = document.getElementById("name").value.trim();
 
-  if(!robloxUser || !phone || !name){
-    alert("يرجى تعبئة جميع البيانات");
+  if(!phone || !name){
+    alert("يرجى تعبئة جميع البيانات المطلوبة");
     return;
   }
 
-  const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
-  const message = 
-    `طلب جديد%0A%0A` +
-    `الاسم: ${name}%0A` +
-    `رقم الهاتف: ${phone}%0A` +
-    `يوزر روبلوكس: ${robloxUser}%0A` +
-    `الكمية: ${selectedProduct.robux} روبوكس%0A` +
-    `السعر: ${selectedProduct.price} د.ل (${providerName})`;
+  if(selectedProduct.type === 'robux' && !accountInput) {
+    alert("يرجى كتابة يوزر حسابك في روبلوكس");
+    return;
+  }
+
+  let message = `طلب جديد (%0A%0A`;
+  message += `النوع: ${selectedProduct.title}%0A`;
+  message += `الاسم: ${name}%0A`;
+  message += `رقم الهاتف: ${phone}%0A`;
+  
+  if(selectedProduct.type === 'robux'){
+    message += `يوزر روبلوكس: ${accountInput}%0A`;
+  }
+  
+  message += `السعر: ${selectedProduct.price} (${selectedProduct.provider})`;
 
   const whatsappNumber = "218927816884";
 
