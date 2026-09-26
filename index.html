@@ -1063,6 +1063,13 @@ let selectedProduct = null;
 let cart = [];
 let isCartMode = false;
 
+/* إدارة رقم الطلب التلقائي */
+function getNextOrderId() {
+  let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "1");
+  localStorage.setItem("dark_store_order_id", currentId + 1);
+  return currentId;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const mImg = document.getElementById("madarLogoImg");
   const lImg = document.getElementById("libyanaLogoImg");
@@ -1394,14 +1401,15 @@ function sendOrder(){
     return;
   }
 
-  let message = `طلب جديد من المتجر %0A%0A`;
+  const orderNum = getNextOrderId();
+  let message = `🛒 *طلب جديد من المتجر* (#${orderNum})%0A%0A`;
 
   if (isCartMode) {
-    message += `📦 محتويات السلة: %0A`;
+    message += `📦 *محتويات السلة:* %0A`;
     cart.forEach((c, idx) => {
-      message += `${idx + 1}. ${c.title} - ${c.price}%0A`;
+      message += `▫️ ${idx + 1}. ${c.title} - ${c.price}%0A`;
     });
-    if (accountInput) message += `%0Aالمعرف/اليوزر: ${accountInput}%0A`;
+    if (accountInput) message += `%0A🎮 *المعرف/اليوزر:* ${accountInput}%0A`;
   } else {
     if((selectedProduct.type === 'robux' || selectedProduct.type === 'effect') && !accountInput) {
       alert("يرجى كتابة يوزر حسابك في روبلوكس");
@@ -1412,17 +1420,17 @@ function sendOrder(){
       return;
     }
 
-    message += `النوع: ${selectedProduct.title}%0A`;
+    message += `🔹 *النوع:* ${selectedProduct.title}%0A`;
     if(selectedProduct.type === 'robux' || selectedProduct.type === 'effect'){
-      message += `يوزر روبلوكس: ${accountInput}%0A`;
+      message += `🎮 *يوزر روبلوكس:* ${accountInput}%0A`;
     } else if(selectedProduct.type === 'pubg'){
-      message += `ID ببجي: ${accountInput}%0A`;
+      message += `🎮 *ID ببجي:* ${accountInput}%0A`;
     }
-    message += `السعر: ${selectedProduct.price} (${selectedProduct.provider})%0A`;
+    message += `💰 *السعر:* ${selectedProduct.price} (${selectedProduct.provider})%0A`;
   }
 
-  message += `%0Aالاسم: ${name}%0A`;
-  message += `رقم الهاتف: ${phone}%0A`;
+  message += `%0A👤 *الاسم:* ${name}%0A`;
+  message += `📞 *رقم الهاتف:* ${phone}%0A`;
 
   const whatsappNumber = "218927816884";
   window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
