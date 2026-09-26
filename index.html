@@ -240,8 +240,15 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 0.3s ease;
+}
+
+.cat-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 .cat-btn:hover {
@@ -312,12 +319,11 @@ section {
 /* شبكة الأفكتمات المربعة */
 .effects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 15px;
 }
 
 .effect-card {
-  aspect-ratio: 1 / 1;
   background: linear-gradient(145deg, #1e1a16, #14110e);
   border: 2px solid var(--card-border);
   border-radius: 18px;
@@ -337,17 +343,26 @@ section {
   box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
 }
 
+.effect-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
 .effect-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--sand-light);
-  margin-top: 5px;
+  margin-bottom: 4px;
 }
 
 .effect-price {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 900;
   color: var(--sand-gold);
+  margin-bottom: 8px;
 }
 
 .btn-group-card {
@@ -387,6 +402,7 @@ section {
   padding: 2px 8px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  z-index: 2;
 }
 
 /* بطاقات الروبوكس */
@@ -509,6 +525,8 @@ section {
 
 .badge-icon {
   font-size: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .item-price-box {
@@ -804,23 +822,32 @@ footer {
     <!-- اختيار القسم -->
     <div class="category-box">
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
-        <span>🎮 روبوكس</span>
+        <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
+        <span>روبوكس</span>
       </button>
+
       <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
         <span>✨ الأفكتات</span>
       </button>
+      
       <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
-        <span>🎵 أيتونز</span>
+        <img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" alt="أيتونز" class="cat-icon-img">
+        <span>أيتونز</span>
       </button>
 
       <button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">
-        <span>🎮 بلايستيشن</span>
+        <img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" alt="بلايستيشن" class="cat-icon-img">
+        <span>بلايستيشن</span>
       </button>
+      
       <button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">
-        <span>🟢 إكس بوكس</span>
+        <img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" alt="إكس بوكس" class="cat-icon-img">
+        <span>إكس بوكس</span>
       </button>
+
       <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
-        <span>🔫 ببجي</span>
+        <img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" alt="ببجي" class="cat-icon-img">
+        <span>ببجي</span>
       </button>
     </div>
 
@@ -868,14 +895,14 @@ footer {
 
     <div id="pubgHeader" style="display: none;">
       <div class="title">
-        <h2>بيجي موبايل 🔫</h2>
+        <h2>ببجي موبايل </h2>
         <p>شحن عن طريق الأيدي (ID) - الدفع بليبيانا</p>
       </div>
     </div>
 
     <div id="xboxHeader" style="display: none;">
       <div class="title">
-        <h2>إكس بوكس ( أمريكا ) 🇺🇸🟢</h2>
+        <h2>إكس بوكس ( أمريكا ) 🇺🇸</h2>
         <p>بطاقات هدايا أمريكية - الدفع بليبيانا</p>
       </div>
     </div>
@@ -984,22 +1011,22 @@ const libyanaPrices = [
   {robux:1000, price: 130}
 ];
 
-/* أسعار الأفكتات */
+/* أسعار وإميج الأفكتات المحدثة بالكامل */
 const effectsList = [
-  { name: "افكت الرجعية", price: 12 },
-  { name: "افكت الإنهاء", price: 12 },
-  { name: "افكت المال", price: 12 },
-  { name: "افكت الانفجار", price: 12 },
-  { name: "افكت مساحة فرعية", price: 12 },
-  { name: "افكت تيكس", price: 12 },
-  { name: "افكت حرق", price: 17 },
-  { name: "افكت بلوكي", price: 17 },
-  { name: "افكت خالي من الوزن", price: 17 },
-  { name: "افكت بالون", price: 33, badge: "نادر" },
-  { name: "افكت قلب اسود", price: 33 },
-  { name: "افكت دهب", price: 33 },
-  { name: "افكت رعد", price: 33, badge: "شائع" },
-  { name: "افكت فضة", price: 33 }
+  { name: "افكت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
+  { name: "افكت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
+  { name: "افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
+  { name: "افكت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
+  { name: "افكت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
+  { name: "افكت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
+  { name: "افكت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
+  { name: "افكت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
+  { name: "افكت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
+  { name: "افكت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
+  { name: "افكت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
+  { name: "افكت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
+  { name: "افكت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "افكت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
 ];
 
 /* أسعار البطاقات الأخرى */
@@ -1205,6 +1232,7 @@ function showEffectsPrices(){
 
     card.innerHTML = `
       ${badgeHtml}
+      <img src="${item.img}" alt="${item.name}" class="effect-img">
       <div class="effect-title">${item.name}</div>
       <div class="effect-price">${item.price} د.ل</div>
       <div class="btn-group-card">
@@ -1228,11 +1256,11 @@ function showEffectsPrices(){
 }
 
 function showItunesPrices(){
-  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '🇺🇸');
+  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '<img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" style="width:24px;height:24px;object-fit:contain;">');
 }
 
 function showPsPrices(){
-  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '🇺🇸');
+  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '<img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" style="width:24px;height:24px;object-fit:contain;">');
 }
 
 function showPubgPrices(){
@@ -1249,10 +1277,10 @@ function showPubgPrices(){
       <div>
         <div class="item-header">
           <div>
-            <div class="item-title">بيجي موبايل</div>
+            <div class="item-title">ببجي موبايل</div>
             <div class="item-sub">${item.uc}</div>
           </div>
-          <span class="badge-icon">🔫</span>
+          <span class="badge-icon"><img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" style="width:24px;height:24px;object-fit:contain;"></span>
         </div>
         <div class="item-price-box">
           <div class="item-price-label">السعر</div>
@@ -1280,7 +1308,7 @@ function showPubgPrices(){
 }
 
 function showXboxPrices(){
-  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '🇺🇸');
+  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '<img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" style="width:24px;height:24px;object-fit:contain;">');
 }
 
 function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
