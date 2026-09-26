@@ -211,6 +211,17 @@ section {
   box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
 }
 
+.price-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.price-card.disabled:hover {
+  transform: none;
+  border-color: var(--card-border);
+  box-shadow: none;
+}
+
 .robux {
   font-size: 25px;
   font-weight: 900;
@@ -248,10 +259,17 @@ section {
   transition: all 0.2s ease;
 }
 
-.price-card:hover .buy {
+.price-card:hover:not(.disabled) .buy {
   background: var(--sand-gold);
   color: #12100e;
   border-color: var(--sand-gold);
+}
+
+.buy:disabled {
+  background: #1c1916;
+  color: #666;
+  cursor: not-allowed;
+  border-color: transparent;
 }
 
 .notice {
@@ -423,7 +441,7 @@ footer {
 
   <section id="pricesSection">
     <div class="title">
-      <h2>ملاحضة الشحن حاليا داخل لحساب فقط</h2>
+      <h2>ملاحظة: الشحن حالياً داخل الحساب فقط</h2>
       <p>اختر طريقة الدفع</p>
     </div>
 
@@ -486,35 +504,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const lImg = document.getElementById("libyanaLogoImg");
   if(mImg) mImg.src = madarImgData;
   if(lImg) lImg.src = libyanaImgData;
+  showPrices("madar");
 });
 
 /* أسعار مدار */
 const madarPrices = [
-  {robux:10, price:غيرمتوفر},
-  {robux:20, price:غيرمتوفر},
-  {robux:30, price:غيرمتوفر},
-  {robux:40, price:17},
-  {robux:80, price:22},
-  {robux:120, price:33},
-  {robux:160, price:42},
-  {robux:200, price:غيرمتوفر},
-  {robux:400, price:82},
-  {robux:1000, price:140}
+  {robux:10, price: "غير متوفر"},
+  {robux:20, price: "غير متوفر"},
+  {robux:30, price: "غير متوفر"},
+  {robux:40, price: 17},
+  {robux:80, price: 22},
+  {robux:120, price: 33},
+  {robux:160, price: 42},
+  {robux:200, price: "غير متوفر"},
+  {robux:400, price: 82},
+  {robux:1000, price: 140}
 ];
 
 /* أسعار ليبيانا */
 const libyanaPrices = [
-  {robux:10, price:غيرمتوفر},
-  {robux:20, price:غيرمتوفر},
-  {robux:30, price:غيرمتوفر},
-  {robux:40, price:12},
-  {robux:50, price:غيرمتوفر},
-  {robux:80, price:15},
-  {robux:120, price:30},
-  {robux:160, price:40},
-  {robux:400, price:72},
-  {robux:520, price:غيرمتوفر},
-  {robux:1000, price:130}
+  {robux:10, price: "غير متوفر"},
+  {robux:20, price: "غير متوفر"},
+  {robux:30, price: "غير متوفر"},
+  {robux:40, price: 12},
+  {robux:50, price: "غير متوفر"},
+  {robux:80, price: 15},
+  {robux:120, price: 30},
+  {robux:160, price: 40},
+  {robux:400, price: 72},
+  {robux:520, price: "غير متوفر"},
+  {robux:1000, price: 130}
 ];
 
 let currentProvider = "madar";
@@ -540,18 +559,23 @@ function showPrices(provider){
 
   list.forEach(item => {
     const card = document.createElement("div");
-    card.className = "price-card";
+    const isAvailable = item.price !== "غير متوفر";
+    const priceDisplay = isAvailable ? `${item.price} د.ل` : "غير متوفر";
+    
+    card.className = `price-card ${!isAvailable ? 'disabled' : ''}`;
 
     card.innerHTML = `
       <div class="robux">
         <span>${item.robux} روب</span>
         <img class="robux-icon" src="${robuxIconUrl}" alt="robux">
       </div>
-      <div class="price">${item.price} ${provider === "madar" ? "مدار" : "ليبيانا"}</div>
-      <button class="buy">شراء</button>
+      <div class="price">${priceDisplay}</div>
+      <button class="buy" ${!isAvailable ? 'disabled' : ''}>${isAvailable ? 'شراء' : 'غير متوفر'}</button>
     `;
 
-    card.addEventListener("click", () => openModal(item));
+    if(isAvailable) {
+      card.addEventListener("click", () => openModal(item));
+    }
     pricesBox.appendChild(card);
   });
 }
@@ -560,7 +584,7 @@ function showPrices(provider){
 function openModal(item){
   selectedProduct = item;
   const providerName = currentProvider === "madar" ? "مدار" : "ليبيانا";
-  document.getElementById("selectedInfo").textContent = `${item.robux} روبوكس — ${item.price} ${providerName}`;
+  document.getElementById("selectedInfo").textContent = `${item.robux} روبوكس — ${item.price} د.ل (${providerName})`;
   document.getElementById("modal").classList.add("show");
 }
 
@@ -587,7 +611,7 @@ function sendOrder(){
     `رقم الهاتف: ${phone}%0A` +
     `يوزر روبلوكس: ${robloxUser}%0A` +
     `الكمية: ${selectedProduct.robux} روبوكس%0A` +
-    `السعر: ${selectedProduct.price} ${providerName}`;
+    `السعر: ${selectedProduct.price} د.ل (${providerName})`;
 
   const whatsappNumber = "218927816884";
 
@@ -608,9 +632,6 @@ document.getElementById("modal").addEventListener("click", function(e){
     closeModal();
   }
 });
-
-/* تشغيل مدار عند فتح الموقع */
-showPrices("madar");
 </script>
 
 </body>
