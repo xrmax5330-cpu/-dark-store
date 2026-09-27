@@ -781,7 +781,7 @@ footer {
 <body>
 
 <div class="announcement-bar">
-  🔥 تسليم سريع وآمن لجميع البطاقات والألعاب - خصومات خاصة لشحن الروبوكس 🔥
+  تسليم سريع وآمن لجميع البطاقات والألعاب - خصومات خاصة لشحن الروبوكس
 </div>
 
 <header>
@@ -791,7 +791,7 @@ footer {
     </div>
     <div class="nav-actions">
       <button class="cart-trigger" onclick="openCartModal()">
-        🛒 السلة <span id="cartCount" class="cart-count">0</span>
+        السلة <span id="cartCount" class="cart-count">0</span>
       </button>
       <button class="nav-btn" onclick="scrollToPrices()">
         الأسعار
@@ -816,7 +816,7 @@ footer {
     
     <!-- حقل البحث -->
     <div class="search-container">
-      <input type="text" id="searchInput" class="search-input" placeholder="🔍 ابحث عن باقة أو منتج..." oninput="filterProducts()">
+      <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
     </div>
 
     <!-- اختيار القسم -->
@@ -827,7 +827,7 @@ footer {
       </button>
 
       <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
-        <span>✨ الأفكتات</span>
+        <span>الأفكتات</span>
       </button>
       
       <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
@@ -874,21 +874,21 @@ footer {
     <!-- العناوين للأقسام -->
     <div id="effectsHeader" style="display: none;">
       <div class="title">
-        <h2>✨ أفكتات روبلوكس</h2>
+        <h2>أفكتات روبلوكس</h2>
         <p>الدفع عن طريق ليبيانا</p>
       </div>
     </div>
 
     <div id="itunesHeader" style="display: none;">
       <div class="title">
-        <h2>أيتونز ( أمريكا ) 🇺🇸</h2>
+        <h2>أيتونز ( أمريكا )</h2>
         <p>الدفع عن طريق كروت ليبيانا</p>
       </div>
     </div>
 
     <div id="psHeader" style="display: none;">
       <div class="title">
-        <h2>شبكة بلاي ستيشن ( أمريكا ) 🇺🇸🎮</h2>
+        <h2>شبكة بلاي ستيشن ( أمريكا )</h2>
         <p>بطاقات بلايستيشن ستور الأمريكية - الدفع بليبيانا</p>
       </div>
     </div>
@@ -902,7 +902,7 @@ footer {
 
     <div id="xboxHeader" style="display: none;">
       <div class="title">
-        <h2>إكس بوكس ( أمريكا ) 🇺🇸</h2>
+        <h2>إكس بوكس ( أمريكا )</h2>
         <p>بطاقات هدايا أمريكية - الدفع بليبيانا</p>
       </div>
     </div>
@@ -917,7 +917,7 @@ footer {
     <!-- قسم آراء العملاء -->
     <div class="reviews-section">
       <div class="title">
-        <h2>آراء العملاء ⭐</h2>
+        <h2>آراء العملاء</h2>
         <p>ثقة زبائننا هي سر نجاحونا</p>
       </div>
       <div class="reviews-grid">
@@ -945,7 +945,7 @@ footer {
 
 <!-- زر التواصل السريع للواتساب -->
 <a href="https://wa.me/218927816884" target="_blank" class="whatsapp-float" title="تواصل معنا عبر الواتساب">
-  💬
+  واتساب
 </a>
 
 <footer>
@@ -1125,7 +1125,7 @@ function renderCartItems() {
     row.className = "cart-item-row";
     row.innerHTML = `
       <span>${item.title} (${item.price})</span>
-      <button onclick="removeFromCart(${index})">إزالة ✕</button>
+      <button onclick="removeFromCart(${index})">إزالة</button>
     `;
     container.appendChild(row);
   });
@@ -1209,7 +1209,7 @@ function showRobuxPrices(provider){
       <div class="price">${priceDisplay}</div>
       <div class="btn-group-card" style="margin-top:14px;">
         <button class="buy" ${!isAvailable ? 'disabled' : ''}>${isAvailable ? 'شراء' : 'غير متوفر'}</button>
-        ${isAvailable ? `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس (${currentProvider === 'madar' ? 'مدار' : 'ليبيانا'})', price:'${item.price} د.ل'})">🛒</button>` : ''}
+        ${isAvailable ? `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس (${currentProvider === 'madar' ? 'مدار' : 'ليبيانا'})', price:'${item.price} د.ل'})">+</button>` : ''}
       </div>
     `;
 
@@ -1244,7 +1244,7 @@ function showEffectsPrices(){
       <div class="effect-price">${item.price} د.ل</div>
       <div class="btn-group-card">
         <button class="effect-buy-btn">شراء</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'effect', title:'${item.name}', price:'${item.price} د.ل'})">🛒</button>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'effect', title:'${item.name}', price:'${item.price} د.ل'})">+</button>
       </div>
     `;
 
@@ -1296,7 +1296,7 @@ function showPubgPrices(){
       </div>
       <div class="btn-group-card">
         <button class="buy">شراء الآن</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'pubg', title:'ببجي (${item.uc})', price:'${item.price} د.ل'})">🛒</button>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'pubg', title:'ببجي (${item.uc})', price:'${item.price} د.ل'})">+</button>
       </div>
     `;
 
@@ -1344,7 +1344,7 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
       </div>
       <div class="btn-group-card">
         <button class="buy">شراء الآن</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'${type}', title:'${mainTitle} (${item.amount})', price:'${item.price} د.ل'})">🛒</button>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'${type}', title:'${mainTitle} (${item.amount})', price:'${item.price} د.ل'})">+</button>
       </div>
     `;
 
@@ -1401,14 +1401,14 @@ function sendOrder(){
   }
 
   const orderNum = getNextOrderId();
-  let message = `🛒 *طلب جديد من المتجر* (#${orderNum})%0A%0A`;
+  let textMessage = `طلب جديد من المتجر (#${orderNum})\n\n`;
 
   if (isCartMode) {
-    message += `📦 *محتويات السلة:* %0A`;
+    textMessage += `محتويات السلة:\n`;
     cart.forEach((c, idx) => {
-      message += `▫️ ${idx + 1}. ${c.title} - ${c.price}%0A`;
+      textMessage += `- ${idx + 1}. ${c.title} - ${c.price}\n`;
     });
-    if (accountInput) message += `%0A🎮 *المعرف/اليوزر:* ${accountInput}%0A`;
+    if (accountInput) textMessage += `\nالمعرف/اليوزر: ${accountInput}\n`;
   } else {
     if((selectedProduct.type === 'robux' || selectedProduct.type === 'effect') && !accountInput) {
       alert("يرجى كتابة يوزر حسابك في روبلوكس");
@@ -1419,20 +1419,21 @@ function sendOrder(){
       return;
     }
 
-    message += `🔹 *النوع:* ${selectedProduct.title}%0A`;
+    textMessage += `النوع: ${selectedProduct.title}\n`;
     if(selectedProduct.type === 'robux' || selectedProduct.type === 'effect'){
-      message += `🎮 *يوزر روبلوكس:* ${accountInput}%0A`;
+      textMessage += `يوزر روبلوكس: ${accountInput}\n`;
     } else if(selectedProduct.type === 'pubg'){
-      message += `🎮 *ID ببجي:* ${accountInput}%0A`;
+      textMessage += `ID ببجي: ${accountInput}\n`;
     }
-    message += `💰 *السعر:* ${selectedProduct.price} (${selectedProduct.provider})%0A`;
+    textMessage += `السعر: ${selectedProduct.price} (${selectedProduct.provider})\n`;
   }
 
-  message += `👤 *الاسم:* ${name}%0A`;
-  message += `📞 *رقم الهاتف:* ${phone}`;
+  textMessage += `الاسم: ${name}\n`;
+  textMessage += `رقم الهاتف: ${phone}`;
 
   const whatsappNumber = "218927816884";
-  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+  const encodedText = encodeURIComponent(textMessage);
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, "_blank");
 }
 
 function scrollToPrices(){
