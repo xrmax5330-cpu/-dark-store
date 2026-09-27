@@ -1420,17 +1420,17 @@ function sendOrder(){
       return;
     }
 
-    message += `🔹 *النوع:* ${selectedProduct.title}%0A`;
+    message += `🔹 *النوع:* ${selectedProduct.title}`;
     if(selectedProduct.type === 'robux' || selectedProduct.type === 'effect'){
-      message += `🎮 *يوزر روبلوكس:* ${accountInput}%0A`;
+      message += `🎮 *يوزر روبلوكس:* ${accountInput}`;
     } else if(selectedProduct.type === 'pubg'){
-      message += `🎮 *ID ببجي:* ${accountInput}%0A`;
+      message += `🎮 *ID ببجي:* ${accountInput}`;
     }
-    message += `💰 *السعر:* ${selectedProduct.price} (${selectedProduct.provider})%0A`;
+    message += `💰 *السعر:* ${selectedProduct.price} (${selectedProduct.provider})`;
   }
 
-  message += `%0A👤 *الاسم:* ${name}%0A`;
-  message += `📞 *رقم الهاتف:* ${phone}%0A`;
+  message += `👤 *الاسم:* ${name}`;
+  message += `📞 *رقم الهاتف:* ${phone}`;
 
   const whatsappNumber = "218927816884";
   window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
