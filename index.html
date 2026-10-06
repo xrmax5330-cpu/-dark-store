@@ -1092,8 +1092,8 @@ footer {
 
     <!-- كرت تحويل الرصيد -->
     <div class="payment-transfer-card">
-      <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى رقم ليبيانا التالي:</div>
-      <div class="transfer-number-box" id="transferNumber">0927816884</div>
+      <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى رقم المدار التالي:</div>
+      <div class="transfer-number-box" id="transferNumber">0930553883</div>
       <button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
     </div>
 
@@ -1113,7 +1113,7 @@ footer {
       </div>
       <div class="step-item">
         <span class="step-num">4</span>
-        <span>أرسل الطلب وانتظر مراجعة وتأفيذ الطلب.</span>
+        <span>أرسل الطلب وانتظر مراجعة وتنفيذ الطلب.</span>
       </div>
     </div>
 
@@ -1144,8 +1144,8 @@ footer {
 
     <div class="checkbox-group">
       <input type="checkbox" id="confirmCheckbox">
-      <label for="confirmCheckbox">
-        أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b style="color: var(--sand-gold);">0927816884</b> وأن البيانات التي أدخلتها صحيحة.
+      <label for="confirmCheckbox" id="checkboxLabel">
+        أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay" style="color: var(--sand-gold);">0930553883</b> وأن البيانات التي أدخلتها صحيحة.
       </label>
     </div>
 
@@ -1168,16 +1168,19 @@ const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
+const MADAR_NUMBER = "0930553883";
+const LIBYANA_NUMBER = "0927816884";
+
 const madarPrices = [
   {robux:10, price: "5"},
   {robux:20, price: "7"},
   {robux:30, price: "10"},
   {robux:40, price: "13"},
   {robux:80, price: 20, badge: "الأكثر طلباً"},
-  {robux:120, price: 33},
-  {robux:160, price: 45},
-  {robux:200, price: "47"},
-  {robux:400, price: 82, badge: "عرض خاص"},
+  {robux:120, price: 35},
+  {robux:160, price: 47},
+  {robux:200, price: "50"},
+  {robux:400, price: 85, badge: "عرض خاص"},
   {robux:1000, price: 160}
 ];
 
@@ -1188,9 +1191,9 @@ const libyanaPrices = [
   {robux:40, price: 10},
   {robux:50, price: "13"},
   {robux:80, price: 15, badge: "الأكثر طلباً"},
-  {robux:120, price: 30},
+  {robux:120, price: 35},
   {robux:160, price: 45},
-  {robux:400, price: 75, badge: "ممتاز"},
+  {robux:400, price: 85, badge: "ممتاز"},
   {robux:520, price: "95"},
   {robux:1000, price: 130}
 ];
@@ -1213,9 +1216,9 @@ const effectsList = [
 ];
 
 const itunesPrices = [
-  { amount: "2$", price: 28 },
-  { amount: "3$", price: 31 },
-  { amount: "4$", price: 54 },
+  { amount: "2$", price: 35 },
+  { amount: "3$", price: 43 },
+  { amount: "4$", price: 55 },
   { amount: "5$", price: 68 },
   { amount: "10$", price: 134, badge: "الأكثر طلباً" },
   { amount: "25$", price: 330 }
@@ -1520,11 +1523,21 @@ function openModal(item){
   document.getElementById("orderItemPrice").textContent = item.price;
   
   const providerTitle = document.getElementById("providerTransferTitle");
+  const transferNumElem = document.getElementById("transferNumber");
+  const confirmNumberDisplay = document.getElementById("confirmNumberDisplay");
+
+  let activeNumber = LIBYANA_NUMBER;
+
   if(item.provider === "مدار") {
     providerTitle.textContent = "قم بالتأكيد والتحويل إلى رقم المدار التالي:";
+    activeNumber = MADAR_NUMBER;
   } else {
     providerTitle.textContent = "قم بالتأكيد والتحويل إلى رقم ليبيانا التالي:";
+    activeNumber = LIBYANA_NUMBER;
   }
+
+  transferNumElem.textContent = activeNumber;
+  confirmNumberDisplay.textContent = activeNumber;
 
   const robloxUserGroup = document.getElementById("robloxUserGroup");
   const robloxPassGroup = document.getElementById("robloxPassGroup");
@@ -1580,6 +1593,7 @@ function sendOrder(){
   }
 
   const orderNum = getNextOrderId();
+  const currentTransferNumber = document.getElementById("transferNumber").textContent;
   let textMessage = `⚡ *طلب جديد من المتجر (#${orderNum})*\n\n`;
 
   if (isCartMode) {
@@ -1599,7 +1613,7 @@ function sendOrder(){
   textMessage += `📱 *الرقم المَحوّل منه:* ${senderPhone}\n`;
   if(orderNotes) textMessage += `📝 *ملاحظات:* ${orderNotes}\n`;
   
-  textMessage += `\n✅ *تم تحويل الرصيد بنجاح إلى الرقم: 0927816884*`;
+  textMessage += `\n✅ *تم تحويل الرصيد بنجاح إلى الرقم: ${currentTransferNumber}*`;
 
   const whatsappNumber = "218927816884";
   const encodedText = encodeURIComponent(textMessage);
