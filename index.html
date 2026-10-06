@@ -314,6 +314,7 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 18px;
+  min-height: 200px;
 }
 
 /* شبكة الأفكتمات المربعة */
@@ -321,6 +322,7 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 15px;
+  min-height: 200px;
 }
 
 .effect-card {
@@ -349,6 +351,7 @@ section {
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 8px;
+  background-color: #2a231b;
 }
 
 .effect-title {
@@ -449,6 +452,7 @@ section {
   height: 24px;
   object-fit: cover;
   border-radius: 4px;
+  background-color: var(--sand-gold);
 }
 
 .price {
@@ -954,4 +958,419 @@ footer {
       Dark <span>Store</span>
     </h1>
     <p>
-      متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس
+      متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس سريع وآمن
+    </p>
+  </div>
+
+  <section id="pricesSection">
+    
+    <!-- حقل البحث -->
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
+    </div>
+
+    <!-- اختيار القسم -->
+    <div class="category-box">
+      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
+        <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img" onerror="this.style.display='none'">
+        <span>روبوكس</span>
+      </button>
+
+      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
+        <span>الأفكتات</span>
+      </button>
+      
+      <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
+        <img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" alt="أيتونز" class="cat-icon-img" onerror="this.style.display='none'">
+        <span>أيتونز</span>
+      </button>
+
+      <button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">
+        <img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" alt="بلايستيشن" class="cat-icon-img" onerror="this.style.display='none'">
+        <span>بلايستيشن</span>
+      </button>
+      
+      <button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">
+        <img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" alt="إكس بوكس" class="cat-icon-img" onerror="this.style.display='none'">
+        <span>إكس بوكس</span>
+      </button>
+
+      <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
+        <img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" alt="ببجي" class="cat-icon-img" onerror="this.style.display='none'">
+        <span>ببجي</span>
+      </button>
+    </div>
+
+    <!-- العنوان والدفع الخاص بقسم الروبوكس -->
+    <div id="robuxHeader">
+      <div class="title">
+        <h2>ملاحظة: الشحن تحويل الروب بي يوزر حسابك</h2>
+        <p>اختر طريقة الدفع</p>
+      </div>
+
+      <div class="provider-box">
+        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
+          <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار" onerror="this.style.display='none'">
+          <span>مدار</span>
+        </button>
+        
+        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">
+          <img id="libyanaLogoImg" src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" alt="ليبيانا" onerror="this.style.display='none'">
+          <span>ليبيانا</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- العناوين للأقسام -->
+    <div id="effectsHeader" style="display: none;">
+      <div class="title">
+        <h2>أفكتات روبلوكس</h2>
+        <p>الدفع عن طريق ليبيانا</p>
+      </div>
+    </div>
+
+    <div id="itunesHeader" style="display: none;">
+      <div class="title">
+        <h2>أيتونز ( أمريكا )</h2>
+        <p>الدفع عن طريق كروت ليبيانا</p>
+      </div>
+    </div>
+
+    <div id="psHeader" style="display: none;">
+      <div class="title">
+        <h2>شبكة بلاي ستيشن ( أمريكا )</h2>
+        <p>بطاقات بلايستيشن ستور الأمريكية - الدفع بليبيانا</p>
+      </div>
+    </div>
+
+    <div id="pubgHeader" style="display: none;">
+      <div class="title">
+        <h2>ببجي موبايل </h2>
+        <p>شحن عن طريق الأيدي (ID) - الدفع بليبيانا</p>
+      </div>
+    </div>
+
+    <div id="xboxHeader" style="display: none;">
+      <div class="title">
+        <h2>إكس بوكس ( أمريكا )</h2>
+        <p>بطاقات هدايا أمريكية - الدفع بليبيانا</p>
+      </div>
+    </div>
+
+    <!-- شبكة المنتجات -->
+    <div id="prices" class="prices"></div>
+
+    <div id="noticeBox" class="notice">
+      اختر الكمية أو الأفكت المناسب لك ثم اضغط شراء أو أضفها للسلة.
+    </div>
+
+    <!-- قسم آراء العملاء -->
+    <div class="reviews-section">
+      <div class="title">
+        <h2>آراء العملاء</h2>
+        <p>ثقة زبائننا هي سر نجاحونا</p>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"سرعة خيالية في التسليم وتعامل راقي جداً، أنصح بالتعامل معهم."</div>
+          <div class="review-author">- أحمد المصراتي</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"أفضل متجر لشحن الروبوكس والأسعار ممتازة مقارنة بغيرهم."</div>
+          <div class="review-author">- طارق الزوي</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"شحنت ببجي ووصل الشحن في أقل من 5 دقائق، شكراً لكم."</div>
+          <div class="review-author">- أسامة العبيدي</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- زر التواصل السريع للواتساب -->
+<a href="https://wa.me/218927816884" target="_blank" class="whatsapp-float" title="تواصل معنا عبر الواتساب">
+  واتساب
+</a>
+
+<footer>
+  Dark Store © 2026 | جميع الحقوق محفوظة
+</footer>
+
+<!-- نافذة الطلب المباشر المحدثة بنظام تحويل الرصيد -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <span class="header-tag-modal">⚡ خطوة أخيرَة</span>
+    <h3 id="modalTitle">إتمام الطلب</h3>
+    <p class="modal-sub">قم بتحويل المبلغ ثم أدخل بياناتك لإرسال الطلب</p>
+
+    <!-- ملخص الطلب -->
+    <div class="card-inner">
+      <div class="card-inner-title">ملخص الطلب</div>
+      <div id="selectedSummaryBox" class="summary-flex">
+        <div>
+          <div id="summaryTitle" style="font-weight:bold; color:var(--text-main);">--</div>
+          <div id="summarySub" style="font-size:12px; color:var(--text-muted);">--</div>
+        </div>
+        <div id="summaryPrice" style="font-size:16px; font-weight:900; color:var(--sand-gold);">--</div>
+      </div>
+      <div id="cartItemsContainer" class="cart-items-list" style="display:none; margin-top:10px;"></div>
+    </div>
+
+    <!-- صندوق تحويل الرصيد -->
+    <div class="card-inner">
+      <div class="card-inner-title">📲 قم بالتحديث والتحويل إلى الرقم التالي</div>
+      <div class="transfer-box">
+        <div class="phone-number-val" id="transfer-number">0927816884</div>
+        <button type="button" class="copy-btn" onclick="copyNumber()">نسخ الرقم</button>
+      </div>
+      <ul class="steps-list">
+        <li><span class="step-num">1</span> قم بتحويل المبلغ المطلوبة إلى رقم التحويل الموضح.</li>
+        <li><span class="step-num">2</span> أدخل اسم المستخدم وكلمة السر ورقم التحويل.</li>
+        <li><span class="step-num">3</span> أرسل الطلب وانتظر المراجعة والتأكيد المباشر.</li>
+      </ul>
+    </div>
+
+    <!-- بيانات الحساب والطلب -->
+    <form id="orderForm" onsubmit="sendOrder(event)" class="card-inner">
+      <div class="card-inner-title">📝 بيانات الطلب الحساب</div>
+
+      <div id="accountInputGroup">
+        <label class="input-label" id="accountLabel">اسم مستخدم Roblox <span>*</span></label>
+        <input id="accountInput" class="input" type="text" placeholder="مثال: RobloxPlayer123" required>
+      </div>
+
+      <div id="passwordInputGroup">
+        <label class="input-label">كلمة سر Roblox <span>*</span></label>
+        <input id="passwordInput" class="input" type="password" placeholder="أدخل كلمة السر الخاصة بالحساب" required>
+        <span class="hint-txt">أدخل اسم المستخدم فقط وليس كلمة السر (في حال الشحن باليوزر)، أو أكتب كلمة السر إذا كان تسليم تلقائي.</span>
+      </div>
+
+      <div>
+        <label class="input-label">رقم الهاتف الذي تم التحويل منه <span>*</span></label>
+        <input id="phone" class="input" type="tel" placeholder="مثال: 0912345678" required>
+      </div>
+
+      <div>
+        <label class="input-label">ملاحظات إضافية</label>
+        <textarea id="notes" class="input" rows="2" placeholder="اكتب أي ملاحظة تريد إضافتها..."></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="confirmCheckbox" required>
+        <label for="confirmCheckbox">
+          أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <strong style="color:var(--sand-gold);">0927816884</strong> وأن البيانات التي أدخلتها صحيحة.
+        </label>
+      </div>
+
+      <button type="submit" class="confirm">
+        إرسال الطلب 🚀
+      </button>
+
+      <button type="button" class="close" onclick="closeModal()">
+        إلغاء
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
+const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
+const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
+
+/* أسعار روبوكس مدار */
+const madarPrices = [
+  {robux:10, price: "5"},
+  {robux:20, price: "7"},
+  {robux:30, price: "10"},
+  {robux:40, price: "13"},
+  {robux:80, price: 20, badge: "الأكثر طلباً"},
+  {robux:120, price: 33},
+  {robux:160, price: 45},
+  {robux:200, price: "47"},
+  {robux:400, price: 82, badge: "عرض خاص"},
+  {robux:1000, price: 160}
+];
+
+/* أسعار روبوكس ليبيانا */
+const libyanaPrices = [
+  {robux:10, price: "3"},
+  {robux:20, price: "5"},
+  {robux:30, price: "7"},
+  {robux:40, price: 10},
+  {robux:50, price: "13"},
+  {robux:80, price: 15, badge: "الأكثر طلباً"},
+  {robux:120, price: 30},
+  {robux:160, price: 45},
+  {robux:400, price: 75, badge: "ممتاز"},
+  {robux:520, price: "95"},
+  {robux:1000, price: 130}
+];
+
+/* أسعار وإميج الأفكتات المحدثة بالكامل */
+const effectsList = [
+  { name: "افكت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
+  { name: "افكت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
+  { name: "افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
+  { name: "افكت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
+  { name: "افكت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
+  { name: "افكت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
+  { name: "افكت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
+  { name: "افكت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
+  { name: "افكت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
+  { name: "افكت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
+  { name: "افكت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
+  { name: "افكت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
+  { name: "افكت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "افكت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
+];
+
+/* أسعار البطاقات الأخرى */
+const itunesPrices = [
+  { amount: "2$", price: 28 },
+  { amount: "3$", price: 31 },
+  { amount: "4$", price: 54 },
+  { amount: "5$", price: 68 },
+  { amount: "10$", price: 134, badge: "الأكثر طلباً" },
+  { amount: "25$", price: 330 }
+];
+
+const psPrices = [
+  { amount: "10$", price: 130, badge: "الأكثر طلباً" },
+  { amount: "25$", price: 320 }
+];
+
+const pubgPrices = [
+  { uc: "60 UC", price: 13 },
+  { uc: "160 UC", price: 27 },
+  { uc: "325 UC", price: 64, badge: "شائع" },
+  { uc: "660 UC", price: 128, badge: "عرض ممتاز" }
+];
+
+const xboxPrices = [
+  { amount: "10$", price: 130 },
+  { amount: "15$", price: 190 },
+  { amount: "25$", price: 315 }
+];
+
+let currentCategory = "robux"; 
+let currentProvider = "madar";
+let selectedProduct = null;
+let cart = [];
+let isCartMode = false;
+
+/* إدارة رقم الطلب التلقائي */
+function getNextOrderId() {
+  let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "1");
+  localStorage.setItem("dark_store_order_id", currentId + 1);
+  return currentId;
+}
+
+/* التنسيق الأولي الفوري عند التحميل */
+function initStore() {
+  const mImg = document.getElementById("madarLogoImg");
+  const lImg = document.getElementById("libyanaLogoImg");
+  if(mImg) mImg.src = madarImgData;
+  if(lImg) lImg.src = libyanaImgData;
+  
+  switchCategory("robux");
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initStore);
+} else {
+  initStore();
+}
+
+/* نسخ الرقم */
+function copyNumber() {
+  const numText = document.getElementById("transfer-number").innerText;
+  navigator.clipboard.writeText(numText);
+  alert("تم نسخ رقم التحويل: " + numText);
+}
+
+/* إدارة السلة */
+function addToCart(item) {
+  cart.push(item);
+  updateCartBadge();
+  alert(`تمت إضافة "${item.title}" إلى السلة بنجاح!`);
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartBadge();
+  renderCartItems();
+}
+
+function updateCartBadge() {
+  document.getElementById("cartCount").textContent = cart.length;
+}
+
+function openCartModal() {
+  if (cart.length === 0) {
+    alert("السلة فارغة حالياً!");
+    return;
+  }
+  isCartMode = true;
+  document.getElementById("modalTitle").textContent = "سلة المشتريات";
+  document.getElementById("summaryTitle").textContent = "منتجات السلة";
+  document.getElementById("summarySub").textContent = `عدد العناصر: ${cart.length}`;
+  
+  document.getElementById("cartItemsContainer").style.display = "block";
+  document.getElementById("accountInputGroup").style.display = "block";
+  document.getElementById("passwordInputGroup").style.display = "none";
+  document.getElementById("passwordInput").required = false;
+  
+  renderCartItems();
+  document.getElementById("modal").classList.add("show");
+}
+
+function renderCartItems() {
+  const container = document.getElementById("cartItemsContainer");
+  container.innerHTML = "";
+  let total = 0;
+  
+  cart.forEach((item, index) => {
+    const val = parseInt(item.price);
+    if (!isNaN(val)) total += val;
+
+    const row = document.createElement("div");
+    row.className = "cart-item-row";
+    row.innerHTML = `
+      <span>${item.title} (${item.price})</span>
+      <button type="button" onclick="removeFromCart(${index})">إزالة</button>
+    `;
+    container.appendChild(row);
+  });
+
+  document.getElementById("summaryPrice").textContent = `${total} د.ل`;
+}
+
+/* تصفية المنتجات حسب البحث */
+function filterProducts() {
+  const query = document.getElementById("searchInput").value.toLowerCase();
+  const activeContainer = document.getElementById("prices");
+  const cards = activeContainer.children;
+
+  Array.from(cards).forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(query) ? "" : "none";
+  });
+}
+
+/* التبديل بين الأقسام */
+function switchCategory(cat) {
+  currentCategory = cat;
+  const searchEl = document.getElementById("searchInput");
+  if (searchEl) searchEl.value = "";
+  
+  const buttons = {
+    robux: "catRobuxBtn", effects: "catEffectsBtn", itunes: "catItunesBtn",
+    ps: "catPsBtn", pubg: "catPubgBtn", xbox: "catXboxBtn"
+  };
