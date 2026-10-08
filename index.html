@@ -1072,7 +1072,7 @@ footer {
   text-align: center;
 }
 .admin-table td {
-  padding: 12px;
+  padding: 14px 12px;
   border-bottom: 1px solid #1e293b;
   font-size: 13px;
   color: #e2e8f0;
@@ -1083,15 +1083,69 @@ footer {
   background: rgba(30, 41, 59, 0.4);
 }
 
+/* تنسيق الصورة المكبرة داخل الجدول للأدمن */
+.receipt-thumb {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #d4af37;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 12px rgba(212,175,55,0.3);
+}
+.receipt-thumb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(212,175,55,0.6);
+}
+
+/* نافذة معاينة الصورة بحجم كبير جداً */
+#imageLightBox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 5000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#imageLightBox.show {
+  display: flex;
+}
+#lightBoxImg {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 14px;
+  border: 3px solid #d4af37;
+  box-shadow: 0 0 40px rgba(212,175,55,0.4);
+  object-fit: contain;
+}
+.lightbox-close {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(220,38,38,0.4);
+}
+
 .admin-btn {
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   border: none;
   transition: all 0.2s;
-  margin: 2px;
+  margin: 3px;
 }
 .admin-btn-acc { background: #2563eb; color: #fff; }
 .admin-btn-acc:hover { background: #1d4ed8; box-shadow: 0 0 10px rgba(37, 99, 235, 0.5); }
@@ -1322,6 +1376,12 @@ footer {
   </div>
 </footer>
 
+<!-- نافذة تكبير الصورة (LightBox) -->
+<div id="imageLightBox" onclick="closeLightBox()">
+  <button class="lightbox-close">إغلاق ✖</button>
+  <img id="lightBoxImg" src="" alt="صورة الإيصال المكبرة">
+</div>
+
 <!-- 1. نافذة التسجيل وتسجيل الدخول -->
 <div id="authModal" class="modal">
   <div class="modal-box">
@@ -1506,7 +1566,7 @@ footer {
   </div>
 </div>
 
-<!-- 4. لوحة تحكم الأدمن المدمجة (بتصميم فخم خرافي) -->
+<!-- 4. لوحة تحكم الأدمن المدمجة (بتصميم فخم خرافي مع صور مكبرة) -->
 <div id="adminPanelModal" class="admin-panel-modal">
   <div class="admin-header">
     <div class="admin-title-box">
@@ -1533,7 +1593,7 @@ footer {
           <th>يوزر الحساب</th>
           <th>كلمة السر</th>
           <th>رقم المُحوِّل</th>
-          <th>صورة الإيصال</th>
+          <th>صورة الإيصال (اضغط للتكبير)</th>
           <th>الحالة الحالية</th>
           <th>التحكم والإجراءات</th>
         </tr>
@@ -1825,7 +1885,6 @@ function renderMyOrders() {
     });
 }
 
-// متابعة أحدث طلب للمستخدم في الصفحة الرئيسية تلقائياً
 function listenToHomeActiveOrder() {
   if(!currentUser) return;
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
@@ -2330,7 +2389,7 @@ function renderAdminOrders(snapshot) {
     if(o.status === 'unavailable') statusHtml = "<span class='order-badge badge-unavailable'>غير متوفر ⚠️</span>";
     if(o.status === 'rejected') statusHtml = "<span class='order-badge badge-rejected'>مرفوض ❌</span>";
 
-    let imageHtml = o.receiptImage ? `<a href="${o.receiptImage}" target="_blank"><img src="${o.receiptImage}" style="width:48px; height:48px; object-fit:cover; border-radius:8px; border:2px solid #d4af37; box-shadow:0 0 10px rgba(212,175,55,0.3);" title="اضغط لعرض السكرين شوت بحجمها الكامل"></a>` : '<span style="color:#64748b;">لا توجد</span>';
+    let imageHtml = o.receiptImage ? `<img src="${o.receiptImage}" class="receipt-thumb" onclick="openLightBox('${o.receiptImage}')" title="اضغط لتكبير الصورة">` : '<span style="color:#64748b;">لا توجد</span>';
 
     tr.innerHTML = `
       <td><b style="color:#d4af37;">${o.id}</b></td>
@@ -2352,6 +2411,15 @@ function renderAdminOrders(snapshot) {
     `;
     tableBody.appendChild(tr);
   });
+}
+
+function openLightBox(imgSrc) {
+  document.getElementById("lightBoxImg").src = imgSrc;
+  document.getElementById("imageLightBox").classList.add("show");
+}
+
+function closeLightBox() {
+  document.getElementById("imageLightBox").classList.remove("show");
 }
 
 function updateOrderStatus(orderId, newStatus) {
