@@ -1286,7 +1286,7 @@ footer {
   max-width: 90%;
   max-height: 85vh;
   border-radius: 14px;
-  border: 3px solid var(--sand-gold);
+  border: 3px solid #d4af37;
   object-fit: contain;
 }
 .lightbox-close {
@@ -1318,7 +1318,7 @@ footer {
     </div>
     <div class="nav-actions">
       <button id="userProfileBtn" class="nav-btn" onclick="openProfileModal()">
-        👤 دخول
+        👤 حسابي
       </button>
       <button class="cart-trigger" onclick="openCartModal()">
         السلة <span id="cartCount" class="cart-count">0</span>
@@ -1534,43 +1534,65 @@ footer {
   <img id="lightBoxImg" src="" alt="صورة الإيصال المكبرة">
 </div>
 
-<!-- 1. نافذة التسجيل وتسجيل الدخول -->
+<!-- 1. نافذة التسجيل / تسجيل الدخول الإجبارية عند الدخول -->
 <div id="authModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
-      <span class="modal-header-tag">🔐 مرحباً بك في Dark Store</span>
-      <h3 id="authTitle">تسجيل الدخول / حساب جديد</h3>
+      <span class="modal-header-tag" id="authTagBadge">🔐 Dark Store</span>
+      <h3 id="authModalTitle">إنشاء حساب جديد</h3>
     </div>
 
-    <div id="authForm">
+    <!-- نموذج إنشاء حساب -->
+    <div id="registerFormContainer">
       <div class="form-group">
-        <label>👤 اسم المستخدم أو البريد الإلكتروني <span>*</span></label>
-        <input id="authUsername" class="input" type="text" placeholder="أدخل اسمك أو بريدك الإلكتروني">
+        <label>👤 اسم المستخدم (اليوزر) <span>*</span></label>
+        <input id="regUsername" class="input" type="text" placeholder="أدخل اسم المستخدم">
       </div>
 
       <div class="form-group">
         <label>🔒 كلمة السر <span>*</span></label>
-        <input id="authPassword" class="input" type="password" placeholder="أدخل كلمة السر">
+        <input id="regPassword" class="input" type="password" placeholder="أدخل كلمة السر">
       </div>
 
-      <div class="form-group" id="authPhoneGroup">
-        <label>📱 رقم الهاتف</label>
-        <input id="authPhone" class="input" type="tel" placeholder="مثال: 0912345678">
+      <div class="form-group">
+        <label>📱 رقم الهاتف <span>*</span></label>
+        <input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678">
       </div>
 
-      <button class="confirm" onclick="handleAuthSubmit()">
-        🚪 دخول / إنشاء حساب
+      <button class="confirm" onclick="handleRegister()">
+        🚀 إنشاء حساب جديد
       </button>
 
-      <div style="text-align:center; margin: 12px 0; color: var(--text-muted); font-size:12px;">أو</div>
-
-      <button class="google-btn" onclick="loginWithGoogle()">
-        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
-        المتابعة باستخدام Google / Gmail
-      </button>
-
-      <button class="close" id="authCloseBtn" style="display:none;" onclick="closeAuthModal()">إلغاء</button>
+      <div style="text-align:center; margin-top: 15px;">
+        <button style="background:transparent; border:none; color:var(--sand-gold); cursor:pointer; font-size:13px; font-weight:bold;" onclick="switchToLogin()">
+          لديك حساب من قبل؟ تسجيل دخول
+        </button>
+      </div>
     </div>
+
+    <!-- نموذج تسجيل الدخول -->
+    <div id="loginFormContainer" style="display: none;">
+      <div class="form-group">
+        <label>👤 اسم المستخدم (اليوزر) <span>*</span></label>
+        <input id="logUsername" class="input" type="text" placeholder="أدخل اسم المستخدم">
+      </div>
+
+      <div class="form-group">
+        <label>🔒 كلمة السر <span>*</span></label>
+        <input id="logPassword" class="input" type="password" placeholder="أدخل كلمة السر">
+      </div>
+
+      <button class="confirm" onclick="handleLogin()">
+        🔑 تسجيل الدخول
+      </button>
+
+      <div style="text-align:center; margin-top: 15px;">
+        <button style="background:transparent; border:none; color:var(--sand-light); cursor:pointer; font-size:13px; font-weight:bold;" onclick="switchToRegister()">
+          ليس لديك حساب؟ إنشاء حساب جديد
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1588,13 +1610,13 @@ footer {
         <span id="profUserVal" style="font-weight:bold; color:var(--sand-gold);"></span>
       </div>
       <div class="user-info-row">
-        <span style="color:var(--text-muted);">الهاتف / البريد:</span>
+        <span style="color:var(--text-muted);">الهاتف:</span>
         <span id="profContactVal"></span>
       </div>
     </div>
 
     <div style="margin-bottom: 12px; font-size: 16px; font-weight: 800; color: var(--sand-light);">
-      📦 طلباتي التاريخية
+      📦 طلباتي السابقة
     </div>
 
     <div id="myOrdersList" style="max-height: 250px; overflow-y: auto;">
@@ -1915,7 +1937,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUserNavUI();
     listenToHomeActiveOrder();
   } else {
-    openAuthModal(false);
+    // إظهار نافذة التسجيل الإجبارية عند أول دخول
+    openAuthModal();
   }
 
   if(window.location.hash === "#admin") {
@@ -1923,52 +1946,96 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ================== الحسابات ================== */
-function openAuthModal(allowClose = true) {
-  document.getElementById("authCloseBtn").style.display = allowClose ? "block" : "none";
+/* ================== نظام الحسابات والتسجيل ================== */
+function openAuthModal() {
   document.getElementById("authModal").classList.add("show");
+  switchToRegister();
 }
 
 function closeAuthModal() {
   document.getElementById("authModal").classList.remove("show");
 }
 
-function handleAuthSubmit() {
-  const userVal = document.getElementById("authUsername").value.trim();
-  const passVal = document.getElementById("authPassword").value.trim();
-  const phoneVal = document.getElementById("authPhone").value.trim();
+function switchToLogin() {
+  document.getElementById("registerFormContainer").style.display = "none";
+  document.getElementById("loginFormContainer").style.display = "block";
+  document.getElementById("authModalTitle").textContent = "تسجيل الدخول";
+  document.getElementById("authTagBadge").textContent = "🔑 مرحباً بك مجدداً";
+}
+
+function switchToRegister() {
+  document.getElementById("loginFormContainer").style.display = "none";
+  document.getElementById("registerFormContainer").style.display = "block";
+  document.getElementById("authModalTitle").textContent = "إنشاء حساب جديد";
+  document.getElementById("authTagBadge").textContent = "🔐 Dark Store";
+}
+
+// إنشاء حساب جديد وحفظه في سحابة Firebase
+function handleRegister() {
+  const userVal = document.getElementById("regUsername").value.trim();
+  const passVal = document.getElementById("regPassword").value.trim();
+  const phoneVal = document.getElementById("regPhone").value.trim();
+
+  if(!userVal || !passVal || !phoneVal) {
+    alert("يرجى ملء كافة الحقول (اليوزر، كلمة السر، ورقم الهاتف)!");
+    return;
+  }
+
+  // التحقق إن كان اليوزر موجود مسبقاً في قاعدة البيانات
+  db.collection("users").doc(userVal).get().then((doc) => {
+    if(doc.exists) {
+      alert("❌ اسم المستخدم هذا موجود مسبقاً، يرجى اختيار يوزر آخر أو تسجيل الدخول.");
+    } else {
+      const userData = {
+        username: userVal,
+        password: passVal,
+        phone: phoneVal,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      db.collection("users").doc(userVal).set(userData).then(() => {
+        currentUser = { username: userVal, contact: phoneVal };
+        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+        updateUserNavUI();
+        closeAuthModal();
+        listenToHomeActiveOrder();
+        alert("✅ تم إنشاء الحساب بنجاح وأهلاً بك في Dark Store!");
+      });
+    }
+  }).catch((err) => {
+    alert("حدث خطأ في الاتصال: " + err.message);
+  });
+}
+
+// تسجيل الدخول لحساب موجود
+function handleLogin() {
+  const userVal = document.getElementById("logUsername").value.trim();
+  const passVal = document.getElementById("logPassword").value.trim();
 
   if(!userVal || !passVal) {
     alert("يرجى إدخال اسم المستخدم وكلمة السر!");
     return;
   }
 
-  currentUser = {
-    username: userVal,
-    contact: phoneVal || userVal
-  };
-
-  localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-  updateUserNavUI();
-  closeAuthModal();
-  listenToHomeActiveOrder();
-}
-
-function loginWithGoogle() {
-  const googleEmail = prompt("أدخل حساب Gmail الخاص بك للتسجيل به:");
-  if(googleEmail && googleEmail.includes("@")) {
-    currentUser = {
-      username: googleEmail.split('@')[0],
-      contact: googleEmail
-    };
-    localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-    updateUserNavUI();
-    closeAuthModal();
-    listenToHomeActiveOrder();
-    alert("تم تسجيل الدخول بحساب Google بنجاح!");
-  } else if(googleEmail) {
-    alert("البريد غير صحيح!");
-  }
+  db.collection("users").doc(userVal).get().then((doc) => {
+    if(!doc.exists) {
+      alert("❌ اسم المستخدم غير موجود! تأكد من اليوزر أو قم بإنشاء حساب جديد.");
+    } else {
+      const userData = doc.data();
+      if(userData.password === passVal) {
+        currentUser = { username: userData.username, contact: userData.phone };
+        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+        updateUserNavUI();
+        closeAuthModal();
+        listenToHomeActiveOrder();
+        alert("✅ تم تسجيل الدخول بنجاح!");
+      } else {
+        alert("❌ كلمة السر غير صحيحة!");
+      }
+    }
+  }).catch((err) => {
+    alert("حدث خطأ في الاتصال: " + err.message);
+  });
 }
 
 function updateUserNavUI() {
@@ -1976,18 +2043,18 @@ function updateUserNavUI() {
   if(currentUser) {
     btn.innerHTML = `👤 ${currentUser.username}`;
   } else {
-    btn.innerHTML = `👤 دخول`;
+    btn.innerHTML = `👤 حسابي`;
   }
 }
 
 function openProfileModal() {
   if(!currentUser) {
-    openAuthModal(true);
+    openAuthModal();
     return;
   }
   document.getElementById("profileUserName").textContent = `مرحباً، ${currentUser.username}`;
   document.getElementById("profUserVal").textContent = currentUser.username;
-  document.getElementById("profContactVal").textContent = currentUser.contact;
+  document.getElementById("profContactVal").textContent = currentUser.contact || 'غير متوفر';
 
   renderMyOrders();
   document.getElementById("profileModal").classList.add("show");
@@ -2005,7 +2072,7 @@ function logoutUser() {
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
   if(chatUnsubscribe) chatUnsubscribe();
   closeProfileModal();
-  openAuthModal(false);
+  openAuthModal();
 }
 
 function renderMyOrders() {
@@ -2056,7 +2123,7 @@ function renderMyOrders() {
 
 // تحديث وتلوين المراحل الخمسة بناءً على حالة الطلب
 function updateVisualSteps(status) {
-  let stepLevel = 1; // 1: تم إنشاء الطلب, 2: قيد المراجعة, 3: في التجهيز, 4: قيد التنفيذ, 5: تم التسليم
+  let stepLevel = 1;
 
   if(status === 'pending') stepLevel = 2;
   else if(status === 'preparing') stepLevel = 3;
@@ -2114,7 +2181,6 @@ function listenToHomeActiveOrder() {
 
         updateVisualSteps(latest.status);
 
-        // تحديث زر واتساب المباشر للطلب
         const waMsg = `✅ مرحباً Dark Store، هذا استفسار بخصوص طلبي:\nرقم الطلب: ${latest.id}\nالمنتج: ${latest.product}\nالحالة الحالية: ${badge.textContent}`;
         document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/218927816884?text=${encodeURIComponent(waMsg)}`;
 
@@ -2135,7 +2201,7 @@ function updateCartBadge() {
 }
 
 function openCartModal() {
-  if(!currentUser) { openAuthModal(true); return; }
+  if(!currentUser) { openAuthModal(); return; }
   if (cart.length === 0) {
     alert("🛒السلة فارغة حالياً!");
     return;
@@ -2369,7 +2435,7 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
 
 function openModal(item){
   if(!currentUser) {
-    openAuthModal(true);
+    openAuthModal();
     return;
   }
   selectedProduct = item;
@@ -2489,7 +2555,6 @@ function sendOrder(){
         document.getElementById("orderFormContent").style.display = "none";
         document.getElementById("orderStatusContent").style.display = "block";
 
-        // إعداد رسالة الواتساب الفورية للزبون تماماً مثل المتجر المطلوب
         const whatsappMsg = `✅ تم استلام طلبك في Dark Store\nرقم الطلب: ${currentOrderId}\nالمنتج: ${selectedProduct.title}\n\n⏳ سيتم تجهيز طلبك قريبا، يرجى الانتظار...`;
         document.getElementById("modalWhatsappBtn").href = `https://wa.me/218927816884?text=${encodeURIComponent(whatsappMsg)}`;
 
@@ -2741,35 +2806,9 @@ function closeAdminDetailModal() {
   if(chatUnsubscribe) chatUnsubscribe();
 }
 
-function openLightBox(imgSrc) {
-  document.getElementById("lightBoxImg").src = imgSrc;
-  document.getElementById("imageLightBox").classList.add("show");
-}
-
-function closeLightBox() {
-  document.getElementById("imageLightBox").classList.remove("show");
-}
-
-function updateOrderStatus(orderId, newStatus) {
-  db.collection("orders").doc(orderId).update({
-    status: newStatus
-  }).then(() => {
-    alert("✅ تم تحديث حالة الطلب بنجاح!");
-    closeAdminDetailModal();
-  }).catch(err => {
-    alert("حدث خطأ أثناء تحديث حالة الطلب: " + err.message);
-  });
-}
-
-function clearAllOrders() {
-  if(confirm("هل أنت متأكد من مسح كافة الطلبات السحابية؟")) {
-    db.collection("orders").get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        doc.ref.delete();
-      });
-    });
-  }
-}
+(function(){
+  // منع إغلاق نافذة الترحيب إذا لم يسجل الزبون دخوله
+})();
 </script>
 
 </body>
