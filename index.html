@@ -2313,46 +2313,74 @@ function sendOrder(){
     return;
   }
 
+  // دالة تصضغط الصورة تلقائياً لكي لا تتجاوز حجم حد السيرفر السحابي
   const reader = new FileReader();
   reader.onload = function(uploadEvent) {
-    const base64Image = uploadEvent.target.result;
-    
-    currentOrderId = getNextOrderId();
-    const currentDateStr = new Date().toLocaleString('ar-LY');
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const MAX_WIDTH = 800;
+      const MAX_HEIGHT = 800;
+      let width = img.width;
+      let height = img.height;
 
-    const orderData = {
-      id: currentOrderId,
-      userOwner: currentUser ? currentUser.username : 'زائر',
-      product: selectedProduct.title,
-      price: selectedProduct.price,
-      provider: selectedProduct.provider || 'ليبيانا',
-      robloxUser: robloxUser,
-      robloxPass: robloxPass || 'لا يوجد',
-      senderPhone: senderPhone,
-      receiptImage: base64Image,
-      notes: orderNotes,
-      status: 'pending',
-      time: currentDateStr,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+      currentOrderId = getNextOrderId();
+      const currentDateStr = new Date().toLocaleString('ar-LY');
+
+      const orderData = {
+        id: currentOrderId,
+        userOwner: currentUser ? currentUser.username : 'زائر',
+        product: selectedProduct.title,
+        price: selectedProduct.price,
+        provider: selectedProduct.provider || 'ليبيانا',
+        robloxUser: robloxUser,
+        robloxPass: robloxPass || 'لا يوجد',
+        senderPhone: senderPhone,
+        receiptImage: compressedBase64,
+        notes: orderNotes,
+        status: 'pending',
+        time: currentDateStr,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      db.collection("orders").doc(currentOrderId).set(orderData)
+        .then(() => {
+          document.getElementById("viewOrderId").textContent = currentOrderId;
+          document.getElementById("viewOrderProduct").textContent = selectedProduct.title;
+          document.getElementById("viewOrderDate").textContent = currentDateStr;
+
+          document.getElementById("orderFormContent").style.display = "none";
+          document.getElementById("orderStatusContent").style.display = "block";
+
+          const whatsappMsg = `✅ مرحباً Dark Store، هذا استفسار بخصوص طلبي:\nرقم الطلب: ${currentOrderId}\nالمنتج: ${selectedProduct.title}`;
+          document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(whatsappMsg)}`;
+
+          listenToOrderStatus(currentOrderId);
+        })
+        .catch((error) => {
+          alert("حدث خطأ أثناء الاتصال بالسيرفر السحابي: " + error.message);
+        });
     };
-
-    db.collection("orders").doc(currentOrderId).set(orderData)
-      .then(() => {
-        document.getElementById("viewOrderId").textContent = currentOrderId;
-        document.getElementById("viewOrderProduct").textContent = selectedProduct.title;
-        document.getElementById("viewOrderDate").textContent = currentDateStr;
-
-        document.getElementById("orderFormContent").style.display = "none";
-        document.getElementById("orderStatusContent").style.display = "block";
-
-        const whatsappMsg = `✅ مرحباً Dark Store، هذا استفسار بخصوص طلبي:\nرقم الطلب: ${currentOrderId}\nالمنتج: ${selectedProduct.title}`;
-        document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(whatsappMsg)}`;
-
-        listenToOrderStatus(currentOrderId);
-      })
-      .catch((error) => {
-        alert("حدث خطأ أثناء الاتصال بالسيرفر السحابي: " + error.message);
-      });
+    img.src = uploadEvent.target.result;
   };
   reader.readAsDataURL(receiptFile);
 }
