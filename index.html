@@ -615,9 +615,19 @@ footer {
   padding: 30px 20px;
   text-align: center;
   color: var(--text-muted);
+  position: relative;
 }
 
-/* ================== نافذة الطلب المبتكرة والمعاد تصميمها ================== */
+.admin-trigger-btn {
+  background: transparent;
+  border: none;
+  color: #332b22;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* ================== نافذة الطلب الشفافة ================== */
 .modal {
   position: fixed;
   inset: 0;
@@ -878,6 +888,72 @@ footer {
   background: #2e2922;
 }
 
+/* حالة شاشة التثبت بالطلب */
+.status-card {
+  text-align: center;
+  padding: 20px 10px;
+}
+.status-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+.status-spinner {
+  border: 4px solid #332b22;
+  border-top: 4px solid var(--sand-gold);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 15px auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* لوحة تحكم الأدمن المدمجة */
+.admin-panel-modal {
+  position: fixed;
+  inset: 0;
+  background: #0f172a;
+  color: #fff;
+  z-index: 3000;
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+}
+.admin-panel-modal.show {
+  display: flex;
+}
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 15px;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e293b;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.admin-table th, .admin-table td {
+  padding: 12px;
+  border: 1px solid #334155;
+  text-align: center;
+  font-size: 13px;
+}
+.admin-table th {
+  background: #020617;
+  color: #d4af37;
+}
+.btn-acc { background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-rej { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
 @media(max-width:500px) {
   .prices, .effects-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -903,6 +979,11 @@ footer {
   .logo {
     width: 145px;
     height: 145px;
+  }
+
+  .admin-table {
+    display: block;
+    overflow-x: auto;
   }
 }
 </style>
@@ -1073,94 +1154,140 @@ footer {
 
 <footer>
   Dark Store © 2026 | جميع الحقوق محفوظة
+  <div>
+    <button class="admin-trigger-btn" onclick="openAdminPanel()">⚙️ لوحة الإدارة</button>
+  </div>
 </footer>
 
-<!-- نافذة الطلب المحدثة بالكامل وطابق تصميم الصورة -->
+<!-- نافذة الطلب والتحقق -->
 <div id="modal" class="modal">
   <div class="modal-box">
-    <div style="text-align: center;">
-      <span class="modal-header-tag">⚡ خطوة أخيره</span>
-      <h3>إتمام الطلب</h3>
-    </div>
-
-    <!-- ملخص الطلب -->
-    <div class="order-summary-card">
-      <div class="order-summary-title">ملخص الطلب</div>
-      <div id="orderItemTitle" class="order-summary-item">Robux 25</div>
-      <div id="orderItemPrice" class="order-summary-price">5 د.ل</div>
-    </div>
-
-    <!-- كرت تحويل الرصيد -->
-    <div class="payment-transfer-card">
-      <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى رقم المدار التالي:</div>
-      <div class="transfer-number-box" id="transferNumber">0930553883</div>
-      <button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
-    </div>
-
-    <!-- الخطوات -->
-    <div class="steps-list">
-      <div class="step-item">
-        <span class="step-num">1</span>
-        <span>📦اختر الباقة المطلوبة.</span>
+    
+    <!-- قسم نموذج إدخال الطلب -->
+    <div id="orderFormContent">
+      <div style="text-align: center;">
+        <span class="modal-header-tag">⚡ خطوة أخيره</span>
+        <h3>إتمام الطلب</h3>
       </div>
-      <div class="step-item">
-        <span class="step-num">2</span>
-        <span>قم بتحويل المبلغ إلى رقم الهاتف الموضح أعلاه.</span>
+
+      <div class="order-summary-card">
+        <div class="order-summary-title">ملخص الطلب</div>
+        <div id="orderItemTitle" class="order-summary-item">Robux 25</div>
+        <div id="orderItemPrice" class="order-summary-price">5 د.ل</div>
       </div>
-      <div class="step-item">
-        <span class="step-num">3</span>
-        <span>أدخل اسم مستخدم Roblox، كلمة السر، ورقمك.</span>
+
+      <div class="payment-transfer-card">
+        <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى رقم المدار التالي:</div>
+        <div class="transfer-number-box" id="transferNumber">0930553883</div>
+        <button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
       </div>
-      <div class="step-item">
-        <span class="step-num">4</span>
-        <span>أرسل الطلب وانتظر مراجعة وتنفيذ الطلب.</span>
+
+      <div class="steps-list">
+        <div class="step-item">
+          <span class="step-num">1</span>
+          <span>📦اختر الباقة المطلوبة.</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">2</span>
+          <span>قم بتحويل المبلغ إلى رقم الهاتف الموضح أعلاه.</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <span>أدخل اسم مستخدم Roblox، كلمة السر، ورقمك.</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">4</span>
+          <span>أرسل الطلب وانتظر مراجعة وتنفيذ الطلب.</span>
+        </div>
       </div>
+
+      <div style="margin-bottom: 15px; font-weight: 800; font-size: 16px; color: var(--sand-light);">
+        بيانات الطلب <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(أدخل المعلومات المطلوبة)</span>
+      </div>
+
+      <div class="form-group" id="robloxUserGroup">
+        <label>👤اسم مستخدم Roblox <span>*</span></label>
+        <input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123">
+      </div>
+
+      <div class="form-group" id="robloxPassGroup">
+        <label>🔐كلمة سر الحساب (Password) <span>*</span></label>
+        <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب">
+      </div>
+
+      <div class="form-group">
+        <label>📲رقم ليبيانا / المدار الذي تم التحويل منه <span>*</span></label>
+        <input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678">
+      </div>
+
+      <div class="form-group">
+        <label>💬ملاحظات إضافية</label>
+        <textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة تريد إضافتها للطلب..."></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="confirmCheckbox">
+        <label for="confirmCheckbox" id="checkboxLabel">
+          ✅أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay" style="color: var(--sand-gold);">0930553883</b> وأن البيانات التي أدخلتها صحيحة.
+        </label>
+      </div>
+
+      <button class="confirm" onclick="sendOrder()">
+        🚀 إرسال الطلب
+      </button>
+
+      <div class="modal-notice">
+        📌 ملاحظة: يرجى تحويل الرصيد أولاً قبل إرسال الطلب ليتم التنفيذ مباشرة.
+      </div>
+
+      <button class="close" onclick="closeModal()">
+        إلغاء
+      </button>
     </div>
 
-    <!-- بيانات الطلب -->
-    <div style="margin-bottom: 15px; font-weight: 800; font-size: 16px; color: var(--sand-light);">
-      بيانات الطلب <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(أدخل المعلومات المطلوبة)</span>
+    <!-- قسم شاشة التثبت وشحن الطلب -->
+    <div id="orderStatusContent" style="display: none;" class="status-card">
+      <div id="statusIcon" class="status-icon">⏳</div>
+      <h3 id="statusTitle" style="color: var(--sand-gold);">جاري التأكد من وصول الرصيد...</h3>
+      <div id="statusSpinner" class="status-spinner"></div>
+      <p id="statusMsg" style="color: var(--text-muted); margin-top: 15px; font-size: 14px; line-height: 1.6;">
+        تم إرسال الطلب بنجاح، يرجى عدم إغلاق هذه الشاشة لحين التأكد من وصول الرصيد إلى شريحتنا.
+      </p>
+      <button id="closeStatusBtn" class="close" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
     </div>
 
-    <div class="form-group" id="robloxUserGroup">
-      <label>👤اسم مستخدم Roblox <span>*</span></label>
-      <input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123">
-    </div>
-
-    <div class="form-group" id="robloxPassGroup">
-      <label>🔐كلمة سر الحساب (Password) <span>*</span></label>
-      <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب">
-    </div>
-
-    <div class="form-group">
-      <label>📲رقم ليبيانا / المدار الذي تم التحويل منه <span>*</span></label>
-      <input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678">
-    </div>
-
-    <div class="form-group">
-      <label>💬ملاحظات إضافية</label>
-      <textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة تريد إضافتها للطلب..."></textarea>
-    </div>
-
-    <div class="checkbox-group">
-      <input type="checkbox" id="confirmCheckbox">
-      <label for="confirmCheckbox" id="checkboxLabel">
-        ✅أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay" style="color: var(--sand-gold);">0930553883</b> وأن البيانات التي أدخلتها صحيحة.
-      </label>
-    </div>
-
-    <button class="confirm" onclick="sendOrder()">
-      🚀 إرسال الطلب
-    </button>
-
-    <div class="modal-notice">
-      📌 ملاحظة: يرجى تحويل الرصيد أولاً قبل إرسال الطلب ليتم التنفيذ مباشرة.
-    </div>
-
-    <button class="close" onclick="closeModal()">
-      إلغاء
-    </button>
   </div>
+</div>
+
+<!-- لوحة تحكم الأدمن المدمجة -->
+<div id="adminPanelModal" class="admin-panel-modal">
+  <div class="admin-header">
+    <h2 style="color: #d4af37;">👑 لوحة تحكم طلبات Dark Store</h2>
+    <button class="btn-rej" onclick="closeAdminPanel()">إغلاق ✖</button>
+  </div>
+
+  <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+    <span>تتحدث القائمة أوتوماتيكياً كل 3 ثوانٍ 🔄</span>
+    <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>رقم الطلب</th>
+        <th>الوقت</th>
+        <th>المنتج</th>
+        <th>السعر</th>
+        <th>المستخدم (اليوزر)</th>
+        <th>كلمة السر</th>
+        <th>الرقم المَحوّل منه</th>
+        <th>الحالة</th>
+        <th>التحكم</th>
+      </tr>
+    </thead>
+    <tbody id="adminOrdersTable">
+    </tbody>
+  </table>
 </div>
 
 <script>
@@ -1249,10 +1376,14 @@ let selectedProduct = null;
 let cart = [];
 let isCartMode = false;
 
+let currentOrderId = null;
+let statusCheckInterval = null;
+let adminInterval = null;
+
 function getNextOrderId() {
-  let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "1");
+  let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "101");
   localStorage.setItem("dark_store_order_id", currentId + 1);
-  return currentId;
+  return "DS-" + currentId;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1262,17 +1393,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if(lImg) lImg.src = libyanaImgData;
   
   switchCategory("robux");
+
+  if(window.location.hash === "#admin") {
+    openAdminPanel();
+  }
 });
 
 function addToCart(item) {
   cart.push(item);
   updateCartBadge();
   alert(`تمت إضافة "${item.title}" إلى السلة بنجاح!`);
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCartBadge();
 }
 
 function updateCartBadge() {
@@ -1285,15 +1415,13 @@ function openCartModal() {
     return;
   }
   isCartMode = true;
-  
-  let titles = cart.map(c => c.title).join(", ");
   let total = cart.reduce((sum, item) => sum + parseInt(item.price), 0);
 
   openModal({
     type: 'cart',
     title: `🛒السلة (${cart.length} منتجات)`,
     price: `${total} د.ل`,
-    provider: '📲تحويل رصيد'
+    provider: 'مدار'
   });
 }
 
@@ -1520,6 +1648,9 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
 
 function openModal(item){
   selectedProduct = item;
+  document.getElementById("orderFormContent").style.display = "block";
+  document.getElementById("orderStatusContent").style.display = "none";
+
   document.getElementById("orderItemTitle").textContent = item.title;
   document.getElementById("orderItemPrice").textContent = item.price;
   
@@ -1557,6 +1688,7 @@ function openModal(item){
 
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
+  if(statusCheckInterval) clearInterval(statusCheckInterval);
 }
 
 function copyTransferNumber() {
@@ -1593,36 +1725,125 @@ function sendOrder(){
     return;
   }
 
-  const orderNum = getNextOrderId();
-  const currentTransferNumber = document.getElementById("transferNumber").textContent;
-  let textMessage = `⚡ *طلب جديد من المتجر (#${orderNum})*\n\n`;
+  currentOrderId = getNextOrderId();
 
-  if (isCartMode) {
-    textMessage += `📦 *محتويات السلة:*\n`;
-    cart.forEach((c, idx) => {
-      textMessage += `- ${idx + 1}. ${c.title} - ${c.price}\n`;
-    });
-    textMessage += `\n👤 *المعرف/اليوزر:* ${robloxUser}\n`;
-    if(robloxPass) textMessage += `🔑 *كلمة السر:* ${robloxPass}\n`;
-  } else {
-    textMessage += `🎮 *الباقة:* ${selectedProduct.title}\n`;
-    textMessage += `💰 *السعر:* ${selectedProduct.price} (${selectedProduct.provider})\n`;
-    textMessage += `👤 *اسم المستخدم (اليوزر):* ${robloxUser}\n`;
-    if(robloxPass) textMessage += `🔑 *كلمة السر:* ${robloxPass}\n`;
+  const orderData = {
+    id: currentOrderId,
+    product: selectedProduct.title,
+    price: selectedProduct.price,
+    provider: selectedProduct.provider || 'ليبيانا',
+    robloxUser: robloxUser,
+    robloxPass: robloxPass || 'لا يوجد',
+    senderPhone: senderPhone,
+    notes: orderNotes,
+    status: 'pending',
+    time: new Date().toLocaleTimeString('ar-LY')
+  };
+
+  let existingOrders = JSON.parse(localStorage.getItem("dark_store_orders") || "[]");
+  existingOrders.unshift(orderData);
+  localStorage.setItem("dark_store_orders", JSON.stringify(existingOrders));
+
+  document.getElementById("orderFormContent").style.display = "none";
+  document.getElementById("orderStatusContent").style.display = "block";
+
+  // متابعة التغير بالطلب
+  statusCheckInterval = setInterval(checkStatus, 3000);
+}
+
+function checkStatus(){
+  let existingOrders = JSON.parse(localStorage.getItem("dark_store_orders") || "[]");
+  let myOrder = existingOrders.find(o => o.id === currentOrderId);
+
+  if(myOrder) {
+    if(myOrder.status === 'accepted') {
+      clearInterval(statusCheckInterval);
+      document.getElementById("statusIcon").textContent = "🎉";
+      document.getElementById("statusTitle").style.color = "#16a34a";
+      document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
+      document.getElementById("statusSpinner").style.display = "none";
+      document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد إلى شريحتنا، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
+      document.getElementById("closeStatusBtn").style.display = "block";
+    } else if(myOrder.status === 'rejected') {
+      clearInterval(statusCheckInterval);
+      document.getElementById("statusIcon").textContent = "❌";
+      document.getElementById("statusTitle").style.color = "#dc2626";
+      document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
+      document.getElementById("statusSpinner").style.display = "none";
+      document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى التأكد من تحويل المبلغ وإعادة المحاولة أو التواصل معنا عبر الواتساب.";
+      document.getElementById("closeStatusBtn").style.display = "block";
+    }
   }
-
-  textMessage += `📱 *الرقم المَحوّل منه:* ${senderPhone}\n`;
-  if(orderNotes) textMessage += `📝 *ملاحظات:* ${orderNotes}\n`;
-  
-  textMessage += `\n✅ *تم تحويل الرصيد بنجاح إلى الرقم: ${currentTransferNumber}*`;
-
-  const whatsappNumber = "218927816884";
-  const encodedText = encodeURIComponent(textMessage);
-  window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, "_blank");
 }
 
 function scrollToPrices(){
   document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
+}
+
+/* ================== وظائف لوحة التحكم الأدمن ================== */
+function openAdminPanel() {
+  document.getElementById("adminPanelModal").classList.add("show");
+  renderAdminOrders();
+  adminInterval = setInterval(renderAdminOrders, 3000);
+}
+
+function closeAdminPanel() {
+  document.getElementById("adminPanelModal").classList.remove("show");
+  if(adminInterval) clearInterval(adminInterval);
+}
+
+function renderAdminOrders() {
+  const table = document.getElementById("adminOrdersTable");
+  const orders = JSON.parse(localStorage.getItem("dark_store_orders") || "[]");
+
+  if (orders.length === 0) {
+    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتي الآن</td></tr>`;
+    return;
+  }
+
+  table.innerHTML = "";
+  orders.forEach(order => {
+    let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
+    if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
+    if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
+
+    const row = `
+      <tr>
+        <td><b>${order.id}</b></td>
+        <td>${order.time}</td>
+        <td>${order.product}</td>
+        <td>${order.price} (${order.provider})</td>
+        <td><b>${order.robloxUser}</b></td>
+        <td><code>${order.robloxPass}</code></td>
+        <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
+        <td>${statusBadge}</td>
+        <td>
+          ${order.status === 'pending' ? `
+            <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
+            <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
+          ` : 'تم الإجراء'}
+        </td>
+      </tr>
+    `;
+    table.innerHTML += row;
+  });
+}
+
+function updateOrderStatus(orderId, newStatus) {
+  let orders = JSON.parse(localStorage.getItem("dark_store_orders") || "[]");
+  let target = orders.find(o => o.id === orderId);
+  if (target) {
+    target.status = newStatus;
+    localStorage.setItem("dark_store_orders", JSON.stringify(orders));
+    renderAdminOrders();
+  }
+}
+
+function clearAllOrders() {
+  if (confirm("هل أنت متأكد من مسح كافة الطلبات؟")) {
+    localStorage.removeItem("dark_store_orders");
+    renderAdminOrders();
+  }
 }
 
 document.getElementById("modal").addEventListener("click", function(e){
