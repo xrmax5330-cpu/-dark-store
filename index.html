@@ -44,6 +44,7 @@ button, input, textarea {
   font-family: inherit;
 }
 
+/* شريط التنبيهات الأعلى */
 .announcement-bar {
   background: linear-gradient(90deg, #b89320, var(--sand-gold), #b89320);
   color: #12100e;
@@ -85,17 +86,17 @@ nav {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .nav-btn {
   background: #1a1714;
   border: 1px solid var(--sand-gold);
   border-radius: 12px;
-  padding: 9px 16px;
+  padding: 8px 14px;
   cursor: pointer;
   color: var(--sand-gold);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   transition: all 0.3s ease;
 }
@@ -111,13 +112,14 @@ nav {
   background: #241d15;
   border: 1px solid var(--sand-gold);
   color: var(--sand-light);
-  padding: 9px 14px;
+  padding: 8px 12px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 13px;
 }
 
 .cart-count {
@@ -626,6 +628,7 @@ footer {
   margin-top: 10px;
 }
 
+/* ================== النوافذ الشفافة ================== */
 .modal {
   position: fixed;
   inset: 0;
@@ -668,7 +671,7 @@ footer {
 
 .modal-box h3 {
   text-align: center;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 900;
   margin-bottom: 15px;
   color: #fff;
@@ -908,6 +911,7 @@ footer {
   100% { transform: rotate(360deg); }
 }
 
+/* لوحة تحكم الأدمن المدمجة */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
@@ -938,17 +942,30 @@ footer {
   overflow: hidden;
 }
 .admin-table th, .admin-table td {
-  padding: 12px;
+  padding: 10px;
   border: 1px solid #334155;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
 }
 .admin-table th {
   background: #020617;
   color: #d4af37;
 }
-.btn-acc { background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-.btn-rej { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-acc { background: #16a34a; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
+.btn-rej { background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
+.btn-out { background: #d97706; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
+
+/* قسم سجل الطلبات للملف الشخصي */
+.user-order-item {
+  background: #1d1914;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 @media(max-width:500px) {
   .prices, .effects-grid {
@@ -997,6 +1014,9 @@ footer {
       Dark Store
     </div>
     <div class="nav-actions">
+      <button class="nav-btn" id="userAuthBtn" onclick="openAuthModal()">
+        تسجيل الدخول 👤
+      </button>
       <button class="cart-trigger" onclick="openCartModal()">
         السلة <span id="cartCount" class="cart-count">0</span>
       </button>
@@ -1155,6 +1175,76 @@ footer {
   </div>
 </footer>
 
+<!-- ================== نافذة تسجيل الدخول وحساب الزبون ================== -->
+<div id="authModal" class="modal">
+  <div class="modal-box">
+    
+    <!-- إنشاء حساب / دخول -->
+    <div id="authFormContent">
+      <div style="text-align: center;">
+        <span class="modal-header-tag">👤 حساب جديد</span>
+        <h3 id="authTitle">تسجيل حسابك في المتجر</h3>
+      </div>
+
+      <div class="form-group">
+        <label>👤 الاسم الكامل <span>*</span></label>
+        <input id="regName" class="input" type="text" placeholder="أدخل اسمك الكامل">
+      </div>
+
+      <div class="form-group">
+        <label>📲 رقم الهاتف <span>*</span></label>
+        <input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678">
+      </div>
+
+      <div class="form-group">
+        <label>🎮 اسم مستخدم Roblox (يوزر الشحن) <span>*</span></label>
+        <input id="regRobloxUser" class="input" type="text" placeholder="مثال: Player123">
+      </div>
+
+      <div class="form-group">
+        <label>🔐 كلمة السر للروبلوكس <span>*</span></label>
+        <input id="regRobloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب للشحن">
+      </div>
+
+      <button class="confirm" onclick="saveUserAccount()">
+        💾 حفظ وتسجيل الدخول
+      </button>
+
+      <button class="close" onclick="closeAuthModal()">
+        إلغاء
+      </button>
+    </div>
+
+    <!-- الملف الشخصي ورؤية الطلبات الحالية للزبون -->
+    <div id="userProfileContent" style="display: none;">
+      <div style="text-align: center;">
+        <span class="modal-header-tag">👑 ملفك الشخصي</span>
+        <h3 id="profileNameDisplay">أهلاً بك</h3>
+      </div>
+
+      <div style="background: #181410; padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 13px; color: var(--text-muted);">
+        <div>📱 <b>رقم الهاتف:</b> <span id="profilePhoneDisplay">-</span></div>
+        <div style="margin-top: 5px;">🎮 <b>يوزر روبلوكس:</b> <span id="profileUserDisplay">-</span></div>
+      </div>
+
+      <h4 style="color: var(--sand-gold); margin-bottom: 10px; font-size: 15px;">📦 سجل طلباتك:</h4>
+      <div id="userOrdersHistory" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;">
+        <!-- يتم جلب طلبات الزبون هنا -->
+      </div>
+
+      <button class="confirm" style="background: #24201a; color: var(--text-main); border: 1px solid var(--card-border);" onclick="logoutUser()">
+        🚪 تسجيل الخروج من الحساب
+      </button>
+
+      <button class="close" onclick="closeAuthModal()">
+        إغلاق
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================== نافذة الطلب ================== -->
 <div id="modal" class="modal">
   <div class="modal-box">
     
@@ -1179,7 +1269,7 @@ footer {
       <div class="steps-list">
         <div class="step-item">
           <span class="step-num">1</span>
-          <span>📦اختر الباقة المطلوبة.</span>
+          <span>📦 اختر الباقة المطلوبة.</span>
         </div>
         <div class="step-item">
           <span class="step-num">2</span>
@@ -1187,61 +1277,50 @@ footer {
         </div>
         <div class="step-item">
           <span class="step-num">3</span>
-          <span>أدخل اسم مستخدم Roblox، كلمة السر، ورقمك.</span>
+          <span>تأكد من بيانات تحويلك وأرسل الطلب.</span>
         </div>
-        <div class="step-item">
-          <span class="step-num">4</span>
-          <span>أرسل الطلب وسينقلك مباشرة للواتساب لإتمام التنفيذ.</span>
-        </div>
-      </div>
-
-      <div style="margin-bottom: 15px; font-weight: 800; font-size: 16px; color: var(--sand-light);">
-        بيانات الطلب <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(أدخل المعلومات المطلوبة)</span>
-      </div>
-
-      <div class="form-group" id="robloxUserGroup">
-        <label>👤اسم مستخدم Roblox <span>*</span></label>
-        <input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123">
-      </div>
-
-      <div class="form-group" id="robloxPassGroup">
-        <label>🔐كلمة سر الحساب (Password)</label>
-        <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب (اختياري)">
       </div>
 
       <div class="form-group">
-        <label>📲رقم ليبيانا / المدار الذي تم التحويل منه <span>*</span></label>
+        <label>📲 رقم الهاتف الذي تم التحويل منه <span>*</span></label>
         <input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678">
       </div>
 
       <div class="form-group">
-        <label>💬ملاحظات إضافية</label>
+        <label>💬 ملاحظات إضافية للطلب</label>
         <textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة تريد إضافتها للطلب..."></textarea>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="confirmCheckbox">
         <label for="confirmCheckbox" id="checkboxLabel">
-          ✅أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay" style="color: var(--sand-gold);">0930553883</b> وأن البيانات التي أدخلتها صحيحة.
+          ✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay" style="color: var(--sand-gold);">0930553883</b> وأن البيانات صحيحة.
         </label>
       </div>
 
       <button class="confirm" type="button" onclick="sendOrder()">
-        🚀 إرسال الطلب عبر الواتساب
+        🚀 إرسال الطلب الآن
       </button>
-
-      <div class="modal-notice">
-        📌 ملاحظة: يرجى تحويل الرصيد أولاً قبل إرسال الطلب ليتم التنفيذ مباشرة.
-      </div>
 
       <button class="close" type="button" onclick="closeModal()">
         إلغاء
       </button>
     </div>
 
+    <div id="orderStatusContent" style="display: none;" class="status-card">
+      <div id="statusIcon" class="status-icon">⏳</div>
+      <h3 id="statusTitle" style="color: var(--sand-gold);">جاري التأكد من وصول الرصيد...</h3>
+      <div id="statusSpinner" class="status-spinner"></div>
+      <p id="statusMsg" style="color: var(--text-muted); margin-top: 15px; font-size: 14px; line-height: 1.6;">
+        تم إرسال الطلب بنجاح وهو الآن في لوحة الإدارة للمراجعة. يمكنك متابعته عبر ملفك الشخصي.
+      </p>
+      <button id="closeStatusBtn" class="close" type="button" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
+    </div>
+
   </div>
 </div>
 
+<!-- ================== لوحة الأدمن ================== -->
 <div id="adminPanelModal" class="admin-panel-modal">
   <div class="admin-header">
     <h2 style="color: #d4af37;">👑 لوحة تحكم طلبات Dark Store</h2>
@@ -1249,7 +1328,7 @@ footer {
   </div>
 
   <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-    <span>قائمة الطلبات المسجلة بالجهاز 🔄</span>
+    <span>تحدث القائمة أوتوماتيكياً كل ثانيتين 🔄</span>
     <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
   </div>
 
@@ -1258,11 +1337,12 @@ footer {
       <tr>
         <th>رقم الطلب</th>
         <th>الوقت</th>
-        <th>المنتج</th>
-        <th>السعر</th>
-        <th>المستخدم (اليوزر)</th>
-        <th>كلمة السر</th>
-        <th>الرقم المَحوّل منه</th>
+        <th>صاحب الحساب</th>
+        <th>رقم الهاتف</th>
+        <th>المنتج والشبكة</th>
+        <th>يوزر Roblox</th>
+        <th>باسوورد Roblox</th>
+        <th>الرقم المحول منه</th>
         <th>الحالة</th>
         <th>التحكم</th>
       </tr>
@@ -1273,7 +1353,7 @@ footer {
 </div>
 
 <script>
-const MY_WHATSAPP_NUMBER = "218927816884"; // رقم الواتساب الخاص بك لاستلام الطلبات مباشرة عليه
+const API_URL = "https://api.jsonbin.io/v3/b/66f3e098e41b4d34e4370211";
 
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
@@ -1283,75 +1363,54 @@ const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
 
 const madarPrices = [
-  {robux:10, price: "5"},
-  {robux:20, price: "7"},
-  {robux:30, price: "10"},
-  {robux:40, price: "13"},
-  {robux:80, price: 20, badge: "🌟الأكثر طلباً"},
-  {robux:120, price: 35},
-  {robux:160, price: 47},
-  {robux:200, price: "50"},
-  {robux:400, price: 83, badge: "🕑عرض خاص"},
-  {robux:500, price: 85, badge: "🔥افضل سعر"},
+  {robux:10, price: "5"}, {robux:20, price: "7"}, {robux:30, price: "10"},
+  {robux:40, price: "13"}, {robux:80, price: 20, badge: "🌟الأكثر طلباً"},
+  {robux:120, price: 35}, {robux:160, price: 47}, {robux:200, price: "50"},
+  {robux:400, price: 83, badge: "🕑عرض خاص"}, {robux:500, price: 85, badge: "🔥افضل سعر"},
   {robux:1000, price: 160}
 ];
 
 const libyanaPrices = [
-  {robux:10, price: "3"},
-  {robux:20, price: "5"},
-  {robux:30, price: "7"},
-  {robux:40, price: 10},
-  {robux:50, price: "13"},
-  {robux:80, price: 15, badge: "🌟الأكثر طلباً"},
-  {robux:120, price: 35},
-  {robux:160, price: 45},
-  {robux:400, price: 85, badge: "🔥افضل سعر"},
-  {robux:500, price: "75"},
-  {robux:1000, price: 130}
+  {robux:10, price: "3"}, {robux:20, price: "5"}, {robux:30, price: "7"},
+  {robux:40, price: 10}, {robux:50, price: "13"}, {robux:80, price: 15, badge: "🌟الأكثر طلباً"},
+  {robux:120, price: 35}, {robux:160, price: 45}, {robux:400, price: 85, badge: "🔥افضل سعر"},
+  {robux:500, price: "75"}, {robux:1000, price: 130}
 ];
 
 const effectsList = [
   { name: "افکت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
-  { name: "افكت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
-  { name: "💸افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
-  { name: "افكت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
-  { name: "افكت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
-  { name: "افكت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
-  { name: "🔥افكت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
-  { name: "افكت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
-  { name: "افكت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
-  { name: "🎈افكت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
-  { name: "🖤افكت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
-  { name: "🟨افكت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
-  { name: "⚡️افكت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
-  { name: "🪙افكت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
+  { name: "افکت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
+  { name: "💸افکت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
+  { name: "افکت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
+  { name: "افکت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
+  { name: "افکت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
+  { name: "🔥افکت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
+  { name: "افکت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
+  { name: "افکت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
+  { name: "🎈افکت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
+  { name: "🖤افکت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
+  { name: "🟨افکت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
+  { name: "⚡️افکت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "🪙افکت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
 ];
 
 const itunesPrices = [
-  { amount: "🇺🇸2$", price: 35 },
-  { amount: "🇺🇸3$", price: 43 },
-  { amount: "🇺🇸4$", price: 55 },
-  { amount: "🇺🇸5$", price: 68 },
-  { amount: "🇺🇸10$", price: 134, badge: "الأكثر طلباً" },
-  { amount: "🇺🇸25$", price: 330 }
+  { amount: "🇺🇸2$", price: 35 }, { amount: "🇺🇸3$", price: 43 },
+  { amount: "🇺🇸4$", price: 55 }, { amount: "🇺🇸5$", price: 68 },
+  { amount: "🇺🇸10$", price: 134, badge: "الأكثر طلباً" }, { amount: "🇺🇸25$", price: 330 }
 ];
 
 const psPrices = [
-  { amount: "10$", price: 130, badge: "الأكثر طلباً" },
-  { amount: "25$", price: 320 }
+  { amount: "10$", price: 130, badge: "الأكثر طلباً" }, { amount: "25$", price: 320 }
 ];
 
 const pubgPrices = [
-  { uc: "60 UC", price: 13 },
-  { uc: "160 UC", price: 27 },
-  { uc: "325 UC", price: 64, badge: "شائع" },
-  { uc: "660 UC", price: 128, badge: "عرض ممتاز" }
+  { uc: "60 UC", price: 13 }, { uc: "160 UC", price: 27 },
+  { uc: "325 UC", price: 64, badge: "شائع" }, { uc: "660 UC", price: 128, badge: "عرض ممتاز" }
 ];
 
 const xboxPrices = [
-  { amount: "10$", price: 130 },
-  { amount: "15$", price: 190 },
-  { amount: "25$", price: 315 }
+  { amount: "10$", price: 130 }, { amount: "15$", price: 190 }, { amount: "25$", price: 315 }
 ];
 
 let currentCategory = "robux"; 
@@ -1360,6 +1419,9 @@ let selectedProduct = null;
 let cart = [];
 
 let currentOrderId = null;
+let statusCheckInterval = null;
+let adminInterval = null;
+let currentUser = null;
 
 function getNextOrderId() {
   const timeStamp = Date.now().toString().slice(-4);
@@ -1367,16 +1429,25 @@ function getNextOrderId() {
   return "DS-" + timeStamp + randomNum;
 }
 
-function getStoredOrders() {
+// جلب وحفظ البيانات في السحابة
+async function fetchCloudOrders() {
   try {
-    return JSON.parse(localStorage.getItem("dark_store_all_orders") || "[]");
-  } catch(e) {
+    const res = await fetch(API_URL + "/latest", { headers: { "X-Bin-Meta": "false" } });
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
     return [];
   }
 }
 
-function setStoredOrders(orders) {
-  localStorage.setItem("dark_store_all_orders", JSON.stringify(orders));
+async function saveCloudOrders(orders) {
+  try {
+    await fetch(API_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orders)
+    });
+  } catch (e) {}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1385,6 +1456,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if(mImg) mImg.src = madarImgData;
   if(lImg) lImg.src = libyanaImgData;
   
+  checkLoggedUser();
   switchCategory("robux");
 
   if(window.location.hash === "#admin") {
@@ -1393,6 +1465,94 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/* ================== إدارة نظام حسابات الزبائن ================== */
+function checkLoggedUser() {
+  const stored = localStorage.getItem("dark_store_user");
+  if (stored) {
+    currentUser = JSON.parse(stored);
+    document.getElementById("userAuthBtn").textContent = "الملف الشخصي 👤";
+  } else {
+    currentUser = null;
+    document.getElementById("userAuthBtn").textContent = "تسجيل الدخول 👤";
+  }
+}
+
+function openAuthModal() {
+  if (currentUser) {
+    document.getElementById("authFormContent").style.display = "none";
+    document.getElementById("userProfileContent").style.display = "block";
+    document.getElementById("profileNameDisplay").textContent = currentUser.name;
+    document.getElementById("profilePhoneDisplay").textContent = currentUser.phone;
+    document.getElementById("profileUserDisplay").textContent = currentUser.robloxUser;
+    loadUserOrdersHistory();
+  } else {
+    document.getElementById("authFormContent").style.display = "block";
+    document.getElementById("userProfileContent").style.display = "none";
+  }
+  document.getElementById("authModal").classList.add("show");
+}
+
+function closeAuthModal() {
+  document.getElementById("authModal").classList.remove("show");
+}
+
+function saveUserAccount() {
+  const name = document.getElementById("regName").value.trim();
+  const phone = document.getElementById("regPhone").value.trim();
+  const robloxUser = document.getElementById("regRobloxUser").value.trim();
+  const robloxPass = document.getElementById("regRobloxPass").value.trim();
+
+  if(!name || !phone || !robloxUser || !robloxPass) {
+    alert("⚠️ يرجى تعبئة كافة الحقول المطلوبة لإنشاء حسابك!");
+    return;
+  }
+
+  currentUser = { name, phone, robloxUser, robloxPass };
+  localStorage.setItem("dark_store_user", JSON.stringify(currentUser));
+  checkLoggedUser();
+  closeAuthModal();
+  alert("✅ تم إنشاء حسابك وتسجيل الدخول بنجاح!");
+}
+
+function logoutUser() {
+  localStorage.removeItem("dark_store_user");
+  checkLoggedUser();
+  closeAuthModal();
+  alert("تم تسجيل الخروج من الحساب.");
+}
+
+async function loadUserOrdersHistory() {
+  const container = document.getElementById("userOrdersHistory");
+  container.innerHTML = "جاري تحميل الطلبات...";
+  const orders = await fetchCloudOrders();
+  const myOrders = orders.filter(o => o.accountPhone === currentUser.phone || o.robloxUser === currentUser.robloxUser);
+
+  if (myOrders.length === 0) {
+    container.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>لا توجد طلبات سابقة لديك</div>";
+    return;
+  }
+
+  container.innerHTML = "";
+  myOrders.forEach(o => {
+    let statusText = "⏳ قيد المراجعة";
+    let color = "#d97706";
+    if (o.status === "accepted") { statusText = "✅ تم القبول والشحن"; color = "#16a34a"; }
+    if (o.status === "rejected") { statusText = "❌ متعذر (مرفوض)"; color = "#dc2626"; }
+    if (o.status === "out_of_stock") { statusText = "⚠️ غير متوفر بالخزينة حالياً"; color = "#d97706"; }
+
+    container.innerHTML += `
+      <div class="user-order-item">
+        <div>
+          <div style="font-weight:bold; color:var(--sand-gold);">${o.product}</div>
+          <div style="font-size:11px; color:var(--text-muted);">${o.time} - ${o.price}</div>
+        </div>
+        <div style="font-size:12px; font-weight:bold; color:${color};">${statusText}</div>
+      </div>
+    `;
+  });
+}
+
+/* ================== وظائف المتجر والمنتجات ================== */
 function addToCart(item) {
   cart.push(item);
   updateCartBadge();
@@ -1433,15 +1593,8 @@ function switchCategory(cat) {
   currentCategory = cat;
   document.getElementById("searchInput").value = "";
   
-  const buttons = {
-    robux: "catRobuxBtn", effects: "catEffectsBtn", itunes: "catItunesBtn",
-    ps: "catPsBtn", pubg: "catPubgBtn", xbox: "catXboxBtn"
-  };
-  
-  const headers = {
-    robux: "robuxHeader", effects: "effectsHeader", itunes: "itunesHeader",
-    ps: "psHeader", pubg: "pubgHeader", xbox: "xboxHeader"
-  };
+  const buttons = { robux: "catRobuxBtn", effects: "catEffectsBtn", itunes: "catItunesBtn", ps: "catPsBtn", pubg: "catPubgBtn", xbox: "catXboxBtn" };
+  const headers = { robux: "robuxHeader", effects: "effectsHeader", itunes: "itunesHeader", ps: "psHeader", pubg: "pubgHeader", xbox: "xboxHeader" };
 
   Object.keys(buttons).forEach(key => {
     document.getElementById(buttons[key]).classList.toggle("active", key === cat);
@@ -1472,9 +1625,7 @@ function showRobuxPrices(provider){
     const card = document.createElement("div");
     const isAvailable = item.price !== "غير متوفر";
     const priceDisplay = isAvailable ? `${item.price} د.ل` : "غير متوفر";
-    
     card.className = `price-card ${!isAvailable ? 'disabled' : ''}`;
-
     let badgeHtml = item.badge ? `<div class="badge-tag">${item.badge}</div>` : '';
 
     card.innerHTML = `
@@ -1525,14 +1676,8 @@ function showEffectsPrices(){
     `;
 
     card.querySelector('.effect-buy-btn').addEventListener("click", () => {
-      openModal({
-        type: 'effect',
-        title: item.name,
-        price: `${item.price} د.ل`,
-        provider: "ليبيانا"
-      });
+      openModal({ type: 'effect', title: item.name, price: `${item.price} د.ل`, provider: "ليبيانا" });
     });
-
     pricesBox.appendChild(card);
   });
 }
@@ -1576,14 +1721,8 @@ function showPubgPrices(){
     `;
 
     card.querySelector('.buy').addEventListener("click", () => {
-      openModal({
-        type: 'pubg',
-        title: `ببجي موبايل (${item.uc})`,
-        price: `${item.price} د.ل`,
-        provider: "ليبيانا"
-      });
+      openModal({ type: 'pubg', title: `ببجي موبايل (${item.uc})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
     });
-
     pricesBox.appendChild(card);
   });
 }
@@ -1623,21 +1762,22 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
     `;
 
     card.querySelector('.buy').addEventListener("click", () => {
-      openModal({
-        type: type,
-        title: `${mainTitle} (${item.amount})`,
-        price: `${item.price} د.ل`,
-        provider: "ليبيانا"
-      });
+      openModal({ type: type, title: `${mainTitle} (${item.amount})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
     });
-
     pricesBox.appendChild(card);
   });
 }
 
 function openModal(item){
+  if (!currentUser) {
+    alert("⚠️ يرجى إنشاء حساب أو تسجيل الدخول أولاً لإتمام طلبك!");
+    openAuthModal();
+    return;
+  }
+
   selectedProduct = item;
   document.getElementById("orderFormContent").style.display = "block";
+  document.getElementById("orderStatusContent").style.display = "none";
 
   document.getElementById("orderItemTitle").textContent = item.title;
   document.getElementById("orderItemPrice").textContent = item.price;
@@ -1646,27 +1786,14 @@ function openModal(item){
   const transferNumElem = document.getElementById("transferNumber");
   const confirmNumberDisplay = document.getElementById("confirmNumberDisplay");
 
-  let activeNumber = LIBYANA_NUMBER;
-
-  if(item.provider === "مدار") {
-    providerTitle.textContent = "قم بالتأكيد والتحويل إلى رقم المدار التالي:";
-    activeNumber = MADAR_NUMBER;
-  } else {
-    providerTitle.textContent = "قم بالتأكيد والتحويل إلى رقم ليبيانا التالي:";
-    activeNumber = LIBYANA_NUMBER;
-  }
+  let activeNumber = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
+  providerTitle.textContent = item.provider === "مدار" ? "قم بالتأكيد والتحويل إلى رقم المدار التالي:" : "قم بالتأكيد والتحويل إلى رقم ليبيانا التالي:";
 
   transferNumElem.textContent = activeNumber;
   confirmNumberDisplay.textContent = activeNumber;
 
-  const robloxUserGroup = document.getElementById("robloxUserGroup");
-  const robloxPassGroup = document.getElementById("robloxPassGroup");
-
-  robloxUserGroup.style.display = "block";
-  if(item.type === 'robux' || item.type === 'effect') {
-    robloxPassGroup.style.display = "block";
-  } else {
-    robloxPassGroup.style.display = "none";
+  if (currentUser) {
+    document.getElementById("senderPhone").value = currentUser.phone;
   }
 
   document.getElementById("modal").classList.add("show");
@@ -1674,6 +1801,7 @@ function openModal(item){
 
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
+  if(statusCheckInterval) clearInterval(statusCheckInterval);
 }
 
 function copyTransferNumber() {
@@ -1683,17 +1811,10 @@ function copyTransferNumber() {
   });
 }
 
-function sendOrder(){
-  const robloxUser = document.getElementById("robloxUser").value.trim();
-  const robloxPass = document.getElementById("robloxPass").value.trim();
+async function sendOrder(){
   const senderPhone = document.getElementById("senderPhone").value.trim();
   const orderNotes = document.getElementById("orderNotes").value.trim();
   const confirmCheckbox = document.getElementById("confirmCheckbox").checked;
-
-  if(!robloxUser){
-    alert("👤 يرجى إدخال اسم المستخدم / اليوزر");
-    return;
-  }
 
   if(!senderPhone){
     alert("📲 يرجى إدخال رقم الهاتف الذي قمت بالتحويل منه");
@@ -1707,35 +1828,78 @@ function sendOrder(){
 
   currentOrderId = getNextOrderId();
 
-  const productTitle = selectedProduct ? selectedProduct.title : 'طلب جديد';
-  const productPrice = selectedProduct ? selectedProduct.price : '0 د.ل';
-  const productProvider = selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا';
+  const orderData = {
+    id: currentOrderId,
+    accountName: currentUser.name,
+    accountPhone: currentUser.phone,
+    product: selectedProduct ? selectedProduct.title : 'طلب جديد',
+    price: selectedProduct ? selectedProduct.price : '0 د.ل',
+    provider: selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا',
+    robloxUser: currentUser.robloxUser,
+    robloxPass: currentUser.robloxPass,
+    senderPhone: senderPhone,
+    notes: orderNotes,
+    status: 'pending',
+    time: new Date().toLocaleTimeString('ar-LY')
+  };
 
-  const message = `🛍️ *طلب جديد من Dark Store*%0A` +
-                  `------------------------%0A` +
-                  `🆔 *رقم الطلب:* ${currentOrderId}%0A` +
-                  `📦 *المنتج:* ${productTitle}%0A` +
-                  `💰 *السعر:* ${productPrice} (${productProvider})%0A` +
-                  `👤 *اسم المستخدم:* ${robloxUser}%0A` +
-                  `🔐 *كلمة السر:* ${robloxPass || 'لا يوجد'}%0A` +
-                  `📱 *الرقم المحول منه:* ${senderPhone}%0A` +
-                  `💬 *ملاحظات:* ${orderNotes || 'لا يوجد'}`;
+  // إرسال للسحابة
+  let existingOrders = await fetchCloudOrders();
+  existingOrders.unshift(orderData);
+  await saveCloudOrders(existingOrders);
 
-  // فتح رابط الواتساب المباشر لرقمك فوراً
-  window.open(`https://wa.me/${MY_WHATSAPP_NUMBER}?text=${message}`, '_blank');
+  document.getElementById("orderFormContent").style.display = "none";
+  document.getElementById("orderStatusContent").style.display = "block";
 
-  closeModal();
+  if(statusCheckInterval) clearInterval(statusCheckInterval);
+  statusCheckInterval = setInterval(checkStatus, 2000);
+}
+
+async function checkStatus(){
+  let orders = await fetchCloudOrders();
+  let myOrder = orders.find(o => o.id === currentOrderId);
+
+  if(myOrder) {
+    if(myOrder.status === 'accepted') {
+      clearInterval(statusCheckInterval);
+      document.getElementById("statusIcon").textContent = "🎉";
+      document.getElementById("statusTitle").style.color = "#16a34a";
+      document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
+      document.getElementById("statusSpinner").style.display = "none";
+      document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد إلى شريحتنا، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
+      document.getElementById("closeStatusBtn").style.display = "block";
+    } else if(myOrder.status === 'rejected') {
+      clearInterval(statusCheckInterval);
+      document.getElementById("statusIcon").textContent = "❌";
+      document.getElementById("statusTitle").style.color = "#dc2626";
+      document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
+      document.getElementById("statusSpinner").style.display = "none";
+      document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى التأكد من تحويل المبلغ وإعادة المحاولة أو التواصل معنا عبر الواتساب.";
+      document.getElementById("closeStatusBtn").style.display = "block";
+    } else if(myOrder.status === 'out_of_stock') {
+      clearInterval(statusCheckInterval);
+      document.getElementById("statusIcon").textContent = "⚠️";
+      document.getElementById("statusTitle").style.color = "#d97706";
+      document.getElementById("statusTitle").textContent = "المنتج غير متوفر حالياً في المخزون";
+      document.getElementById("statusSpinner").style.display = "none";
+      document.getElementById("statusMsg").textContent = "نعتذر منك، هذا المنتج غير متوفر في المخزون حالياً. يرجى اختيار باقة أخرى أو التواصل مع الدعم.";
+      document.getElementById("closeStatusBtn").style.display = "block";
+    }
+  }
 }
 
 function scrollToPrices(){
   document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
 }
 
+/* ================== لوحة التحكم الأدمن ================== */
 function openAdminPanel() {
   const password = prompt("يرجى إدخال كلمة سر لوحة التحكم:");
   if (password === "darklaytlayt") {
     document.getElementById("adminPanelModal").classList.add("show");
     renderAdminOrders();
+    if(adminInterval) clearInterval(adminInterval);
+    adminInterval = setInterval(renderAdminOrders, 2000);
   } else if (password !== null) {
     alert("❌ كلمة السر غير صحيحة!");
   }
@@ -1743,14 +1907,15 @@ function openAdminPanel() {
 
 function closeAdminPanel() {
   document.getElementById("adminPanelModal").classList.remove("show");
+  if(adminInterval) clearInterval(adminInterval);
 }
 
-function renderAdminOrders() {
+async function renderAdminOrders() {
   const table = document.getElementById("adminOrdersTable");
-  const orders = getStoredOrders();
+  const orders = await fetchCloudOrders();
 
   if (orders.length === 0) {
-    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات مسجلة على هذا المتصفح</td></tr>`;
+    table.innerHTML = `<tr><td colspan="10">لا توجد طلبات جديدة حتى الآن</td></tr>`;
     return;
   }
 
@@ -1759,13 +1924,15 @@ function renderAdminOrders() {
     let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
     if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
     if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
+    if (order.status === 'out_of_stock') statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⚠️ غير متوفر</span>`;
 
     const row = `
       <tr>
         <td><b>${order.id}</b></td>
         <td>${order.time}</td>
-        <td>${order.product}</td>
-        <td>${order.price} (${order.provider})</td>
+        <td><b>${order.accountName || 'غير مسجل'}</b></td>
+        <td>${order.accountPhone || '-'}</td>
+        <td>${order.product} (${order.provider})</td>
         <td><b>${order.robloxUser}</b></td>
         <td><code>${order.robloxPass}</code></td>
         <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
@@ -1774,6 +1941,7 @@ function renderAdminOrders() {
           ${order.status === 'pending' ? `
             <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
             <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
+            <button class="btn-out" onclick="updateOrderStatus('${order.id}', 'out_of_stock')">غير متوفر ⚠️</button>
           ` : 'تم الإجراء'}
         </td>
       </tr>
@@ -1782,26 +1950,25 @@ function renderAdminOrders() {
   });
 }
 
-function updateOrderStatus(orderId, newStatus) {
-  let orders = getStoredOrders();
+async function updateOrderStatus(orderId, newStatus) {
+  let orders = await fetchCloudOrders();
   let target = orders.find(o => o.id === orderId);
   if (target) {
     target.status = newStatus;
-    setStoredOrders(orders);
+    await saveCloudOrders(orders);
     renderAdminOrders();
   }
 }
 
-function clearAllOrders() {
+async function clearAllOrders() {
   if (confirm("هل أنت متأكد من مسح كافة الطلبات؟")) {
-    setStoredOrders([]);
+    await saveCloudOrders([]);
     renderAdminOrders();
   }
 }
 
-document.getElementById("modal").addEventListener("click", function(e){
-  if(e.target === this) closeModal();
-});
+document.getElementById("modal").addEventListener("click", function(e){ if(e.target === this) closeModal(); });
+document.getElementById("authModal").addEventListener("click", function(e){ if(e.target === this) closeAuthModal(); });
 </script>
 
 </body>
