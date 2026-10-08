@@ -1863,11 +1863,11 @@ footer {
 
   <div id="adminLogsSection" style="display: none;">
     <div class="admin-actions-bar">
-      <span>📋 سجل الطلبات التي تم حذفها من النظام</span>
+      <span>📋 سجل الطلبات المنتهية (تم التسليم، مرفوض، غير متوفر)</span>
       <button class="admin-btn admin-btn-rej" onclick="clearAllLogs()">🗑️ مسح السجلات</button>
     </div>
     <div id="adminLogsList" class="admin-logs-list">
-      <div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات محذوفة حتى الآن.</div>
+      <div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات منتهية حتى الآن.</div>
     </div>
   </div>
 </div>
@@ -2240,64 +2240,66 @@ function renderMyOrdersModalList() {
   const container = document.getElementById("modalMyOrdersList");
   container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري تحميل الطلبات...</div>`;
 
-  db.collection("orders")
-    .where("userOwner", "==", currentUser.username)
-    .get()
-    .then((querySnapshot) => {
-      container.innerHTML = "";
-      if (querySnapshot.empty) {
-        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات سابقة لديك حتى الآن.</div>`;
-        return;
-      }
+  // جلب الطلبات النشطة والمنتهية الخاصة بالعميل
+  Promise.all([
+    db.collection("orders").where("userOwner", "==", currentUser.username).get(),
+    db.collection("order_logs").where("userOwner", "==", currentUser.username).get()
+  ]).then(([activeSnap, logsSnap]) => {
+    container.innerHTML = "";
+    let orders = [];
+    activeSnap.forEach(doc => orders.push(doc.data()));
+    logsSnap.forEach(doc => orders.push(doc.data()));
 
-      let orders = [];
-      querySnapshot.forEach(doc => orders.push(doc.data()));
-      orders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+    if (orders.length === 0) {
+      container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات سابقة لديك حتى الآن.</div>`;
+      return;
+    }
 
-      let filtered = orders.filter(o => {
-        if(currentOrdersFilter === 'all') return true;
-        if(currentOrdersFilter === 'pending') return o.status === 'pending' || o.status === 'preparing';
-        if(currentOrdersFilter === 'accepted') return o.status === 'accepted';
-        if(currentOrdersFilter === 'completed') return o.status === 'completed';
-        if(currentOrdersFilter === 'rejected') return o.status === 'rejected' || o.status === 'unavailable';
-        return true;
-      });
+    orders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
-      if(filtered.length === 0) {
-        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات في هذا القسم حالياً.</div>`;
-        return;
-      }
-
-      filtered.forEach(o => {
-        let badgeClass = 'badge-pending';
-        let statusText = 'قيد المراجعة ⏳';
-
-        if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'سيتم تجهيز طلبك ⏳'; }
-        else if(o.status === 'accepted') { badgeClass = 'badge-accepted'; statusText = 'قيد التنفيذ ⚙️'; }
-        else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'مكتمل ✅'; }
-        else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'غير متوفر ⚠️'; }
-        else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'ملغي / مرفوض ❌'; }
-
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "order-detail-card-box";
-        itemDiv.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:8px;">
-            <span style="font-weight:900; color:#fff; font-size:14px;">طلب ${o.id}</span>
-            <span class="order-badge ${badgeClass}">${statusText}</span>
-          </div>
-          <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">التوقيت: ${o.time}</div>
-          <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:8px;">المنتج: ${o.product}</div>
-          <div style="display:flex; justify-content:space-between; align-items:center; background:#181818; padding:8px 12px; border-radius:10px; margin-top:6px;">
-            <span style="font-size:11px; color:var(--text-muted);">المبلغ الإجمالي:</span>
-            <span style="font-size:14px; font-weight:900; color:#34d399;">${o.price} د.ل</span>
-          </div>
-        `;
-        container.appendChild(itemDiv);
-      });
-    })
-    .catch((err) => {
-      container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:20px;">حدث خطأ أثناء تحميل البيانات.</div>`;
+    let filtered = orders.filter(o => {
+      if(currentOrdersFilter === 'all') return true;
+      if(currentOrdersFilter === 'pending') return o.status === 'pending' || o.status === 'preparing';
+      if(currentOrdersFilter === 'accepted') return o.status === 'accepted';
+      if(currentOrdersFilter === 'completed') return o.status === 'completed';
+      if(currentOrdersFilter === 'rejected') return o.status === 'rejected' || o.status === 'unavailable';
+      return true;
     });
+
+    if(filtered.length === 0) {
+      container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات في هذا القسم حالياً.</div>`;
+      return;
+    }
+
+    filtered.forEach(o => {
+      let badgeClass = 'badge-pending';
+      let statusText = 'قيد المراجعة ⏳';
+
+      if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'سيتم تجهيز طلبك ⏳'; }
+      else if(o.status === 'accepted') { badgeClass = 'badge-accepted'; statusText = 'قيد التنفيذ ⚙️'; }
+      else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'مكتمل ✅'; }
+      else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'غير متوفر ⚠️'; }
+      else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'ملغي / مرفوض ❌'; }
+
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "order-detail-card-box";
+      itemDiv.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:8px;">
+          <span style="font-weight:900; color:#fff; font-size:14px;">طلب ${o.id}</span>
+          <span class="order-badge ${badgeClass}">${statusText}</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">التوقيت: ${o.time}</div>
+        <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:8px;">المنتج: ${o.product}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#181818; padding:8px 12px; border-radius:10px; margin-top:6px;">
+          <span style="font-size:11px; color:var(--text-muted);">المبلغ الإجمالي:</span>
+          <span style="font-size:14px; font-weight:900; color:#34d399;">${o.price} د.ل</span>
+        </div>
+      `;
+      container.appendChild(itemDiv);
+    });
+  }).catch((err) => {
+    container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:20px;">حدث خطأ أثناء تحميل البيانات.</div>`;
+  });
 }
 
 function updateVisualSteps(status) {
@@ -2888,29 +2890,33 @@ function loadAdminUsersList() {
 
 function loadAdminLogsList() {
   const container = document.getElementById("adminLogsList");
-  container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل سجلات المحذوفات...</div>`;
+  container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل السجلات...</div>`;
 
   db.collection("order_logs").orderBy("deletedAt", "desc").get().then((querySnapshot) => {
     container.innerHTML = "";
     if(querySnapshot.empty) {
-      container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات طلبات محذوفة 📭</div>`;
+      container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات منتهية حتى الآن 📭</div>`;
       return;
     }
 
     let index = 1;
     querySnapshot.forEach(doc => {
       const log = doc.data();
+      let badgeHtml = "<span class='order-badge badge-completed'>مكتمل ✅</span>";
+      if(log.status === 'rejected') badgeHtml = "<span class='order-badge badge-rejected'>مرفوض ❌</span>";
+      if(log.status === 'unavailable') badgeHtml = "<span class='order-badge badge-unavailable'>غير متوفر ⚠️</span>";
+
       const card = document.createElement("div");
       card.className = "admin-log-card";
       card.innerHTML = `
         <div class="admin-order-info">
           <div class="admin-order-num">${index}</div>
           <div class="admin-order-details-text">
-            <h4>طلب محذوف رقم ${log.id} (${log.product})</h4>
-            <p>الزبون: ${log.userOwner} | السعر: ${log.price} د.ل | حذف في: ${log.deletedTime}</p>
+            <h4>طلب رقم ${log.id} (${log.product})</h4>
+            <p>الزبون: ${log.userOwner} | السعر: ${log.price} د.ل | التاريخ: ${log.time}</p>
           </div>
         </div>
-        <button class="admin-btn admin-btn-rej" onclick="deleteSingleLog('${doc.id}')">حذف من السجل</button>
+        <div>${badgeHtml}</div>
       `;
       container.appendChild(card);
       index++;
@@ -2920,16 +2926,8 @@ function loadAdminLogsList() {
   });
 }
 
-function deleteSingleLog(docId) {
-  if(confirm("هل تريد حذف هذا السجل نهائياً؟")) {
-    db.collection("order_logs").doc(docId).delete().then(() => {
-      loadAdminLogsList();
-    });
-  }
-}
-
 function clearAllLogs() {
-  if(confirm("هل أنت متأكد من مسح كافة سجلات المحذوفات؟")) {
+  if(confirm("هل أنت متأكد من مسح كافة السجلات؟")) {
     db.collection("order_logs").get().then(snapshot => {
       snapshot.forEach(doc => doc.ref.delete());
       loadAdminLogsList();
@@ -2955,7 +2953,7 @@ function openAdminUserDetail(username, phone) {
   content.innerHTML = `
     <div class="detail-row"><span style="color:var(--text-muted);">اسم المستخدم:</span><b style="color:#fff;">${username}</b></div>
     <div class="detail-row"><span style="color:var(--text-muted);">رقم الهاتف المسجل:</span><b style="color:#34d399;">${phone}</b></div>
-    <div style="margin: 15px 0 8px; font-weight:800; font-size:13px; color:#fff;">📦 كافة طلبات هذا العميل:</div>
+    <div style="margin: 15px 0 8px; font-weight:800; font-size:13px; color:#fff;">📦 كافة طلبات هذا العميل (الحالية والمنتهية):</div>
     <div id="userSpecificOrdersList" style="max-height: 280px; overflow-y: auto; display:flex; flex-direction:column; gap:8px;">
       <div style="text-align:center; color:var(--text-muted); padding:10px;">جاري تحميل طلبات العميل...</div>
     </div>
@@ -2963,23 +2961,31 @@ function openAdminUserDetail(username, phone) {
 
   document.getElementById("adminUserDetailModal").classList.add("show");
 
-  db.collection("orders").where("userOwner", "==", username).get().then((snapshot) => {
+  Promise.all([
+    db.collection("orders").where("userOwner", "==", username).get(),
+    db.collection("order_logs").where("userOwner", "==", username).get()
+  ]).then(([activeSnap, logsSnap]) => {
     const ordersContainer = document.getElementById("userSpecificOrdersList");
     ordersContainer.innerHTML = "";
 
-    if(snapshot.empty) {
+    let allUserOrders = [];
+    activeSnap.forEach(doc => allUserOrders.push(doc.data()));
+    logsSnap.forEach(doc => allUserOrders.push(doc.data()));
+
+    if(allUserOrders.length === 0) {
       ordersContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
       return;
     }
 
-    snapshot.forEach(doc => {
-      const o = doc.data();
+    allUserOrders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+    allUserOrders.forEach(o => {
       let statusText = 'قيد المراجعة ⏳';
       if(o.status === 'preparing') statusText = 'سيتم التجهيز ⏳';
       if(o.status === 'accepted') statusText = 'قيد التنفيذ ⚙️';
       if(o.status === 'completed') statusText = 'مكتمل ✅';
       if(o.status === 'unavailable') statusText = 'غير متوفر ⚠️';
-      if(o.status === 'rejected') statusText = 'ملغي ❌';
+      if(o.status === 'rejected') statusText = 'ملغي / مرفوض ❌';
 
       const div = document.createElement("div");
       div.className = "order-detail-card-box";
@@ -3032,15 +3038,15 @@ function openAdminDetail(orderId) {
     </div>
 
     <div style="margin-top:18px; border-top:1px solid var(--line); padding-top:14px; text-align:center;">
-      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">إدارة وحذف الطلب:</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">إام وتغيير حالة الطلب (عند اختيار مكتمل، مرفوض، أو غير متوفر سينتقل تلقائياً للسجلات):</div>
       <div style="display:flex; justify-content:center; gap:4px; flex-wrap:wrap; margin-bottom: 10px;">
         <button class="admin-btn admin-btn-prep" onclick="updateOrderStatus('${o.id}', 'preparing')">سيتم التجهيز</button>
         <button class="admin-btn admin-btn-acc" onclick="updateOrderStatus('${o.id}', 'accepted')">قيد التنفيذ</button>
-        <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">تسليم</button>
-        <button class="admin-btn admin-btn-unav" onclick="updateOrderStatus('${o.id}', 'unavailable')">غير متوفر</button>
-        <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">رفض</button>
+        <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">تسليم ✅</button>
+        <button class="admin-btn admin-btn-unav" onclick="updateOrderStatus('${o.id}', 'unavailable')">غير متوفر ⚠️</button>
+        <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">رفض ❌</button>
       </div>
-      <button class="admin-btn admin-btn-rej" style="width: 100%; padding: 10px;" onclick="deleteOrderWithLog('${o.id}')">حذف الطلب ونقله للسجلات 🗑️</button>
+      <button class="admin-btn admin-btn-rej" style="width: 100%; padding: 10px;" onclick="deleteOrderWithLog('${o.id}')">حذف الطلب ونقله للسجلات يدوياً 🗑️</button>
     </div>
   `;
 
@@ -3057,14 +3063,36 @@ function openLightBox(imgSrc) {
 function closeLightBox() { document.getElementById("imageLightBox").classList.remove("show"); }
 
 function updateOrderStatus(orderId, newStatus) {
-  db.collection("orders").doc(orderId).update({ status: newStatus }).then(() => {
-    alert("✅ تم تحديث حالة الطلب بنجاح!");
-    closeAdminDetailModal();
-  }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); });
+  // إذا كانت الحالة النهائية (مكتمل، مرفوض، غير متوفر)، قم بنقله للسجلات وحذفه من النشطة تلقائياً
+  if(newStatus === 'completed' || newStatus === 'rejected' || newStatus === 'unavailable') {
+    const o = cachedOrdersMap[orderId];
+    if(!o) return;
+
+    const logData = {
+      ...o,
+      status: newStatus,
+      deletedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      deletedTime: new Date().toLocaleString('ar-LY')
+    };
+
+    db.collection("order_logs").add(logData).then(() => {
+      db.collection("orders").doc(orderId).delete().then(() => {
+        alert("✅ تم تحديث الحالة، ونقل الطلب تلقائياً إلى السجلات المحفوظة!");
+        closeAdminDetailModal();
+      });
+    }).catch(err => {
+      alert("حدث خطأ: " + err.message);
+    });
+  } else {
+    db.collection("orders").doc(orderId).update({ status: newStatus }).then(() => {
+      alert("✅ تم تحديث حالة الطلب بنجاح!");
+      closeAdminDetailModal();
+    }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); });
+  }
 }
 
 function deleteOrderWithLog(orderId) {
-  if(confirm(`⚠️ هل أنت متأكد من حذف الطلب (${orderId}) ونقله إلى سجلات المحذوفات؟`)) {
+  if(confirm(`⚠️ هل أنت متأكد من حذف الطلب (${orderId}) ونقله إلى السجلات؟`)) {
     const orderData = cachedOrdersMap[orderId];
     if(!orderData) return;
 
