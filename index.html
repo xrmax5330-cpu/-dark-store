@@ -142,17 +142,17 @@ nav {
 .hero {
   max-width: 1100px;
   margin: auto;
-  padding: 45px 20px 25px;
+  padding: 35px 20px 20px;
   text-align: center;
 }
 
 .logo {
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
   display: block;
-  margin: 0 auto 25px;
+  margin: 0 auto 20px;
   border: 3px solid var(--sand-gold);
   box-shadow: 
     0 0 25px rgba(212, 175, 55, 0.25),
@@ -160,9 +160,9 @@ nav {
 }
 
 .hero h1 {
-  font-size: clamp(38px, 8vw, 68px);
+  font-size: clamp(32px, 7vw, 55px);
   font-weight: 900;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .hero h1 span {
@@ -171,14 +171,30 @@ nav {
 
 .hero p {
   color: var(--text-muted);
-  font-size: 17px;
-  line-height: 1.8;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* شريط تتبع الطلب المباشر في الصفحة الرئيسية */
+.home-active-order-banner {
+  max-width: 700px;
+  margin: 15px auto 25px;
+  background: linear-gradient(145deg, #1e1a14, #12100d);
+  border: 2px solid var(--sand-gold);
+  border-radius: 16px;
+  padding: 15px 20px;
+  text-align: right;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  display: none;
+}
+.home-active-order-banner.show {
+  display: block;
 }
 
 section {
   max-width: 1100px;
   margin: auto;
-  padding: 25px 20px 45px;
+  padding: 20px 20px 40px;
 }
 
 .title {
@@ -1053,8 +1069,8 @@ footer {
   }
 
   .logo {
-    width: 145px;
-    height: 145px;
+    width: 130px;
+    height: 130px;
   }
 
   .admin-table {
@@ -1100,6 +1116,16 @@ footer {
     <p>
       🇱🇾🔥متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس سريع وآمن
     </p>
+
+    <!-- شريط تتبع حالة طلبك المباشر في الصفحة الرئيسية -->
+    <div id="homeActiveOrderBanner" class="home-active-order-banner">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size:12px; color:var(--sand-gold); font-weight:bold;">📦 حالة طلبك الحالي:</span>
+        <span id="homeOrderStatusBadge" class="order-badge badge-pending">قيد المراجعة</span>
+      </div>
+      <div style="font-size:14px; font-weight:bold; color:#fff;" id="homeOrderProductText">-</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">رقم الطلب: <span id="homeOrderIdText">#</span></div>
+    </div>
   </div>
 
   <section id="pricesSection">
@@ -1238,7 +1264,7 @@ footer {
   </div>
 </footer>
 
-<!-- 1. نافذة التسجيل وتسجيل الدخول المسبق -->
+<!-- 1. نافذة التسجيل وتسجيل الدخول -->
 <div id="authModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
@@ -1302,7 +1328,7 @@ footer {
     </div>
 
     <div id="myOrdersList" style="max-height: 250px; overflow-y: auto;">
-      <!-- يتم تعبئة الطلبات سحابياً تلقائياً -->
+      <!-- يتم تعبئة الطلبات تلقائياً -->
     </div>
 
     <button class="close" style="background:#dc2626; color:white; margin-top:15px;" onclick="logoutUser()">تسجيل الخروج 🚪</button>
@@ -1348,7 +1374,7 @@ footer {
         </div>
         <div class="step-item">
           <span class="step-num">4</span>
-          <span>أرسل الطلب وانتظر مراجعة وتنفيذ الطلب.</span>
+          <span>أرفق سكرين شوت (صورة) إيصال التحويل وأرسل الطلب.</span>
         </div>
       </div>
 
@@ -1372,6 +1398,11 @@ footer {
       </div>
 
       <div class="form-group">
+        <label>🖼️ سكرين شوت / صورة إيصال التحويل <span>*</span></label>
+        <input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;">
+      </div>
+
+      <div class="form-group">
         <label>💬ملاحظات إضافية</label>
         <textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة تريد إضافتها للطلب..."></textarea>
       </div>
@@ -1388,7 +1419,7 @@ footer {
       </button>
 
       <div class="modal-notice">
-        📌 ملاحظة: يرجى تحويل الرصيد أولاً قبل إرسال الطلب ليتم التنفيذ مباشرة.
+        📌 ملاحظة: يرجى تحويل الرصيد أولاً وإرفاق صورة الإيصال ليتم التنفيذ مباشرة.
       </div>
 
       <button class="close" onclick="closeModal()">
@@ -1409,7 +1440,7 @@ footer {
       </div>
 
       <p id="statusMsg" style="color: var(--text-muted); margin-top: 10px; font-size: 13px; line-height: 1.6;">
-        تم إرسال طلبك بنجاح للتحقق من وصول التحويل! يرجى الانتظار، أو يمكنك الإغلاق والتحقق من حالة طلبك في أي وقت من زر "الملف الشخصي 👤".
+        تم إرسال طلبك بنجاح للتحقق من وصول التحويل وصورة الإيصال! يرجى الانتظار، وسيظهر لك التحديث مباشرة في الصفحة الرئيسية للمتجر.
       </p>
       <button id="closeStatusBtn" class="close" style="margin-top: 15px;" onclick="closeModal()">متابعة التصفح / إغلاق الشاشة</button>
     </div>
@@ -1425,7 +1456,7 @@ footer {
   </div>
 
   <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap; gap:10px;">
-    <span>تحدّث الطلبات حياً ومباشرة من جميع الأجهزة ⚡</span>
+    <span>🔔 يتم إصدار صوت تنبيه فور وصول أي طلب جديد للوحة!</span>
     <button class="btn-rej" style="padding:6px 12px;" onclick="clearAllOrders()">مسح كافة الطلبات السحابية</button>
   </div>
 
@@ -1433,15 +1464,16 @@ footer {
     <thead>
       <tr>
         <th>رقم الطلب</th>
-        <th>الزبون / الحساب</th>
+        <th>الزبون</th>
         <th>التاريخ</th>
         <th>المنتج</th>
         <th>السعر</th>
         <th>اليوزر المطلوب</th>
         <th>كلمة السر</th>
-        <th>الرقم المَحوّل منه</th>
-        <th>الحالة الحالية</th>
-        <th>الإجراءات والتحكم</th>
+        <th>رقم المحول</th>
+        <th>صورة الإيصال</th>
+        <th>الحالة</th>
+        <th>التحكم</th>
       </tr>
     </thead>
     <tbody id="adminOrdersTable">
@@ -1450,7 +1482,7 @@ footer {
 </div>
 
 <script>
-// تهيئة وإعداد Firebase الخاصة بمشروع Dark Store
+// إعدادات Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDjGgG2fFo-jq_Wed6dQwOyoX6PEeyVlXw",
   authDomain: "dark-store-5847b.firebaseapp.com",
@@ -1461,9 +1493,26 @@ const firebaseConfig = {
   measurementId: "G-MTDHKR4KSW"
 };
 
-// تشغيل Firebase و Firestore
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+// صوت التنبيه التلقائي
+function playAlertSound() {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+  } catch(e) {
+    console.log("Audio not supported");
+  }
+}
 
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
@@ -1552,7 +1601,9 @@ let cart = [];
 let currentOrderId = null;
 let statusUnsubscribe = null;
 let adminUnsubscribe = null;
+let homeOrderUnsubscribe = null;
 let currentUser = null;
+let lastOrdersCount = -1;
 
 function getNextOrderId() {
   let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "101");
@@ -1568,11 +1619,11 @@ document.addEventListener("DOMContentLoaded", () => {
   
   switchCategory("robux");
 
-  // التحقق من وجود مستخدم مسجل
   const savedUser = localStorage.getItem("dark_store_logged_user");
   if(savedUser) {
     currentUser = JSON.parse(savedUser);
     updateUserNavUI();
+    listenToHomeActiveOrder();
   } else {
     openAuthModal(false);
   }
@@ -1582,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ================== إدارة الحسابات وتسجيل الدخول ================== */
+/* ================== الحسابات ================== */
 function openAuthModal(allowClose = true) {
   document.getElementById("authCloseBtn").style.display = allowClose ? "block" : "none";
   document.getElementById("authModal").classList.add("show");
@@ -1610,6 +1661,7 @@ function handleAuthSubmit() {
   localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
   updateUserNavUI();
   closeAuthModal();
+  listenToHomeActiveOrder();
 }
 
 function loginWithGoogle() {
@@ -1622,6 +1674,7 @@ function loginWithGoogle() {
     localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
     updateUserNavUI();
     closeAuthModal();
+    listenToHomeActiveOrder();
     alert("تم تسجيل الدخول بحساب Google بنجاح!");
   } else if(googleEmail) {
     alert("البريد غير صحيح!");
@@ -1658,6 +1711,8 @@ function logoutUser() {
   localStorage.removeItem("dark_store_logged_user");
   currentUser = null;
   updateUserNavUI();
+  document.getElementById("homeActiveOrderBanner").classList.remove("show");
+  if(homeOrderUnsubscribe) homeOrderUnsubscribe();
   closeProfileModal();
   openAuthModal(false);
 }
@@ -1707,7 +1762,41 @@ function renderMyOrders() {
     });
 }
 
-/* ================== المتجر والسلة والمنتجات ================== */
+// متابعة أحدث طلب للمستخدم في الصفحة الرئيسية تلقائياً
+function listenToHomeActiveOrder() {
+  if(!currentUser) return;
+  if(homeOrderUnsubscribe) homeOrderUnsubscribe();
+
+  homeOrderUnsubscribe = db.collection("orders")
+    .where("userOwner", "==", currentUser.username)
+    .onSnapshot((snapshot) => {
+      const banner = document.getElementById("homeActiveOrderBanner");
+      if(snapshot.empty) {
+        banner.classList.remove("show");
+        return;
+      }
+
+      let orders = [];
+      snapshot.forEach(doc => orders.push(doc.data()));
+      orders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+      const latest = orders[0];
+      if(latest) {
+        banner.classList.add("show");
+        document.getElementById("homeOrderIdText").textContent = latest.id;
+        document.getElementById("homeOrderProductText").textContent = `${latest.product} (${latest.price})`;
+        
+        const badge = document.getElementById("homeOrderStatusBadge");
+        if(latest.status === 'pending') { badge.className = 'order-badge badge-pending'; badge.textContent = 'قيد المراجعة ⏳'; }
+        else if(latest.status === 'accepted') { badge.className = 'order-badge badge-accepted'; badge.textContent = 'مقبول / قيد التنفيذ ⚙️'; }
+        else if(latest.status === 'completed') { badge.className = 'order-badge badge-completed'; badge.textContent = 'تم التسليم بنجاح ✅'; }
+        else if(latest.status === 'unavailable') { badge.className = 'order-badge badge-unavailable'; badge.textContent = 'غير متوفر ⚠️'; }
+        else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'مرفوض ❌'; }
+      }
+    });
+}
+
+/* ================== المتجر ================== */
 function addToCart(item) {
   cart.push(item);
   updateCartBadge();
@@ -2013,6 +2102,7 @@ function sendOrder(){
   const senderPhone = document.getElementById("senderPhone").value.trim();
   const orderNotes = document.getElementById("orderNotes").value.trim();
   const confirmCheckbox = document.getElementById("confirmCheckbox").checked;
+  const receiptFile = document.getElementById("receiptImageInput").files[0];
 
   if(!robloxUser){
     alert("👤يرجى إدخال اسم المستخدم / اليوزر");
@@ -2029,45 +2119,56 @@ function sendOrder(){
     return;
   }
 
+  if(!receiptFile){
+    alert("🖼️ يرجى إرفاق صورة (سكرين شوت) إيصال التحويل!");
+    return;
+  }
+
   if(!confirmCheckbox){
     alert("يرجى التأكيد على أنك قمت بتحويل الرصيد قبل إرسال الطلب");
     return;
   }
 
-  currentOrderId = getNextOrderId();
-  const currentDateStr = new Date().toLocaleString('ar-LY');
+  // قراءة الصورة وتحويلها إلى Base64 لحفظها سحابياً
+  const reader = new FileReader();
+  reader.onload = function(uploadEvent) {
+    const base64Image = uploadEvent.target.result;
+    
+    currentOrderId = getNextOrderId();
+    const currentDateStr = new Date().toLocaleString('ar-LY');
 
-  const orderData = {
-    id: currentOrderId,
-    userOwner: currentUser ? currentUser.username : 'زائر',
-    product: selectedProduct.title,
-    price: selectedProduct.price,
-    provider: selectedProduct.provider || 'ليبيانا',
-    robloxUser: robloxUser,
-    robloxPass: robloxPass || 'لا يوجد',
-    senderPhone: senderPhone,
-    notes: orderNotes,
-    status: 'pending',
-    time: currentDateStr,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    const orderData = {
+      id: currentOrderId,
+      userOwner: currentUser ? currentUser.username : 'زائر',
+      product: selectedProduct.title,
+      price: selectedProduct.price,
+      provider: selectedProduct.provider || 'ليبيانا',
+      robloxUser: robloxUser,
+      robloxPass: robloxPass || 'لا يوجد',
+      senderPhone: senderPhone,
+      receiptImage: base64Image,
+      notes: orderNotes,
+      status: 'pending',
+      time: currentDateStr,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    db.collection("orders").doc(currentOrderId).set(orderData)
+      .then(() => {
+        document.getElementById("viewOrderId").textContent = currentOrderId;
+        document.getElementById("viewOrderProduct").textContent = selectedProduct.title;
+        document.getElementById("viewOrderDate").textContent = currentDateStr;
+
+        document.getElementById("orderFormContent").style.display = "none";
+        document.getElementById("orderStatusContent").style.display = "block";
+
+        listenToOrderStatus(currentOrderId);
+      })
+      .catch((error) => {
+        alert("حدث خطأ في الاتصال بالسيرفر السحابي: " + error.message);
+      });
   };
-
-  // حفظ الطلب سحابياً في قاعدة بيانات Firebase
-  db.collection("orders").doc(currentOrderId).set(orderData)
-    .then(() => {
-      document.getElementById("viewOrderId").textContent = currentOrderId;
-      document.getElementById("viewOrderProduct").textContent = selectedProduct.title;
-      document.getElementById("viewOrderDate").textContent = currentDateStr;
-
-      document.getElementById("orderFormContent").style.display = "none";
-      document.getElementById("orderStatusContent").style.display = "block";
-
-      // متابعة التغيرات السحابية المباشرة لحالة الطلب
-      listenToOrderStatus(currentOrderId);
-    })
-    .catch((error) => {
-      alert("حدث خطأ في الاتصال بالسيرفر السحابي: " + error.message);
-    });
+  reader.readAsDataURL(receiptFile);
 }
 
 function listenToOrderStatus(orderId){
@@ -2115,7 +2216,7 @@ function scrollToPrices(){
   document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
 }
 
-/* ================== وظائف لوحة التحكم الأدمن السحابية ================== */
+/* ================== لوحة التحكم الأدمن ================== */
 function openAdminPanelPrompt() {
   const pass = prompt("🔐 أدخل كلمة سر الأدمن للوصول إلى لوحة التحكم:");
   if(pass === "darkstore010") {
@@ -2127,10 +2228,13 @@ function openAdminPanelPrompt() {
 
 function openAdminPanel() {
   document.getElementById("adminPanelModal").classList.add("show");
-  // الاستماع المباشر واللحظي للطلبات من كافة الأجهزة عبر العالم
   if(!adminUnsubscribe) {
     adminUnsubscribe = db.collection("orders").orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
+        if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
+          playAlertSound();
+        }
+        lastOrdersCount = snapshot.size;
         renderAdminOrders(snapshot);
       });
   }
@@ -2142,13 +2246,14 @@ function closeAdminPanel() {
     adminUnsubscribe();
     adminUnsubscribe = null;
   }
+  lastOrdersCount = -1;
 }
 
 function renderAdminOrders(snapshot) {
   const tableBody = document.getElementById("adminOrdersTable");
 
   if(snapshot.empty) {
-    tableBody.innerHTML = `<tr><td colspan="10" style="padding:20px;">لا توجد طلبات واردة حالياً في السحابة</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="11" style="padding:20px;">لا توجد طلبات واردة حالياً في السحابة</td></tr>`;
     return;
   }
 
@@ -2163,6 +2268,8 @@ function renderAdminOrders(snapshot) {
     if(o.status === 'unavailable') statusText = "<b style='color:#fbbf24;'>غير متوفر ⚠️</b>";
     if(o.status === 'rejected') statusText = "<b style='color:#f87171;'>مرفوض ❌</b>";
 
+    let imageHtml = o.receiptImage ? `<a href="${o.receiptImage}" target="_blank"><img src="${o.receiptImage}" style="width:45px; height:45px; object-fit:cover; border-radius:6px; border:1px solid #d4af37;" title="اضغط لعرض الصورة بحجمها الكامل"></a>` : 'لا توجد';
+
     tr.innerHTML = `
       <td><b>${o.id}</b></td>
       <td>${o.userOwner || 'زائر'}</td>
@@ -2172,6 +2279,7 @@ function renderAdminOrders(snapshot) {
       <td><span style="color:#fde047;">${o.robloxUser}</span></td>
       <td>${o.robloxPass}</td>
       <td><b style="color:#38bdf8;">${o.senderPhone}</b></td>
+      <td>${imageHtml}</td>
       <td>${statusText}</td>
       <td>
         <button class="btn-acc" onclick="updateOrderStatus('${o.id}', 'accepted')">قبول</button>
