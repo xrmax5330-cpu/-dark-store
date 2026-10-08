@@ -2746,7 +2746,7 @@ function listenToOrderStatus(orderId){
         const msg = document.getElementById("statusMsg");
 
         if(myOrder.status === 'preparing') {
-          icon.textContent = "⏳"; title.style.color = "#c084fc"; title.textContent = "سيتم تجهيز طلبك، يرجى الانتظار..."; spinner.style.display = "block"; msg.textContent = "تم استلام إيصالك وجاري تجهيز طلبك الآن.";
+          icon.textContent = "⏳"; title.style.color = "#c084fc"; title.textContent = "سيتم تجهيز طلبك، يرجى الانتظار..."; spinner.style.display = "block"; msg.textContent = "تم استلاستلام إيصالك وجاري تجهيز طلبك الآن.";
         } else if(myOrder.status === 'accepted') {
           icon.textContent = "⚙️"; title.style.color = "#2563eb"; title.textContent = "قيد التنفيذ والشحن!"; spinner.style.display = "block"; msg.textContent = "تم التأكد من التحويل وقبول الطلب، جاري شحن حسابك.";
         } else if(myOrder.status === 'completed') {
@@ -2923,7 +2923,7 @@ function loadAdminLogsList() {
     let index = 1;
     querySnapshot.forEach(doc => {
       const log = doc.data();
-      cachedOrdersMap[log.id] = log; // تخزين الطلب في الخريطة ليفتح عند النقر
+      cachedOrdersMap[log.id] = log;
 
       let badgeHtml = "<span class='order-badge badge-completed'>مكتمل ✅</span>";
       if(log.status === 'rejected') badgeHtml = "<span class='order-badge badge-rejected'>مرفوض ❌</span>";
@@ -2931,7 +2931,7 @@ function loadAdminLogsList() {
 
       const card = document.createElement("div");
       card.className = "admin-log-card";
-      card.onclick = () => openAdminDetail(log.id); // تفعيل النقر لفتح تفاصيل السجل
+      card.onclick = () => openAdminDetail(log.id);
 
       card.innerHTML = `
         <div class="admin-order-info">
