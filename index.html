@@ -722,17 +722,17 @@ footer {
   color: #fff;
 }
 
-/* النوافذ المنبثقة */
+/* النوافذ المنبثقة بنظام الشاشة الكبيرة/الكاملة المشابه للصورة */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(12px);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 3000;
-  padding: 15px;
+  padding: 10px;
 }
 
 .modal.show {
@@ -741,14 +741,14 @@ footer {
 
 .modal-box {
   width: 100%;
-  max-width: 480px;
+  max-width: 550px;
   background: #0a0a0a;
   border: 1px solid var(--card-border);
   border-top: 3px solid #fff;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.95);
-  max-height: 90vh;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.98);
+  max-height: 92vh;
   overflow-y: auto;
 }
 
@@ -757,7 +757,7 @@ footer {
   color: #fff;
   font-size: 12px;
   font-weight: 800;
-  padding: 5px 12px;
+  padding: 5px 14px;
   border-radius: 20px;
   display: inline-block;
   margin-bottom: 10px;
@@ -766,10 +766,45 @@ footer {
 
 .modal-box h3 {
   text-align: center;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
   margin-bottom: 15px;
   color: #fff;
+}
+
+/* أزرار الفلترة الكبيرة مثل الصورة (الكل، قيد المراجعة، قيد التنفيذ، مكتمل، ملغي) */
+.filter-tabs-container {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+.filter-tab-btn {
+  background: #141414;
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.filter-tab-btn.active {
+  background: #10b981;
+  color: #fff;
+  border-color: #10b981;
+}
+
+.order-detail-card-box {
+  background: #121212;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+  text-align: right;
 }
 
 .order-summary-card {
@@ -960,24 +995,18 @@ footer {
   opacity: 0.85;
 }
 
-.modal-notice {
-  text-align: center;
-  font-size: 11px;
-  color: var(--accent-silver);
-  margin-top: 8px;
-}
-
 .close {
   width: 100%;
-  padding: 10px;
-  margin-top: 8px;
+  padding: 12px;
+  margin-top: 10px;
   background: #141414;
   border: 1px solid var(--card-border);
-  border-radius: 10px;
+  border-radius: 12px;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s;
   font-size: 13px;
+  font-weight: bold;
 }
 
 .close:hover {
@@ -1011,26 +1040,20 @@ footer {
 .profile-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 14px;
+  border-radius: 16px;
+  padding: 20px;
   margin-bottom: 16px;
+  text-align: center;
 }
 .user-info-row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 12px;
+  font-size: 13px;
 }
 .user-info-row:last-child { border-bottom: none; }
-.my-order-item {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  text-align: right;
-}
+
 .order-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -1324,7 +1347,7 @@ footer {
       <span>واتساب الدعم الفني</span>
     </a>
 
-    <!-- مربع طلباتي الجديد في المكان المحدد -->
+    <!-- مربع طلباتي الجديد -->
     <div class="sidebar-item" onclick="toggleSidebar(); openMyOrdersModal()" style="border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);">
       <span class="sidebar-item-icon">📦</span>
       <span>طلباتي (تتبع حالتها والطلبات السابقة)</span>
@@ -1590,43 +1613,53 @@ footer {
   </div>
 </div>
 
-<!-- نافذة الملف الشخصي (حسابي) -->
+<!-- نافذة الملف الشخصي (حسابي) الجديدة الكبيرة -->
 <div id="profileModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
-      <span class="modal-header-tag">👤 حسابي الشخصي</span>
-      <h3>معلومات الحساب</h3>
+      <span class="modal-header-tag">👤 لوحة التحكم الخاصة بك</span>
+      <h3>حسابي الشخصي</h3>
     </div>
 
-    <div class="profile-card" style="text-align: center; padding: 20px;">
-      <div style="font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 8px;" id="profUserVal">اسم الحساب</div>
-      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;" id="profContactVal">رقم الهاتف</div>
+    <div class="profile-card">
+      <div style="font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 6px;" id="profUserVal">اسم الحساب</div>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;" id="profContactVal">رقم الهاتف</div>
       
-      <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #4ade80; padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: bold; display: inline-block;">
+      <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #4ade80; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: bold; display: inline-block;">
         حسابك مفعل تستطيع الشراء ✅
       </div>
     </div>
 
-    <button class="confirm" style="background: #dc2626; color: white; margin-bottom: 10px;" onclick="logoutUser()">
+    <button class="confirm" style="background: #dc2626; color: white; margin-top: 15px;" onclick="logoutUser()">
       تسجيل الخروج من الحساب 🚪
     </button>
-    <button class="close" onclick="closeProfileModal()">إغلاق الشاشة</button>
+    <button class="close" onclick="closeProfileModal()">إغلاق النافذة</button>
   </div>
 </div>
 
-<!-- نافذة طلباتي السابقة (تتبع وحالة الطلبات) -->
+<!-- نافذة "طلباتي" الجديدة الكبيرة بفلتر مشابه للصورة -->
 <div id="myOrdersModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
-      <span class="modal-header-tag">📦 طلباتي</span>
-      <h3>متابعة حالة الطلبات السابقة</h3>
+      <span class="modal-header-tag">📦 الطلبات</span>
+      <h3 style="margin-bottom: 5px;">سجل طلباتك السابقة</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">تتبع حالة طلباتك الحالية والمنتهية</p>
     </div>
 
-    <div id="modalMyOrdersList" style="max-height: 350px; overflow-y: auto; margin-bottom: 15px;">
-      <div style="text-align:center; color:var(--text-muted); padding:15px;">جاري تحميل طلباتك...</div>
+    <!-- أزرار الفلترة مثل الصورة (الكل، قيد المراجعة، قيد التنفيذ، مكتمل، ملغي) -->
+    <div class="filter-tabs-container">
+      <button class="filter-tab-btn active" onclick="filterOrdersTab('all', this)">الكل</button>
+      <button class="filter-tab-btn" onclick="filterOrdersTab('pending', this)">قيد المراجعة</button>
+      <button class="filter-tab-btn" onclick="filterOrdersTab('accepted', this)">قيد التنفيذ</button>
+      <button class="filter-tab-btn" onclick="filterOrdersTab('completed', this)">مكتمل</button>
+      <button class="filter-tab-btn" onclick="filterOrdersTab('rejected', this)">ملغي / مرفوض</button>
     </div>
 
-    <button class="close" onclick="closeMyOrdersModal()">إغلاق الشاشة</button>
+    <div id="modalMyOrdersList" style="max-height: 400px; overflow-y: auto;">
+      <div style="text-align:center; color:var(--text-muted); padding:25px;">جاري تحميل طلباتك...</div>
+    </div>
+
+    <button class="close" onclick="closeMyOrdersModal()">إغلاق النافذة</button>
   </div>
 </div>
 
@@ -1895,6 +1928,7 @@ let currentUser = null;
 let lastOrdersCount = -1;
 let cachedOrdersMap = {};
 let allOrdersData = [];
+let currentOrdersFilter = 'all';
 
 function getNextOrderId() {
   let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "101");
@@ -2035,12 +2069,27 @@ function openMyOrdersModal() {
     openAuthModal();
     return;
   }
-  renderMyOrdersList();
+  currentOrdersFilter = 'all';
+  // إعادة تعيين أزرار الفلتر بصرياً
+  const btns = document.querySelectorAll('.filter-tab-btn');
+  btns.forEach((b, idx) => {
+    b.classList.toggle('active', idx === 0);
+  });
+  
+  renderMyOrdersModalList();
   document.getElementById("myOrdersModal").classList.add("show");
 }
 
 function closeMyOrdersModal() {
   document.getElementById("myOrdersModal").classList.remove("show");
+}
+
+function filterOrdersTab(filterType, btnElem) {
+  currentOrdersFilter = filterType;
+  const btns = document.querySelectorAll('.filter-tab-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  btnElem.classList.add('active');
+  renderMyOrdersModalList();
 }
 
 function logoutUser() {
@@ -2053,9 +2102,9 @@ function logoutUser() {
   openAuthModal();
 }
 
-function renderMyOrdersList() {
+function renderMyOrdersModalList() {
   const container = document.getElementById("modalMyOrdersList");
-  container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:10px;">جاري تحميل طلباتك...</div>`;
+  container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري تحميل الطلبات...</div>`;
 
   db.collection("orders")
     .where("userOwner", "==", currentUser.username)
@@ -2063,7 +2112,7 @@ function renderMyOrdersList() {
     .then((querySnapshot) => {
       container.innerHTML = "";
       if (querySnapshot.empty) {
-        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لا توجد طلبات سابقة لديك حتى الآن.</div>`;
+        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات سابقة لديك حتى الآن.</div>`;
         return;
       }
 
@@ -2071,31 +2120,50 @@ function renderMyOrdersList() {
       querySnapshot.forEach(doc => orders.push(doc.data()));
       orders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
-      orders.forEach(o => {
+      // تطبيق الفلترة
+      let filtered = orders.filter(o => {
+        if(currentOrdersFilter === 'all') return true;
+        if(currentOrdersFilter === 'pending') return o.status === 'pending' || o.status === 'preparing';
+        if(currentOrdersFilter === 'accepted') return o.status === 'accepted';
+        if(currentOrdersFilter === 'completed') return o.status === 'completed';
+        if(currentOrdersFilter === 'rejected') return o.status === 'rejected' || o.status === 'unavailable';
+        return true;
+      });
+
+      if(filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات في هذا القسم حالياً.</div>`;
+        return;
+      }
+
+      filtered.forEach(o => {
         let badgeClass = 'badge-pending';
         let statusText = 'قيد المراجعة ⏳';
 
         if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'سيتم تجهيز طلبك ⏳'; }
         else if(o.status === 'accepted') { badgeClass = 'badge-accepted'; statusText = 'قيد التنفيذ ⚙️'; }
-        else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'تم التسليم بنجاح ✅'; }
+        else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'مكتمل ✅'; }
         else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'غير متوفر ⚠️'; }
-        else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'مرفوض ❌'; }
+        else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'ملغي / مرفوض ❌'; }
 
         const itemDiv = document.createElement("div");
-        itemDiv.className = "my-order-item";
+        itemDiv.className = "order-detail-card-box";
         itemDiv.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-            <span style="font-weight:bold; color:#fff; font-size:12px;">${o.id}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:8px;">
+            <span style="font-weight:900; color:#fff; font-size:14px;">طلب #${o.id}</span>
             <span class="order-badge ${badgeClass}">${statusText}</span>
           </div>
-          <div style="font-size:13px; font-weight:bold; color:#fff;">${o.product} (${o.price})</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">تاريخ الطلب: ${o.time}</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">التوقيت: ${o.time}</div>
+          <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:8px;">المنتج: ${o.product}</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#181818; padding:8px 12px; border-radius:10px; margin-top:6px;">
+            <span style="font-size:11px; color:var(--text-muted);">المبلغ الإجمالي:</span>
+            <span style="font-size:14px; font-weight:900; color:#34d399;">${o.price} د.ل</span>
+          </div>
         `;
         container.appendChild(itemDiv);
       });
     })
     .catch((err) => {
-      container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:10px;">حدث خطأ أثناء تحميل البيانات.</div>`;
+      container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:20px;">حدث خطأ أثناء تحميل البيانات.</div>`;
     });
 }
 
@@ -2151,9 +2219,9 @@ function listenToHomeActiveOrder() {
         if(latest.status === 'pending') { badge.className = 'order-badge badge-pending'; badge.textContent = 'قيد المراجعة ⏳'; }
         else if(latest.status === 'preparing') { badge.className = 'order-badge badge-preparing'; badge.textContent = 'سيتم تجهيز طلبك ⏳'; }
         else if(latest.status === 'accepted') { badge.className = 'order-badge badge-accepted'; badge.textContent = 'قيد التنفيذ ⚙️'; }
-        else if(latest.status === 'completed') { badge.className = 'order-badge badge-completed'; badge.textContent = 'تم التسليم بنجاح ✅'; }
+        else if(latest.status === 'completed') { badge.className = 'order-badge badge-completed'; badge.textContent = 'مكتمل ✅'; }
         else if(latest.status === 'unavailable') { badge.className = 'order-badge badge-unavailable'; badge.textContent = 'غير متوفر ⚠️'; }
-        else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'مرفوض ❌'; }
+        else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'ملغي ❌'; }
 
         updateVisualSteps(latest.status);
 
@@ -2589,7 +2657,7 @@ function switchAdminTab(tabName) {
     adminOrdersSection.style.display = "block"; adminUsersSection.style.display = "none";
   } else {
     tabUsersBtn.classList.add("active"); tabOrdersBtn.classList.remove("active");
-    adminUsersSection.style.display = "block"; adminUsersSection.style.display = "none";
+    adminUsersSection.style.display = "block"; adminOrdersSection.style.display = "none";
     loadAdminUsersList();
   }
 }
@@ -2700,9 +2768,9 @@ function openAdminUserDetail(username, phone) {
     let statusText = 'قيد المراجعة ⏳';
     if(o.status === 'preparing') statusText = 'سيتم التجهيز ⏳';
     if(o.status === 'accepted') statusText = 'قيد التنفيذ ⚙️';
-    if(o.status === 'completed') statusText = 'تم التسليم ✅';
+    if(o.status === 'completed') statusText = 'مكتمل ✅';
     if(o.status === 'unavailable') statusText = 'غير متوفر ⚠️';
-    if(o.status === 'rejected') statusText = 'مرفوض ❌';
+    if(o.status === 'rejected') statusText = 'ملغي ❌';
 
     const div = document.createElement("div");
     div.className = "my-order-item";
@@ -2731,9 +2799,9 @@ function openAdminDetail(orderId) {
   let statusText = "قيد المراجعة ⏳";
   if(o.status === 'preparing') statusText = "سيتم تجهيز طلبك، يرجى الانتظار ⏳";
   if(o.status === 'accepted') statusText = "قيد التنفيذ ⚙️";
-  if(o.status === 'completed') statusText = "تم التسليم ✅";
+  if(o.status === 'completed') statusText = "مكتمل ✅";
   if(o.status === 'unavailable') statusText = "غير متوفر في المخزون حالياً ⚠️";
-  if(o.status === 'rejected') statusText = "مرفوض ❌";
+  if(o.status === 'rejected') statusText = "ملغي ❌";
 
   const content = document.getElementById("adminDetailContent");
   content.innerHTML = `
