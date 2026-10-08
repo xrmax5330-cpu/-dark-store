@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#12100e">
+<meta name="theme-color" content="#0d0d0d">
 
 <title>Dark Store | متجر شحن</title>
 
@@ -14,16 +14,16 @@
 
 <style>
 :root {
-  --bg-dark: #12100e;
-  --bg-gradient: radial-gradient(circle at top, #241d15 0%, #12100e 60%, #0a0908 100%);
-  --card-bg: #1a1714;
-  --card-border: #2e2820;
+  --bg-dark: #0d0d0d;
+  --bg-gradient: linear-gradient(135deg, #141414 0%, #0d0d0d 50%, #080808 100%);
+  --card-bg: #171717;
+  --card-border: #262626;
   --sand-gold: #d4af37;
   --sand-light: #f3e5ab;
   --sand-accent: #e5c158;
   --text-main: #fcfbf7;
-  --text-muted: #b3a998;
-  --line: #332b22;
+  --text-muted: #a3a3a3;
+  --line: #262626;
   --whatsapp-green: #25d366;
 }
 
@@ -51,11 +51,11 @@ button, input, textarea {
 /* شريط التنبيهات الأعلى */
 .announcement-bar {
   background: linear-gradient(90deg, #b89320, var(--sand-gold), #b89320);
-  color: #12100e;
+  color: #0d0d0d;
   font-weight: 800;
   font-size: 13px;
   text-align: center;
-  padding: 6px 10px;
+  padding: 8px 10px;
   letter-spacing: 0.5px;
 }
 
@@ -63,7 +63,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(18, 16, 14, 0.92);
+  background: rgba(13, 13, 13, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
@@ -83,7 +83,7 @@ nav {
   font-weight: 900;
   letter-spacing: 1px;
   color: var(--sand-gold);
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
   cursor: pointer;
 }
 
@@ -94,27 +94,27 @@ nav {
 }
 
 .nav-btn {
-  background: #1a1714;
-  border: 1px solid var(--sand-gold);
+  background: #171717;
+  border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 9px 14px;
   cursor: pointer;
-  color: var(--sand-gold);
+  color: var(--sand-light);
   font-size: 13px;
   font-weight: bold;
   transition: all 0.3s ease;
 }
 
 .nav-btn:hover {
-  background: var(--sand-gold);
-  color: #12100e;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  border-color: var(--sand-gold);
+  color: var(--sand-gold);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 .cart-trigger {
   position: relative;
-  background: #241d15;
-  border: 1px solid var(--sand-gold);
+  background: #171717;
+  border: 1px solid var(--card-border);
   color: var(--sand-light);
   padding: 9px 12px;
   border-radius: 12px;
@@ -124,11 +124,16 @@ nav {
   align-items: center;
   gap: 6px;
   font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.cart-trigger:hover {
+  border-color: var(--sand-gold);
 }
 
 .cart-count {
   background: var(--sand-gold);
-  color: #12100e;
+  color: #0d0d0d;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -142,25 +147,25 @@ nav {
 .hero {
   max-width: 1100px;
   margin: auto;
-  padding: 35px 20px 20px;
+  padding: 40px 20px 20px;
   text-align: center;
 }
 
 .logo {
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   object-fit: cover;
   border-radius: 50%;
   display: block;
   margin: 0 auto 20px;
   border: 3px solid var(--sand-gold);
   box-shadow: 
-    0 0 25px rgba(212, 175, 55, 0.25),
-    0 0 60px rgba(212, 175, 55, 0.1);
+    0 0 30px rgba(212, 175, 55, 0.3),
+    inset 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 .hero h1 {
-  font-size: clamp(32px, 7vw, 55px);
+  font-size: clamp(30px, 6vw, 48px);
   font-weight: 900;
   margin-bottom: 8px;
 }
@@ -171,27 +176,30 @@ nav {
 
 .hero p {
   color: var(--text-muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 /* شريط تتبع الطلب المباشر في الصفحة الرئيسية */
 .home-active-order-banner {
   max-width: 750px;
-  margin: 15px auto 25px;
-  background: linear-gradient(145deg, #1e1a14, #12100d);
-  border: 2px solid var(--sand-gold);
+  margin: 20px auto;
+  background: #171717;
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--sand-gold);
   border-radius: 16px;
   padding: 20px;
   text-align: right;
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   display: none;
 }
 .home-active-order-banner.show {
   display: block;
 }
 
-/* تصميم المراحل الخمسة (Progress Tracker) بلون الموقع */
+/* تصميم المراحل الخمسة (Progress Tracker) */
 .order-steps-bar {
   display: flex;
   justify-content: space-between;
@@ -209,10 +217,10 @@ nav {
   flex: 1;
 }
 .order-step-circle {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: #1a1714;
+  background: #0d0d0d;
   border: 2px solid var(--card-border);
   color: var(--text-muted);
   display: flex;
@@ -225,8 +233,8 @@ nav {
 .order-step-item.active .order-step-circle {
   background: var(--sand-gold);
   border-color: var(--sand-gold);
-  color: #12100e;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+  color: #0d0d0d;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
 }
 .order-step-item.completed .order-step-circle {
   background: #16a34a;
@@ -256,29 +264,30 @@ section {
 }
 
 .title h2 {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 26px;
+  margin-bottom: 6px;
   color: var(--sand-light);
 }
 
 .title p {
   color: var(--text-muted);
+  font-size: 13px;
 }
 
 .search-container {
   max-width: 500px;
-  margin: 0 auto 25px;
+  margin: 0 auto 30px;
   position: relative;
 }
 
 .search-input {
   width: 100%;
   padding: 14px 20px;
-  border-radius: 30px;
-  background: #181512;
+  border-radius: 14px;
+  background: #171717;
   border: 1px solid var(--card-border);
   color: var(--text-main);
-  font-size: 15px;
+  font-size: 14px;
   outline: none;
   transition: all 0.3s;
 }
@@ -288,27 +297,25 @@ section {
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
 }
 
+/* تنسيق ترتيب أقسام المنتجات بشكل أنيق ومنظم */
 .category-box {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
   margin-bottom: 30px;
-  flex-wrap: wrap;
 }
 
 .cat-btn {
-  flex: 1;
-  min-width: 120px;
-  max-width: 160px;
-  padding: 12px 8px;
-  border-radius: 16px;
-  border: 2px solid var(--card-border);
-  background: #181512;
+  padding: 14px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  background: #171717;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -316,41 +323,41 @@ section {
 }
 
 .cat-icon-img {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .cat-btn:hover {
-  border-color: var(--sand-gold);
+  border-color: var(--card-border);
   color: var(--sand-light);
-  transform: translateY(-2px);
+  background: #1f1f1f;
 }
 
 .cat-btn.active {
-  background: linear-gradient(135deg, #2a231b, #1a1612);
+  background: linear-gradient(135deg, #241d15, #171717);
   border-color: var(--sand-gold);
   color: var(--sand-gold);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
 }
 
+/* ترتيب خيارات الدفع (مدار / ليبيانا) بشكل مرتب وجذاب */
 .provider-box {
   display: flex;
   justify-content: center;
   gap: 15px;
   margin-bottom: 30px;
-  flex-wrap: wrap;
 }
 
 .provider-btn {
   min-width: 140px;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 12px;
   border: 1px solid var(--card-border);
-  background: #181512;
+  background: #171717;
   color: var(--text-muted);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
@@ -368,33 +375,33 @@ section {
 }
 
 .provider-btn:hover {
-  border-color: var(--sand-gold);
+  border-color: var(--card-border);
   color: var(--sand-light);
 }
 
 .provider-btn.active {
   background: linear-gradient(135deg, var(--sand-gold), #b89320);
   border-color: var(--sand-gold);
-  color: #12100e;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  color: #0d0d0d;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .prices {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
 }
 
 .effects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
 }
 
 .effect-card {
-  background: linear-gradient(145deg, #1e1a16, #14110e);
-  border: 2px solid var(--card-border);
-  border-radius: 18px;
+  background: #171717;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -406,28 +413,28 @@ section {
 }
 
 .effect-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   border-color: var(--sand-gold);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .effect-img {
   width: 100%;
-  height: 120px;
+  height: 110px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 10px;
   margin-bottom: 8px;
 }
 
 .effect-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--sand-light);
   margin-bottom: 4px;
 }
 
 .effect-price {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 900;
   color: var(--sand-gold);
   margin-bottom: 8px;
@@ -443,7 +450,7 @@ section {
   flex: 1;
   padding: 8px 4px;
   border-radius: 8px;
-  background: #26211b;
+  background: #212121;
   color: var(--sand-light);
   border: 1px solid var(--card-border);
   font-size: 12px;
@@ -454,16 +461,16 @@ section {
 
 .effect-buy-btn:hover, .add-cart-btn:hover {
   background: var(--sand-gold);
-  color: #12100e;
+  color: #0d0d0d;
   border-color: var(--sand-gold);
 }
 
 .badge-tag {
   position: absolute;
   top: -8px;
-  right: 10px;
+  right: 12px;
   background: var(--sand-gold);
-  color: #12100e;
+  color: #0d0d0d;
   font-size: 10px;
   font-weight: 900;
   padding: 2px 8px;
@@ -473,30 +480,30 @@ section {
 }
 
 .price-card {
-  background: linear-gradient(145deg, #1e1a16, #14110e);
+  background: #171717;
   border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 22px 18px;
+  border-radius: 16px;
+  padding: 20px 16px;
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
 }
 
 .price-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   border-color: var(--sand-gold);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .price-card.disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .robux {
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 900;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: var(--text-main);
   display: flex;
   align-items: center;
@@ -505,41 +512,42 @@ section {
 }
 
 .robux-icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   object-fit: cover;
   border-radius: 4px;
 }
 
 .price {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 800;
   color: var(--sand-gold);
 }
 
 .buy {
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  background: #26211b;
+  padding: 9px;
+  border-radius: 8px;
+  background: #212121;
   color: var(--sand-light);
   border: 1px solid var(--card-border);
   cursor: pointer;
   font-weight: bold;
+  font-size: 13px;
   transition: all 0.2s ease;
 }
 
 .buy:hover:not(:disabled) {
   background: var(--sand-gold);
-  color: #12100e;
+  color: #0d0d0d;
   border-color: var(--sand-gold);
 }
 
 .item-card {
-  background: linear-gradient(145deg, #1e1a16, #14110e);
+  background: #171717;
   border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 18px;
+  border-radius: 16px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -549,34 +557,34 @@ section {
 }
 
 .item-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   border-color: var(--sand-gold);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .item-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--line);
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
 .item-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--sand-light);
 }
 
 .item-sub {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 .badge-icon {
-  font-size: 20px;
+  font-size: 18px;
   display: flex;
   align-items: center;
 }
@@ -587,62 +595,62 @@ section {
 }
 
 .item-price-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
 }
 
 .item-price-val {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
   color: var(--sand-gold);
 }
 
 .notice {
   margin-top: 25px;
-  padding: 15px;
-  background: #181512;
+  padding: 14px;
+  background: #171717;
   border: 1px solid var(--card-border);
   border-radius: 14px;
   text-align: center;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .reviews-section {
   border-top: 1px solid var(--line);
-  padding-top: 40px;
-  margin-top: 40px;
+  padding-top: 35px;
+  margin-top: 35px;
 }
 
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
   margin-top: 20px;
 }
 
 .review-card {
-  background: #181512;
+  background: #171717;
   border: 1px solid var(--card-border);
   border-radius: 14px;
-  padding: 15px;
+  padding: 14px;
 }
 
 .review-stars {
   color: var(--sand-gold);
-  margin-bottom: 8px;
-  font-size: 14px;
+  margin-bottom: 6px;
+  font-size: 13px;
 }
 
 .review-text {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   line-height: 1.5;
 }
 
 .review-author {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   color: var(--sand-light);
 }
@@ -653,13 +661,13 @@ section {
   left: 25px;
   background: var(--whatsapp-green);
   color: white;
-  width: 55px;
-  height: 55px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 26px;
   box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
   z-index: 1500;
   text-decoration: none;
@@ -672,8 +680,8 @@ section {
 
 footer {
   border-top: 1px solid var(--line);
-  margin-top: 40px;
-  padding: 30px 20px;
+  margin-top: 35px;
+  padding: 25px 20px;
   text-align: center;
   color: var(--text-muted);
   position: relative;
@@ -682,10 +690,10 @@ footer {
 .admin-trigger-btn {
   background: transparent;
   border: none;
-  color: #554838;
+  color: #525252;
   cursor: pointer;
-  font-size: 12px;
-  margin-top: 10px;
+  font-size: 11px;
+  margin-top: 8px;
   transition: color 0.3s;
 }
 
@@ -713,99 +721,100 @@ footer {
 .modal-box {
   width: 100%;
   max-width: 480px;
-  background: #161310;
-  border: 1px solid var(--sand-gold);
+  background: #141414;
+  border: 1px solid var(--card-border);
+  border-top: 3px solid var(--sand-gold);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 0 35px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8);
   max-height: 90vh;
   overflow-y: auto;
 }
 
 .modal-header-tag {
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.1);
   color: var(--sand-gold);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 20px;
   display: inline-block;
   margin-bottom: 10px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .modal-box h3 {
   text-align: center;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 900;
   margin-bottom: 15px;
   color: #fff;
 }
 
 .order-summary-card {
-  background: #1d1914;
+  background: #1c1c1c;
   border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 15px;
+  border-radius: 12px;
+  padding: 14px;
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .order-summary-title {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .order-summary-item {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
   color: var(--sand-gold);
 }
 
 .order-summary-price {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--sand-light);
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .payment-transfer-card {
-  background: #1c1813;
+  background: #1c1c1c;
   border: 1px dashed var(--sand-gold);
-  border-radius: 14px;
-  padding: 15px;
+  border-radius: 12px;
+  padding: 14px;
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .payment-transfer-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
   color: var(--sand-light);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .transfer-number-box {
-  background: #100e0c;
+  background: #0d0d0d;
   border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 22px;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 20px;
   font-weight: 900;
   color: var(--sand-gold);
   letter-spacing: 2px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .copy-btn {
   background: var(--sand-gold);
-  color: #12100e;
+  color: #0d0d0d;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 7px 14px;
+  border-radius: 7px;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -815,19 +824,20 @@ footer {
 }
 
 .steps-list {
-  background: #181410;
+  background: #171717;
   border-radius: 12px;
-  padding: 12px 15px;
-  margin-bottom: 20px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--card-border);
 }
 
 .step-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .step-item:last-child {
@@ -836,28 +846,28 @@ footer {
 
 .step-num {
   background: var(--sand-gold);
-  color: #12100e;
-  width: 18px;
-  height: 18px;
+  color: #0d0d0d;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .form-group {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   text-align: right;
 }
 
 .form-group label {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
   color: var(--sand-light);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .form-group label span {
@@ -866,13 +876,13 @@ footer {
 
 .input, .textarea {
   width: 100%;
-  padding: 12px 14px;
-  background: #100e0c;
+  padding: 11px 13px;
+  background: #0d0d0d;
   color: var(--text-main);
   border: 1px solid var(--card-border);
   border-radius: 10px;
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
   transition: border-color 0.2s;
 }
 
@@ -882,18 +892,18 @@ footer {
 
 .textarea {
   resize: vertical;
-  min-height: 60px;
+  min-height: 55px;
 }
 
 .checkbox-group {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin-bottom: 18px;
-  background: #1a1612;
+  margin-bottom: 16px;
+  background: #171717;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-border);
 }
 
 .checkbox-group input {
@@ -902,7 +912,7 @@ footer {
 }
 
 .checkbox-group label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   line-height: 1.4;
   cursor: pointer;
@@ -910,12 +920,12 @@ footer {
 
 .confirm {
   width: 100%;
-  padding: 14px;
+  padding: 13px;
   background: linear-gradient(135deg, var(--sand-gold), #b89320);
   border: 0;
   border-radius: 12px;
-  color: #12100e;
-  font-size: 16px;
+  color: #0d0d0d;
+  font-size: 15px;
   font-weight: 900;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -929,56 +939,29 @@ footer {
   opacity: 0.9;
 }
 
-.google-btn {
-  width: 100%;
-  padding: 12px;
-  background: #ffffff;
-  color: #333;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-  transition: background 0.2s;
-}
-
-.google-btn:hover {
-  background: #f1f1f1;
-}
-
-.google-btn img {
-  width: 18px;
-  height: 18px;
-}
-
 .modal-notice {
   text-align: center;
   font-size: 11px;
   color: #e5c158;
-  margin-top: 10px;
-  line-height: 1.4;
+  margin-top: 8px;
 }
 
 .close {
   width: 100%;
   padding: 10px;
   margin-top: 8px;
-  background: #24201a;
+  background: #1c1c1c;
   border: 1px solid var(--card-border);
   border-radius: 10px;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 13px;
 }
 
 .close:hover {
   color: var(--text-main);
-  background: #2e2922;
+  background: #262626;
 }
 
 /* حالة شاشة التثبت بالطلب */
@@ -987,15 +970,15 @@ footer {
   padding: 10px;
 }
 .status-icon {
-  font-size: 40px;
+  font-size: 38px;
   margin-bottom: 5px;
 }
 .status-spinner {
-  border: 4px solid #332b22;
-  border-top: 4px solid var(--sand-gold);
+  border: 3px solid #262626;
+  border-top: 3px solid var(--sand-gold);
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   animation: spin 1s linear infinite;
   margin: 10px auto;
 }
@@ -1006,118 +989,47 @@ footer {
 
 /* بطاقات قسم طلباتي والبروفايل */
 .profile-card {
-  background: #181410;
+  background: #171717;
   border: 1px solid var(--card-border);
   border-radius: 14px;
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 14px;
+  margin-bottom: 16px;
 }
 .user-info-row {
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: 12px;
 }
 .user-info-row:last-child { border-bottom: none; }
 .my-order-item {
-  background: #1e1a16;
+  background: #171717;
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-align: right;
 }
 .order-badge {
   display: inline-block;
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 800;
 }
-.badge-pending { background: rgba(217, 119, 6, 0.2); color: #fbbf24; border: 1px solid #d97706; }
-.badge-preparing { background: rgba(147, 51, 234, 0.2); color: #c084fc; border: 1px solid #9333ea; }
-.badge-accepted { background: rgba(37, 99, 235, 0.2); color: #60a5fa; border: 1px solid #2563eb; }
-.badge-completed { background: rgba(22, 163, 74, 0.2); color: #4ade80; border: 1px solid #16a34a; }
-.badge-rejected { background: rgba(220, 38, 38, 0.2); color: #f87171; border: 1px solid #dc2626; }
-.badge-unavailable { background: rgba(107, 114, 128, 0.2); color: #9ca3af; border: 1px solid #6b7280; }
-
-/* ================== نظام الدردشة الحية (Chat) ================== */
-.chat-container {
-  background: #181512;
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  margin-top: 15px;
-  overflow: hidden;
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-}
-.chat-header {
-  background: #241d15;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--sand-gold);
-  border-bottom: 1px solid var(--line);
-}
-.chat-messages {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 12px;
-}
-.chat-msg {
-  padding: 8px 12px;
-  border-radius: 10px;
-  max-width: 80%;
-  line-height: 1.4;
-}
-.chat-msg.customer {
-  background: #24201a;
-  color: #fff;
-  align-self: flex-start;
-  border: 1px solid var(--card-border);
-}
-.chat-msg.admin {
-  background: var(--sand-gold);
-  color: #12100e;
-  align-self: flex-end;
-  font-weight: bold;
-}
-.chat-input-box {
-  display: flex;
-  border-top: 1px solid var(--line);
-  background: #12100e;
-}
-.chat-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 8px 12px;
-  color: #fff;
-  font-size: 12px;
-  outline: none;
-}
-.chat-send-btn {
-  background: var(--sand-gold);
-  color: #12100e;
-  border: none;
-  padding: 0 15px;
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-}
+.badge-pending { background: rgba(217, 119, 6, 0.15); color: #fbbf24; border: 1px solid #d97706; }
+.badge-preparing { background: rgba(147, 51, 234, 0.15); color: #c084fc; border: 1px solid #9333ea; }
+.badge-accepted { background: rgba(37, 99, 235, 0.15); color: #60a5fa; border: 1px solid #2563eb; }
+.badge-completed { background: rgba(22, 163, 74, 0.15); color: #4ade80; border: 1px solid #16a34a; }
+.badge-rejected { background: rgba(220, 38, 38, 0.15); color: #f87171; border: 1px solid #dc2626; }
+.badge-unavailable { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid #6b7280; }
 
 /* ================== لوحة تحكم الأدمن ================== */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #12100e 0%, #0a0908 100%);
+  background: #0d0d0d;
   color: #fff;
   z-index: 3000;
   display: none;
@@ -1132,12 +1044,12 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--card-border);
   padding-bottom: 15px;
 }
 .admin-title-box h2 {
-  font-size: 22px;
+  font-size: 20px;
   color: var(--sand-gold);
   font-weight: 900;
 }
@@ -1147,6 +1059,30 @@ footer {
   margin-top: 3px;
 }
 
+/* تبويبات لوحة الأدمن */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.admin-tab-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  background: #171717;
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.admin-tab-btn.active {
+  background: var(--sand-gold);
+  color: #0d0d0d;
+  border-color: var(--sand-gold);
+}
+
 .admin-actions-bar {
   display: flex;
   justify-content: space-between;
@@ -1154,20 +1090,20 @@ footer {
   margin-bottom: 15px;
   flex-wrap: wrap;
   gap: 10px;
-  background: #1a1714;
+  background: #171717;
   padding: 10px 15px;
   border-radius: 12px;
   border: 1px solid var(--card-border);
   font-size: 12px;
 }
 
-.admin-orders-list {
+.admin-orders-list, .admin-users-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.admin-order-card {
-  background: #1a1714;
+.admin-order-card, .admin-user-card {
+  background: #171717;
   border: 1px solid var(--card-border);
   border-radius: 14px;
   padding: 14px 18px;
@@ -1177,42 +1113,41 @@ footer {
   cursor: pointer;
   transition: all 0.2s;
 }
-.admin-order-card:hover {
+.admin-order-card:hover, .admin-user-card:hover {
   border-color: var(--sand-gold);
-  background: #241d15;
-  transform: translateY(-2px);
+  background: #1f1f1f;
 }
 .admin-order-info {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 14px;
 }
 .admin-order-num {
   background: var(--sand-gold);
-  color: #12100e;
-  width: 32px;
-  height: 32px;
+  color: #0d0d0d;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 14px;
+  font-size: 13px;
 }
 .admin-order-details-text h4 {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--sand-light);
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 .admin-order-details-text p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
 }
 
 .admin-detail-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(8px);
   z-index: 4000;
   display: none;
@@ -1224,37 +1159,37 @@ footer {
   display: flex;
 }
 .admin-detail-box {
-  background: #161310;
-  border: 2px solid var(--sand-gold);
-  border-radius: 20px;
+  background: #141414;
+  border: 1px solid var(--sand-gold);
+  border-radius: 18px;
   width: 100%;
   max-width: 480px;
   padding: 20px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 0 30px rgba(212,175,55,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 .detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 7px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: 12px;
 }
 .detail-row:last-child { border-bottom: none; }
 .receipt-preview-img {
   width: 100%;
-  max-height: 220px;
+  max-height: 200px;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 2px solid var(--sand-gold);
-  margin-top: 10px;
+  margin-top: 8px;
   cursor: pointer;
 }
 
 .admin-btn {
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 7px 10px;
+  border-radius: 7px;
   font-weight: bold;
   font-size: 11px;
   cursor: pointer;
@@ -1285,8 +1220,8 @@ footer {
 #lightBoxImg {
   max-width: 90%;
   max-height: 85vh;
-  border-radius: 14px;
-  border: 3px solid #d4af37;
+  border-radius: 12px;
+  border: 2px solid #d4af37;
   object-fit: contain;
 }
 .lightbox-close {
@@ -1296,10 +1231,10 @@ footer {
   background: #dc2626;
   color: white;
   border: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
-  padding: 8px 15px;
-  border-radius: 10px;
+  padding: 7px 12px;
+  border-radius: 8px;
   cursor: pointer;
 }
 </style>
@@ -1341,7 +1276,7 @@ footer {
       🇱🇾🔥متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس سريع وآمن
     </p>
 
-    <!-- شريط تتبع حالة طلبك المباشر مع المراحل الخمسة المرئية بلون الموقع -->
+    <!-- شريط تتبع حالة طلبك المباشر مع المراحل الخمسة المرئية -->
     <div id="homeActiveOrderBanner" class="home-active-order-banner">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
         <span style="font-size:12px; color:var(--sand-gold); font-weight:bold;">📦 تتبع الطلب النشط:</span>
@@ -1377,18 +1312,8 @@ footer {
 
       <!-- زر واتساب فوري لإرسال حالة الطلب وتأكيده -->
       <a id="homeWhatsappDirectBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px;">
-        💬 مراسلة المتجر عبر الواتساب لتأكيد الطلب
+        💬 تواصل معانا عبر وتس
       </a>
-
-      <!-- دردشة حية مصغرة -->
-      <div class="chat-container">
-        <div class="chat-header">💬 المحادثة الخاصة بهذا الطلب مع المتجر</div>
-        <div id="homeChatMessages" class="chat-messages"></div>
-        <div class="chat-input-box">
-          <input type="text" id="homeChatInput" class="chat-input" placeholder="اكتب رسالة للأدمن..." onkeypress="handleChatKeyPress(event, 'customer')">
-          <button class="chat-send-btn" onclick="sendChatMessage('customer')">إرسال</button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -1398,6 +1323,7 @@ footer {
       <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
     </div>
 
+    <!-- إعادة ترتيب أقسام المنتجات بشكل شبكي مرتب ومنظم -->
     <div class="category-box">
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
         <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
@@ -1435,6 +1361,7 @@ footer {
         <p>💸اختر طريقة الدفع</p>
       </div>
 
+      <!-- إعادة ترتيب أزرار الدفع لمكان مناسب وواضح -->
       <div class="provider-box">
         <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
           <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار">
@@ -1615,7 +1542,7 @@ footer {
       </div>
     </div>
 
-    <div style="margin-bottom: 12px; font-size: 16px; font-weight: 800; color: var(--sand-light);">
+    <div style="margin-bottom: 12px; font-size: 15px; font-weight: 800; color: var(--sand-light);">
       📦 طلباتي السابقة
     </div>
 
@@ -1670,7 +1597,7 @@ footer {
         </div>
       </div>
 
-      <div style="margin-bottom: 15px; font-weight: 800; font-size: 16px; color: var(--sand-light);">
+      <div style="margin-bottom: 12px; font-weight: 800; font-size: 15px; color: var(--sand-light);">
         بيانات الطلب <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(أدخل المعلومات المطلوبة)</span>
       </div>
 
@@ -1725,13 +1652,13 @@ footer {
       <h3 id="statusTitle" style="color: var(--sand-gold);">تم إنشاء طلبك بنجاح!</h3>
       <div id="statusSpinner" class="status-spinner"></div>
       
-      <div style="background:#181410; padding:12px; border-radius:10px; margin: 15px 0; border:1px solid var(--card-border); text-align:right; font-size:13px;">
+      <div style="background:#171717; padding:12px; border-radius:10px; margin: 15px 0; border:1px solid var(--card-border); text-align:right; font-size:12px;">
         <div><b>رقم الطلب:</b> <span id="viewOrderId" style="color:var(--sand-gold);"></span></div>
         <div><b>المنتج المطلـوب:</b> <span id="viewOrderProduct"></span></div>
         <div><b>تاريخ ووقت الطلب:</b> <span id="viewOrderDate"></span></div>
       </div>
 
-      <p id="statusMsg" style="color: var(--text-muted); margin-top: 10px; font-size: 13px; line-height: 1.6;">
+      <p id="statusMsg" style="color: var(--text-muted); margin-top: 10px; font-size: 12px; line-height: 1.6;">
         تم استلام طلبك، سيتم تجهيز طلبك قريباً وتتبع حالته!
       </p>
 
@@ -1741,16 +1668,6 @@ footer {
           💬 تواصل معانا عبر وتس
         </a>
       </div>
-      
-      <!-- شات في نافذة التثبت بعد الطلب مباشرة -->
-      <div class="chat-container">
-        <div class="chat-header">💬 المحادثة الخاصة بهذا الطلب</div>
-        <div id="modalChatMessages" class="chat-messages"></div>
-        <div class="chat-input-box">
-          <input type="text" id="modalChatInput" class="chat-input" placeholder="اكتب رسالة..." onkeypress="handleChatKeyPress(event, 'customer')">
-          <button class="chat-send-btn" onclick="sendChatMessage('customer')">إرسال</button>
-        </div>
-      </div>
 
       <button id="closeStatusBtn" class="close" style="margin-top: 15px;" onclick="closeModal()">متابعة التصفح / إغلاق الشاشة</button>
     </div>
@@ -1758,37 +1675,68 @@ footer {
   </div>
 </div>
 
-<!-- 4. لوحة تحكم الأدمن (قائمة الطلبات التسلسلية) -->
+<!-- 4. لوحة تحكم الأدمن مع تبويبات الطلبات والمستخدمين -->
 <div id="adminPanelModal" class="admin-panel-modal">
   <div class="admin-header">
     <div class="admin-title-box">
       <h2>👑 لوحة تحكم Dark Store</h2>
-      <p>اضغط على أي طلب لعرض تفاصيله، حالته، والدردشة مع الزبون</p>
+      <p>إدارة الطلبات وحسابات العملاء المسجلين</p>
     </div>
     <button class="admin-btn admin-btn-rej" style="padding: 8px 14px; font-size: 12px;" onclick="closeAdminPanel()">إغلاق اللوحة ✖</button>
   </div>
 
-  <div class="admin-actions-bar">
-    <span>🔔 نظام التنبيه الصوتي الحي مفعل تلقائياً عند وصول طلب جديد</span>
-    <button class="admin-btn admin-btn-rej" onclick="clearAllOrders()">🗑️ مسح كافة الطلبات</button>
+  <!-- تبويبات التنقل في لوحة الأدمن -->
+  <div class="admin-tabs">
+    <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">📦 إدارة الطلبات</button>
+    <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">👥 حسابات العملاء المسجلين</button>
   </div>
 
-  <!-- قائمة الطلبات بالتسلسل 1, 2, 3... -->
-  <div id="adminOrdersList" class="admin-orders-list">
-    <div style="text-align:center; color:#94a3b8; padding:30px;">جاري تحميل الطلبات...</div>
+  <!-- قسم الطلبات -->
+  <div id="adminOrdersSection">
+    <div class="admin-actions-bar">
+      <span>🔔 نظام التنبيه الصوتي الحي مفعل تلقائياً عند وصول طلب جديد</span>
+      <button class="admin-btn admin-btn-rej" onclick="clearAllOrders()">🗑️ مسح كافة الطلبات</button>
+    </div>
+    <div id="adminOrdersList" class="admin-orders-list">
+      <div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل الطلبات...</div>
+    </div>
+  </div>
+
+  <!-- قسم حسابات العملاء المسجلين -->
+  <div id="adminUsersSection" style="display: none;">
+    <div class="admin-actions-bar">
+      <span>👥 قائمة الزبائن الذين قاموا بإنشاء حسابات على الموقع وسجل طلباتهم</span>
+    </div>
+    <div id="adminUsersList" class="admin-users-list">
+      <div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل حسابات العملاء...</div>
+    </div>
   </div>
 </div>
 
-<!-- 5. نافذة تفاصيل الطلب الفردي للأدمن مع الشات الخاص به -->
+<!-- 5. نافذة تفاصيل الطلب الفردي للأدمن -->
 <div id="adminDetailModal" class="admin-detail-modal">
   <div class="admin-detail-box">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--line); padding-bottom:10px;">
-      <h3 id="detModalTitle" style="color:var(--sand-gold); font-size:18px;">تفاصيل الطلب</h3>
+      <h3 id="detModalTitle" style="color:var(--sand-gold); font-size:17px;">تفاصيل الطلب</h3>
       <button class="admin-btn admin-btn-rej" onclick="closeAdminDetailModal()">إغلاق ✖</button>
     </div>
 
     <div id="adminDetailContent">
-      <!-- تعبئة تفاصيل الطلب والشات ديناميكياً -->
+      <!-- تعبئة تفاصيل الطلب ديناميكياً -->
+    </div>
+  </div>
+</div>
+
+<!-- 6. نافذة تفاصيل عميل معين وطلباته للأدمن -->
+<div id="adminUserDetailModal" class="admin-detail-modal">
+  <div class="admin-detail-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--line); padding-bottom:10px;">
+      <h3 id="detUserModalTitle" style="color:var(--sand-gold); font-size:17px;">سجل العميل</h3>
+      <button class="admin-btn admin-btn-rej" onclick="closeAdminUserDetailModal()">إغلاق ✖</button>
+    </div>
+
+    <div id="adminUserDetailContent">
+      <!-- تعبئة تفاصيل المستخدم وطلباته -->
     </div>
   </div>
 </div>
@@ -1832,6 +1780,7 @@ const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
 const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
+const STORE_WHATSAPP = "218927816884";
 
 const madarPrices = [
   {robux:10, price: "5"},
@@ -1914,10 +1863,10 @@ let currentOrderId = null;
 let statusUnsubscribe = null;
 let adminUnsubscribe = null;
 let homeOrderUnsubscribe = null;
-let chatUnsubscribe = null;
 let currentUser = null;
 let lastOrdersCount = -1;
 let cachedOrdersMap = {};
+let allOrdersData = [];
 
 function getNextOrderId() {
   let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "101");
@@ -2068,7 +2017,6 @@ function logoutUser() {
   updateUserNavUI();
   document.getElementById("homeActiveOrderBanner").classList.remove("show");
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
-  if(chatUnsubscribe) chatUnsubscribe();
   closeProfileModal();
   openAuthModal();
 }
@@ -2105,11 +2053,11 @@ function renderMyOrders() {
         itemDiv.className = "my-order-item";
         itemDiv.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-            <span style="font-weight:bold; color:var(--sand-gold); font-size:13px;">${o.id}</span>
+            <span style="font-weight:bold; color:var(--sand-gold); font-size:12px;">${o.id}</span>
             <span class="order-badge ${badgeClass}">${statusText}</span>
           </div>
-          <div style="font-size:14px; font-weight:bold; color:#fff;">${o.product} (${o.price})</div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">تاريخ الطلب: ${o.time}</div>
+          <div style="font-size:13px; font-weight:bold; color:#fff;">${o.product} (${o.price})</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">تاريخ الطلب: ${o.time}</div>
         `;
         container.appendChild(itemDiv);
       });
@@ -2179,9 +2127,7 @@ function listenToHomeActiveOrder() {
         updateVisualSteps(latest.status);
 
         const waMsg = `✅ مرحباً Dark Store، هذا استفسار بخصوص طلبي:\nرقم الطلب: ${latest.id}\nالمنتج: ${latest.product}\nالحالة الحالية: ${badge.textContent}`;
-        document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/218927816884?text=${encodeURIComponent(waMsg)}`;
-
-        listenToChatMessages(latest.id, 'homeChatMessages');
+        document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
       }
     });
 }
@@ -2279,7 +2225,7 @@ function showRobuxPrices(provider){
         <img class="robux-icon" src="${robuxIconUrl}" alt="robux">
       </div>
       <div class="price">${priceDisplay}</div>
-      <div class="btn-group-card" style="margin-top:14px;">
+      <div class="btn-group-card" style="margin-top:12px;">
         <button class="buy" ${!isAvailable ? 'disabled' : ''}>${isAvailable ? 'شراء' : 'غير متوفر'}</button>
         ${isAvailable ? `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس (${currentProvider === 'madar' ? 'مدار' : 'ليبيانا'})', price:'${item.price} د.ل'})">+</button>` : ''}
       </div>
@@ -2333,11 +2279,11 @@ function showEffectsPrices(){
 }
 
 function showItunesPrices(){
-  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '<img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" style="width:24px;height:24px;object-fit:contain;">');
+  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '<img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" style="width:22px;height:22px;object-fit:contain;">');
 }
 
 function showPsPrices(){
-  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '<img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" style="width:24px;height:24px;object-fit:contain;">');
+  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '<img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" style="width:22px;height:22px;object-fit:contain;">');
 }
 
 function showPubgPrices(){
@@ -2357,7 +2303,7 @@ function showPubgPrices(){
             <div class="item-title">ببجي موبايل</div>
             <div class="item-sub">${item.uc}</div>
           </div>
-          <span class="badge-icon"><img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" style="width:24px;height:24px;object-fit:contain;"></span>
+          <span class="badge-icon"><img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" style="width:22px;height:22px;object-fit:contain;"></span>
         </div>
         <div class="item-price-box">
           <div class="item-price-label">السعر</div>
@@ -2384,7 +2330,7 @@ function showPubgPrices(){
 }
 
 function showXboxPrices(){
-  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '<img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" style="width:24px;height:24px;object-fit:contain;">');
+  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '<img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" style="width:22px;height:22px;object-fit:contain;">');
 }
 
 function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
@@ -2477,7 +2423,6 @@ function openModal(item){
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
   if(statusUnsubscribe) statusUnsubscribe();
-  if(chatUnsubscribe) chatUnsubscribe();
 }
 
 function copyTransferNumber() {
@@ -2552,12 +2497,10 @@ function sendOrder(){
         document.getElementById("orderFormContent").style.display = "none";
         document.getElementById("orderStatusContent").style.display = "block";
 
-        // إعداد زر الواتساب الصغير والهادئ برقم 0927816884
         const whatsappMsg = `✅ مرحباً Dark Store، هذا استفسار بخصوص طلبي:\nرقم الطلب: ${currentOrderId}\nالمنتج: ${selectedProduct.title}`;
-        document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/218927816884?text=${encodeURIComponent(whatsappMsg)}`;
+        document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(whatsappMsg)}`;
 
         listenToOrderStatus(currentOrderId);
-        listenToChatMessages(currentOrderId, 'modalChatMessages');
       })
       .catch((error) => {
         alert("حدث خطأ أثناء الاتصال بالسيرفر السحابي: " + error.message);
@@ -2583,13 +2526,13 @@ function listenToOrderStatus(orderId){
           title.style.color = "#c084fc";
           title.textContent = "سيتم تجهيز طلبك، يرجى الانتظار...";
           spinner.style.display = "block";
-          msg.textContent = "تم استلام إيصالك وجاري تجهيز طلبك الآن. تابع الشات لأي استفسار.";
+          msg.textContent = "تم استلام إيصالك وجاري تجهيز طلبك الآن.";
         } else if(myOrder.status === 'accepted') {
           icon.textContent = "⚙️";
           title.style.color = "#2563eb";
           title.textContent = "قيد التنفيذ والشحن!";
           spinner.style.display = "block";
-          msg.textContent = "تم التأكد من التحويل وقبول الطلب، جاري شحن حسابك وتواصل معك عبر الشات.";
+          msg.textContent = "تم التأكد من التحويل وقبول الطلب، جاري شحن حسابك.";
         } else if(myOrder.status === 'completed') {
           icon.textContent = "🎉";
           title.style.color = "#16a34a";
@@ -2601,63 +2544,16 @@ function listenToOrderStatus(orderId){
           title.style.color = "#d97706";
           title.textContent = "المنتج غير متوفر حالياً";
           spinner.style.display = "none";
-          msg.textContent = "عذراً، هذا المنتج غير متوفر في المخزون حالياً. تواصل معنا عبر الشات لاستعادة رصيدك.";
+          msg.textContent = "عذراً، هذا المنتج غير متوفر في المخزون حالياً.";
         } else if(myOrder.status === 'rejected') {
           icon.textContent = "❌";
           title.style.color = "#dc2626";
           title.textContent = "تعذر قبول الطلب (مرفوض)";
           spinner.style.display = "none";
-          msg.textContent = "لم نتمكن من التثبت من وصول الرصيد. تحقق من الإيصال وتواصل معنا عبر الشات.";
+          msg.textContent = "لم نتمكن من التثبت من وصول الرصيد. تحقق من الإيصال وتواصل معنا عبر الواتساب.";
         }
       }
     });
-}
-
-function listenToChatMessages(orderId, containerId) {
-  if(chatUnsubscribe) chatUnsubscribe();
-
-  chatUnsubscribe = db.collection("orders").doc(orderId).collection("chats")
-    .orderBy("timestamp", "asc")
-    .onSnapshot((snapshot) => {
-      const chatBoxes = document.querySelectorAll(`#${containerId}, #adminChatMessages`);
-      chatBoxes.forEach(box => {
-        if(!box) return;
-        box.innerHTML = "";
-        if(snapshot.empty) {
-          box.innerHTML = `<div style="text-align:center; color:#64748b; font-size:11px;">لا توجد رسائل بعد. ابدأ المحادثة الآن!</div>`;
-          return;
-        }
-        snapshot.forEach(doc => {
-          const m = doc.data();
-          const div = document.createElement("div");
-          div.className = `chat-msg ${m.sender}`;
-          div.textContent = m.text;
-          box.appendChild(div);
-        });
-        box.scrollTop = box.scrollHeight;
-      });
-    });
-}
-
-function sendChatMessage(senderType) {
-  if(!currentOrderId) return;
-  let inputElem = senderType === 'customer' ? (document.getElementById("homeChatInput").value.trim() ? document.getElementById("homeChatInput") : document.getElementById("modalChatInput")) : document.getElementById("adminChatInput");
-  
-  if(!inputElem || !inputElem.value.trim()) return;
-  const text = inputElem.value.trim();
-  inputElem.value = "";
-
-  db.collection("orders").doc(currentOrderId).collection("chats").add({
-    text: text,
-    sender: senderType,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-}
-
-function handleChatKeyPress(event, senderType) {
-  if(event.key === 'Enter') {
-    sendChatMessage(senderType);
-  }
 }
 
 function scrollToPrices(){
@@ -2676,6 +2572,8 @@ function openAdminPanelPrompt() {
 
 function openAdminPanel() {
   document.getElementById("adminPanelModal").classList.add("show");
+  switchAdminTab('orders');
+
   if(!adminUnsubscribe) {
     adminUnsubscribe = db.collection("orders").orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
@@ -2683,9 +2581,14 @@ function openAdminPanel() {
           playAlertSound();
         }
         lastOrdersCount = snapshot.size;
+        
+        allOrdersData = [];
+        snapshot.forEach(doc => allOrdersData.push(doc.data()));
+
         renderAdminOrdersList(snapshot);
       });
   }
+  loadAdminUsersList();
 }
 
 function closeAdminPanel() {
@@ -2697,12 +2600,32 @@ function closeAdminPanel() {
   lastOrdersCount = -1;
 }
 
+function switchAdminTab(tabName) {
+  const tabOrdersBtn = document.getElementById("tabOrdersBtn");
+  const tabUsersBtn = document.getElementById("tabUsersBtn");
+  const adminOrdersSection = document.getElementById("adminOrdersSection");
+  const adminUsersSection = document.getElementById("adminUsersSection");
+
+  if(tabName === 'orders') {
+    tabOrdersBtn.classList.add("active");
+    tabUsersBtn.classList.remove("active");
+    adminOrdersSection.style.display = "block";
+    adminUsersSection.style.display = "none";
+  } else {
+    tabUsersBtn.classList.add("active");
+    tabOrdersBtn.classList.remove("active");
+    adminUsersSection.style.display = "block";
+    adminOrdersSection.style.display = "none";
+    loadAdminUsersList();
+  }
+}
+
 function renderAdminOrdersList(snapshot) {
   const container = document.getElementById("adminOrdersList");
   cachedOrdersMap = {};
 
   if(snapshot.empty) {
-    container.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:30px;">لا توجد طلبات واردة حالياً في السحابة 📭</div>`;
+    container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد طلبات واردة حالياً في السحابة 📭</div>`;
     return;
   }
 
@@ -2741,6 +2664,96 @@ function renderAdminOrdersList(snapshot) {
   });
 }
 
+function loadAdminUsersList() {
+  const container = document.getElementById("adminUsersList");
+  container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل حسابات العملاء...</div>`;
+
+  db.collection("users").get().then((querySnapshot) => {
+    container.innerHTML = "";
+    if(querySnapshot.empty) {
+      container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد حسابات مسجلة حتى الآن 📭</div>`;
+      return;
+    }
+
+    let index = 1;
+    querySnapshot.forEach(doc => {
+      const u = doc.data();
+      
+      const card = document.createElement("div");
+      card.className = "admin-user-card";
+      card.onclick = () => openAdminUserDetail(u.username, u.phone);
+
+      card.innerHTML = `
+        <div class="admin-order-info">
+          <div class="admin-order-num">${index}</div>
+          <div class="admin-order-details-text">
+            <h4>👤 اليوزر: ${u.username}</h4>
+            <p>📱 الهاتف: ${u.phone} | كلمة السر: <span style="font-family:monospace; color:#cbd5e1;">${u.password}</span></p>
+          </div>
+        </div>
+        <div>
+          <span class="order-badge badge-accepted">عرض الطلبات 📋</span>
+        </div>
+      `;
+      container.appendChild(card);
+      index++;
+    });
+  }).catch(err => {
+    container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:30px;">حدث خطأ في جلب البيانات.</div>`;
+  });
+}
+
+function openAdminUserDetail(username, phone) {
+  document.getElementById("detUserModalTitle").textContent = `سجل طلبات العميل: ${username}`;
+  const content = document.getElementById("adminUserDetailContent");
+  
+  content.innerHTML = `
+    <div class="detail-row"><span style="color:var(--text-muted);">اسم المستخدم:</span><b style="color:var(--sand-gold);">${username}</b></div>
+    <div class="detail-row"><span style="color:var(--text-muted);">رقم الهاتف المسجل:</span><b style="color:#34d399;">${phone}</b></div>
+    <div style="margin: 15px 0 8px; font-weight:800; font-size:13px; color:var(--sand-light);">📦 طلبات هذا الشخص:</div>
+    <div id="userSpecificOrdersList" style="max-height: 250px; overflow-y: auto;">
+      <div style="text-align:center; color:var(--text-muted); padding:10px;">جاري تحميل طلبات العميل...</div>
+    </div>
+  `;
+
+  document.getElementById("adminUserDetailModal").classList.add("show");
+
+  const userOrders = allOrdersData.filter(o => o.userOwner === username);
+  const ordersContainer = document.getElementById("userSpecificOrdersList");
+  ordersContainer.innerHTML = "";
+
+  if(userOrders.length === 0) {
+    ordersContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
+    return;
+  }
+
+  userOrders.forEach(o => {
+    let statusText = 'قيد المراجعة ⏳';
+    if(o.status === 'preparing') statusText = 'سيتم التجهيز ⏳';
+    if(o.status === 'accepted') statusText = 'قيد التنفيذ ⚙️';
+    if(o.status === 'completed') statusText = 'تم التسليم ✅';
+    if(o.status === 'unavailable') statusText = 'غير متوفر ⚠️';
+    if(o.status === 'rejected') statusText = 'مرفوض ❌';
+
+    const div = document.createElement("div");
+    div.className = "my-order-item";
+    div.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <span style="color:var(--sand-gold); font-weight:bold;">${o.id}</span>
+        <span style="font-size:11px; color:#cbd5e1;">${statusText}</span>
+      </div>
+      <div style="font-size:12px; font-weight:bold; color:#fff;">${o.product} (${o.price})</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">اليوزر داخل اللعبة: <b>${o.robloxUser}</b> | هاتف التحويل: ${o.senderPhone}</div>
+      <div style="font-size:10px; color:#94a3b8; margin-top:2px;">التوقيت: ${o.time}</div>
+    `;
+    ordersContainer.appendChild(div);
+  });
+}
+
+function closeAdminUserDetailModal() {
+  document.getElementById("adminUserDetailModal").classList.remove("show");
+}
+
 function openAdminDetail(orderId) {
   currentOrderId = orderId;
   const o = cachedOrdersMap[orderId];
@@ -2768,22 +2781,12 @@ function openAdminDetail(orderId) {
     <div class="detail-row"><span style="color:var(--text-muted);">الحالة الحالية:</span><b style="color:var(--sand-gold);">${statusText}</b></div>
     
     <div style="margin-top:12px;">
-      <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">صورة إيصال التحويل (اضغط لتكبيرها):</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة إيصال التحويل (اضغط لتكبيرها):</div>
       ${o.receiptImage ? `<img src="${o.receiptImage}" class="receipt-preview-img" onclick="openLightBox('${o.receiptImage}')" title="اضغط لتكبير الصورة">` : '<span style="color:#64748b;">لا توجد صورة</span>'}
     </div>
 
-    <!-- شات الأدمن مع الزبون داخل نافذة التفاصيل -->
-    <div class="chat-container" style="height: 180px; margin-top: 15px;">
-      <div class="chat-header">💬 المحادثة مع الزبون</div>
-      <div id="adminChatMessages" class="chat-messages"></div>
-      <div class="chat-input-box">
-        <input type="text" id="adminChatInput" class="chat-input" placeholder="اكتب رد للزبون..." onkeypress="handleChatKeyPress(event, 'admin')">
-        <button class="chat-send-btn" onclick="sendChatMessage('admin')">إرسال</button>
-      </div>
-    </div>
-
-    <div style="margin-top:20px; border-top:1px solid var(--line); padding-top:15px; text-align:center;">
-      <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب وإدارته:</div>
+    <div style="margin-top:18px; border-top:1px solid var(--line); padding-top:14px; text-align:center;">
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب وإدارته:</div>
       <div style="display:flex; justify-content:center; gap:4px; flex-wrap:wrap;">
         <button class="admin-btn admin-btn-prep" onclick="updateOrderStatus('${o.id}', 'preparing')">سيتم التجهيز</button>
         <button class="admin-btn admin-btn-acc" onclick="updateOrderStatus('${o.id}', 'accepted')">قيد التنفيذ</button>
@@ -2795,12 +2798,10 @@ function openAdminDetail(orderId) {
   `;
 
   document.getElementById("adminDetailModal").classList.add("show");
-  listenToChatMessages(o.id, 'adminChatMessages');
 }
 
 function closeAdminDetailModal() {
   document.getElementById("adminDetailModal").classList.remove("show");
-  if(chatUnsubscribe) chatUnsubscribe();
 }
 
 function openLightBox(imgSrc) {
