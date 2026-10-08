@@ -1133,7 +1133,6 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
   transition: all 0.2s;
 }
 .admin-order-card:hover, .admin-user-card:hover {
@@ -1296,7 +1295,7 @@ footer {
   </nav>
 </header>
 
-<!-- القائمة الجانبية -->
+<!-- القائمة الجانبية (Sidebar Drawer) -->
 <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
 <div id="sidebarDrawer" class="sidebar-drawer">
   <div class="sidebar-header">
@@ -1332,11 +1331,53 @@ footer {
       <span class="sidebar-item-icon">📦</span>
       <span>طلباتي (تتبع حالتها والطلبات السابقة)</span>
     </div>
+
+    <!-- المربع السادس المضاف في المكان الذي حددته في الصورة -->
+    <div class="sidebar-item" onclick="toggleSidebar(); openGuideModal()" style="border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.08);">
+      <span class="sidebar-item-icon">📖</span>
+      <span>طريقة الشراء</span>
+    </div>
   </div>
 
   <div class="sidebar-footer-box">
     <div style="font-weight: bold; color: #fff; margin-bottom: 4px;">تواصل معنا:</div>
     <div style="color: var(--text-muted); font-size: 11px;">📱 واتساب: 218927816884+</div>
+  </div>
+</div>
+
+<!-- نافذة طريقة الشراء (الخطوات الـ 7) -->
+<div id="guideModal" class="modal">
+  <div class="modal-box" style="max-width: 540px;">
+    <div style="text-align: center; margin-bottom: 15px;">
+      <span class="modal-header-tag">📖 دليل الاستخدام</span>
+      <h3 style="font-size: 24px;">طريقة الشراء</h3>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; text-align: right; margin-bottom: 20px;">
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>1.</b> اضغط على شراء للمنتج الذي طلبته.
+      </div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>2.</b> يظهرلك رقم ف اول الصفحه قم بتحويل الرصيد اليه.
+      </div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>3.</b> اكمل باقي البيانات مع ارسال سكرين التحويل.
+      </div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>4.</b> قم بتاكيد تحويل الرصيد.
+      </div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>5.</b> اخيراً قم ب ارسال الطلب.
+      </div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>6.</b> سوف يتم تسليم طلبك في عادة 5 - 30 دقيقة.
+      </div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff; line-height: 1.5;">
+        <b>7.</b> ادا تم تجهيز طلبك سوف نعلمك ب ان تم تسليم طلبك.
+      </div>
+    </div>
+
+    <button class="close" onclick="closeGuideModal()" style="margin-top: 0;">إغلاق النافذة</button>
   </div>
 </div>
 
@@ -1773,7 +1814,7 @@ footer {
 
   <div id="adminUsersSection" style="display: none;">
     <div class="admin-actions-bar">
-      <span>👥 قائمة الزبائن</span>
+      <span>👥 قائمة الزبائن (اضغط على العميل لعرض سجله أو حذف حسابه)</span>
     </div>
     <div id="adminUsersList" class="admin-users-list">
       <div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل حسابات العملاء...</div>
@@ -1957,6 +1998,14 @@ function toggleSidebar() {
   const drawer = document.getElementById("sidebarDrawer");
   overlay.classList.toggle("show");
   drawer.classList.toggle("show");
+}
+
+function openGuideModal() {
+  document.getElementById("guideModal").classList.add("show");
+}
+
+function closeGuideModal() {
+  document.getElementById("guideModal").classList.remove("show");
 }
 
 function openAuthModal() {
@@ -2714,17 +2763,19 @@ function loadAdminUsersList() {
       const u = doc.data();
       const card = document.createElement("div");
       card.className = "admin-user-card";
-      card.onclick = () => openAdminUserDetail(u.username, u.phone);
 
       card.innerHTML = `
-        <div class="admin-order-info">
+        <div class="admin-order-info" style="cursor:pointer; flex:1;" onclick="openAdminUserDetail('${u.username}', '${u.phone}')">
           <div class="admin-order-num">${index}</div>
           <div class="admin-order-details-text">
             <h4>👤 اليوزر: ${u.username}</h4>
             <p>📱 الهاتف: ${u.phone} | كلمة السر: <span style="font-family:monospace; color:#cbd5e1;">${u.password}</span></p>
           </div>
         </div>
-        <div><span class="order-badge badge-accepted">عرض الطلبات 📋</span></div>
+        <div style="display:flex; gap:6px;">
+          <button class="admin-btn admin-btn-acc" onclick="openAdminUserDetail('${u.username}', '${u.phone}')">الطلبات</button>
+          <button class="admin-btn admin-btn-rej" onclick="deleteUserAccount('${u.username}')">حذف الحساب 🗑️</button>
+        </div>
       `;
       container.appendChild(card);
       index++;
@@ -2732,6 +2783,17 @@ function loadAdminUsersList() {
   }).catch(err => {
     container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:30px;">حدث خطأ في جلب البيانات.</div>`;
   });
+}
+
+function deleteUserAccount(username) {
+  if(confirm(`⚠️ هل أنت متأكد من رغبتك في حذف حساب الزبون (${username}) نهائياً؟`)) {
+    db.collection("users").doc(username).delete().then(() => {
+      alert(`✅ تم حذف الحساب (${username}) بنجاح.`);
+      loadAdminUsersList();
+    }).catch(err => {
+      alert("❌ حدث خطأ أثناء الحذف: " + err.message);
+    });
+  }
 }
 
 function openAdminUserDetail(username, phone) {
