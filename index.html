@@ -1732,13 +1732,15 @@ footer {
       </div>
 
       <p id="statusMsg" style="color: var(--text-muted); margin-top: 10px; font-size: 13px; line-height: 1.6;">
-        تم استلام طلبك، سيتم تجهيز طلبك قريباً وتتبع حالته عبر المراحل أدناه!
+        تم استلام طلبك، سيتم تجهيز طلبك قريباً وتتبع حالته!
       </p>
 
-      <!-- زر الواتساب الفوري بعد إرسال الطلب -->
-      <a id="modalWhatsappBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin: 15px 0; font-size:13px; padding:10px;">
-        💬 إرسال حالة الطلب عبر الواتساب فوراً
-      </a>
+      <!-- زر واتساب صغير وهادئ أسفل البيانات تماماً -->
+      <div style="margin-top: 12px; text-align: center;">
+        <a id="modalWhatsappSmallBtn" href="#" target="_blank" style="color: #25d366; font-size: 12px; text-decoration: none; font-weight: bold; background: rgba(37, 211, 102, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(37, 211, 102, 0.3); display: inline-block;">
+          💬 تواصل معانا عبر وتس
+        </a>
+      </div>
       
       <!-- شات في نافذة التثبت بعد الطلب مباشرة -->
       <div class="chat-container">
@@ -1937,7 +1939,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUserNavUI();
     listenToHomeActiveOrder();
   } else {
-    // إظهار نافذة التسجيل الإجبارية عند أول دخول
     openAuthModal();
   }
 
@@ -1970,7 +1971,6 @@ function switchToRegister() {
   document.getElementById("authTagBadge").textContent = "🔐 Dark Store";
 }
 
-// إنشاء حساب جديد وحفظه في سحابة Firebase
 function handleRegister() {
   const userVal = document.getElementById("regUsername").value.trim();
   const passVal = document.getElementById("regPassword").value.trim();
@@ -1981,7 +1981,6 @@ function handleRegister() {
     return;
   }
 
-  // التحقق إن كان اليوزر موجود مسبقاً في قاعدة البيانات
   db.collection("users").doc(userVal).get().then((doc) => {
     if(doc.exists) {
       alert("❌ اسم المستخدم هذا موجود مسبقاً، يرجى اختيار يوزر آخر أو تسجيل الدخول.");
@@ -2007,7 +2006,6 @@ function handleRegister() {
   });
 }
 
-// تسجيل الدخول لحساب موجود
 function handleLogin() {
   const userVal = document.getElementById("logUsername").value.trim();
   const passVal = document.getElementById("logPassword").value.trim();
@@ -2121,7 +2119,6 @@ function renderMyOrders() {
     });
 }
 
-// تحديث وتلوين المراحل الخمسة بناءً على حالة الطلب
 function updateVisualSteps(status) {
   let stepLevel = 1;
 
@@ -2555,8 +2552,9 @@ function sendOrder(){
         document.getElementById("orderFormContent").style.display = "none";
         document.getElementById("orderStatusContent").style.display = "block";
 
-        const whatsappMsg = `✅ تم استلام طلبك في Dark Store\nرقم الطلب: ${currentOrderId}\nالمنتج: ${selectedProduct.title}\n\n⏳ سيتم تجهيز طلبك قريبا، يرجى الانتظار...`;
-        document.getElementById("modalWhatsappBtn").href = `https://wa.me/218927816884?text=${encodeURIComponent(whatsappMsg)}`;
+        // إعداد زر الواتساب الصغير والهادئ برقم 0927816884
+        const whatsappMsg = `✅ مرحباً Dark Store، هذا استفسار بخصوص طلبي:\nرقم الطلب: ${currentOrderId}\nالمنتج: ${selectedProduct.title}`;
+        document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/218927816884?text=${encodeURIComponent(whatsappMsg)}`;
 
         listenToOrderStatus(currentOrderId);
         listenToChatMessages(currentOrderId, 'modalChatMessages');
@@ -2615,7 +2613,6 @@ function listenToOrderStatus(orderId){
     });
 }
 
-/* دوال الدردشة الحية */
 function listenToChatMessages(orderId, containerId) {
   if(chatUnsubscribe) chatUnsubscribe();
 
@@ -2806,9 +2803,35 @@ function closeAdminDetailModal() {
   if(chatUnsubscribe) chatUnsubscribe();
 }
 
-(function(){
-  // منع إغلاق نافذة الترحيب إذا لم يسجل الزبون دخوله
-})();
+function openLightBox(imgSrc) {
+  document.getElementById("lightBoxImg").src = imgSrc;
+  document.getElementById("imageLightBox").classList.add("show");
+}
+
+function closeLightBox() {
+  document.getElementById("imageLightBox").classList.remove("show");
+}
+
+function updateOrderStatus(orderId, newStatus) {
+  db.collection("orders").doc(orderId).update({
+    status: newStatus
+  }).then(() => {
+    alert("✅ تم تحديث حالة الطلب بنجاح!");
+    closeAdminDetailModal();
+  }).catch(err => {
+    alert("حدث خطأ أثناء تحديث حالة الطلب: " + err.message);
+  });
+}
+
+function clearAllOrders() {
+  if(confirm("هل أنت متأكد من مسح كافة الطلبات السحابية؟")) {
+    db.collection("orders").get().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        doc.ref.delete();
+      });
+    });
+  }
+}
 </script>
 
 </body>
