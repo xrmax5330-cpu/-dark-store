@@ -1306,17 +1306,17 @@ footer {
   <div class="sidebar-menu-items">
     <div class="sidebar-item" onclick="toggleSidebar(); openProfileModal()">
       <span class="sidebar-item-icon">👤</span>
-      <span>حسابي |عرض حسابي واشتراكاتك</span>
+      <span>حسابي (عرض حسابي واشتراكاتك)</span>
     </div>
 
     <div class="sidebar-item" onclick="toggleSidebar(); scrollToPrices()">
       <span class="sidebar-item-icon">🛍️</span>
-      <span>المنتجات |تصفح جميع المنتجات</span>
+      <span>المنتجات (تصفح جميع المنتجات)</span>
     </div>
 
     <div class="sidebar-item" onclick="toggleSidebar(); scrollToReviews()">
       <span class="sidebar-item-icon">⭐</span>
-      <span>التقييمات | تقييمات عملائنا</span>
+      <span>التقييمات (تقييمات عملائنا)</span>
     </div>
 
     <a href="https://wa.me/218927816884" target="_blank" class="sidebar-item" style="border-color: rgba(37,211,102,0.3); background: rgba(37,211,102,0.05);">
@@ -1339,7 +1339,7 @@ footer {
       DARK <span>STORE</span>
     </h1>
     <p>
-       عالم الألعاب والإفكتات والبطاقات الرقمية بتصميم مظلم وفخم وسرعة فائقة🖤🔥
+      🖤🔥 عالم الألعاب والإفكتات والبطاقات الرقمية بتصميم مظلم وفخم وسرعة فائقة
     </p>
 
     <!-- شريط تتبع حالة طلبك المباشر -->
@@ -1350,7 +1350,6 @@ footer {
       </div>
       <div style="font-size:14px; font-weight:bold; color:#fff; margin-bottom: 5px;" id="homeOrderProductText">-</div>
 
-      <!-- المراحل الخمسة البصرية -->
       <div class="order-steps-bar" id="homeStepsBar">
         <div class="order-step-item" id="hstep-1">
           <div class="order-step-circle">1</div>
@@ -1585,32 +1584,33 @@ footer {
   </div>
 </div>
 
-<!-- نافذة الملف الشخصي -->
+<!-- نافذة الملف الشخصي (حسابي) المحدثة بناءً على طلبك -->
 <div id="profileModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
       <span class="modal-header-tag">👤 حسابي الشخصي</span>
-      <h3 id="profileUserName">أهلاً بك</h3>
+      <h3 id="profileUserName">معلومات الحساب</h3>
     </div>
 
-    <div class="profile-card">
-      <div class="user-info-row">
-        <span style="color:var(--text-muted);">المستخدم:</span>
-        <span id="profUserVal" style="font-weight:bold; color:#fff;"></span>
+    <!-- بطاقة معلومات الحساب وتأكيد التفعيل -->
+    <div class="profile-card" style="text-align: center; padding: 20px;">
+      <div style="font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 8px;" id="profUserVal">اسم الحساب</div>
+      <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;" id="profContactVal">رقم الهاتف</div>
+      
+      <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #4ade80; padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: bold; display: inline-block;">
+        حسابك مفعل تستطيع الشراء ✅
       </div>
-      <div class="user-info-row">
-        <span style="color:var(--text-muted);">الهاتف:</span>
-        <span id="profContactVal"></span>
-      </div>
     </div>
 
-    <div style="margin-bottom: 12px; font-size: 15px; font-weight: 800; color: #fff;">
-      📦 طلباتي السابقة
+    <div style="margin-bottom: 10px; font-size: 14px; font-weight: 800; color: #fff;">
+      📦 طلباتي السابقة:
     </div>
+    <div id="myOrdersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;"></div>
 
-    <div id="myOrdersList" style="max-height: 250px; overflow-y: auto;"></div>
-
-    <button class="close" style="background:#dc2626; color:white; margin-top:15px;" onclick="logoutUser()">تسجيل الخروج 🚪</button>
+    <!-- زر تسجيل الخروج في الأسفل -->
+    <button class="confirm" style="background: #dc2626; color: white; margin-bottom: 10px;" onclick="logoutUser()">
+      تسجيل الخروج من الحساب 🚪
+    </button>
     <button class="close" onclick="closeProfileModal()">إغلاق الشاشة</button>
   </div>
 </div>
@@ -2006,9 +2006,8 @@ function openProfileModal() {
     openAuthModal();
     return;
   }
-  document.getElementById("profileUserName").textContent = `مرحباً، ${currentUser.username}`;
-  document.getElementById("profUserVal").textContent = currentUser.username;
-  document.getElementById("profContactVal").textContent = currentUser.contact || 'غير متوفر';
+  document.getElementById("profUserVal").textContent = `👤 اليوزر: ${currentUser.username}`;
+  document.getElementById("profContactVal").textContent = `📱 الهاتف: ${currentUser.contact || 'غير متوفر'}`;
 
   renderMyOrders();
   document.getElementById("profileModal").classList.add("show");
