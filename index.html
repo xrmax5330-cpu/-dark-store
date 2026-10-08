@@ -8,6 +8,10 @@
 
 <title>Dark Store | متجر شحن</title>
 
+<!-- استدعاء مكتبات Firebase الرسمية للربط السحابي الفوري -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 <style>
 :root {
   --bg-dark: #12100e;
@@ -1267,7 +1271,7 @@ footer {
   </div>
 
   <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-    <span>تتحدث القائمة أوتوماتيكياً كل 3 ثوانٍ 🔄</span>
+    <span>الربط سحابي حي ومباشر عبر Firebase ⚡</span>
     <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
   </div>
 
@@ -1291,17 +1295,19 @@ footer {
 </div>
 
 <script>
+/* ================== إعدادات قاعدة البيانات السحابية السريعة (Firebase) ================== */
+const firebaseConfig = {
+  databaseURL: "https://darkstore-db-default-rtdb.firebaseio.com/"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
 const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
-
-/* إعدادات قاعدة البيانات السحابية الحية لتوصيل كافة الأجهزة بدون سيرفر */
-const API_BIN_ID = "66f3e098e41b4d34e4370211";
-const API_SECRET_KEY = "$2a$10$T87sCskLKgY3rOAtI5N/n.YyvAatAylXvhI/0QJ12z1Hh/EaK2D3S";
-const API_URL = `https://api.jsonbin.io/v3/b/${API_BIN_ID}`;
 
 const madarPrices = [
   {robux:10, price: "5"},
@@ -1379,47 +1385,14 @@ let currentCategory = "robux";
 let currentProvider = "madar";
 let selectedProduct = null;
 let cart = [];
-let isCartMode = false;
 
 let currentOrderId = null;
-let statusCheckInterval = null;
-let adminInterval = null;
+let statusListener = null;
 
-/* توليد رقم طلب فريد عالمياً بناءً على الوقت الفريد والعشوائية */
 function getNextOrderId() {
   const timeStamp = Date.now().toString().slice(-4);
   const randomNum = Math.floor(100 + Math.random() * 900);
   return "DS-" + timeStamp + randomNum;
-}
-
-/* جلب الطلبات من قاعدة البيانات السحابية الحية */
-async function fetchCloudOrders() {
-  try {
-    const res = await fetch(API_URL + "/latest", {
-      headers: { "X-Master-Key": API_SECRET_KEY }
-    });
-    const data = await res.json();
-    return data.record || [];
-  } catch (e) {
-    console.error("Cloud fetch error:", e);
-    return [];
-  }
-}
-
-/* حفظ الطلبات في قاعدة البيانات السحابية الحية */
-async function saveCloudOrders(orders) {
-  try {
-    await fetch(API_URL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": API_SECRET_KEY
-      },
-      body: JSON.stringify(orders)
-    });
-  } catch (e) {
-    console.error("Cloud save error:", e);
-  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1451,7 +1424,6 @@ function openCartModal() {
     alert("🛒السلة فارغة حالياً!");
     return;
   }
-  isCartMode = true;
   let total = cart.reduce((sum, item) => sum + parseInt(item.price), 0);
 
   openModal({
@@ -1536,7 +1508,6 @@ function showRobuxPrices(provider){
 
     if(isAvailable) {
       card.querySelector('.buy').addEventListener("click", () => {
-        isCartMode = false;
         openModal({
           type: 'robux',
           title: `Robux ${item.robux}`,
@@ -1570,7 +1541,6 @@ function showEffectsPrices(){
     `;
 
     card.querySelector('.effect-buy-btn').addEventListener("click", () => {
-      isCartMode = false;
       openModal({
         type: 'effect',
         title: item.name,
@@ -1622,7 +1592,6 @@ function showPubgPrices(){
     `;
 
     card.querySelector('.buy').addEventListener("click", () => {
-      isCartMode = false;
       openModal({
         type: 'pubg',
         title: `ببجي موبايل (${item.uc})`,
@@ -1670,7 +1639,6 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
     `;
 
     card.querySelector('.buy').addEventListener("click", () => {
-      isCartMode = false;
       openModal({
         type: type,
         title: `${mainTitle} (${item.amount})`,
@@ -1725,7 +1693,7 @@ function openModal(item){
 
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
-  if(statusCheckInterval) clearInterval(statusCheckInterval);
+  if(statusListener) statusListener.off();
 }
 
 function copyTransferNumber() {
@@ -1735,7 +1703,7 @@ function copyTransferNumber() {
   });
 }
 
-async function sendOrder(){
+function sendOrder(){
   const robloxUser = document.getElementById("robloxUser").value.trim();
   const robloxPass = document.getElementById("robloxPass").value.trim();
   const senderPhone = document.getElementById("senderPhone").value.trim();
@@ -1777,41 +1745,38 @@ async function sendOrder(){
     time: new Date().toLocaleTimeString('ar-LY')
   };
 
-  // حفظ الطلب في السحابة مباشرة
-  let existingOrders = await fetchCloudOrders();
-  existingOrders.unshift(orderData);
-  await saveCloudOrders(existingOrders);
+  // إرسال الطلب فوراً ومباشرة لقواعد بيانات Firebase لجوجل
+  database.ref('orders/' + currentOrderId).set(orderData, (error) => {
+    if (error) {
+      alert("❌ حدث خطأ في الاتصال بالشبكة!");
+    } else {
+      document.getElementById("orderFormContent").style.display = "none";
+      document.getElementById("orderStatusContent").style.display = "block";
 
-  document.getElementById("orderFormContent").style.display = "none";
-  document.getElementById("orderStatusContent").style.display = "block";
-
-  // متابعة التغير بالطلب من قاعدة البيانات السحابية
-  statusCheckInterval = setInterval(checkStatus, 3000);
-}
-
-async function checkStatus(){
-  let existingOrders = await fetchCloudOrders();
-  let myOrder = existingOrders.find(o => o.id === currentOrderId);
-
-  if(myOrder) {
-    if(myOrder.status === 'accepted') {
-      clearInterval(statusCheckInterval);
-      document.getElementById("statusIcon").textContent = "🎉";
-      document.getElementById("statusTitle").style.color = "#16a34a";
-      document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
-      document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد إلى شريحتنا، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
-      document.getElementById("closeStatusBtn").style.display = "block";
-    } else if(myOrder.status === 'rejected') {
-      clearInterval(statusCheckInterval);
-      document.getElementById("statusIcon").textContent = "❌";
-      document.getElementById("statusTitle").style.color = "#dc2626";
-      document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
-      document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى التأكد من تحويل المبلغ وإعادة المحاولة أو التواصل معنا عبر الواتساب.";
-      document.getElementById("closeStatusBtn").style.display = "block";
+      // الاستماع للرد والتغيير الفوري من الأدمن
+      statusListener = database.ref('orders/' + currentOrderId);
+      statusListener.on('value', (snapshot) => {
+        const val = snapshot.val();
+        if(val) {
+          if(val.status === 'accepted') {
+            document.getElementById("statusIcon").textContent = "🎉";
+            document.getElementById("statusTitle").style.color = "#16a34a";
+            document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
+            document.getElementById("statusSpinner").style.display = "none";
+            document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد إلى شريحتنا، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
+            document.getElementById("closeStatusBtn").style.display = "block";
+          } else if(val.status === 'rejected') {
+            document.getElementById("statusIcon").textContent = "❌";
+            document.getElementById("statusTitle").style.color = "#dc2626";
+            document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
+            document.getElementById("statusSpinner").style.display = "none";
+            document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى التأكد من تحويل المبلغ وإعادة المحاولة أو التواصل معنا عبر الواتساب.";
+            document.getElementById("closeStatusBtn").style.display = "block";
+          }
+        }
+      });
     }
-  }
+  });
 }
 
 function scrollToPrices(){
@@ -1823,9 +1788,7 @@ function openAdminPanel() {
   const password = prompt("يرجى إدخال كلمة سر لوحة التحكم:");
   if (password === "darklaytlayt") {
     document.getElementById("adminPanelModal").classList.add("show");
-    renderAdminOrders();
-    if(adminInterval) clearInterval(adminInterval);
-    adminInterval = setInterval(renderAdminOrders, 3000);
+    listenToOrdersLive();
   } else if (password !== null) {
     alert("❌ كلمة السر غير صحيحة!");
   }
@@ -1833,60 +1796,55 @@ function openAdminPanel() {
 
 function closeAdminPanel() {
   document.getElementById("adminPanelModal").classList.remove("show");
-  if(adminInterval) clearInterval(adminInterval);
 }
 
-async function renderAdminOrders() {
+function listenToOrdersLive() {
   const table = document.getElementById("adminOrdersTable");
-  const orders = await fetchCloudOrders();
+  database.ref('orders').on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (!data) {
+      table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتى الآن</td></tr>`;
+      return;
+    }
 
-  if (orders.length === 0) {
-    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتى الآن</td></tr>`;
-    return;
-  }
+    table.innerHTML = "";
+    const ordersArray = Object.values(data).reverse();
 
-  table.innerHTML = "";
-  orders.forEach(order => {
-    let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
-    if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
-    if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
+    ordersArray.forEach(order => {
+      let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
+      if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
+      if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
 
-    const row = `
-      <tr>
-        <td><b>${order.id}</b></td>
-        <td>${order.time}</td>
-        <td>${order.product}</td>
-        <td>${order.price} (${order.provider})</td>
-        <td><b>${order.robloxUser}</b></td>
-        <td><code>${order.robloxPass}</code></td>
-        <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
-        <td>${statusBadge}</td>
-        <td>
-          ${order.status === 'pending' ? `
-            <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
-            <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
-          ` : 'تم الإجراء'}
-        </td>
-      </tr>
-    `;
-    table.innerHTML += row;
+      const row = `
+        <tr>
+          <td><b>${order.id}</b></td>
+          <td>${order.time}</td>
+          <td>${order.product}</td>
+          <td>${order.price} (${order.provider})</td>
+          <td><b>${order.robloxUser}</b></td>
+          <td><code>${order.robloxPass}</code></td>
+          <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
+          <td>${statusBadge}</td>
+          <td>
+            ${order.status === 'pending' ? `
+              <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
+              <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
+            ` : 'تم الإجراء'}
+          </td>
+        </tr>
+      `;
+      table.innerHTML += row;
+    });
   });
 }
 
-async function updateOrderStatus(orderId, newStatus) {
-  let orders = await fetchCloudOrders();
-  let target = orders.find(o => o.id === orderId);
-  if (target) {
-    target.status = newStatus;
-    await saveCloudOrders(orders);
-    renderAdminOrders();
-  }
+function updateOrderStatus(orderId, newStatus) {
+  database.ref('orders/' + orderId + '/status').set(newStatus);
 }
 
-async function clearAllOrders() {
+function clearAllOrders() {
   if (confirm("هل أنت متأكد من مسح كافة الطلبات؟")) {
-    await saveCloudOrders([]);
-    renderAdminOrders();
+    database.ref('orders').remove();
   }
 }
 
