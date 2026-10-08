@@ -1385,10 +1385,11 @@ let currentOrderId = null;
 let statusCheckInterval = null;
 let adminInterval = null;
 
+/* توليد رقم طلب فريد عالمياً بناءً على الوقت الفريد والعشوائية */
 function getNextOrderId() {
-  let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "101");
-  localStorage.setItem("dark_store_order_id", currentId + 1);
-  return "DS-" + currentId;
+  const timeStamp = Date.now().toString().slice(-4);
+  const randomNum = Math.floor(100 + Math.random() * 900);
+  return "DS-" + timeStamp + randomNum;
 }
 
 /* جلب الطلبات من قاعدة البيانات السحابية الحية */
@@ -1431,6 +1432,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if(window.location.hash === "#admin") {
     openAdminPanel();
+    history.replaceState(null, null, ' ');
   }
 });
 
@@ -1775,7 +1777,7 @@ async function sendOrder(){
     time: new Date().toLocaleTimeString('ar-LY')
   };
 
-  // حفظ الطلب في السحابة حتى يظهر لدى الأدمن مباشرة
+  // حفظ الطلب في السحابة مباشرة
   let existingOrders = await fetchCloudOrders();
   existingOrders.unshift(orderData);
   await saveCloudOrders(existingOrders);
@@ -1818,9 +1820,15 @@ function scrollToPrices(){
 
 /* ================== وظائف لوحة التحكم الأدمن ================== */
 function openAdminPanel() {
-  document.getElementById("adminPanelModal").classList.add("show");
-  renderAdminOrders();
-  adminInterval = setInterval(renderAdminOrders, 3000);
+  const password = prompt("يرجى إدخال كلمة سر لوحة التحكم:");
+  if (password === "darklaytlayt") {
+    document.getElementById("adminPanelModal").classList.add("show");
+    renderAdminOrders();
+    if(adminInterval) clearInterval(adminInterval);
+    adminInterval = setInterval(renderAdminOrders, 3000);
+  } else if (password !== null) {
+    alert("❌ كلمة السر غير صحيحة!");
+  }
 }
 
 function closeAdminPanel() {
@@ -1833,7 +1841,7 @@ async function renderAdminOrders() {
   const orders = await fetchCloudOrders();
 
   if (orders.length === 0) {
-    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتي الآن</td></tr>`;
+    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتى الآن</td></tr>`;
     return;
   }
 
