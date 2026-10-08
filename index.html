@@ -1618,8 +1618,8 @@ footer {
 
     <div id="registerFormContainer">
       <div class="form-group">
-        <label>👤 اسم المستخدم (اليوزر) <span>*</span></label>
-        <input id="regUsername" class="input" type="text" placeholder="أدخل اسم المستخدم">
+        <label>👤 اسم المستخدم (بالإنجليزية فقط، 5 أحرف فأكثر، بدون أرقام) <span>*</span></label>
+        <input id="regUsername" class="input" type="text" placeholder="Example: darkstore">
       </div>
 
       <div class="form-group">
@@ -2022,7 +2022,6 @@ document.addEventListener("DOMContentLoaded", () => {
     openAuthModal();
   }
 
-  // تفعيل مستمع الخلفية للطلبات الجديدة في الفوتر حتى لو لم تكن لوحة الأدمن مفتوحة بالكامل
   initBackgroundAdminListener();
 
   if(window.location.hash === "#admin") {
@@ -2034,9 +2033,7 @@ function initBackgroundAdminListener() {
   db.collection("orders").orderBy("timestamp", "desc")
     .onSnapshot((snapshot) => {
       if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
-        // تشغيل صوت التنبيه
         playAlertSound();
-        // جلب أحدث طلب تم إضافته
         const latestDoc = snapshot.docs[0];
         if(latestDoc) {
           const ord = latestDoc.data();
@@ -2108,9 +2105,21 @@ function handleRegister() {
     return;
   }
 
+  // التحقق من أن اليوزر إنجليزي فقط وبدون أرقام ولا يقل عن 5 حروف
+  const engLettersOnly = /^[A-Za-z]+$/;
+  if(!engLettersOnly.test(userVal)) {
+    alert("❌ اسم المستخدم يجب أن يكون باللغة الإنجليزية فقط وبدون أرقام أو رموز أو مسافات!");
+    return;
+  }
+
+  if(userVal.length < 5) {
+    alert("❌ اسم المستخدم يجب ألا يقل عن 5 حروف!");
+    return;
+  }
+
   db.collection("users").doc(userVal).get().then((doc) => {
     if(doc.exists) {
-      alert("❌ اسم المستخدم هذا موجود مسبقاً، يرجى اختيار يوزر آخر أو تسجيل الدخول.");
+      alert("❌ اسم المستخدم هذا موجود مسبقاً، يرجى اختيار يوزر آخر.");
     } else {
       const userData = {
         username: userVal,
@@ -2878,7 +2887,7 @@ function openAdminUserDetail(username, phone) {
   ordersContainer.innerHTML = "";
 
   if(userOrders.length === 0) {
-    ordersContainer.ordersContainer = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
+    ordersContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
     return;
   }
 
@@ -2963,10 +2972,10 @@ function openLightBox(imgSrc) {
 function closeLightBox() { document.getElementById("imageLightBox").classList.remove("show"); }
 
 function updateOrderStatus(orderId, newStatus) {
-  db.collection("orders").doc.update ? db.collection("orders").doc(orderId).update({ status: newStatus }).then(() => {
+  db.collection("orders").doc(orderId).update({ status: newStatus }).then(() => {
     alert("✅ تم تحديث حالة الطلب بنجاح!");
     closeAdminDetailModal();
-  }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); }) : '';
+  }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); });
 }
 
 function clearAllOrders() {
