@@ -44,7 +44,6 @@ button, input, textarea {
   font-family: inherit;
 }
 
-/* شريط التنبيهات الأعلى */
 .announcement-bar {
   background: linear-gradient(90deg, #b89320, var(--sand-gold), #b89320);
   color: #12100e;
@@ -627,7 +626,6 @@ footer {
   margin-top: 10px;
 }
 
-/* ================== نافذة الطلب الشفافة ================== */
 .modal {
   position: fixed;
   inset: 0;
@@ -888,7 +886,6 @@ footer {
   background: #2e2922;
 }
 
-/* حالة شاشة التثبت بالطلب */
 .status-card {
   text-align: center;
   padding: 20px 10px;
@@ -911,7 +908,6 @@ footer {
   100% { transform: rotate(360deg); }
 }
 
-/* لوحة تحكم الأدمن المدمجة */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
@@ -1159,11 +1155,9 @@ footer {
   </div>
 </footer>
 
-<!-- نافذة الطلب والتحقق -->
 <div id="modal" class="modal">
   <div class="modal-box">
     
-    <!-- قسم نموذج إدخال الطلب -->
     <div id="orderFormContent">
       <div style="text-align: center;">
         <span class="modal-header-tag">⚡ خطوة أخيره</span>
@@ -1197,7 +1191,7 @@ footer {
         </div>
         <div class="step-item">
           <span class="step-num">4</span>
-          <span>أرسل الطلب وانتظر مراجعة وتنفيذ الطلب.</span>
+          <span>أرسل الطلب وسينقلك مباشرة للواتساب لإتمام التنفيذ.</span>
         </div>
       </div>
 
@@ -1233,7 +1227,7 @@ footer {
       </div>
 
       <button class="confirm" type="button" onclick="sendOrder()">
-        🚀 إرسال الطلب
+        🚀 إرسال الطلب عبر الواتساب
       </button>
 
       <div class="modal-notice">
@@ -1245,21 +1239,9 @@ footer {
       </button>
     </div>
 
-    <!-- قسم شاشة التثبت وشحن الطلب -->
-    <div id="orderStatusContent" style="display: none;" class="status-card">
-      <div id="statusIcon" class="status-icon">⏳</div>
-      <h3 id="statusTitle" style="color: var(--sand-gold);">جاري التأكد من وصول الرصيد...</h3>
-      <div id="statusSpinner" class="status-spinner"></div>
-      <p id="statusMsg" style="color: var(--text-muted); margin-top: 15px; font-size: 14px; line-height: 1.6;">
-        تم إرسال الطلب بنجاح، يرجى عدم إغلاق هذه الشاشة لحين التأكد من وصول الرصيد إلى شريحتنا.
-      </p>
-      <button id="closeStatusBtn" class="close" type="button" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
-    </div>
-
   </div>
 </div>
 
-<!-- لوحة تحكم الأدمن المدمجة -->
 <div id="adminPanelModal" class="admin-panel-modal">
   <div class="admin-header">
     <h2 style="color: #d4af37;">👑 لوحة تحكم طلبات Dark Store</h2>
@@ -1267,7 +1249,7 @@ footer {
   </div>
 
   <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-    <span>تتحديث أوتوماتيكي للطلبات 🔄</span>
+    <span>قائمة الطلبات المسجلة بالجهاز 🔄</span>
     <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
   </div>
 
@@ -1291,6 +1273,8 @@ footer {
 </div>
 
 <script>
+const MY_WHATSAPP_NUMBER = "218927816884"; // رقم الواتساب الخاص بك لاستلام الطلبات مباشرة عليه
+
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
@@ -1327,7 +1311,7 @@ const libyanaPrices = [
 ];
 
 const effectsList = [
-  { name: "افكت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
+  { name: "افکت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
   { name: "افكت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
   { name: "💸افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
   { name: "افكت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
@@ -1376,7 +1360,6 @@ let selectedProduct = null;
 let cart = [];
 
 let currentOrderId = null;
-let adminInterval = null;
 
 function getNextOrderId() {
   const timeStamp = Date.now().toString().slice(-4);
@@ -1655,7 +1638,6 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
 function openModal(item){
   selectedProduct = item;
   document.getElementById("orderFormContent").style.display = "block";
-  document.getElementById("orderStatusContent").style.display = "none";
 
   document.getElementById("orderItemTitle").textContent = item.title;
   document.getElementById("orderItemPrice").textContent = item.price;
@@ -1725,40 +1707,35 @@ function sendOrder(){
 
   currentOrderId = getNextOrderId();
 
-  const orderData = {
-    id: currentOrderId,
-    product: selectedProduct ? selectedProduct.title : 'طلب جديد',
-    price: selectedProduct ? selectedProduct.price : '0 د.ل',
-    provider: selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا',
-    robloxUser: robloxUser,
-    robloxPass: robloxPass || 'لا يوجد',
-    senderPhone: senderPhone,
-    notes: orderNotes,
-    status: 'pending',
-    time: new Date().toLocaleTimeString('ar-LY')
-  };
+  const productTitle = selectedProduct ? selectedProduct.title : 'طلب جديد';
+  const productPrice = selectedProduct ? selectedProduct.price : '0 د.ل';
+  const productProvider = selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا';
 
-  // حفظ الطلب محلية وسريعة بدون أي تعطيل
-  let existingOrders = getStoredOrders();
-  existingOrders.unshift(orderData);
-  setStoredOrders(existingOrders);
+  const message = `🛍️ *طلب جديد من Dark Store*%0A` +
+                  `------------------------%0A` +
+                  `🆔 *رقم الطلب:* ${currentOrderId}%0A` +
+                  `📦 *المنتج:* ${productTitle}%0A` +
+                  `💰 *السعر:* ${productPrice} (${productProvider})%0A` +
+                  `👤 *اسم المستخدم:* ${robloxUser}%0A` +
+                  `🔐 *كلمة السر:* ${robloxPass || 'لا يوجد'}%0A` +
+                  `📱 *الرقم المحول منه:* ${senderPhone}%0A` +
+                  `💬 *ملاحظات:* ${orderNotes || 'لا يوجد'}`;
 
-  document.getElementById("orderFormContent").style.display = "none";
-  document.getElementById("orderStatusContent").style.display = "block";
+  // فتح رابط الواتساب المباشر لرقمك فوراً
+  window.open(`https://wa.me/${MY_WHATSAPP_NUMBER}?text=${message}`, '_blank');
+
+  closeModal();
 }
 
 function scrollToPrices(){
   document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
 }
 
-/* ================== وظائف لوحة التحكم الأدمن ================== */
 function openAdminPanel() {
   const password = prompt("يرجى إدخال كلمة سر لوحة التحكم:");
   if (password === "darklaytlayt") {
     document.getElementById("adminPanelModal").classList.add("show");
     renderAdminOrders();
-    if(adminInterval) clearInterval(adminInterval);
-    adminInterval = setInterval(renderAdminOrders, 2000);
   } else if (password !== null) {
     alert("❌ كلمة السر غير صحيحة!");
   }
@@ -1766,7 +1743,6 @@ function openAdminPanel() {
 
 function closeAdminPanel() {
   document.getElementById("adminPanelModal").classList.remove("show");
-  if(adminInterval) clearInterval(adminInterval);
 }
 
 function renderAdminOrders() {
@@ -1774,7 +1750,7 @@ function renderAdminOrders() {
   const orders = getStoredOrders();
 
   if (orders.length === 0) {
-    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتى الآن</td></tr>`;
+    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات مسجلة على هذا المتصفح</td></tr>`;
     return;
   }
 
