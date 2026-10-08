@@ -722,6 +722,30 @@ footer {
   color: #fff;
 }
 
+/* إشعار الطلب الجديد العائم للأدمن */
+#adminLiveToast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: #111;
+  border: 2px solid #fbbf24;
+  border-radius: 16px;
+  padding: 16px 24px;
+  z-index: 9999;
+  box-shadow: 0 10px 40px rgba(251, 191, 36, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  direction: rtl;
+  max-width: 90%;
+  width: 420px;
+}
+#adminLiveToast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
 /* النوافذ المنبثقة */
 .modal {
   position: fixed;
@@ -1264,6 +1288,16 @@ footer {
 
 <body>
 
+<!-- إشعار بصري عائم يظهر فور وصول طلب جديد للأدمن -->
+<div id="adminLiveToast">
+  <div style="font-size: 32px;">🔔</div>
+  <div style="flex: 1;">
+    <div style="font-size: 13px; font-weight: 900; color: #fbbf24; margin-bottom: 2px;">طلب جديد وصل للتو!</div>
+    <div id="toastOrderText" style="font-size: 12px; color: #fff; font-weight: bold;">-</div>
+  </div>
+  <button onclick="closeLiveToast()" style="background: transparent; border: none; color: #888; font-size: 16px; cursor: pointer; padding: 4px;">✕</button>
+</div>
+
 <!-- شريط الإعلانات المتحرك العلوي -->
 <div class="ticker-wrap">
   <div class="ticker">
@@ -1332,7 +1366,7 @@ footer {
       <span>طلباتي (تتبع حالتها والطلبات السابقة)</span>
     </div>
 
-    <!-- المربع السادس المضاف في المكان الذي حددته في الصورة -->
+    <!-- زر طريقة الشراء -->
     <div class="sidebar-item" onclick="toggleSidebar(); openGuideModal()" style="border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.08);">
       <span class="sidebar-item-icon">📖</span>
       <span>طريقة الشراء</span>
@@ -1804,7 +1838,7 @@ footer {
 
   <div id="adminOrdersSection">
     <div class="admin-actions-bar">
-      <span>🔔 نظام التنبيه الصوتي مفعل</span>
+      <span>🔔 التنبيهات الصوتية والبصرية مفعلة تلقائياً</span>
       <button class="admin-btn admin-btn-rej" onclick="clearAllOrders()">🗑️ مسح كافة الطلبات</button>
     </div>
     <div id="adminOrdersList" class="admin-orders-list">
@@ -1863,11 +1897,11 @@ function playAlertSound() {
     const gain = audioCtx.createGain();
     osc.type = "sine";
     osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.3);
+    osc.stop(audioCtx.currentTime + 0.4);
   } catch(e) {}
 }
 
@@ -1988,10 +2022,43 @@ document.addEventListener("DOMContentLoaded", () => {
     openAuthModal();
   }
 
+  // تفعيل مستمع الخلفية للطلبات الجديدة في الفوتر حتى لو لم تكن لوحة الأدمن مفتوحة بالكامل
+  initBackgroundAdminListener();
+
   if(window.location.hash === "#admin") {
     openAdminPanelPrompt();
   }
 });
+
+function initBackgroundAdminListener() {
+  db.collection("orders").orderBy("timestamp", "desc")
+    .onSnapshot((snapshot) => {
+      if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
+        // تشغيل صوت التنبيه
+        playAlertSound();
+        // جلب أحدث طلب تم إضافته
+        const latestDoc = snapshot.docs[0];
+        if(latestDoc) {
+          const ord = latestDoc.data();
+          showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب: ${ord.product} (${ord.price})`);
+        }
+      }
+      lastOrdersCount = snapshot.size;
+    });
+}
+
+function showLiveToast(msg) {
+  const toast = document.getElementById("adminLiveToast");
+  document.getElementById("toastOrderText").textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 7000);
+}
+
+function closeLiveToast() {
+  document.getElementById("adminLiveToast").classList.remove("show");
+}
 
 function toggleSidebar() {
   const overlay = document.getElementById("sidebarOverlay");
@@ -2671,12 +2738,8 @@ function openAdminPanel() {
   if(!adminUnsubscribe) {
     adminUnsubscribe = db.collection("orders").orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
-        if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) { playAlertSound(); }
-        lastOrdersCount = snapshot.size;
-        
         allOrdersData = [];
         snapshot.forEach(doc => allOrdersData.push(doc.data()));
-
         renderAdminOrdersList(snapshot);
       });
   }
@@ -2686,7 +2749,6 @@ function openAdminPanel() {
 function closeAdminPanel() {
   document.getElementById("adminPanelModal").classList.remove("show");
   if(adminUnsubscribe) { adminUnsubscribe(); adminUnsubscribe = null; }
-  lastOrdersCount = -1;
 }
 
 function switchAdminTab(tabName) {
@@ -2816,7 +2878,7 @@ function openAdminUserDetail(username, phone) {
   ordersContainer.innerHTML = "";
 
   if(userOrders.length === 0) {
-    ordersContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
+    ordersContainer.ordersContainer = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
     return;
   }
 
@@ -2901,10 +2963,10 @@ function openLightBox(imgSrc) {
 function closeLightBox() { document.getElementById("imageLightBox").classList.remove("show"); }
 
 function updateOrderStatus(orderId, newStatus) {
-  db.collection("orders").doc(orderId).update({ status: newStatus }).then(() => {
+  db.collection("orders").doc.update ? db.collection("orders").doc(orderId).update({ status: newStatus }).then(() => {
     alert("✅ تم تحديث حالة الطلب بنجاح!");
     closeAdminDetailModal();
-  }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); });
+  }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); }) : '';
 }
 
 function clearAllOrders() {
