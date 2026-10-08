@@ -1111,9 +1111,11 @@ footer {
   display: flex;
   gap: 8px;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 .admin-tab-btn {
   flex: 1;
+  min-width: 120px;
   padding: 10px;
   border-radius: 10px;
   background: var(--card-bg);
@@ -1123,6 +1125,7 @@ footer {
   cursor: pointer;
   font-size: 13px;
   transition: all 0.2s;
+  text-align: center;
 }
 .admin-tab-btn.active {
   background: #fff;
@@ -1144,12 +1147,14 @@ footer {
   font-size: 12px;
 }
 
-.admin-orders-list, .admin-users-list {
+.admin-orders-list, .admin-users-list, .admin-logs-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 60vh;
+  overflow-y: auto;
 }
-.admin-order-card, .admin-user-card {
+.admin-order-card, .admin-user-card, .admin-log-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 14px;
@@ -1159,7 +1164,7 @@ footer {
   align-items: center;
   transition: all 0.2s;
 }
-.admin-order-card:hover, .admin-user-card:hover {
+.admin-order-card:hover, .admin-user-card:hover, .admin-log-card:hover {
   border-color: #555;
   background: var(--card-hover);
 }
@@ -1826,7 +1831,7 @@ footer {
   <div class="admin-header">
     <div class="admin-title-box">
       <h2>👑 لوحة تحكم DARK STORE</h2>
-      <p>إدارة الطلبات وحسابات العملاء</p>
+      <p>إدارة الطلبات، حسابات العملاء، والسجلات</p>
     </div>
     <button class="admin-btn admin-btn-rej" style="padding: 8px 14px; font-size: 12px;" onclick="closeAdminPanel()">إغلاق اللوحة ✖</button>
   </div>
@@ -1834,6 +1839,7 @@ footer {
   <div class="admin-tabs">
     <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">📦 إدارة الطلبات</button>
     <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">👥 حسابات العملاء</button>
+    <button id="tabLogsBtn" class="admin-tab-btn" onclick="switchAdminTab('logs')">📋 سجلات المحذوفات</button>
   </div>
 
   <div id="adminOrdersSection">
@@ -1848,10 +1854,20 @@ footer {
 
   <div id="adminUsersSection" style="display: none;">
     <div class="admin-actions-bar">
-      <span>👥 قائمة الزبائن (اضغط على العميل لعرض سجله أو حذف حسابه)</span>
+      <span>👥 قائمة الزبائن (اضغط على العميل لعرض كافة طلباته أو حذف حسابه)</span>
     </div>
     <div id="adminUsersList" class="admin-users-list">
       <div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل حسابات العملاء...</div>
+    </div>
+  </div>
+
+  <div id="adminLogsSection" style="display: none;">
+    <div class="admin-actions-bar">
+      <span>📋 سجل الطلبات التي تم حذفها من النظام</span>
+      <button class="admin-btn admin-btn-rej" onclick="clearAllLogs()">🗑️ مسح السجلات</button>
+    </div>
+    <div id="adminLogsList" class="admin-logs-list">
+      <div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات محذوفة حتى الآن.</div>
     </div>
   </div>
 </div>
@@ -2001,9 +2017,9 @@ let allOrdersData = [];
 let currentOrdersFilter = 'all';
 
 function getNextOrderId() {
-  let currentId = parseInt(localStorage.getItem("dark_store_order_id") || "101");
-  localStorage.setItem("dark_store_order_id", currentId + 1);
-  return "DS-" + currentId;
+  let seq = parseInt(localStorage.getItem("dark_store_order_seq") || "0") + 1;
+  localStorage.setItem("dark_store_order_seq", seq);
+  return `${seq}#`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -2030,18 +2046,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initBackgroundAdminListener() {
-  db.collection("orders").orderBy("timestamp", "desc")
-    .onSnapshot((snapshot) => {
-      if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
-        playAlertSound();
-        const latestDoc = snapshot.docs[0];
-        if(latestDoc) {
-          const ord = latestDoc.data();
-          showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب: ${ord.product} (${ord.price})`);
-        }
+  db.collection("orders").onSnapshot((snapshot) => {
+    if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
+      playAlertSound();
+      const latestDoc = snapshot.docs[snapshot.docs.length - 1];
+      if(latestDoc) {
+        const ord = latestDoc.data();
+        showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب: ${ord.product} (${ord.price})`);
       }
-      lastOrdersCount = snapshot.size;
-    });
+    }
+    lastOrdersCount = snapshot.size;
+  });
 }
 
 function showLiveToast(msg) {
@@ -2105,7 +2120,6 @@ function handleRegister() {
     return;
   }
 
-  // التحقق من أن اليوزر إنجليزي فقط وبدون أرقام ولا يقل عن 5 حروف
   const engLettersOnly = /^[A-Za-z]+$/;
   if(!engLettersOnly.test(userVal)) {
     alert("❌ اسم المستخدم يجب أن يكون باللغة الإنجليزية فقط وبدون أرقام أو رموز أو مسافات!");
@@ -2268,7 +2282,7 @@ function renderMyOrdersModalList() {
         itemDiv.className = "order-detail-card-box";
         itemDiv.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:8px;">
-            <span style="font-weight:900; color:#fff; font-size:14px;">طلب #${o.id}</span>
+            <span style="font-weight:900; color:#fff; font-size:14px;">طلب ${o.id}</span>
             <span class="order-badge ${badgeClass}">${statusText}</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">التوقيت: ${o.time}</div>
@@ -2745,7 +2759,7 @@ function openAdminPanel() {
   switchAdminTab('orders');
 
   if(!adminUnsubscribe) {
-    adminUnsubscribe = db.collection("orders").orderBy("timestamp", "asc")
+    adminUnsubscribe = db.collection("orders")
       .onSnapshot((snapshot) => {
         allOrdersData = [];
         snapshot.forEach(doc => allOrdersData.push(doc.data()));
@@ -2753,6 +2767,7 @@ function openAdminPanel() {
       });
   }
   loadAdminUsersList();
+  loadAdminLogsList();
 }
 
 function closeAdminPanel() {
@@ -2763,16 +2778,31 @@ function closeAdminPanel() {
 function switchAdminTab(tabName) {
   const tabOrdersBtn = document.getElementById("tabOrdersBtn");
   const tabUsersBtn = document.getElementById("tabUsersBtn");
+  const tabLogsBtn = document.getElementById("tabLogsBtn");
+  
   const adminOrdersSection = document.getElementById("adminOrdersSection");
   const adminUsersSection = document.getElementById("adminUsersSection");
+  const adminLogsSection = document.getElementById("adminLogsSection");
+
+  tabOrdersBtn.classList.remove("active");
+  tabUsersBtn.classList.remove("active");
+  tabLogsBtn.classList.remove("active");
+  
+  adminOrdersSection.style.display = "none";
+  adminUsersSection.style.display = "none";
+  adminLogsSection.style.display = "none";
 
   if(tabName === 'orders') {
-    tabOrdersBtn.classList.add("active"); tabUsersBtn.classList.remove("active");
-    adminOrdersSection.style.display = "block"; adminUsersSection.style.display = "none";
-  } else {
-    tabUsersBtn.classList.add("active"); tabOrdersBtn.classList.remove("active");
-    adminUsersSection.style.display = "block"; adminUsersSection.style.display = "none";
+    tabOrdersBtn.classList.add("active");
+    adminOrdersSection.style.display = "block";
+  } else if(tabName === 'users') {
+    tabUsersBtn.classList.add("active");
+    adminUsersSection.style.display = "block";
     loadAdminUsersList();
+  } else if(tabName === 'logs') {
+    tabLogsBtn.classList.add("active");
+    adminLogsSection.style.display = "block";
+    loadAdminLogsList();
   }
 }
 
@@ -2807,7 +2837,7 @@ function renderAdminOrdersList(snapshot) {
       <div class="admin-order-info">
         <div class="admin-order-num">${index}</div>
         <div class="admin-order-details-text">
-          <h4>الطلب #${index} (${o.product})</h4>
+          <h4>الطلب ${o.id} (${o.product})</h4>
           <p>الزبون: ${o.userOwner || 'زائر'} | المبلغ: ${o.price}</p>
         </div>
       </div>
@@ -2856,6 +2886,57 @@ function loadAdminUsersList() {
   });
 }
 
+function loadAdminLogsList() {
+  const container = document.getElementById("adminLogsList");
+  container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل سجلات المحذوفات...</div>`;
+
+  db.collection("order_logs").orderBy("deletedAt", "desc").get().then((querySnapshot) => {
+    container.innerHTML = "";
+    if(querySnapshot.empty) {
+      container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات طلبات محذوفة 📭</div>`;
+      return;
+    }
+
+    let index = 1;
+    querySnapshot.forEach(doc => {
+      const log = doc.data();
+      const card = document.createElement("div");
+      card.className = "admin-log-card";
+      card.innerHTML = `
+        <div class="admin-order-info">
+          <div class="admin-order-num">${index}</div>
+          <div class="admin-order-details-text">
+            <h4>طلب محذوف رقم ${log.id} (${log.product})</h4>
+            <p>الزبون: ${log.userOwner} | السعر: ${log.price} د.ل | حذف في: ${log.deletedTime}</p>
+          </div>
+        </div>
+        <button class="admin-btn admin-btn-rej" onclick="deleteSingleLog('${doc.id}')">حذف من السجل</button>
+      `;
+      container.appendChild(card);
+      index++;
+    });
+  }).catch(err => {
+    container.innerHTML = `<div style="text-align:center; color:#dc2626; padding:30px;">حدث خطأ في جلب السجلات.</div>`;
+  });
+}
+
+function deleteSingleLog(docId) {
+  if(confirm("هل تريد حذف هذا السجل نهائياً؟")) {
+    db.collection("order_logs").doc(docId).delete().then(() => {
+      loadAdminLogsList();
+    });
+  }
+}
+
+function clearAllLogs() {
+  if(confirm("هل أنت متأكد من مسح كافة سجلات المحذوفات؟")) {
+    db.collection("order_logs").get().then(snapshot => {
+      snapshot.forEach(doc => doc.ref.delete());
+      loadAdminLogsList();
+    });
+  }
+}
+
 function deleteUserAccount(username) {
   if(confirm(`⚠️ هل أنت متأكد من رغبتك في حذف حساب الزبون (${username}) نهائياً؟`)) {
     db.collection("users").doc(username).delete().then(() => {
@@ -2874,43 +2955,46 @@ function openAdminUserDetail(username, phone) {
   content.innerHTML = `
     <div class="detail-row"><span style="color:var(--text-muted);">اسم المستخدم:</span><b style="color:#fff;">${username}</b></div>
     <div class="detail-row"><span style="color:var(--text-muted);">رقم الهاتف المسجل:</span><b style="color:#34d399;">${phone}</b></div>
-    <div style="margin: 15px 0 8px; font-weight:800; font-size:13px; color:#fff;">📦 طلبات هذا الشخص:</div>
-    <div id="userSpecificOrdersList" style="max-height: 250px; overflow-y: auto;">
+    <div style="margin: 15px 0 8px; font-weight:800; font-size:13px; color:#fff;">📦 كافة طلبات هذا العميل:</div>
+    <div id="userSpecificOrdersList" style="max-height: 280px; overflow-y: auto; display:flex; flex-direction:column; gap:8px;">
       <div style="text-align:center; color:var(--text-muted); padding:10px;">جاري تحميل طلبات العميل...</div>
     </div>
   `;
 
   document.getElementById("adminUserDetailModal").classList.add("show");
 
-  const userOrders = allOrdersData.filter(o => o.userOwner === username);
-  const ordersContainer = document.getElementById("userSpecificOrdersList");
-  ordersContainer.innerHTML = "";
+  db.collection("orders").where("userOwner", "==", username).get().then((snapshot) => {
+    const ordersContainer = document.getElementById("userSpecificOrdersList");
+    ordersContainer.innerHTML = "";
 
-  if(userOrders.length === 0) {
-    ordersContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
-    return;
-  }
+    if(snapshot.empty) {
+      ordersContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:15px;">لم يقم هذا العميل بأي طلب حتى الآن.</div>`;
+      return;
+    }
 
-  userOrders.forEach(o => {
-    let statusText = 'قيد المراجعة ⏳';
-    if(o.status === 'preparing') statusText = 'سيتم التجهيز ⏳';
-    if(o.status === 'accepted') statusText = 'قيد التنفيذ ⚙️';
-    if(o.status === 'completed') statusText = 'مكتمل ✅';
-    if(o.status === 'unavailable') statusText = 'غير متوفر ⚠️';
-    if(o.status === 'rejected') statusText = 'ملغي ❌';
+    snapshot.forEach(doc => {
+      const o = doc.data();
+      let statusText = 'قيد المراجعة ⏳';
+      if(o.status === 'preparing') statusText = 'سيتم التجهيز ⏳';
+      if(o.status === 'accepted') statusText = 'قيد التنفيذ ⚙️';
+      if(o.status === 'completed') statusText = 'مكتمل ✅';
+      if(o.status === 'unavailable') statusText = 'غير متوفر ⚠️';
+      if(o.status === 'rejected') statusText = 'ملغي ❌';
 
-    const div = document.createElement("div");
-    div.className = "my-order-item";
-    div.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <span style="color:#fff; font-weight:bold;">${o.id}</span>
-        <span style="font-size:11px; color:#cbd5e1;">${statusText}</span>
-      </div>
-      <div style="font-size:12px; font-weight:bold; color:#fff;">${o.product} (${o.price})</div>
-      <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">اليوزر داخل اللعبة: <b>${o.robloxUser}</b> | هاتف التحويل: ${o.senderPhone}</div>
-      <div style="font-size:10px; color:#94a3b8; margin-top:2px;">التوقيت: ${o.time}</div>
-    `;
-    ordersContainer.appendChild(div);
+      const div = document.createElement("div");
+      div.className = "order-detail-card-box";
+      div.style.marginBottom = "0";
+      div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="color:#fff; font-weight:bold;">طلب ${o.id}</span>
+          <span style="font-size:11px; color:#34d399;">${statusText}</span>
+        </div>
+        <div style="font-size:12px; font-weight:bold; color:#fff;">المنتج: ${o.product} (${o.price} د.ل)</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">اليوزر داخل اللعبة: <b>${o.robloxUser}</b> | هاتف التحويل: ${o.senderPhone}</div>
+        <div style="font-size:10px; color:#94a3b8; margin-top:2px;">التوقيت: ${o.time}</div>
+      `;
+      ordersContainer.appendChild(div);
+    });
   });
 }
 
@@ -2932,7 +3016,7 @@ function openAdminDetail(orderId) {
 
   const content = document.getElementById("adminDetailContent");
   content.innerHTML = `
-    <div class="detail-row"><span style="color:var(--text-muted);">رقم الطلب:</span><b>${o.id}</b></div>
+    <div class="detail-row"><span style="color:var(--text-muted);">رقم الطلب:</span><b>طلب ${o.id}</b></div>
     <div class="detail-row"><span style="color:var(--text-muted);">صاحب الحساب:</span><b>${o.userOwner || 'زائر'}</b></div>
     <div class="detail-row"><span style="color:var(--text-muted);">التاريخ والوقت:</span><span>${o.time}</span></div>
     <div class="detail-row"><span style="color:var(--text-muted);">المنتج المطلوب:</span><b style="color:#fff;">${o.product}</b></div>
@@ -2948,14 +3032,15 @@ function openAdminDetail(orderId) {
     </div>
 
     <div style="margin-top:18px; border-top:1px solid var(--line); padding-top:14px; text-align:center;">
-      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب وإدارته:</div>
-      <div style="display:flex; justify-content:center; gap:4px; flex-wrap:wrap;">
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">إدارة وحذف الطلب:</div>
+      <div style="display:flex; justify-content:center; gap:4px; flex-wrap:wrap; margin-bottom: 10px;">
         <button class="admin-btn admin-btn-prep" onclick="updateOrderStatus('${o.id}', 'preparing')">سيتم التجهيز</button>
         <button class="admin-btn admin-btn-acc" onclick="updateOrderStatus('${o.id}', 'accepted')">قيد التنفيذ</button>
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">تسليم</button>
         <button class="admin-btn admin-btn-unav" onclick="updateOrderStatus('${o.id}', 'unavailable')">غير متوفر</button>
         <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">رفض</button>
       </div>
+      <button class="admin-btn admin-btn-rej" style="width: 100%; padding: 10px;" onclick="deleteOrderWithLog('${o.id}')">حذف الطلب ونقله للسجلات 🗑️</button>
     </div>
   `;
 
@@ -2978,10 +3063,41 @@ function updateOrderStatus(orderId, newStatus) {
   }).catch(err => { alert("حدث خطأ أثناء التحديث: " + err.message); });
 }
 
+function deleteOrderWithLog(orderId) {
+  if(confirm(`⚠️ هل أنت متأكد من حذف الطلب (${orderId}) ونقله إلى سجلات المحذوفات؟`)) {
+    const orderData = cachedOrdersMap[orderId];
+    if(!orderData) return;
+
+    const logData = {
+      ...orderData,
+      deletedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      deletedTime: new Date().toLocaleString('ar-LY')
+    };
+
+    db.collection("order_logs").add(logData).then(() => {
+      db.collection("orders").doc(orderId).delete().then(() => {
+        alert("✅ تم حذف الطلب وترحيله إلى السجلات بنجاح.");
+        closeAdminDetailModal();
+      });
+    }).catch(err => {
+      alert("حدث خطأ: " + err.message);
+    });
+  }
+}
+
 function clearAllOrders() {
-  if(confirm("هل أنت متأكد من مسح كافة الطلبات السحابية؟")) {
+  if(confirm("هل أنت متأكد من مسح كافة الطلبات الحالية ونقلها للسجلات؟")) {
     db.collection("orders").get().then((snapshot) => {
-      snapshot.forEach((doc) => { doc.ref.delete(); });
+      snapshot.forEach((doc) => {
+        const o = doc.data();
+        db.collection("order_logs").add({
+          ...o,
+          deletedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          deletedTime: new Date().toLocaleString('ar-LY')
+        });
+        doc.ref.delete();
+      });
+      alert("✅ تم مسح ونقل كافة الطلبات.");
     });
   }
 }
