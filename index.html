@@ -1323,7 +1323,7 @@ footer {
       <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
     </div>
 
-    <!-- إعادة ترتيب أقسام المنتجات بشكل شبكي مرتب ومنظم -->
+    <!-- أقسام المنتجات -->
     <div class="category-box">
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
         <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
@@ -1335,22 +1335,22 @@ footer {
       </button>
       
       <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
-        <img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" alt="أيتونز" class="cat-icon-img">
+        <img src="https://i.ibb.co/yFzL2CH2/IMG-4898.png" alt="أيتونز" class="cat-icon-img">
         <span>أيتونز</span>
       </button>
 
       <button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">
-        <img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" alt="بلايستيشن" class="cat-icon-img">
+        <img src="https://i.ibb.co/bjXVwKjF/IMG-4900.webp" alt="بلايستيشن" class="cat-icon-img">
         <span>بلايستيشن</span>
       </button>
       
       <button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">
-        <img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" alt="إكس بوكس" class="cat-icon-img">
+        <img src="https://i.ibb.co/nsWPPM0v/IMG-4899.jpg" alt="إكس بوكس" class="cat-icon-img">
         <span>إكس بوكس</span>
       </button>
 
       <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
-        <img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" alt="ببجي" class="cat-icon-img">
+        <img src="https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" alt="ببجي" class="cat-icon-img">
         <span>ببجي</span>
       </button>
     </div>
@@ -1361,7 +1361,6 @@ footer {
         <p>💸اختر طريقة الدفع</p>
       </div>
 
-      <!-- إعادة ترتيب أزرار الدفع لمكان مناسب وواضح -->
       <div class="provider-box">
         <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
           <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار">
@@ -1469,7 +1468,6 @@ footer {
       <h3 id="authModalTitle">إنشاء حساب جديد</h3>
     </div>
 
-    <!-- نموذج إنشاء حساب -->
     <div id="registerFormContainer">
       <div class="form-group">
         <label>👤 اسم المستخدم (اليوزر) <span>*</span></label>
@@ -1497,7 +1495,6 @@ footer {
       </div>
     </div>
 
-    <!-- نموذج تسجيل الدخول -->
     <div id="loginFormContainer" style="display: none;">
       <div class="form-group">
         <label>👤 اسم المستخدم (اليوزر) <span>*</span></label>
@@ -1559,7 +1556,6 @@ footer {
 <div id="modal" class="modal">
   <div class="modal-box">
     
-    <!-- قسم نموذج إدخال الطلب -->
     <div id="orderFormContent">
       <div style="text-align: center;">
         <span class="modal-header-tag">⚡ خطوة أخيره</span>
@@ -1646,7 +1642,6 @@ footer {
       </button>
     </div>
 
-    <!-- قسم شاشة التثبت والواجهة للزبون بعد الشراء -->
     <div id="orderStatusContent" style="display: none;" class="status-card">
       <div id="statusIcon" class="status-icon">⏳</div>
       <h3 id="statusTitle" style="color: var(--sand-gold);">تم إنشاء طلبك بنجاح!</h3>
@@ -1662,7 +1657,6 @@ footer {
         تم استلام طلبك، سيتم تجهيز طلبك قريباً وتتبع حالته!
       </p>
 
-      <!-- زر واتساب صغير وهادئ أسفل البيانات تماماً -->
       <div style="margin-top: 12px; text-align: center;">
         <a id="modalWhatsappSmallBtn" href="#" target="_blank" style="color: #25d366; font-size: 12px; text-decoration: none; font-weight: bold; background: rgba(37, 211, 102, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(37, 211, 102, 0.3); display: inline-block;">
           💬 تواصل معانا عبر وتس
@@ -1685,13 +1679,11 @@ footer {
     <button class="admin-btn admin-btn-rej" style="padding: 8px 14px; font-size: 12px;" onclick="closeAdminPanel()">إغلاق اللوحة ✖</button>
   </div>
 
-  <!-- تبويبات التنقل في لوحة الأدمن -->
   <div class="admin-tabs">
     <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">📦 إدارة الطلبات</button>
     <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">👥 حسابات العملاء المسجلين</button>
   </div>
 
-  <!-- قسم الطلبات -->
   <div id="adminOrdersSection">
     <div class="admin-actions-bar">
       <span>🔔 نظام التنبيه الصوتي الحي مفعل تلقائياً عند وصول طلب جديد</span>
@@ -1702,7 +1694,6 @@ footer {
     </div>
   </div>
 
-  <!-- قسم حسابات العملاء المسجلين -->
   <div id="adminUsersSection" style="display: none;">
     <div class="admin-actions-bar">
       <span>👥 قائمة الزبائن الذين قاموا بإنشاء حسابات على الموقع وسجل طلباتهم</span>
@@ -1722,7 +1713,6 @@ footer {
     </div>
 
     <div id="adminDetailContent">
-      <!-- تعبئة تفاصيل الطلب ديناميكياً -->
     </div>
   </div>
 </div>
@@ -1736,7 +1726,6 @@ footer {
     </div>
 
     <div id="adminUserDetailContent">
-      <!-- تعبئة تفاصيل المستخدم وطلباته -->
     </div>
   </div>
 </div>
@@ -1756,7 +1745,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// صوت التنبيه التلقائي
 function playAlertSound() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1896,7 +1884,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ================== نظام الحسابات والتسجيل ================== */
 function openAuthModal() {
   document.getElementById("authModal").classList.add("show");
   switchToRegister();
@@ -2132,7 +2119,6 @@ function listenToHomeActiveOrder() {
     });
 }
 
-/* ================== المتجر ================== */
 function addToCart(item) {
   cart.push(item);
   updateCartBadge();
@@ -2279,11 +2265,11 @@ function showEffectsPrices(){
 }
 
 function showItunesPrices(){
-  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '<img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" style="width:22px;height:22px;object-fit:contain;">');
+  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '<img src="https://i.ibb.co/yFzL2CH2/IMG-4898.png" style="width:22px;height:22px;object-fit:contain;">');
 }
 
 function showPsPrices(){
-  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '<img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" style="width:22px;height:22px;object-fit:contain;">');
+  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '<img src="https://i.ibb.co/bjXVwKjF/IMG-4900.webp" style="width:22px;height:22px;object-fit:contain;">');
 }
 
 function showPubgPrices(){
@@ -2303,7 +2289,7 @@ function showPubgPrices(){
             <div class="item-title">ببجي موبايل</div>
             <div class="item-sub">${item.uc}</div>
           </div>
-          <span class="badge-icon"><img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" style="width:22px;height:22px;object-fit:contain;"></span>
+          <span class="badge-icon"><img src="https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" style="width:22px;height:22px;object-fit:contain;"></span>
         </div>
         <div class="item-price-box">
           <div class="item-price-label">السعر</div>
@@ -2330,7 +2316,7 @@ function showPubgPrices(){
 }
 
 function showXboxPrices(){
-  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '<img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" style="width:22px;height:22px;object-fit:contain;">');
+  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '<img src="https://i.ibb.co/nsWPPM0v/IMG-4899.jpg" style="width:22px;height:22px;object-fit:contain;">');
 }
 
 function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
@@ -2560,7 +2546,6 @@ function scrollToPrices(){
   document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
 }
 
-/* ================== لوحة التحكم الأدمن ================== */
 function openAdminPanelPrompt() {
   const pass = prompt("🔐 أدخل كلمة سر الأدمن للوصول إلى لوحة التحكم:");
   if(pass === "darkstore010") {
