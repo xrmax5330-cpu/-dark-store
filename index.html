@@ -8,10 +8,6 @@
 
 <title>Dark Store | متجر شحن</title>
 
-<!-- استدعاء مكتبات Firebase الرسمية للربط السحابي الفوري -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
 <style>
 :root {
   --bg-dark: #12100e;
@@ -1215,8 +1211,8 @@ footer {
       </div>
 
       <div class="form-group" id="robloxPassGroup">
-        <label>🔐كلمة سر الحساب (Password) <span>*</span></label>
-        <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب">
+        <label>🔐كلمة سر الحساب (Password)</label>
+        <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب (اختياري)">
       </div>
 
       <div class="form-group">
@@ -1236,7 +1232,7 @@ footer {
         </label>
       </div>
 
-      <button class="confirm" onclick="sendOrder()">
+      <button class="confirm" type="button" onclick="sendOrder()">
         🚀 إرسال الطلب
       </button>
 
@@ -1244,7 +1240,7 @@ footer {
         📌 ملاحظة: يرجى تحويل الرصيد أولاً قبل إرسال الطلب ليتم التنفيذ مباشرة.
       </div>
 
-      <button class="close" onclick="closeModal()">
+      <button class="close" type="button" onclick="closeModal()">
         إلغاء
       </button>
     </div>
@@ -1257,7 +1253,7 @@ footer {
       <p id="statusMsg" style="color: var(--text-muted); margin-top: 15px; font-size: 14px; line-height: 1.6;">
         تم إرسال الطلب بنجاح، يرجى عدم إغلاق هذه الشاشة لحين التأكد من وصول الرصيد إلى شريحتنا.
       </p>
-      <button id="closeStatusBtn" class="close" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
+      <button id="closeStatusBtn" class="close" type="button" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
     </div>
 
   </div>
@@ -1271,7 +1267,7 @@ footer {
   </div>
 
   <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-    <span>الربط سحابي حي ومباشر عبر Firebase ⚡</span>
+    <span>تتحديث أوتوماتيكي للطلبات 🔄</span>
     <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
   </div>
 
@@ -1295,13 +1291,6 @@ footer {
 </div>
 
 <script>
-/* ================== إعدادات قاعدة البيانات السحابية السريعة (Firebase) ================== */
-const firebaseConfig = {
-  databaseURL: "https://darkstore-db-default-rtdb.firebaseio.com/"
-};
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
@@ -1387,12 +1376,24 @@ let selectedProduct = null;
 let cart = [];
 
 let currentOrderId = null;
-let statusListener = null;
+let adminInterval = null;
 
 function getNextOrderId() {
   const timeStamp = Date.now().toString().slice(-4);
   const randomNum = Math.floor(100 + Math.random() * 900);
   return "DS-" + timeStamp + randomNum;
+}
+
+function getStoredOrders() {
+  try {
+    return JSON.parse(localStorage.getItem("dark_store_all_orders") || "[]");
+  } catch(e) {
+    return [];
+  }
+}
+
+function setStoredOrders(orders) {
+  localStorage.setItem("dark_store_all_orders", JSON.stringify(orders));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1679,13 +1680,11 @@ function openModal(item){
   const robloxUserGroup = document.getElementById("robloxUserGroup");
   const robloxPassGroup = document.getElementById("robloxPassGroup");
 
+  robloxUserGroup.style.display = "block";
   if(item.type === 'robux' || item.type === 'effect') {
-    robloxUserGroup.style.display = "block";
     robloxPassGroup.style.display = "block";
   } else {
-    robloxUserGroup.style.display = "block";
     robloxPassGroup.style.display = "none";
-    document.getElementById("robloxUser").placeholder = "أدخل المعرف / اليوزر / ID المخصص للشحن";
   }
 
   document.getElementById("modal").classList.add("show");
@@ -1693,13 +1692,12 @@ function openModal(item){
 
 function closeModal(){
   document.getElementById("modal").classList.remove("show");
-  if(statusListener) statusListener.off();
 }
 
 function copyTransferNumber() {
   const number = document.getElementById("transferNumber").textContent;
   navigator.clipboard.writeText(number).then(() => {
-    alert("✅تم نسخ الرقم بنجاح: " + number);
+    alert("✅ تم نسخ الرقم بنجاح: " + number);
   });
 }
 
@@ -1711,22 +1709,17 @@ function sendOrder(){
   const confirmCheckbox = document.getElementById("confirmCheckbox").checked;
 
   if(!robloxUser){
-    alert("👤يرجى إدخال اسم المستخدم / اليوزر");
-    return;
-  }
-
-  if((selectedProduct.type === 'robux' || selectedProduct.type === 'effect') && !robloxPass){
-    alert("🔐يرجى إدخال كلمة السر الخاصة بالحساب");
+    alert("👤 يرجى إدخال اسم المستخدم / اليوزر");
     return;
   }
 
   if(!senderPhone){
-    alert("📲يرجى إدخال رقم الهاتف الذي قمت بالتحويل منه");
+    alert("📲 يرجى إدخال رقم الهاتف الذي قمت بالتحويل منه");
     return;
   }
 
   if(!confirmCheckbox){
-    alert("يرجى التأكيد على أنك قمت بتحويل الرصيد قبل إرسال الطلب");
+    alert("⚠️ يرجى التأكيد على أنك قمت بتحويل الرصيد قبل إرسال الطلب");
     return;
   }
 
@@ -1734,9 +1727,9 @@ function sendOrder(){
 
   const orderData = {
     id: currentOrderId,
-    product: selectedProduct.title,
-    price: selectedProduct.price,
-    provider: selectedProduct.provider || 'ليبيانا',
+    product: selectedProduct ? selectedProduct.title : 'طلب جديد',
+    price: selectedProduct ? selectedProduct.price : '0 د.ل',
+    provider: selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا',
     robloxUser: robloxUser,
     robloxPass: robloxPass || 'لا يوجد',
     senderPhone: senderPhone,
@@ -1745,38 +1738,13 @@ function sendOrder(){
     time: new Date().toLocaleTimeString('ar-LY')
   };
 
-  // إرسال الطلب فوراً ومباشرة لقواعد بيانات Firebase لجوجل
-  database.ref('orders/' + currentOrderId).set(orderData, (error) => {
-    if (error) {
-      alert("❌ حدث خطأ في الاتصال بالشبكة!");
-    } else {
-      document.getElementById("orderFormContent").style.display = "none";
-      document.getElementById("orderStatusContent").style.display = "block";
+  // حفظ الطلب محلية وسريعة بدون أي تعطيل
+  let existingOrders = getStoredOrders();
+  existingOrders.unshift(orderData);
+  setStoredOrders(existingOrders);
 
-      // الاستماع للرد والتغيير الفوري من الأدمن
-      statusListener = database.ref('orders/' + currentOrderId);
-      statusListener.on('value', (snapshot) => {
-        const val = snapshot.val();
-        if(val) {
-          if(val.status === 'accepted') {
-            document.getElementById("statusIcon").textContent = "🎉";
-            document.getElementById("statusTitle").style.color = "#16a34a";
-            document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
-            document.getElementById("statusSpinner").style.display = "none";
-            document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد إلى شريحتنا، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
-            document.getElementById("closeStatusBtn").style.display = "block";
-          } else if(val.status === 'rejected') {
-            document.getElementById("statusIcon").textContent = "❌";
-            document.getElementById("statusTitle").style.color = "#dc2626";
-            document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
-            document.getElementById("statusSpinner").style.display = "none";
-            document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى التأكد من تحويل المبلغ وإعادة المحاولة أو التواصل معنا عبر الواتساب.";
-            document.getElementById("closeStatusBtn").style.display = "block";
-          }
-        }
-      });
-    }
-  });
+  document.getElementById("orderFormContent").style.display = "none";
+  document.getElementById("orderStatusContent").style.display = "block";
 }
 
 function scrollToPrices(){
@@ -1788,7 +1756,9 @@ function openAdminPanel() {
   const password = prompt("يرجى إدخال كلمة سر لوحة التحكم:");
   if (password === "darklaytlayt") {
     document.getElementById("adminPanelModal").classList.add("show");
-    listenToOrdersLive();
+    renderAdminOrders();
+    if(adminInterval) clearInterval(adminInterval);
+    adminInterval = setInterval(renderAdminOrders, 2000);
   } else if (password !== null) {
     alert("❌ كلمة السر غير صحيحة!");
   }
@@ -1796,55 +1766,60 @@ function openAdminPanel() {
 
 function closeAdminPanel() {
   document.getElementById("adminPanelModal").classList.remove("show");
+  if(adminInterval) clearInterval(adminInterval);
 }
 
-function listenToOrdersLive() {
+function renderAdminOrders() {
   const table = document.getElementById("adminOrdersTable");
-  database.ref('orders').on('value', (snapshot) => {
-    const data = snapshot.val();
-    if (!data) {
-      table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتى الآن</td></tr>`;
-      return;
-    }
+  const orders = getStoredOrders();
 
-    table.innerHTML = "";
-    const ordersArray = Object.values(data).reverse();
+  if (orders.length === 0) {
+    table.innerHTML = `<tr><td colspan="9">لا توجد طلبات جديدة حتى الآن</td></tr>`;
+    return;
+  }
 
-    ordersArray.forEach(order => {
-      let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
-      if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
-      if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
+  table.innerHTML = "";
+  orders.forEach(order => {
+    let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
+    if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
+    if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
 
-      const row = `
-        <tr>
-          <td><b>${order.id}</b></td>
-          <td>${order.time}</td>
-          <td>${order.product}</td>
-          <td>${order.price} (${order.provider})</td>
-          <td><b>${order.robloxUser}</b></td>
-          <td><code>${order.robloxPass}</code></td>
-          <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
-          <td>${statusBadge}</td>
-          <td>
-            ${order.status === 'pending' ? `
-              <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
-              <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
-            ` : 'تم الإجراء'}
-          </td>
-        </tr>
-      `;
-      table.innerHTML += row;
-    });
+    const row = `
+      <tr>
+        <td><b>${order.id}</b></td>
+        <td>${order.time}</td>
+        <td>${order.product}</td>
+        <td>${order.price} (${order.provider})</td>
+        <td><b>${order.robloxUser}</b></td>
+        <td><code>${order.robloxPass}</code></td>
+        <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
+        <td>${statusBadge}</td>
+        <td>
+          ${order.status === 'pending' ? `
+            <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
+            <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
+          ` : 'تم الإجراء'}
+        </td>
+      </tr>
+    `;
+    table.innerHTML += row;
   });
 }
 
 function updateOrderStatus(orderId, newStatus) {
-  database.ref('orders/' + orderId + '/status').set(newStatus);
+  let orders = getStoredOrders();
+  let target = orders.find(o => o.id === orderId);
+  if (target) {
+    target.status = newStatus;
+    setStoredOrders(orders);
+    renderAdminOrders();
+  }
 }
 
 function clearAllOrders() {
   if (confirm("هل أنت متأكد من مسح كافة الطلبات؟")) {
-    database.ref('orders').remove();
+    setStoredOrders([]);
+    renderAdminOrders();
   }
 }
 
