@@ -1323,6 +1323,12 @@ footer {
       <span class="sidebar-item-icon">💬</span>
       <span>واتساب الدعم الفني</span>
     </a>
+
+    <!-- مربع طلباتي الجديد في المكان المحدد -->
+    <div class="sidebar-item" onclick="toggleSidebar(); openMyOrdersModal()" style="border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);">
+      <span class="sidebar-item-icon">📦</span>
+      <span>طلباتي (تتبع حالتها والطلبات السابقة)</span>
+    </div>
   </div>
 
   <div class="sidebar-footer-box">
@@ -1584,15 +1590,14 @@ footer {
   </div>
 </div>
 
-<!-- نافذة الملف الشخصي (حسابي) المحدثة بناءً على طلبك -->
+<!-- نافذة الملف الشخصي (حسابي) -->
 <div id="profileModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
       <span class="modal-header-tag">👤 حسابي الشخصي</span>
-      <h3 id="profileUserName">معلومات الحساب</h3>
+      <h3>معلومات الحساب</h3>
     </div>
 
-    <!-- بطاقة معلومات الحساب وتأكيد التفعيل -->
     <div class="profile-card" style="text-align: center; padding: 20px;">
       <div style="font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 8px;" id="profUserVal">اسم الحساب</div>
       <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;" id="profContactVal">رقم الهاتف</div>
@@ -1602,16 +1607,26 @@ footer {
       </div>
     </div>
 
-    <div style="margin-bottom: 10px; font-size: 14px; font-weight: 800; color: #fff;">
-      📦 طلباتي السابقة:
-    </div>
-    <div id="myOrdersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;"></div>
-
-    <!-- زر تسجيل الخروج في الأسفل -->
     <button class="confirm" style="background: #dc2626; color: white; margin-bottom: 10px;" onclick="logoutUser()">
       تسجيل الخروج من الحساب 🚪
     </button>
     <button class="close" onclick="closeProfileModal()">إغلاق الشاشة</button>
+  </div>
+</div>
+
+<!-- نافذة طلباتي السابقة (تتبع وحالة الطلبات) -->
+<div id="myOrdersModal" class="modal">
+  <div class="modal-box">
+    <div style="text-align: center;">
+      <span class="modal-header-tag">📦 طلباتي</span>
+      <h3>متابعة حالة الطلبات السابقة</h3>
+    </div>
+
+    <div id="modalMyOrdersList" style="max-height: 350px; overflow-y: auto; margin-bottom: 15px;">
+      <div style="text-align:center; color:var(--text-muted); padding:15px;">جاري تحميل طلباتك...</div>
+    </div>
+
+    <button class="close" onclick="closeMyOrdersModal()">إغلاق الشاشة</button>
   </div>
 </div>
 
@@ -2008,13 +2023,24 @@ function openProfileModal() {
   }
   document.getElementById("profUserVal").textContent = `👤 اليوزر: ${currentUser.username}`;
   document.getElementById("profContactVal").textContent = `📱 الهاتف: ${currentUser.contact || 'غير متوفر'}`;
-
-  renderMyOrders();
   document.getElementById("profileModal").classList.add("show");
 }
 
 function closeProfileModal() {
   document.getElementById("profileModal").classList.remove("show");
+}
+
+function openMyOrdersModal() {
+  if(!currentUser) {
+    openAuthModal();
+    return;
+  }
+  renderMyOrdersList();
+  document.getElementById("myOrdersModal").classList.add("show");
+}
+
+function closeMyOrdersModal() {
+  document.getElementById("myOrdersModal").classList.remove("show");
 }
 
 function logoutUser() {
@@ -2023,11 +2049,12 @@ function logoutUser() {
   document.getElementById("homeActiveOrderBanner").classList.remove("show");
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
   closeProfileModal();
+  closeMyOrdersModal();
   openAuthModal();
 }
 
-function renderMyOrders() {
-  const container = document.getElementById("myOrdersList");
+function renderMyOrdersList() {
+  const container = document.getElementById("modalMyOrdersList");
   container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:10px;">جاري تحميل طلباتك...</div>`;
 
   db.collection("orders")
@@ -2042,7 +2069,7 @@ function renderMyOrders() {
 
       let orders = [];
       querySnapshot.forEach(doc => orders.push(doc.data()));
-      orders.sort((a, b) => b.timestamp - a.timestamp);
+      orders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
       orders.forEach(o => {
         let badgeClass = 'badge-pending';
@@ -2562,7 +2589,7 @@ function switchAdminTab(tabName) {
     adminOrdersSection.style.display = "block"; adminUsersSection.style.display = "none";
   } else {
     tabUsersBtn.classList.add("active"); tabOrdersBtn.classList.remove("active");
-    adminUsersSection.style.display = "block"; adminOrdersSection.style.display = "none";
+    adminUsersSection.style.display = "block"; adminUsersSection.style.display = "none";
     loadAdminUsersList();
   }
 }
