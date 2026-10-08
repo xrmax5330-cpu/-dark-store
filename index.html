@@ -1,1922 +1,1433 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#12100e">
-
 <title>Dark Store | متجر شحن</title>
-
 <style>
-:root {
-  --bg-dark: #12100e;
-  --bg-gradient: radial-gradient(circle at top, #241d15 0%, #12100e 60%, #0a0908 100%);
-  --card-bg: #1a1714;
-  --card-border: #2e2820;
-  --sand-gold: #d4af37;
-  --sand-light: #f3e5ab;
-  --sand-accent: #e5c158;
-  --text-main: #fcfbf7;
-  --text-muted: #b3a998;
-  --line: #332b22;
-  --whatsapp-green: #25d366;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--bg-gradient);
-  color: var(--text-main);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 100vh;
-}
-
-button, input, textarea {
-  font-family: inherit;
-}
-
-.announcement-bar {
-  background: linear-gradient(90deg, #b89320, var(--sand-gold), #b89320);
-  color: #12100e;
-  font-weight: 800;
-  font-size: 13px;
-  text-align: center;
-  padding: 6px 10px;
-  letter-spacing: 0.5px;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(18, 16, 14, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-}
-
-nav {
-  height: 70px;
-  max-width: 1100px;
-  margin: auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: var(--sand-gold);
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-  cursor: pointer;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.nav-btn {
-  background: #1a1714;
-  border: 1px solid var(--sand-gold);
-  border-radius: 12px;
-  padding: 8px 14px;
-  cursor: pointer;
-  color: var(--sand-gold);
-  font-size: 13px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-.nav-btn:hover {
-  background: var(--sand-gold);
-  color: #12100e;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-}
-
-.cart-trigger {
-  position: relative;
-  background: #241d15;
-  border: 1px solid var(--sand-gold);
-  color: var(--sand-light);
-  padding: 8px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-}
-
-.cart-count {
-  background: var(--sand-gold);
-  color: #12100e;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 11px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-}
-
-.hero {
-  max-width: 1100px;
-  margin: auto;
-  padding: 45px 20px 25px;
-  text-align: center;
-}
-
-.logo {
-  width: 170px;
-  height: 170px;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto 25px;
-  border: 3px solid var(--sand-gold);
-  box-shadow: 
-    0 0 25px rgba(212, 175, 55, 0.25),
-    0 0 60px rgba(212, 175, 55, 0.1);
-}
-
-.hero h1 {
-  font-size: clamp(38px, 8vw, 68px);
-  font-weight: 900;
-  margin-bottom: 10px;
-}
-
-.hero h1 span {
-  color: var(--sand-gold);
-}
-
-.hero p {
-  color: var(--text-muted);
-  font-size: 17px;
-  line-height: 1.8;
-}
-
-section {
-  max-width: 1100px;
-  margin: auto;
-  padding: 25px 20px 45px;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.title h2 {
-  font-size: 32px;
-  margin-bottom: 8px;
-  color: var(--sand-light);
-}
-
-.title p {
-  color: var(--text-muted);
-}
-
-.search-container {
-  max-width: 500px;
-  margin: 0 auto 25px;
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  padding: 14px 20px;
-  border-radius: 30px;
-  background: #181512;
-  border: 1px solid var(--card-border);
-  color: var(--text-main);
-  font-size: 15px;
-  outline: none;
-  transition: all 0.3s;
-}
-
-.search-input:focus {
-  border-color: var(--sand-gold);
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-}
-
-.category-box {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.cat-btn {
-  flex: 1;
-  min-width: 120px;
-  max-width: 160px;
-  padding: 12px 8px;
-  border-radius: 16px;
-  border: 2px solid var(--card-border);
-  background: #181512;
-  color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-}
-
-.cat-icon-img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  border-radius: 4px;
-}
-
-.cat-btn:hover {
-  border-color: var(--sand-gold);
-  color: var(--sand-light);
-  transform: translateY(-2px);
-}
-
-.cat-btn.active {
-  background: linear-gradient(135deg, #2a231b, #1a1612);
-  border-color: var(--sand-gold);
-  color: var(--sand-gold);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
-}
-
-.provider-box {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.provider-btn {
-  min-width: 140px;
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: 1px solid var(--card-border);
-  background: #181512;
-  color: var(--text-muted);
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
-
-.provider-btn img {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.provider-btn:hover {
-  border-color: var(--sand-gold);
-  color: var(--sand-light);
-}
-
-.provider-btn.active {
-  background: linear-gradient(135deg, var(--sand-gold), #b89320);
-  border-color: var(--sand-gold);
-  color: #12100e;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-}
-
-.prices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
-}
-
-.effects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
-}
-
-.effect-card {
-  background: linear-gradient(145deg, #1e1a16, #14110e);
-  border: 2px solid var(--card-border);
-  border-radius: 18px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.effect-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--sand-gold);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-}
-
-.effect-img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 8px;
-}
-
-.effect-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--sand-light);
-  margin-bottom: 4px;
-}
-
-.effect-price {
-  font-size: 17px;
-  font-weight: 900;
-  color: var(--sand-gold);
-  margin-bottom: 8px;
-}
-
-.btn-group-card {
-  display: flex;
-  gap: 6px;
-  width: 100%;
-}
-
-.effect-buy-btn, .add-cart-btn {
-  flex: 1;
-  padding: 8px 4px;
-  border-radius: 8px;
-  background: #26211b;
-  color: var(--sand-light);
-  border: 1px solid var(--card-border);
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.effect-buy-btn:hover, .add-cart-btn:hover {
-  background: var(--sand-gold);
-  color: #12100e;
-  border-color: var(--sand-gold);
-}
-
-.badge-tag {
-  position: absolute;
-  top: -8px;
-  right: 10px;
-  background: var(--sand-gold);
-  color: #12100e;
-  font-size: 10px;
-  font-weight: 900;
-  padding: 2px 8px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  z-index: 2;
-}
-
-.price-card {
-  background: linear-gradient(145deg, #1e1a16, #14110e);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 22px 18px;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.price-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--sand-gold);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
-}
-
-.price-card.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.price-card.disabled:hover {
-  transform: none;
-  border-color: var(--card-border);
-  box-shadow: none;
-}
-
-.robux {
-  font-size: 25px;
-  font-weight: 900;
-  margin-bottom: 8px;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.robux-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.price {
-  font-size: 19px;
-  font-weight: 800;
-  color: var(--sand-gold);
-}
-
-.buy {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  background: #26211b;
-  color: var(--sand-light);
-  border: 1px solid var(--card-border);
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-
-.buy:hover:not(:disabled) {
-  background: var(--sand-gold);
-  color: #12100e;
-  border-color: var(--sand-gold);
-}
-
-.buy:disabled {
-  background: #1c1916;
-  color: #666;
-  cursor: not-allowed;
-  border-color: transparent;
-}
-
-.item-card {
-  background: linear-gradient(145deg, #1e1a16, #14110e);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.item-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--sand-gold);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
-}
-
-.item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 10px;
-}
-
-.item-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--sand-light);
-}
-
-.item-sub {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 3px;
-}
-
-.badge-icon {
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.item-price-box {
-  text-align: right;
-  margin-bottom: 10px;
-}
-
-.item-price-label {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.item-price-val {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--sand-gold);
-}
-
-.notice {
-  margin-top: 25px;
-  padding: 15px;
-  background: #181512;
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 14px;
-}
-
-.reviews-section {
-  border-top: 1px solid var(--line);
-  padding-top: 40px;
-  margin-top: 40px;
-}
-
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.review-card {
-  background: #181512;
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 15px;
-}
-
-.review-stars {
-  color: var(--sand-gold);
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-.review-text {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-.review-author {
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--sand-light);
-}
-
-.whatsapp-float {
-  position: fixed;
-  bottom: 25px;
-  left: 25px;
-  background: var(--whatsapp-green);
-  color: white;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-  z-index: 1500;
-  text-decoration: none;
-  transition: transform 0.3s;
-}
-
-.whatsapp-float:hover {
-  transform: scale(1.1);
-}
-
-footer {
-  border-top: 1px solid var(--line);
-  margin-top: 40px;
-  padding: 30px 20px;
-  text-align: center;
-  color: var(--text-muted);
-  position: relative;
-}
-
-.admin-trigger-btn {
-  background: transparent;
-  border: none;
-  color: #332b22;
-  cursor: pointer;
-  font-size: 12px;
-  margin-top: 10px;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 15px;
-}
-
-.modal.show {
-  display: flex;
-}
-
-.modal-box {
-  width: 100%;
-  max-width: 450px;
-  background: #161310;
-  border: 1px solid var(--sand-gold);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 0 35px rgba(212, 175, 55, 0.25);
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal-header-tag {
-  background: rgba(212, 175, 55, 0.15);
-  color: var(--sand-gold);
-  font-size: 13px;
-  font-weight: 800;
-  padding: 6px 14px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-bottom: 10px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.modal-box h3 {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 900;
-  margin-bottom: 15px;
-  color: #fff;
-}
-
-.order-summary-card {
-  background: #1d1914;
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 15px;
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.order-summary-title {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-
-.order-summary-item {
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--sand-gold);
-}
-
-.order-summary-price {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--sand-light);
-  margin-top: 4px;
-}
-
-.payment-transfer-card {
-  background: #1c1813;
-  border: 1px dashed var(--sand-gold);
-  border-radius: 14px;
-  padding: 15px;
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.payment-transfer-title {
-  font-size: 13px;
-  font-weight: bold;
-  color: var(--sand-light);
-  margin-bottom: 8px;
-}
-
-.transfer-number-box {
-  background: #100e0c;
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--sand-gold);
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
-.copy-btn {
-  background: var(--sand-gold);
-  color: #12100e;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.copy-btn:hover {
-  background: var(--sand-accent);
-}
-
-.steps-list {
-  background: #181410;
-  border-radius: 12px;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-}
-
-.step-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.step-item:last-child {
-  margin-bottom: 0;
-}
-
-.step-num {
-  background: var(--sand-gold);
-  color: #12100e;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 11px;
-}
-
-.form-group {
-  margin-bottom: 14px;
-  text-align: right;
-}
-
-.form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: bold;
-  color: var(--sand-light);
-  margin-bottom: 6px;
-}
-
-.form-group label span {
-  color: #e74c3c;
-}
-
-.input, .textarea {
-  width: 100%;
-  padding: 12px 14px;
-  background: #100e0c;
-  color: var(--text-main);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  outline: none;
-  font-size: 14px;
-  transition: border-color 0.2s;
-}
-
-.input:focus, .textarea:focus {
-  border-color: var(--sand-gold);
-}
-
-.textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-.checkbox-group {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 18px;
-  background: #1a1612;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-}
-
-.checkbox-group input {
-  margin-top: 3px;
-  accent-color: var(--sand-gold);
-}
-
-.checkbox-group label {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.4;
-  cursor: pointer;
-}
-
-.confirm {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--sand-gold), #b89320);
-  border: 0;
-  border-radius: 12px;
-  color: #12100e;
-  font-size: 16px;
-  font-weight: 900;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.confirm:hover {
-  opacity: 0.9;
-}
-
-.close {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  background: #24201a;
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.close:hover {
-  color: var(--text-main);
-  background: #2e2922;
-}
-
-.status-card {
-  text-align: center;
-  padding: 20px 10px;
-}
-.status-icon {
-  font-size: 50px;
-  margin-bottom: 10px;
-}
-.status-spinner {
-  border: 4px solid #332b22;
-  border-top: 4px solid var(--sand-gold);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 15px auto;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.admin-panel-modal {
-  position: fixed;
-  inset: 0;
-  background: #0f172a;
-  color: #fff;
-  z-index: 3000;
-  display: none;
-  flex-direction: column;
-  padding: 20px;
-  overflow-y: auto;
-}
-.admin-panel-modal.show {
-  display: flex;
-}
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #334155;
-  padding-bottom: 15px;
-}
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #1e293b;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.admin-table th, .admin-table td {
-  padding: 10px;
-  border: 1px solid #334155;
-  text-align: center;
-  font-size: 12px;
-}
-.admin-table th {
-  background: #020617;
-  color: #d4af37;
-}
-.btn-acc { background: #16a34a; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
-.btn-rej { background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
-.btn-out { background: #d97706; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
-
-.user-order-item {
-  background: #1d1914;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-@media(max-width:500px) {
-  .prices, .effects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .price-card, .item-card {
-    padding: 16px 10px;
-  }
-
-  .robux { font-size: 20px; }
-  .robux-icon { width: 20px; height: 20px; }
-  .price { font-size: 16px; }
-  .logo { width: 145px; height: 145px; }
-
-  .admin-table {
-    display: block;
-    overflow-x: auto;
-  }
+:root{
+--bg:#12100e;--card:#1a1714;--border:#2e2820;--gold:#d4af37;--light:#f3e5ab;
+--text:#fcfbf7;--muted:#b3a998;--line:#332b22;--green:#16a34a;--red:#dc2626;--orange:#d97706
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(circle at top,#241d15 0%,#12100e 60%,#0a0908 100%);color:var(--text);font-family:Segoe UI,Tahoma,sans-serif;min-height:100vh}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+.announcement-bar{background:linear-gradient(90deg,#b89320,var(--gold),#b89320);color:#12100e;font-weight:800;font-size:13px;text-align:center;padding:7px}
+header{position:sticky;top:0;z-index:1000;background:rgba(18,16,14,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav{height:70px;max-width:1100px;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-size:24px;font-weight:900;color:var(--gold);cursor:pointer}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-btn,.cart-trigger{background:#1a1714;border:1px solid var(--gold);border-radius:12px;padding:8px 13px;color:var(--gold);font-size:13px;font-weight:bold}
+.cart-trigger{background:#241d15;color:var(--light);display:flex;align-items:center;gap:6px}
+.cart-count{background:var(--gold);color:#12100e;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.hero{max-width:1100px;margin:auto;padding:45px 20px 25px;text-align:center}
+.logo{width:170px;height:170px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 25px;border:3px solid var(--gold);box-shadow:0 0 25px #d4af3738}
+.hero h1{font-size:clamp(38px,8vw,68px);font-weight:900;margin-bottom:10px}.hero h1 span{color:var(--gold)}
+.hero p{color:var(--muted);font-size:17px;line-height:1.8}
+section{max-width:1100px;margin:auto;padding:25px 20px 45px}
+.title{text-align:center;margin-bottom:25px}.title h2{font-size:32px;margin-bottom:8px;color:var(--light)}.title p{color:var(--muted)}
+.search-container{max-width:500px;margin:0 auto 25px}.search-input{width:100%;padding:14px 20px;border-radius:30px;background:#181512;border:1px solid var(--border);color:var(--text);font-size:15px;outline:none}
+.category-box,.provider-box{display:flex;justify-content:center;gap:10px;margin-bottom:30px;flex-wrap:wrap}
+.cat-btn,.provider-btn{min-width:120px;padding:12px 10px;border-radius:16px;border:2px solid var(--border);background:#181512;color:var(--muted);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
+.cat-btn.active{background:#2a231b;border-color:var(--gold);color:var(--gold);box-shadow:0 0 20px #d4af3738}
+.cat-icon-img,.provider-btn img{width:24px;height:24px;object-fit:contain;border-radius:5px}
+.provider-btn{min-width:140px;border:1px solid var(--border);border-radius:12px}
+.provider-btn.active{background:linear-gradient(135deg,var(--gold),#b89320);color:#12100e;border-color:var(--gold)}
+.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}.effects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px}
+.price-card,.item-card,.effect-card{background:linear-gradient(145deg,#1e1a16,#14110e);border:1px solid var(--border);border-radius:18px;padding:18px;text-align:center;position:relative;transition:.25s}
+.price-card:hover,.item-card:hover,.effect-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 8px 25px #d4af3726}
+.price-card.disabled{opacity:.6}.robux{font-size:25px;font-weight:900;margin-bottom:8px;display:flex;justify-content:center;align-items:center;gap:8px}.robux-icon{width:24px;height:24px;object-fit:cover;border-radius:4px}.price{font-size:19px;font-weight:800;color:var(--gold)}
+.badge-tag{position:absolute;top:-8px;right:10px;background:var(--gold);color:#12100e;font-size:10px;font-weight:900;padding:3px 8px;border-radius:10px}
+.btn-group-card{display:flex;gap:6px;width:100%;margin-top:12px}.buy,.effect-buy-btn,.add-cart-btn{flex:1;padding:9px;border-radius:9px;background:#26211b;color:var(--light);border:1px solid var(--border);font-size:12px;font-weight:bold}.buy:hover:not(:disabled),.effect-buy-btn:hover,.add-cart-btn:hover{background:var(--gold);color:#12100e}.buy:disabled{opacity:.5;cursor:not-allowed}
+.effect-img{width:100%;height:120px;object-fit:cover;border-radius:12px;margin-bottom:8px}.effect-title{font-weight:800;color:var(--light);font-size:15px}.effect-price{font-weight:900;color:var(--gold);margin-top:4px}
+.item-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}.item-title{font-weight:800}.item-sub,.item-price-label{font-size:12px;color:var(--muted);margin-top:3px}.item-price-val{font-size:22px;font-weight:900;color:var(--gold)}
+.notice{margin-top:25px;padding:15px;background:#181512;border:1px solid var(--border);border-radius:14px;text-align:center;color:var(--muted);font-size:14px}
+.reviews-section{border-top:1px solid var(--line);padding-top:40px;margin-top:40px}.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px}.review-card{background:#181512;border:1px solid var(--border);border-radius:14px;padding:15px}.review-stars{color:var(--gold);margin-bottom:8px}.review-text{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.whatsapp-float{position:fixed;bottom:25px;left:25px;background:#25d366;color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;box-shadow:0 4px 15px #25d36666;z-index:1500;text-decoration:none}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:30px 20px;text-align:center;color:var(--muted)}.admin-trigger-btn{background:transparent;border:0;color:#514638;font-size:12px;margin-top:10px}
+.modal{position:fixed;inset:0;background:#000d;backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:2000;padding:15px}.modal.show{display:flex}
+.modal-box{width:100%;max-width:480px;background:#161310;border:1px solid var(--gold);border-radius:20px;padding:20px;max-height:92vh;overflow-y:auto}
+.modal h3{text-align:center;font-size:24px;margin-bottom:15px}.modal-header-tag{background:#d4af3726;color:var(--gold);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:10px;border:1px solid #d4af374d}
+.form-group{margin-bottom:14px;text-align:right}.form-group label{display:block;font-size:13px;font-weight:bold;color:var(--light);margin-bottom:6px}
+.input,.textarea{width:100%;padding:12px 14px;background:#100e0c;color:var(--text);border:1px solid var(--border);border-radius:10px;outline:none;font-size:14px}.textarea{resize:vertical;min-height:70px}
+.confirm,.close{width:100%;padding:13px;border-radius:12px;font-size:15px;font-weight:900}.confirm{background:linear-gradient(135deg,var(--gold),#b89320);border:0;color:#12100e}.close{margin-top:8px;background:#24201a;border:1px solid var(--border);color:var(--muted)}
+.order-summary-card,.payment-transfer-card{background:#1d1914;border:1px solid var(--border);border-radius:14px;padding:15px;text-align:center;margin-bottom:15px}.order-summary-title{font-size:12px;color:var(--muted)}.order-summary-item{font-size:20px;font-weight:900;color:var(--gold)}.order-summary-price{font-weight:800;color:var(--light);margin-top:4px}
+.transfer-number-box{background:#100e0c;border:1px solid var(--border);border-radius:10px;padding:10px;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:2px;margin:8px 0}.copy-btn{background:var(--gold);color:#12100e;border:0;padding:8px 16px;border-radius:8px;font-weight:bold}
+.checkbox-group{display:flex;gap:10px;align-items:flex-start;margin-bottom:18px;background:#1a1612;padding:10px;border-radius:10px}.checkbox-group label{font-size:12px;color:var(--muted);line-height:1.4}
+.status-card{text-align:center;padding:20px 10px}.status-icon{font-size:50px}.status-spinner{border:4px solid #332b22;border-top:4px solid var(--gold);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:15px auto}@keyframes spin{to{transform:rotate(360deg)}}
+.settings-tabs{display:flex;gap:8px;margin-bottom:15px}.settings-tab{flex:1;padding:10px;border:1px solid var(--border);background:#181512;color:var(--muted);border-radius:10px;font-weight:bold}.settings-tab.active{background:var(--gold);color:#12100e}
+.profile-box{background:#181410;padding:14px;border-radius:12px;color:var(--muted);line-height:2;margin-bottom:15px}.user-order-item{background:#1d1914;border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}.order-status{font-size:12px;font-weight:bold;text-align:left}
+.admin-panel-modal{position:fixed;inset:0;background:#0f172a;color:#fff;z-index:3000;display:none;flex-direction:column;padding:20px;overflow:auto}.admin-panel-modal.show{display:flex}.admin-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px;border-bottom:1px solid #334155;padding-bottom:15px}
+.admin-tools{margin-bottom:15px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.admin-table{width:100%;border-collapse:collapse;background:#1e293b}.admin-table th,.admin-table td{padding:9px;border:1px solid #334155;text-align:center;font-size:12px;white-space:nowrap}.admin-table th{background:#020617;color:#d4af37}
+.admin-btn{border:0;padding:6px 9px;border-radius:5px;color:#fff;font-weight:bold;margin:2px}.btn-acc{background:#16a34a}.btn-rej{background:#dc2626}.btn-out{background:#d97706}.btn-del{background:#2563eb}.btn-muted{background:#475569}
+.firebase-error{display:none;background:#7f1d1d;color:#fff;padding:12px;border-radius:10px;margin-bottom:15px;line-height:1.6}
+@media(max-width:650px){
+nav{height:auto;min-height:70px;padding:10px}.brand{font-size:19px}.nav-actions{justify-content:flex-end}.nav-btn,.cart-trigger{padding:7px 9px;font-size:11px}.hero{padding-top:30px}.logo{width:145px;height:145px}.prices{grid-template-columns:repeat(2,1fr)}.price-card{padding:14px 9px}.robux{font-size:19px}.price{font-size:15px}.admin-table{display:block;overflow-x:auto}.admin-header h2{font-size:17px}.user-order-item{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
-
 <body>
 
-<div class="announcement-bar">
-  ✅🇱🇾تسليم سريع وآمن لجميع البطاقات والألعاب - خصومات خاصة لشحن الروبوكس
-</div>
+<div class="announcement-bar">✅🇱🇾 تسليم سريع وآمن لجميع البطاقات والألعاب - خصومات خاصة لشحن الروبوكس</div>
 
 <header>
-  <nav>
-    <div class="brand" onclick="switchCategory('robux')">
-      Dark Store
-    </div>
-    <div class="nav-actions">
-      <button class="nav-btn" id="userAuthBtn" onclick="openAuthModal()">
-        الإعدادات ⚙️
-      </button>
-      <button class="cart-trigger" onclick="openCartModal()">
-        السلة <span id="cartCount" class="cart-count">0</span>
-      </button>
-      <button class="nav-btn" onclick="scrollToPrices()">
-        💲الأسعار
-      </button>
-    </div>
-  </nav>
+<nav>
+<div class="brand" onclick="switchCategory('robux')">Dark Store</div>
+<div class="nav-actions">
+<button class="nav-btn" id="userAuthBtn" onclick="openAuthModal()">تسجيل الدخول 👤</button>
+<button class="cart-trigger" onclick="openCartModal()">السلة <span id="cartCount" class="cart-count">0</span></button>
+<button class="nav-btn" onclick="scrollToPrices()">💲 الأسعار</button>
+</div>
+</nav>
 </header>
 
 <main>
+<div class="hero">
+<img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1D-1EDAF3638362.png" class="logo" alt="Dark Store">
+<h1>Dark <span>Store</span></h1>
+<p>🇱🇾🔥 متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس سريع وآمن</p>
+</div>
 
-  <div class="hero">
-    <img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png" class="logo" alt="Dark Store">
-    <h1>
-      Dark <span>Store</span>
-    </h1>
-    <p>
-      🇱🇾🔥متجر شحن ألعاب، إفكتات وبطاقات أيتونز وبلايستيشن وإكس بوكس سريع وآمن
-    </p>
-  </div>
+<section id="pricesSection">
 
-  <section id="pricesSection">
-    
-    <div class="search-container">
-      <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
-    </div>
+<div class="search-container">
+<input id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts">
+</div>
 
-    <div class="category-box">
-      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
-        <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
-        <span>روبوكس</span>
-      </button>
+<div class="category-box">
+<button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">🟡 روبوكس</button>
+<button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">💣 الأفكتات</button>
+<button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">🍎 أيتونز</button>
+<button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">🎮 بلايستيشن</button>
+<button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">🎮 إكس بوكس</button>
+<button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">🔫 ببجي</button>
+</div>
 
-      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
-        <span>الأفكتات</span>
-      </button>
-      
-      <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
-        <img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" alt="أيتونز" class="cat-icon-img">
-        <span>أيتونز</span>
-      </button>
+<div id="robuxHeader">
+<div class="title">
+<h2>اختر الباقة وطريقة الدفع المناسبة</h2>
+<p>💸 اختر طريقة الدفع</p>
+</div>
+<div class="provider-box">
+<button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
+<img src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg"> مدار
+</button>
+<button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">
+<img src="https://i.ibb.co/ycGN6y0j/IMG-3778.png"> ليبيانا
+</button>
+</div>
+</div>
 
-      <button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">
-        <img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" alt="بلايستيشن" class="cat-icon-img">
-        <span>بلايستيشن</span>
-      </button>
-      
-      <button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">
-        <img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" alt="إكس بوكس" class="cat-icon-img">
-        <span>إكس بوكس</span>
-      </button>
+<div id="effectsHeader" style="display:none">
+<div class="title"><h2>💣 أفكتات روبلوكس</h2><p>الدفع عن طريق ليبيانا</p></div>
+</div>
 
-      <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
-        <img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" alt="ببجي" class="cat-icon-img">
-        <span>ببجي</span>
-      </button>
-    </div>
+<div id="itunesHeader" style="display:none">
+<div class="title"><h2>أيتونز ( أمريكا 🇺🇸 )</h2><p>الدفع عن طريق كروت ليبيانا</p></div>
+</div>
 
-    <div id="robuxHeader">
-      <div class="title">
-        <h2>اختر الباقة وطريقة الدفع المناسبة</h2>
-        <p>💸اختر طريقة الدفع</p>
-      </div>
+<div id="psHeader" style="display:none">
+<div class="title"><h2>شبكة بلايستيشن ( أمريكا )</h2><p>بطاقات بلايستيشن ستور الأمريكية - الدفع بليبيانا</p></div>
+</div>
 
-      <div class="provider-box">
-        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
-          <img id="madarLogoImg" src="https://i.ibb.co/S4q6B4y0/IMG-3779.jpg" alt="مدار">
-          <span>مدار</span>
-        </button>
-        
-        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">
-          <img id="libyanaLogoImg" src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" alt="ليبيانا">
-          <span>ليبيانا</span>
-        </button>
-      </div>
-    </div>
+<div id="pubgHeader" style="display:none">
+<div class="title"><h2>ببجي موبايل</h2><p>شحن عن طريق الأيدي (ID) - الدفع بليبيانا</p></div>
+</div>
 
-    <div id="effectsHeader" style="display: none;">
-      <div class="title">
-        <h2>💣أفكتات روبلوكس</h2>
-        <p>الدفع عن طريق ليبيانا</p>
-      </div>
-    </div>
+<div id="xboxHeader" style="display:none">
+<div class="title"><h2>إكس بوكس ( أمريكا )</h2><p>بطاقات هدايا أمريكية - الدفع بليبيانا</p></div>
+</div>
 
-    <div id="itunesHeader" style="display: none;">
-      <div class="title">
-        <h2>أيتونز ( أمريكا🇺🇸 )</h2>
-        <p>الدفع عن طريق كروت ليبيانا</p>
-      </div>
-    </div>
+<div id="prices" class="prices"></div>
 
-    <div id="psHeader" style="display: none;">
-      <div class="title">
-        <h2>شبكة بلاي ستيشن ( أمريكا )</h2>
-        <p>بطاقات بلايستيشن ستور الأمريكية - الدفع بليبيانا</p>
-      </div>
-    </div>
+<div id="noticeBox" class="notice">
+اختر الكمية أو المنتج المناسب لك ثم اضغط شراء أو أضفه للسلة.
+</div>
 
-    <div id="pubgHeader" style="display: none;">
-      <div class="title">
-        <h2>ببجي موبايل </h2>
-        <p>شحن عن طريق الأيدي (ID) - الدفع بليبيانا</p>
-      </div>
-    </div>
+<div class="reviews-section">
+<div class="title">
+<h2>👤 آراء العملاء</h2>
+<p>❣️ ثقة زبائننا هي سر نجاحنا</p>
+</div>
 
-    <div id="xboxHeader" style="display: none;">
-      <div class="title">
-        <h2>إكس بوكس ( أمريكا )</h2>
-        <p>بطاقات هدايا أمريكية - الدفع بليبيانا</p>
-      </div>
-    </div>
+<div class="reviews-grid">
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<div class="review-text">"سرعة خيالية في التسليم وتعامل راقي جداً."</div>
+</div>
 
-    <div id="prices" class="prices"></div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<div class="review-text">"أفضل متجر لشحن الروبوكس والأسعار ممتازة."</div>
+</div>
 
-    <div id="noticeBox" class="notice">
-      اختر الكمية أو الأفكت المناسب لك ثم اضغط شراء أو أضفها للسلة.
-    </div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<div class="review-text">"شحنت ببجي ووصل الشحن بسرعة."</div>
+</div>
+</div>
+</div>
 
-    <div class="reviews-section">
-      <div class="title">
-        <h2>👤آراء العملاء</h2>
-        <p>❣️ثقة زبائننا هي سر نجاحونا</p>
-      </div>
-      <div class="reviews-grid">
-        <div class="review-card">
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">"سرعة خيالية في التسليم وتعامل راقي جداً، أنصح بالتعامل معهم."</div>
-          <div class="review-author">- أحمد المصراتي</div>
-        </div>
-        <div class="review-card">
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">"أفضل متجر لشحن الروبوكس والأسعار ممتازة مقارنة بغيرهم."</div>
-          <div class="review-author">- طارق الزوي</div>
-        </div>
-        <div class="review-card">
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">"شحنت ببجي ووصل الشحن في أقل من 5 دقائق، شكراً لكم."</div>
-          <div class="review-author">- أسامة العبيدي</div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
+</section>
 </main>
 
-<a href="https://wa.me/218927816884" target="_blank" class="whatsapp-float" title="تواصل معنا عبر الواتساب">
-  واتساب
-</a>
+<a href="https://wa.me/218927816884" target="_blank" class="whatsapp-float">واتساب</a>
 
 <footer>
-  Dark Store © 2026 | جميع الحقوق محفوظة
-  <div>
-    <button class="admin-trigger-btn" onclick="openAdminPanel()">⚙️ لوحة الإدارة</button>
-  </div>
+Dark Store © 2026 | جميع الحقوق محفوظة
+<br>
+<button class="admin-trigger-btn" onclick="openAdminPanel()">⚙️ لوحة الإدارة</button>
 </footer>
 
-<!-- ================== نافذة الإعدادات والتسجيل ================== -->
+<!-- الإعدادات -->
 <div id="authModal" class="modal">
-  <div class="modal-box">
-    
-    <div id="authFormContent">
-      <div style="text-align: center;">
-        <span class="modal-header-tag">👤 تسجيل حساب</span>
-        <h3>إنشاء حساب جديد في المتجر</h3>
-      </div>
+<div class="modal-box">
 
-      <div class="form-group">
-        <label>👤 الاسم الكامل <span>*</span></label>
-        <input id="regName" class="input" type="text" placeholder="أدخل اسمك الكامل">
-      </div>
+<div id="authFormContent">
 
-      <div class="form-group">
-        <label>📲 رقم الهاتف <span>*</span></label>
-        <input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678">
-      </div>
-
-      <div class="form-group">
-        <label>🔐 كلمة سر الحساب <span>*</span></label>
-        <input id="regPass" class="input" type="password" placeholder="أدخل كلمة سر للحساب">
-      </div>
-
-      <button class="confirm" onclick="saveUserAccount()">
-        💾 إنشاء الحساب وتسجيل الدخول
-      </button>
-
-      <button class="close" onclick="closeAuthModal()">إلغاء</button>
-    </div>
-
-    <div id="userProfileContent" style="display: none;">
-      <div style="text-align: center;">
-        <span class="modal-header-tag">⚙️ الإعدادات والملف الشخصي</span>
-        <h3 id="profileNameDisplay">أهلاً بك</h3>
-      </div>
-
-      <div style="background: #181410; padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 13px; color: var(--text-muted);">
-        <div>📱 <b>رقم الهاتف المسجل:</b> <span id="profilePhoneDisplay">-</span></div>
-      </div>
-
-      <h4 style="color: var(--sand-gold); margin-bottom: 10px; font-size: 15px;">📦 طلباتي الحالية والسابقة:</h4>
-      <div id="userOrdersHistory" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;">
-      </div>
-
-      <button class="confirm" style="background: #24201a; color: var(--text-main); border: 1px solid var(--card-border);" onclick="logoutUser()">
-        🚪 تسجيل الخروج
-      </button>
-
-      <button class="close" onclick="closeAuthModal()">إغلاق</button>
-    </div>
-
-  </div>
+<div style="text-align:center">
+<span class="modal-header-tag">👤 حساب العميل</span>
+<h3>إنشاء حساب</h3>
 </div>
 
-<!-- ================== نافذة الطلب ================== -->
+<div class="form-group">
+<label>👤 الاسم الكامل *</label>
+<input id="regName" class="input" type="text" placeholder="اسمك">
+</div>
+
+<div class="form-group">
+<label>📲 رقم الهاتف *</label>
+<input id="regPhone" class="input" type="tel" placeholder="0912345678">
+</div>
+
+<button class="confirm" onclick="saveUserAccount()">💾 حفظ الملف الشخصي</button>
+<button class="close" onclick="closeAuthModal()">إلغاء</button>
+
+</div>
+
+<div id="userProfileContent" style="display:none">
+
+<div style="text-align:center">
+<span class="modal-header-tag">⚙️ الإعدادات</span>
+<h3 id="profileNameDisplay">أهلاً بك</h3>
+</div>
+
+<div class="settings-tabs">
+<button id="profileTab" class="settings-tab active" onclick="showSettingsTab('profile')">👤 ملفي الشخصي</button>
+<button id="ordersTab" class="settings-tab" onclick="showSettingsTab('orders')">📦 طلباتي</button>
+</div>
+
+<div id="profileTabContent">
+<div class="profile-box">
+<div>👤 الاسم: <b id="profileNameDisplay2">-</b></div>
+<div>📱 الهاتف: <b id="profilePhoneDisplay">-</b></div>
+</div>
+
+<button class="confirm" onclick="showSettingsTab('orders')">📦 عرض طلباتي</button>
+</div>
+
+<div id="ordersTabContent" style="display:none">
+<div id="userOrdersHistory"></div>
+<button class="close" onclick="loadUserOrdersHistory()">🔄 تحديث الطلبات</button>
+</div>
+
+<button class="close" onclick="logoutUser()">🚪 تسجيل الخروج</button>
+<button class="close" onclick="closeAuthModal()">إغلاق</button>
+
+</div>
+</div>
+</div>
+
+<!-- الطلب -->
 <div id="modal" class="modal">
-  <div class="modal-box">
-    
-    <div id="orderFormContent">
-      <div style="text-align: center;">
-        <span class="modal-header-tag">⚡ إتمام الطلب</span>
-        <h3>تأكيد بيانات الشحن</h3>
-      </div>
+<div class="modal-box">
 
-      <div class="order-summary-card">
-        <div class="order-summary-title">ملخص الطلب</div>
-        <div id="orderItemTitle" class="order-summary-item">Robux 25</div>
-        <div id="orderItemPrice" class="order-summary-price">5 د.ل</div>
-      </div>
+<div id="orderFormContent">
 
-      <div class="payment-transfer-card">
-        <div id="providerTransferTitle" class="payment-transfer-title">قم بالتحويل إلى الرقم التالي:</div>
-        <div class="transfer-number-box" id="transferNumber">0930553883</div>
-        <button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
-      </div>
-
-      <div class="form-group">
-        <label>🎮 اسم مستخدم Roblox (اليوزر) <span>*</span></label>
-        <input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123">
-      </div>
-
-      <div class="form-group" id="robloxPassGroup">
-        <label>🔐 كلمة سر Roblox <span>*</span></label>
-        <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر روبلوكس لشحن الباقة">
-      </div>
-
-      <div class="form-group">
-        <label>📲 الرقم الذي قمت بالتحويل منه <span>*</span></label>
-        <input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678">
-      </div>
-
-      <div class="form-group">
-        <label>💬 ملاحظات إضافية</label>
-        <textarea id="orderNotes" class="textarea" placeholder="أي ملاحظة للطلب..."></textarea>
-      </div>
-
-      <div class="checkbox-group">
-        <input type="checkbox" id="confirmCheckbox">
-        <label for="confirmCheckbox" id="checkboxLabel">
-          ✅ أؤكد أنني قمت بتحويل المبلغ المطلوب وأن كافة البيانات صحيحة.
-        </label>
-      </div>
-
-      <button class="confirm" type="button" onclick="sendOrder()">
-        🚀 إرسال الطلب للمراجعة
-      </button>
-
-      <button class="close" type="button" onclick="closeModal()">إلغاء</button>
-    </div>
-
-    <div id="orderStatusContent" style="display: none;" class="status-card">
-      <div id="statusIcon" class="status-icon">⏳</div>
-      <h3 id="statusTitle" style="color: var(--sand-gold);">جاري التأكد من وصول الرصيد...</h3>
-      <div id="statusSpinner" class="status-spinner"></div>
-      <p id="statusMsg" style="color: var(--text-muted); margin-top: 15px; font-size: 14px; line-height: 1.6;">
-        تم إرسال الطلب بنجاح إلى الأدمن. يمكنك الخروج والعودة في أي وقت لمتابعة الحالة عبر الإعدادات.
-      </p>
-      <button id="closeStatusBtn" class="close" type="button" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
-    </div>
-
-  </div>
+<div style="text-align:center">
+<span class="modal-header-tag">⚡ إتمام الطلب</span>
+<h3>تأكيد بيانات الشحن</h3>
 </div>
 
-<!-- ================== لوحة الأدمن ================== -->
+<div class="order-summary-card">
+<div class="order-summary-title">ملخص الطلب</div>
+<div id="orderItemTitle" class="order-summary-item"></div>
+<div id="orderItemPrice" class="order-summary-price"></div>
+</div>
+
+<div class="payment-transfer-card">
+<div id="providerTransferTitle" style="font-size:13px;font-weight:bold"></div>
+<div id="transferNumber" class="transfer-number-box"></div>
+<button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
+</div>
+
+<div class="form-group">
+<label>🎮 اسم مستخدم Roblox / ID *</label>
+<input id="robloxUser" class="input" type="text" placeholder="اسم المستخدم أو ID">
+</div>
+
+<div class="form-group">
+<label>📲 الرقم الذي قمت بالتحويل منه *</label>
+<input id="senderPhone" class="input" type="tel" placeholder="0912345678">
+</div>
+
+<div class="form-group">
+<label>💬 ملاحظات إضافية</label>
+<textarea id="orderNotes" class="textarea" placeholder="أي ملاحظة للطلب..."></textarea>
+</div>
+
+<div class="checkbox-group">
+<input type="checkbox" id="confirmCheckbox">
+<label for="confirmCheckbox">✅ أؤكد أنني قمت بتحويل المبلغ المطلوب وأن البيانات صحيحة.</label>
+</div>
+
+<button class="confirm" onclick="sendOrder()">🚀 إرسال الطلب للمراجعة</button>
+<button class="close" onclick="closeModal()">إلغاء</button>
+
+</div>
+
+<div id="orderStatusContent" style="display:none" class="status-card">
+<div id="statusIcon" class="status-icon">⏳</div>
+<h3 id="statusTitle" style="color:var(--gold)">طلبك قيد المراجعة</h3>
+<div id="statusSpinner" class="status-spinner"></div>
+<p id="statusMsg" style="color:var(--muted);line-height:1.7"></p>
+<button id="closeStatusBtn" class="close" style="display:none" onclick="closeModal()">إغلاق</button>
+</div>
+
+</div>
+</div>
+
+<!-- لوحة الأدمن -->
 <div id="adminPanelModal" class="admin-panel-modal">
-  <div class="admin-header">
-    <h2 style="color: #d4af37;">👑 لوحة تحكم طلبات Dark Store</h2>
-    <button class="btn-rej" onclick="closeAdminPanel()">إغلاق ✖</button>
-  </div>
 
-  <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-    <span>الربط المباشر يعمل بنجاح 🔄</span>
-    <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
-  </div>
+<div class="admin-header">
+<h2 style="color:#d4af37">👑 لوحة تحكم طلبات Dark Store</h2>
+<button class="admin-btn btn-rej" onclick="closeAdminPanel()">إغلاق ✖</button>
+</div>
 
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <th>رقم الطلب</th>
-        <th>الوقت</th>
-        <th>اسم الزبون</th>
-        <th>رقم الحساب</th>
-        <th>المنتج</th>
-        <th>يوزر Roblox</th>
-        <th>كلمة سر Roblox</th>
-        <th>الرقم المحول منه</th>
-        <th>الحالة</th>
-        <th>التحكم</th>
-      </tr>
-    </thead>
-    <tbody id="adminOrdersTable">
-    </tbody>
-  </table>
+<div id="firebaseError" class="firebase-error"></div>
+
+<div class="admin-tools">
+<span>🔄 المزامنة السحابية مفعلة</span>
+<button class="admin-btn btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
+</div>
+
+<table class="admin-table">
+<thead>
+<tr>
+<th>رقم الطلب</th>
+<th>الوقت</th>
+<th>اسم الزبون</th>
+<th>الهاتف</th>
+<th>المنتج</th>
+<th>يوزر/ID</th>
+<th>الرقم المحول</th>
+<th>الحالة</th>
+<th>التحكم</th>
+</tr>
+</thead>
+<tbody id="adminOrdersTable"></tbody>
+</table>
+
 </div>
 
 <script>
-// رابط Firebase المباشر لضمان وصول الطلبات 100% بين كافة الأجهزة
-const FIREBASE_URL = "https://dark-store-default-rtdb.firebaseio.com/orders";
+const FIREBASE_URL="https://dark-store-default-rtdb.firebaseio.com/orders";
+const ADMIN_PASSWORD="darklaytlayt";
 
-const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
-const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
-const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
+const MADAR_NUMBER="0930553883";
+const LIBYANA_NUMBER="0927816884";
+const robuxIconUrl="https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 
-const MADAR_NUMBER = "0930553883";
-const LIBYANA_NUMBER = "0927816884";
-
-const madarPrices = [
-  {robux:10, price: "5"}, {robux:20, price: "7"}, {robux:30, price: "10"},
-  {robux:40, price: "13"}, {robux:80, price: 20, badge: "🌟الأكثر طلباً"},
-  {robux:120, price: 35}, {robux:160, price: 47}, {robux:200, price: "50"},
-  {robux:400, price: 83, badge: "🕑عرض خاص"}, {robux:500, price: 85, badge: "🔥افضل سعر"},
-  {robux:1000, price: 160}
+const madarPrices=[
+{robux:10,price:5},
+{robux:20,price:7},
+{robux:30,price:10},
+{robux:40,price:13},
+{robux:80,price:20,badge:"🌟 الأكثر طلباً"},
+{robux:120,price:35},
+{robux:160,price:47},
+{robux:200,price:50},
+{robux:400,price:83,badge:"🕑 عرض خاص"},
+{robux:500,price:85,badge:"🔥 أفضل سعر"},
+{robux:1000,price:160}
 ];
 
-const libyanaPrices = [
-  {robux:10, price: "3"}, {robux:20, price: "5"}, {robux:30, price: "7"},
-  {robux:40, price: 10}, {robux:50, price: "13"}, {robux:80, price: 15, badge: "🌟الأكثر طلباً"},
-  {robux:120, price: 35}, {robux:160, price: 45}, {robux:400, price: 85, badge: "🔥افضل سعر"},
-  {robux:500, price: "75"}, {robux:1000, price: 130}
+const libyanaPrices=[
+{robux:10,price:3},
+{robux:20,price:5},
+{robux:30,price:7},
+{robux:40,price:10},
+{robux:50,price:13},
+{robux:80,price:15,badge:"🌟 الأكثر طلباً"},
+{robux:120,price:35},
+{robux:160,price:45},
+{robux:400,price:85,badge:"🔥 أفضل سعر"},
+{robux:500,price:75},
+{robux:1000,price:130}
 ];
 
-const effectsList = [
-  { name: "افکت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
-  { name: "افکت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
-  { name: "💸افکت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
-  { name: "افکت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
-  { name: "افکت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
-  { name: "افکت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
-  { name: "🔥افکت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
-  { name: "افکت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
-  { name: "افکت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
-  { name: "🎈افکت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
-  { name: "🖤افکت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
-  { name: "🟨افکت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
-  { name: "⚡️افکت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
-  { name: "🪙افکت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
+const effectsList=[
+{name:"افكت الرجعية",price:12,img:"https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg"},
+{name:"افكت الإنهاء",price:12,img:"https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg"},
+{name:"💸 افكت المال",price:12,img:"https://i.ibb.co/fYtCG33F/IMG-4135.jpg"},
+{name:"افكت الانفجار",price:12,img:"https://i.ibb.co/MTtwGf2/IMG-4136.jpg"},
+{name:"افكت مساحة فرعية",price:12,img:"https://i.ibb.co/ymzfNZND/IMG-4139.jpg"},
+{name:"افكت تيكس",price:12,img:"https://i.ibb.co/NnNtgfT0/IMG-4140.jpg"},
+{name:"🔥 افكت حرق",price:17,img:"https://i.ibb.co/xKwJQZpX/IMG-4137.jpg"},
+{name:"افكت بلوكي",price:17,img:"https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg"},
+{name:"افكت خالي من الوزن",price:17,img:"https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg"},
+{name:"🎈 افكت بالون",price:33,badge:"نادر",img:"https://i.ibb.co/bRmX1rvT/IMG-4142.jpg"},
+{name:"🖤 افكت قلب اسود",price:33,img:"https://i.ibb.co/FLvXYJPj/IMG-4141.jpg"},
+{name:"🟨 افكت ذهب",price:33,img:"https://i.ibb.co/VYMxdhbR/IMG-4146.jpg"},
+{name:"⚡️ افكت رعد",price:33,badge:"شائع",img:"https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg"},
+{name:"🪙 افكت فضة",price:33,img:"https://i.ibb.co/Nhz2fYp/IMG-4144.jpg"}
 ];
 
-const itunesPrices = [
-  { amount: "🇺🇸2$", price: 35 }, { amount: "🇺🇸3$", price: 43 },
-  { amount: "🇺🇸4$", price: 55 }, { amount: "🇺🇸5$", price: 68 },
-  { amount: "🇺🇸10$", price: 134, badge: "الأكثر طلباً" }, { amount: "🇺🇸25$", price: 330 }
+const itunesPrices=[
+{amount:"🇺🇸2$",price:35},
+{amount:"🇺🇸3$",price:43},
+{amount:"🇺🇸4$",price:55},
+{amount:"🇺🇸5$",price:68},
+{amount:"🇺🇸10$",price:134,badge:"الأكثر طلباً"},
+{amount:"🇺🇸25$",price:330}
 ];
 
-const psPrices = [
-  { amount: "10$", price: 130, badge: "الأكثر طلباً" }, { amount: "25$", price: 320 }
+const psPrices=[
+{amount:"10$",price:130,badge:"الأكثر طلباً"},
+{amount:"25$",price:320}
 ];
 
-const pubgPrices = [
-  { uc: "60 UC", price: 13 }, { uc: "160 UC", price: 27 },
-  { uc: "325 UC", price: 64, badge: "شائع" }, { uc: "660 UC", price: 128, badge: "عرض ممتاز" }
+const pubgPrices=[
+{uc:"60 UC",price:13},
+{uc:"160 UC",price:27},
+{uc:"325 UC",price:64,badge:"شائع"},
+{uc:"660 UC",price:128,badge:"عرض ممتاز"}
 ];
 
-const xboxPrices = [
-  { amount: "10$", price: 130 }, { amount: "15$", price: 190 }, { amount: "25$", price: 315 }
+const xboxPrices=[
+{amount:"10$",price:130},
+{amount:"15$",price:190},
+{amount:"25$",price:315}
 ];
 
-let currentCategory = "robux"; 
-let currentProvider = "madar";
-let selectedProduct = null;
-let cart = [];
+let currentCategory="robux";
+let currentProvider="madar";
+let selectedProduct=null;
+let cart=[];
+let currentOrderId=null;
+let statusCheckInterval=null;
+let adminInterval=null;
+let currentUser=null;
 
-let currentOrderId = null;
-let statusCheckInterval = null;
-let adminInterval = null;
-let currentUser = null;
+const esc=v=>String(v??"-").replace(/[&<>"']/g,m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m]));
 
-function getNextOrderId() {
-  const timeStamp = Date.now().toString().slice(-4);
-  const randomNum = Math.floor(100 + Math.random() * 900);
-  return "DS-" + timeStamp + randomNum;
+function getNextOrderId(){
+return "DS-"+Date.now().toString().slice(-6)+"-"+Math.floor(100+Math.random()*900);
 }
 
-// السيرفر المباشر
-async function fetchCloudOrders() {
-  try {
-    const res = await fetch(FIREBASE_URL + ".json");
-    const data = await res.json();
-    if (!data) return [];
-    return Object.keys(data).map(key => ({ ...data[key], _key: key }));
-  } catch (e) {
-    return [];
-  }
+async function firebaseFetch(url,options={}){
+const res=await fetch(url,options);
+
+if(!res.ok){
+let msg="";
+try{msg=await res.text()}catch{}
+throw new Error("Firebase "+res.status+(msg?" - "+msg:""));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const mImg = document.getElementById("madarLogoImg");
-  const lImg = document.getElementById("libyanaLogoImg");
-  if(mImg) mImg.src = madarImgData;
-  if(lImg) lImg.src = libyanaImgData;
-  
-  checkLoggedUser();
-  switchCategory("robux");
+return res;
+}
 
-  if(window.location.hash === "#admin") {
-    openAdminPanel();
-    history.replaceState(null, null, ' ');
-  }
+async function fetchCloudOrders(){
+const res=await firebaseFetch(FIREBASE_URL+".json");
+const data=await res.json();
+
+if(!data)return[];
+
+return Object.entries(data).map(([key,value])=>({
+...value,
+_key:key
+}));
+}
+
+function checkLoggedUser(){
+try{
+currentUser=JSON.parse(localStorage.getItem("dark_store_user")||"null");
+}catch{
+currentUser=null;
+}
+
+document.getElementById("userAuthBtn").textContent=
+currentUser?"الإعدادات ⚙️":"تسجيل الدخول 👤";
+}
+
+function openAuthModal(){
+document.getElementById("authFormContent").style.display=currentUser?"none":"block";
+document.getElementById("userProfileContent").style.display=currentUser?"block":"none";
+
+if(currentUser){
+document.getElementById("profileNameDisplay").textContent="أهلاً "+currentUser.name;
+document.getElementById("profileNameDisplay2").textContent=currentUser.name;
+document.getElementById("profilePhoneDisplay").textContent=currentUser.phone;
+showSettingsTab("profile");
+}
+
+document.getElementById("authModal").classList.add("show");
+}
+
+function closeAuthModal(){
+document.getElementById("authModal").classList.remove("show");
+}
+
+function saveUserAccount(){
+const name=document.getElementById("regName").value.trim();
+const phone=document.getElementById("regPhone").value.trim();
+
+if(!name||!phone){
+alert("⚠️ أدخل الاسم ورقم الهاتف.");
+return;
+}
+
+currentUser={name,phone};
+
+localStorage.setItem(
+"dark_store_user",
+JSON.stringify(currentUser)
+);
+
+checkLoggedUser();
+closeAuthModal();
+
+alert("✅ تم حفظ ملفك الشخصي.");
+}
+
+function logoutUser(){
+localStorage.removeItem("dark_store_user");
+currentUser=null;
+checkLoggedUser();
+closeAuthModal();
+}
+
+function showSettingsTab(tab){
+document.getElementById("profileTabContent").style.display=
+tab==="profile"?"block":"none";
+
+document.getElementById("ordersTabContent").style.display=
+tab==="orders"?"block":"none";
+
+document.getElementById("profileTab").classList.toggle(
+"active",
+tab==="profile"
+);
+
+document.getElementById("ordersTab").classList.toggle(
+"active",
+tab==="orders"
+);
+
+if(tab==="orders"){
+loadUserOrdersHistory();
+}
+}
+
+function statusInfo(status){
+const map={
+pending:["⏳ قيد المراجعة","#d97706"],
+accepted:["✅ تم قبول الطلب","#16a34a"],
+rejected:["❌ تم رفض الطلب","#dc2626"],
+out_of_stock:["⚠️ المنتج غير متوفر بالمخزون","#d97706"],
+delivered:["📦 تم تسليم طلبك","#2563eb"]
+};
+
+return map[status]||["❔ حالة غير معروفة","#64748b"];
+}
+
+async function loadUserOrdersHistory(){
+
+const c=document.getElementById("userOrdersHistory");
+
+c.innerHTML=
+"<div style='text-align:center;color:var(--muted)'>جاري تحميل الطلبات...</div>";
+
+try{
+
+const orders=await fetchCloudOrders();
+
+const my=orders
+.filter(o=>currentUser&&o.accountPhone===currentUser.phone)
+.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+
+if(!my.length){
+
+c.innerHTML=
+"<div style='text-align:center;color:var(--muted);padding:20px'>لا توجد طلبات مرتبطة برقم هاتفك.</div>";
+
+return;
+}
+
+c.innerHTML=my.map(o=>{
+
+const [txt,color]=statusInfo(o.status);
+
+return `<div class="user-order-item">
+<div>
+<b style="color:var(--gold)">${esc(o.product)}</b>
+<div style="font-size:11px;color:var(--muted)">
+${esc(o.id)} • ${esc(o.time)} • ${esc(o.price)}
+</div>
+</div>
+<div class="order-status" style="color:${color}">${txt}</div>
+</div>`;
+
+}).join("");
+
+}catch(e){
+
+c.innerHTML=
+"<div style='color:#fca5a5;text-align:center'>تعذر تحميل الطلبات. تحقق من اتصال Firebase.</div>";
+
+}
+}
+
+function addToCart(item){
+
+const cartItem={
+...item,
+provider:item.provider||currentProvider||"libyana"
+};
+
+cart.push(cartItem);
+
+updateCartBadge();
+
+alert("✅ تمت إضافة المنتج إلى السلة.");
+}
+
+function updateCartBadge(){
+document.getElementById("cartCount").textContent=cart.length;
+}
+
+function openCartModal(){
+
+if(!cart.length){
+alert("🛒 السلة فارغة.");
+return;
+}
+
+const total=cart.reduce(
+(s,x)=>s+(Number.parseFloat(x.price)||0),
+0
+);
+
+openModal({
+type:"cart",
+title:`السلة (${cart.length} منتجات)`,
+price:`${total} د.ل`,
+provider:"ليبيانا"
+});
+}
+
+function filterProducts(){
+
+const q=document
+.getElementById("searchInput")
+.value
+.toLowerCase();
+
+[...document.getElementById("prices").children]
+.forEach(c=>{
+c.style.display=
+c.textContent.toLowerCase().includes(q)?"":"none";
+});
+}
+
+function switchCategory(cat){
+
+currentCategory=cat;
+
+document.getElementById("searchInput").value="";
+
+const ids={
+robux:"catRobuxBtn",
+effects:"catEffectsBtn",
+itunes:"catItunesBtn",
+ps:"catPsBtn",
+pubg:"catPubgBtn",
+xbox:"catXboxBtn"
+};
+
+const heads={
+robux:"robuxHeader",
+effects:"effectsHeader",
+itunes:"itunesHeader",
+ps:"psHeader",
+pubg:"pubgHeader",
+xbox:"xboxHeader"
+};
+
+Object.keys(ids).forEach(k=>{
+
+document.getElementById(ids[k])
+.classList.toggle("active",k===cat);
+
+document.getElementById(heads[k])
+.style.display=k===cat?"block":"none";
+
 });
 
-/* ================== إعدادات وحساب الزبون ================== */
-function checkLoggedUser() {
-  const stored = localStorage.getItem("dark_store_user");
-  if (stored) {
-    currentUser = JSON.parse(stored);
-    document.getElementById("userAuthBtn").textContent = "الإعدادات ⚙️";
-  } else {
-    currentUser = null;
-    document.getElementById("userAuthBtn").textContent = "تسجيل الدخول 👤";
-  }
-}
+document.getElementById("prices").className=
+cat==="effects"?"effects-grid":"prices";
 
-function openAuthModal() {
-  if (currentUser) {
-    document.getElementById("authFormContent").style.display = "none";
-    document.getElementById("userProfileContent").style.display = "block";
-    document.getElementById("profileNameDisplay").textContent = currentUser.name;
-    document.getElementById("profilePhoneDisplay").textContent = currentUser.phone;
-    loadUserOrdersHistory();
-  } else {
-    document.getElementById("authFormContent").style.display = "block";
-    document.getElementById("userProfileContent").style.display = "none";
-  }
-  document.getElementById("authModal").classList.add("show");
-}
-
-function closeAuthModal() {
-  document.getElementById("authModal").classList.remove("show");
-}
-
-function saveUserAccount() {
-  const name = document.getElementById("regName").value.trim();
-  const phone = document.getElementById("regPhone").value.trim();
-  const pass = document.getElementById("regPass").value.trim();
-
-  if(!name || !phone || !pass) {
-    alert("⚠️ يرجى إدخال اسمك ورقم هاتفك وكلمة سر للحساب!");
-    return;
-  }
-
-  currentUser = { name, phone, pass };
-  localStorage.setItem("dark_store_user", JSON.stringify(currentUser));
-  checkLoggedUser();
-  closeAuthModal();
-  alert("✅ تم تسجيل حسابك بنجاح!");
-}
-
-function logoutUser() {
-  localStorage.removeItem("dark_store_user");
-  checkLoggedUser();
-  closeAuthModal();
-  alert("تم تسجيل الخروج.");
-}
-
-async function loadUserOrdersHistory() {
-  const container = document.getElementById("userOrdersHistory");
-  container.innerHTML = "جاري فتح السجل...";
-  const orders = await fetchCloudOrders();
-  const myOrders = orders.filter(o => o.accountPhone === currentUser.phone);
-
-  if (myOrders.length === 0) {
-    container.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>لا توجد طلبات سابقة</div>";
-    return;
-  }
-
-  container.innerHTML = "";
-  myOrders.forEach(o => {
-    let statusText = "⏳ قيد المراجعة";
-    let color = "#d97706";
-    if (o.status === "accepted") { statusText = "✅ تم القبول والشحن"; color = "#16a34a"; }
-    if (o.status === "rejected") { statusText = "❌ مرفوض"; color = "#dc2626"; }
-    if (o.status === "out_of_stock") { statusText = "⚠️ غير متوفر بالمخزون"; color = "#d97706"; }
-
-    container.innerHTML += `
-      <div class="user-order-item">
-        <div>
-          <div style="font-weight:bold; color:var(--sand-gold);">${o.product}</div>
-          <div style="font-size:11px; color:var(--text-muted);">${o.time} - ${o.price}</div>
-        </div>
-        <div style="font-size:12px; font-weight:bold; color:${color};">${statusText}</div>
-      </div>
-    `;
-  });
-}
-
-/* ================== المتجر والطلبات ================== */
-function addToCart(item) {
-  cart.push(item);
-  updateCartBadge();
-  alert(`تمت إضافة "${item.title}" إلى السلة!`);
-}
-
-function updateCartBadge() {
-  document.getElementById("cartCount").textContent = cart.length;
-}
-
-function openCartModal() {
-  if (cart.length === 0) {
-    alert("🛒السلة فارغة حالياً!");
-    return;
-  }
-  let total = cart.reduce((sum, item) => sum + parseInt(item.price), 0);
-
-  openModal({
-    type: 'cart',
-    title: `🛒السلة (${cart.length} منتجات)`,
-    price: `${total} د.ل`,
-    provider: 'مدار'
-  });
-}
-
-function filterProducts() {
-  const query = document.getElementById("searchInput").value.toLowerCase();
-  const activeContainer = document.getElementById("prices");
-  const cards = activeContainer.children;
-
-  Array.from(cards).forEach(card => {
-    const text = card.textContent.toLowerCase();
-    card.style.display = text.includes(query) ? "" : "none";
-  });
-}
-
-function switchCategory(cat) {
-  currentCategory = cat;
-  document.getElementById("searchInput").value = "";
-  
-  const buttons = { robux: "catRobuxBtn", effects: "catEffectsBtn", itunes: "catItunesBtn", ps: "catPsBtn", pubg: "catPubgBtn", xbox: "catXboxBtn" };
-  const headers = { robux: "robuxHeader", effects: "effectsHeader", itunes: "itunesHeader", ps: "psHeader", pubg: "pubgHeader", xbox: "xboxHeader" };
-
-  Object.keys(buttons).forEach(key => {
-    document.getElementById(buttons[key]).classList.toggle("active", key === cat);
-    document.getElementById(headers[key]).style.display = key === cat ? "block" : "none";
-  });
-
-  const pricesBox = document.getElementById("prices");
-  pricesBox.className = cat === "effects" ? "effects-grid" : "prices";
-
-  if(cat === "robux") showRobuxPrices(currentProvider);
-  else if(cat === "effects") showEffectsPrices();
-  else if(cat === "itunes") showItunesPrices();
-  else if(cat === "ps") showPsPrices();
-  else if(cat === "pubg") showPubgPrices();
-  else if(cat === "xbox") showXboxPrices();
+if(cat==="robux")showRobuxPrices(currentProvider);
+if(cat==="effects")showEffectsPrices();
+if(cat==="itunes")showItunesPrices();
+if(cat==="ps")showPsPrices();
+if(cat==="pubg")showPubgPrices();
+if(cat==="xbox")showXboxPrices();
 }
 
 function showRobuxPrices(provider){
-  currentProvider = provider;
-  document.getElementById("madarBtn").classList.toggle("active", provider === "madar");
-  document.getElementById("libyanaBtn").classList.toggle("active", provider !== "madar");
 
-  const pricesBox = document.getElementById("prices");
-  pricesBox.innerHTML = "";
-  const list = provider === "madar" ? madarPrices : libyanaPrices;
+currentProvider=provider;
 
-  list.forEach(item => {
-    const card = document.createElement("div");
-    const isAvailable = item.price !== "غير متوفر";
-    const priceDisplay = isAvailable ? `${item.price} د.ل` : "غير متوفر";
-    card.className = `price-card ${!isAvailable ? 'disabled' : ''}`;
-    let badgeHtml = item.badge ? `<div class="badge-tag">${item.badge}</div>` : '';
+document.getElementById("madarBtn")
+.classList.toggle("active",provider==="madar");
 
-    card.innerHTML = `
-      ${badgeHtml}
-      <div class="robux">
-        <span>${item.robux} روب</span>
-        <img class="robux-icon" src="${robuxIconUrl}" alt="robux">
-      </div>
-      <div class="price">${priceDisplay}</div>
-      <div class="btn-group-card" style="margin-top:14px;">
-        <button class="buy" ${!isAvailable ? 'disabled' : ''}>${isAvailable ? 'شراء' : 'غير متوفر'}</button>
-        ${isAvailable ? `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس (${currentProvider === 'madar' ? 'مدار' : 'ليبيانا'})', price:'${item.price} د.ل'})">+</button>` : ''}
-      </div>
-    `;
+document.getElementById("libyanaBtn")
+.classList.toggle("active",provider==="libyana");
 
-    if(isAvailable) {
-      card.querySelector('.buy').addEventListener("click", () => {
-        openModal({
-          type: 'robux',
-          title: `Robux ${item.robux}`,
-          price: `${item.price} د.ل`,
-          provider: currentProvider === "madar" ? "مدار" : "ليبيانا"
-        });
-      });
-    }
-    pricesBox.appendChild(card);
-  });
+const box=document.getElementById("prices");
+
+box.innerHTML="";
+
+const list=
+provider==="madar"
+?madarPrices
+:libyanaPrices;
+
+list.forEach(item=>{
+
+const card=document.createElement("div");
+
+card.className="price-card";
+
+card.innerHTML=`
+${item.badge?`<div class="badge-tag">${esc(item.badge)}</div>`:""}
+<div class="robux">
+<span>${item.robux} روب</span>
+<img class="robux-icon" src="${robuxIconUrl}">
+</div>
+<div class="price">${item.price} د.ل</div>
+<div class="btn-group-card">
+<button class="buy">شراء</button>
+<button class="add-cart-btn">+</button>
+</div>
+`;
+
+card.querySelector(".buy").onclick=()=>openModal({
+type:"robux",
+title:`Robux ${item.robux}`,
+price:`${item.price} د.ل`,
+provider:provider==="madar"?"مدار":"ليبيانا"
+});
+
+card.querySelector(".add-cart-btn").onclick=()=>addToCart({
+type:"robux",
+title:`${item.robux} روبوكس (${provider==="madar"?"مدار":"ليبيانا"})`,
+price:item.price,
+provider:provider==="madar"?"مدار":"ليبيانا"
+});
+
+box.appendChild(card);
+
+});
 }
 
 function showEffectsPrices(){
-  const pricesBox = document.getElementById("prices");
-  pricesBox.innerHTML = "";
 
-  effectsList.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "effect-card";
-    let badgeHtml = item.badge ? `<div class="badge-tag">${item.badge}</div>` : '';
+const box=document.getElementById("prices");
 
-    card.innerHTML = `
-      ${badgeHtml}
-      <img src="${item.img}" alt="${item.name}" class="effect-img">
-      <div class="effect-title">${item.name}</div>
-      <div class="effect-price">${item.price} د.ل</div>
-      <div class="btn-group-card">
-        <button class="effect-buy-btn">شراء</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'effect', title:'${item.name}', price:'${item.price} د.ل'})">+</button>
-      </div>
-    `;
+box.innerHTML="";
 
-    card.querySelector('.effect-buy-btn').addEventListener("click", () => {
-      openModal({ type: 'effect', title: item.name, price: `${item.price} د.ل`, provider: "ليبيانا" });
-    });
-    pricesBox.appendChild(card);
-  });
+effectsList.forEach(item=>{
+
+const card=document.createElement("div");
+
+card.className="effect-card";
+
+card.innerHTML=`
+${item.badge?`<div class="badge-tag">${esc(item.badge)}</div>`:""}
+<img src="${item.img}" class="effect-img">
+<div class="effect-title">${esc(item.name)}</div>
+<div class="effect-price">${item.price} د.ل</div>
+<div class="btn-group-card">
+<button class="effect-buy-btn">شراء</button>
+<button class="add-cart-btn">+</button>
+</div>
+`;
+
+card.querySelector(".effect-buy-btn").onclick=()=>openModal({
+type:"effect",
+title:item.name,
+price:`${item.price} د.ل`,
+provider:"ليبيانا"
+});
+
+card.querySelector(".add-cart-btn").onclick=()=>addToCart({
+type:"effect",
+title:item.name,
+price:`${item.price} د.ل`,
+provider:"ليبيانا"
+});
+
+box.appendChild(card);
+
+});
+}
+
+function renderStandardCards(list,type,title,prefix){
+
+const box=document.getElementById("prices");
+
+box.innerHTML="";
+
+list.forEach(item=>{
+
+const label=item.amount||item.uc;
+
+const card=document.createElement("div");
+
+card.className="item-card";
+
+card.innerHTML=`
+${item.badge?`<div class="badge-tag">${esc(item.badge)}</div>`:""}
+<div class="item-header">
+<div>
+<div class="item-title">${esc(title)}</div>
+<div class="item-sub">${esc(prefix)} ${esc(label)}</div>
+</div>
+<span>🎮</span>
+</div>
+
+<div class="item-price-label">السعر</div>
+
+<div class="item-price-val">
+${item.price} د.ل
+</div>
+
+<div class="btn-group-card">
+<button class="buy">🛒 شراء الآن</button>
+<button class="add-cart-btn">+</button>
+</div>
+`;
+
+card.querySelector(".buy").onclick=()=>openModal({
+type,
+title:`${title} (${label})`,
+price:`${item.price} د.ل`,
+provider:"ليبيانا"
+});
+
+card.querySelector(".add-cart-btn").onclick=()=>addToCart({
+type,
+title:`${title} (${label})`,
+price:`${item.price} د.ل`,
+provider:"ليبيانا"
+});
+
+box.appendChild(card);
+
+});
 }
 
 function showItunesPrices(){
-  renderStandardCards(itunesPrices, 'itunes', 'أيتونز ( أمريكا )', 'iTunes', '<img src="https://i.ibb.co/9H7z9vsN/IMG-4120.png" style="width:24px;height:24px;object-fit:contain;">');
+renderStandardCards(
+itunesPrices,
+"itunes",
+"أيتونز",
+""
+);
 }
 
 function showPsPrices(){
-  renderStandardCards(psPrices, 'ps', 'شبكة بلاي ستيشن ( أمريكا )', 'PSN', '<img src="https://i.ibb.co/4Z9JVP9D/IMG-4122.jpg" style="width:24px;height:24px;object-fit:contain;">');
-}
-
-function showPubgPrices(){
-  const pricesBox = document.getElementById("prices");
-  pricesBox.innerHTML = "";
-
-  pubgPrices.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "item-card";
-    let badgeHtml = item.badge ? `<div class="badge-tag">${item.badge}</div>` : '';
-
-    card.innerHTML = `
-      ${badgeHtml}
-      <div>
-        <div class="item-header">
-          <div>
-            <div class="item-title">ببجي موبايل</div>
-            <div class="item-sub">${item.uc}</div>
-          </div>
-          <span class="badge-icon"><img src="https://i.ibb.co/HTmxJsVD/IMG-4119.png" style="width:24px;height:24px;object-fit:contain;"></span>
-        </div>
-        <div class="item-price-box">
-          <div class="item-price-label">السعر</div>
-          <div class="item-price-val">${item.price} د.ل</div>
-        </div>
-      </div>
-      <div class="btn-group-card">
-        <button class="buy">🛒شراء الآن</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'pubg', title:'ببجي (${item.uc})', price:'${item.price} د.ل'})">+</button>
-      </div>
-    `;
-
-    card.querySelector('.buy').addEventListener("click", () => {
-      openModal({ type: 'pubg', title: `ببجي موبايل (${item.uc})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
-    });
-    pricesBox.appendChild(card);
-  });
+renderStandardCards(
+psPrices,
+"ps",
+"بلايستيشن",
+""
+);
 }
 
 function showXboxPrices(){
-  renderStandardCards(xboxPrices, 'xbox', 'إكس بوكس ( أمريكا )', 'Xbox', '<img src="https://i.ibb.co/99GB3Lhy/IMG-4121.jpg" style="width:24px;height:24px;object-fit:contain;">');
+renderStandardCards(
+xboxPrices,
+"xbox",
+"إكس بوكس",
+""
+);
 }
 
-function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
-  const pricesBox = document.getElementById("prices");
-  pricesBox.innerHTML = "";
-
-  dataList.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "item-card";
-    let badgeHtml = item.badge ? `<div class="badge-tag">${item.badge}</div>` : '';
-
-    card.innerHTML = `
-      ${badgeHtml}
-      <div>
-        <div class="item-header">
-          <div>
-            <div class="item-title">${mainTitle}</div>
-            <div class="item-sub">${subPrefix} ${item.amount}</div>
-          </div>
-          <span class="badge-icon">${flagIcon}</span>
-        </div>
-        <div class="item-price-box">
-          <div class="item-price-label">السعر</div>
-          <div class="item-price-val">${item.price} د.ل</div>
-        </div>
-      </div>
-      <div class="btn-group-card">
-        <button class="buy">🛒شراء الآن</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'${type}', title:'${mainTitle} (${item.amount})', price:'${item.price} د.ل'})">+</button>
-      </div>
-    `;
-
-    card.querySelector('.buy').addEventListener("click", () => {
-      openModal({ type: type, title: `${mainTitle} (${item.amount})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
-    });
-    pricesBox.appendChild(card);
-  });
+function showPubgPrices(){
+renderStandardCards(
+pubgPrices,
+"pubg",
+"ببجي موبايل",
+""
+);
 }
 
 function openModal(item){
-  if (!currentUser) {
-    alert("⚠️ يرجى إنشاء حساب والتسجيل أولاً!");
-    openAuthModal();
-    return;
-  }
 
-  selectedProduct = item;
-  document.getElementById("orderFormContent").style.display = "block";
-  document.getElementById("orderStatusContent").style.display = "none";
+if(!currentUser){
+alert("⚠️ أنشئ ملفك الشخصي أولاً.");
+openAuthModal();
+return;
+}
 
-  document.getElementById("orderItemTitle").textContent = item.title;
-  document.getElementById("orderItemPrice").textContent = item.price;
-  
-  const providerTitle = document.getElementById("providerTransferTitle");
-  const transferNumElem = document.getElementById("transferNumber");
+selectedProduct=item;
 
-  let activeNumber = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
-  providerTitle.textContent = item.provider === "مدار" ? "قم بالتحويل إلى رقم المدار التالي:" : "قم بالتحويل إلى رقم ليبيانا التالي:";
-  transferNumElem.textContent = activeNumber;
+document.getElementById("orderFormContent").style.display="block";
 
-  if (currentUser) {
-    document.getElementById("senderPhone").value = currentUser.phone;
-  }
+document.getElementById("orderStatusContent").style.display="none";
 
-  document.getElementById("modal").classList.add("show");
+document.getElementById("orderItemTitle").textContent=item.title;
+
+document.getElementById("orderItemPrice").textContent=item.price;
+
+const madar=item.provider==="مدار";
+
+document.getElementById("providerTransferTitle").textContent=
+madar
+?"قم بالتحويل إلى رقم المدار التالي:"
+:"قم بالتحويل إلى رقم ليبيانا التالي:";
+
+document.getElementById("transferNumber").textContent=
+madar
+?MADAR_NUMBER
+:LIBYANA_NUMBER;
+
+document.getElementById("senderPhone").value=currentUser.phone;
+
+document.getElementById("robloxUser").value="";
+
+document.getElementById("orderNotes").value="";
+
+document.getElementById("confirmCheckbox").checked=false;
+
+document.getElementById("modal").classList.add("show");
 }
 
 function closeModal(){
-  document.getElementById("modal").classList.remove("show");
-  if(statusCheckInterval) clearInterval(statusCheckInterval);
+
+document.getElementById("modal")
+.classList.remove("show");
+
+if(statusCheckInterval)
+clearInterval(statusCheckInterval);
 }
 
-function copyTransferNumber() {
-  const number = document.getElementById("transferNumber").textContent;
-  navigator.clipboard.writeText(number).then(() => {
-    alert("✅ تم نسخ الرقم بنجاح: " + number);
-  });
+function copyTransferNumber(){
+
+navigator.clipboard
+.writeText(
+document.getElementById("transferNumber").textContent
+)
+.then(()=>alert("✅ تم نسخ الرقم."));
 }
 
 async function sendOrder(){
-  const robloxUser = document.getElementById("robloxUser").value.trim();
-  const robloxPass = document.getElementById("robloxPass").value.trim();
-  const senderPhone = document.getElementById("senderPhone").value.trim();
-  const orderNotes = document.getElementById("orderNotes").value.trim();
-  const confirmCheckbox = document.getElementById("confirmCheckbox").checked;
 
-  if(!robloxUser || !robloxPass) {
-    alert("🎮 يرجى إدخال يوزر وباسوورد Roblox للشحن!");
-    return;
-  }
+if(!currentUser){
+alert("سجل الدخول أولاً.");
+return;
+}
 
-  if(!senderPhone){
-    alert("📲 يرجى إدخال رقم الهاتف الذي قمت بالتحويل منه");
-    return;
-  }
+const robloxUser=
+document.getElementById("robloxUser").value.trim();
 
-  if(!confirmCheckbox){
-    alert("⚠️ يرجى التأكيد على أنك قمت بتحويل الرصيد قبل إرسال الطلب");
-    return;
-  }
+const senderPhone=
+document.getElementById("senderPhone").value.trim();
 
-  currentOrderId = getNextOrderId();
+const notes=
+document.getElementById("orderNotes").value.trim();
 
-  const orderData = {
-    id: currentOrderId,
-    accountName: currentUser.name,
-    accountPhone: currentUser.phone,
-    product: selectedProduct ? selectedProduct.title : 'طلب جديد',
-    price: selectedProduct ? selectedProduct.price : '0 د.ل',
-    provider: selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا',
-    robloxUser: robloxUser,
-    robloxPass: robloxPass,
-    senderPhone: senderPhone,
-    notes: orderNotes,
-    status: 'pending',
-    time: new Date().toLocaleTimeString('ar-LY')
-  };
+if(!robloxUser){
+alert("🎮 أدخل اسم المستخدم أو ID.");
+return;
+}
 
-  // إرسال مباشر لسيرفر Firebase Realtime
-  await fetch(FIREBASE_URL + `/${currentOrderId}.json`, {
-    method: "PUT",
-    body: JSON.stringify(orderData)
-  });
+if(!senderPhone){
+alert("📲 أدخل رقم التحويل.");
+return;
+}
 
-  document.getElementById("orderFormContent").style.display = "none";
-  document.getElementById("orderStatusContent").style.display = "block";
+if(!document.getElementById("confirmCheckbox").checked){
+alert("⚠️ أكد تحويل المبلغ أولاً.");
+return;
+}
 
-  if(statusCheckInterval) clearInterval(statusCheckInterval);
-  statusCheckInterval = setInterval(checkStatus, 2000);
+currentOrderId=getNextOrderId();
+
+const order={
+id:currentOrderId,
+accountName:currentUser.name,
+accountPhone:currentUser.phone,
+product:selectedProduct?.title||"طلب جديد",
+price:selectedProduct?.price||"0 د.ل",
+provider:selectedProduct?.provider||"ليبيانا",
+robloxUser,
+senderPhone,
+notes,
+status:"pending",
+time:new Date().toLocaleString("ar-LY"),
+createdAt:Date.now()
+};
+
+try{
+
+const orderUrl=
+FIREBASE_URL+
+"/"+
+encodeURIComponent(currentOrderId)+
+".json";
+
+let saved=false;
+
+try{
+
+await firebaseFetch(
+orderUrl,
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(order)
+}
+);
+
+saved=true;
+
+}catch(firstError){
+
+const retry=await firebaseFetch(
+FIREBASE_URL+".json",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(order)
+}
+);
+
+const key=await retry.json();
+
+if(key&&key.name){
+
+order._firebaseKey=key.name;
+
+saved=true;
+
+}
+}
+
+if(!saved)
+throw new Error("تعذر حفظ الطلب في Firebase");
+
+if(selectedProduct?.type==="cart"){
+
+cart=[];
+
+updateCartBadge();
+
+}
+
+document.getElementById("orderFormContent").style.display="none";
+
+document.getElementById("orderStatusContent").style.display="block";
+
+document.getElementById("statusIcon").textContent="⏳";
+
+document.getElementById("statusTitle").textContent=
+"طلبك قيد المراجعة";
+
+document.getElementById("statusTitle").style.color=
+"var(--gold)";
+
+document.getElementById("statusSpinner").style.display="block";
+
+document.getElementById("statusMsg").textContent=
+"تم إرسال الطلب. يمكنك متابعة حالته من الإعدادات ← طلباتي.";
+
+if(statusCheckInterval)
+clearInterval(statusCheckInterval);
+
+statusCheckInterval=
+setInterval(checkStatus,2500);
+
+}catch(e){
+
+alert(
+"❌ لم يتم إرسال الطلب إلى السيرفر.\n"+
+"تحقق من Firebase URL وقواعد قاعدة البيانات.\n"+
+e.message
+);
+
+}
 }
 
 async function checkStatus(){
-  let res = await fetch(FIREBASE_URL + `/${currentOrderId}.json`);
-  let myOrder = await res.json();
 
-  if(myOrder) {
-    if(myOrder.status === 'accepted') {
-      clearInterval(statusCheckInterval);
-      document.getElementById("statusIcon").textContent = "🎉";
-      document.getElementById("statusTitle").style.color = "#16a34a";
-      document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
-      document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
-      document.getElementById("closeStatusBtn").style.display = "block";
-    } else if(myOrder.status === 'rejected') {
-      clearInterval(statusCheckInterval);
-      document.getElementById("statusIcon").textContent = "❌";
-      document.getElementById("statusTitle").style.color = "#dc2626";
-      document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
-      document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى إعادة المحاولة أو التواصل معنا عبر الواتساب.";
-      document.getElementById("closeStatusBtn").style.display = "block";
-    } else if(myOrder.status === 'out_of_stock') {
-      clearInterval(statusCheckInterval);
-      document.getElementById("statusIcon").textContent = "⚠️";
-      document.getElementById("statusTitle").style.color = "#d97706";
-      document.getElementById("statusTitle").textContent = "المنتج غير متوفر حالياً في المخزون";
-      document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "نعتذر منك، هذا المنتج غير متوفر في المخزون حالياً. يرجى اختيار باقة أخرى.";
-      document.getElementById("closeStatusBtn").style.display = "block";
-    }
-  }
+if(!currentOrderId)return;
+
+try{
+
+const res=await firebaseFetch(
+FIREBASE_URL+
+"/"+
+encodeURIComponent(currentOrderId)+
+".json"
+);
+
+const o=await res.json();
+
+if(!o)return;
+
+const [txt,color]=statusInfo(o.status);
+
+if(o.status!=="pending"){
+
+clearInterval(statusCheckInterval);
+
+document.getElementById("statusIcon").textContent=
+txt.split(" ")[0];
+
+document.getElementById("statusTitle").textContent=
+txt.replace(/^[^ ]+\s/,"");
+
+document.getElementById("statusTitle").style.color=color;
+
+document.getElementById("statusSpinner").style.display="none";
+
+document.getElementById("statusMsg").textContent=
+o.status==="delivered"
+?"تم تسليم طلبك بنجاح. شكراً لثقتك بنا."
+:o.status==="out_of_stock"
+?"نعتذر، المنتج غير متوفر حالياً في المخزون."
+:o.status==="rejected"
+?"تم رفض الطلب. يمكنك التواصل معنا عبر واتساب للاستفسار."
+:"تم قبول الطلب وجاري تنفيذ الشحن.";
+
+document.getElementById("closeStatusBtn").style.display="block";
+
+}
+
+}catch(e){}
 }
 
 function scrollToPrices(){
-  document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" });
+
+document.getElementById("pricesSection")
+.scrollIntoView({
+behavior:"smooth"
+});
+
 }
 
-/* ================== لوحة التحكم الأدمن ================== */
-function openAdminPanel() {
-  const password = prompt("يرجى إدخال كلمة سر لوحة التحكم:");
-  if (password === "darklaytlayt") {
-    document.getElementById("adminPanelModal").classList.add("show");
-    renderAdminOrders();
-    if(adminInterval) clearInterval(adminInterval);
-    adminInterval = setInterval(renderAdminOrders, 2000);
-  } else if (password !== null) {
-    alert("❌ كلمة السر غير صحيحة!");
-  }
+async function openAdminPanel(){
+
+const pass=prompt(
+"يرجى إدخال كلمة سر لوحة التحكم:"
+);
+
+if(pass!==ADMIN_PASSWORD){
+
+if(pass!==null)
+alert("❌ كلمة السر غير صحيحة.");
+
+return;
 }
 
-function closeAdminPanel() {
-  document.getElementById("adminPanelModal").classList.remove("show");
-  if(adminInterval) clearInterval(adminInterval);
+document.getElementById("adminPanelModal")
+.classList.add("show");
+
+await renderAdminOrders();
+
+if(adminInterval)
+clearInterval(adminInterval);
+
+adminInterval=
+setInterval(renderAdminOrders,2500);
 }
 
-async function renderAdminOrders() {
-  const table = document.getElementById("adminOrdersTable");
-  const orders = await fetchCloudOrders();
+function closeAdminPanel(){
 
-  if (orders.length === 0) {
-    table.innerHTML = `<tr><td colspan="10">لا توجد طلبات جديدة حتى الآن</td></tr>`;
-    return;
-  }
+document.getElementById("adminPanelModal")
+.classList.remove("show");
 
-  table.innerHTML = "";
-  orders.reverse().forEach(order => {
-    let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
-    if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
-    if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
-    if (order.status === 'out_of_stock') statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⚠️ غير متوفر</span>`;
-
-    const row = `
-      <tr>
-        <td><b>${order.id}</b></td>
-        <td>${order.time}</td>
-        <td><b>${order.accountName || 'غير مسجل'}</b></td>
-        <td>${order.accountPhone || '-'}</td>
-        <td>${order.product} (${order.provider})</td>
-        <td><b>${order.robloxUser}</b></td>
-        <td><code>${order.robloxPass}</code></td>
-        <td><b style="color:#d4af37;">${order.senderPhone}</b></td>
-        <td>${statusBadge}</td>
-        <td>
-          ${order.status === 'pending' ? `
-            <button class="btn-acc" onclick="updateOrderStatus('${order.id}', 'accepted')">قبول ✅</button>
-            <button class="btn-rej" onclick="updateOrderStatus('${order.id}', 'rejected')">رفض ❌</button>
-            <button class="btn-out" onclick="updateOrderStatus('${order.id}', 'out_of_stock')">غير متوفر ⚠️</button>
-          ` : 'تم الإجراء'}
-        </td>
-      </tr>
-    `;
-    table.innerHTML += row;
-  });
+if(adminInterval)
+clearInterval(adminInterval);
 }
 
-async function updateOrderStatus(orderId, newStatus) {
-  await fetch(FIREBASE_URL + `/${orderId}/status.json`, {
-    method: "PUT",
-    body: JSON.stringify(newStatus)
-  });
-  renderAdminOrders();
+async function renderAdminOrders(){
+
+const table=
+document.getElementById("adminOrdersTable");
+
+const err=
+document.getElementById("firebaseError");
+
+try{
+
+const orders=await fetchCloudOrders();
+
+err.style.display="none";
+
+if(!orders.length){
+
+table.innerHTML=
+'<tr><td colspan="9">لا توجد طلبات حتى الآن.</td></tr>';
+
+return;
 }
 
-async function clearAllOrders() {
-  if (confirm("هل أنت متأكد من مسح كافة الطلبات؟")) {
-    await fetch(FIREBASE_URL + ".json", { method: "DELETE" });
-    renderAdminOrders();
-  }
+orders.sort(
+(a,b)=>(b.createdAt||0)-(a.createdAt||0)
+);
+
+table.innerHTML=orders.map(order=>{
+
+const [statusText,statusColor]=
+statusInfo(order.status);
+
+let actions="";
+
+if(order.status==="pending")
+
+actions=`
+<button class="admin-btn btn-acc"
+onclick="updateOrderStatus('${esc(order.id)}','accepted')">
+قبول ✅
+</button>
+
+<button class="admin-btn btn-rej"
+onclick="updateOrderStatus('${esc(order.id)}','rejected')">
+رفض ❌
+</button>
+
+<button class="admin-btn btn-out"
+onclick="updateOrderStatus('${esc(order.id)}','out_of_stock')">
+غير متوفر ⚠️
+</button>
+`;
+
+else if(order.status==="accepted")
+
+actions=`
+<button class="admin-btn btn-del"
+onclick="updateOrderStatus('${esc(order.id)}','delivered')">
+تم التسليم 📦
+</button>
+
+<button class="admin-btn btn-rej"
+onclick="updateOrderStatus('${esc(order.id)}','rejected')">
+رفض ❌
+</button>
+`;
+
+else if(order.status==="out_of_stock")
+
+actions=`
+<button class="admin-btn btn-acc"
+onclick="updateOrderStatus('${esc(order.id)}','accepted')">
+متوفر/قبول ✅
+</button>
+
+<button class="admin-btn btn-del"
+onclick="updateOrderStatus('${esc(order.id)}','delivered')">
+تم التسليم 📦
+</button>
+`;
+
+else
+
+actions=`
+<button class="admin-btn btn-muted"
+onclick="updateOrderStatus('${esc(order.id)}','pending')">
+إرجاع للمراجعة
+</button>
+`;
+
+return `
+<tr>
+
+<td><b>${esc(order.id)}</b></td>
+
+<td>${esc(order.time)}</td>
+
+<td>${esc(order.accountName)}</td>
+
+<td>${esc(order.accountPhone)}</td>
+
+<td>
+${esc(order.product)}
+(${esc(order.provider)})
+</td>
+
+<td>
+<b>${esc(order.robloxUser)}</b>
+</td>
+
+<td>
+<b style="color:#d4af37">
+${esc(order.senderPhone)}
+</b>
+</td>
+
+<td>
+<span style="
+background:${statusColor};
+padding:4px 7px;
+border-radius:5px
+">
+${statusText}
+</span>
+</td>
+
+<td>${actions}</td>
+
+</tr>
+`;
+
+}).join("");
+
+}catch(e){
+
+table.innerHTML=
+'<tr><td colspan="9">تعذر قراءة الطلبات.</td></tr>';
+
+err.style.display="block";
+
+err.innerHTML=
+"❌ لم تصل الطلبات من Firebase.<br>"+
+"السبب: "+
+esc(e.message)+
+"<br>"+
+"إذا ظهر 401/Permission denied فالمشكلة من Firebase Security Rules.";
+
+}
 }
 
-document.getElementById("modal").addEventListener("click", function(e){ if(e.target === this) closeModal(); });
-document.getElementById("authModal").addEventListener("click", function(e){ if(e.target === this) closeAuthModal(); });
+async function updateOrderStatus(orderId,newStatus){
+
+try{
+
+await firebaseFetch(
+FIREBASE_URL+
+"/"+
+encodeURIComponent(orderId)+
+"/status.json",
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(newStatus)
+}
+);
+
+await renderAdminOrders();
+
+}catch(e){
+
+alert(
+"❌ فشل تغيير الحالة: "+
+e.message
+);
+
+}
+}
+
+async function clearAllOrders(){
+
+if(!confirm("هل أنت متأكد من حذف جميع الطلبات؟"))
+return;
+
+try{
+
+await firebaseFetch(
+FIREBASE_URL+".json",
+{
+method:"DELETE"
+}
+);
+
+await renderAdminOrders();
+
+}catch(e){
+
+alert(
+"❌ فشل الحذف: "+
+e.message
+);
+
+}
+}
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+checkLoggedUser();
+
+switchCategory("robux");
+
+if(location.hash==="#admin"){
+
+history.replaceState(
+null,
+null,
+" "
+);
+
+setTimeout(
+openAdminPanel,
+300
+);
+
+}
+
+}
+);
+
+document.getElementById("modal")
+.addEventListener(
+"click",
+e=>{
+if(e.target===e.currentTarget)
+closeModal();
+}
+);
+
+document.getElementById("authModal")
+.addEventListener(
+"click",
+e=>{
+if(e.target===e.currentTarget)
+closeAuthModal();
+}
+);
+
 </script>
 
 </body>
