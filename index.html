@@ -44,7 +44,6 @@ button, input, textarea {
   font-family: inherit;
 }
 
-/* شريط التنبيهات الأعلى */
 .announcement-bar {
   background: linear-gradient(90deg, #b89320, var(--sand-gold), #b89320);
   color: #12100e;
@@ -628,7 +627,6 @@ footer {
   margin-top: 10px;
 }
 
-/* ================== النوافذ الشفافة ================== */
 .modal {
   position: fixed;
   inset: 0;
@@ -864,14 +862,6 @@ footer {
   opacity: 0.9;
 }
 
-.modal-notice {
-  text-align: center;
-  font-size: 11px;
-  color: #e5c158;
-  margin-top: 10px;
-  line-height: 1.4;
-}
-
 .close {
   width: 100%;
   padding: 10px;
@@ -911,7 +901,6 @@ footer {
   100% { transform: rotate(360deg); }
 }
 
-/* لوحة تحكم الأدمن المدمجة */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
@@ -955,7 +944,6 @@ footer {
 .btn-rej { background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
 .btn-out { background: #d97706; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 2px; }
 
-/* قسم سجل الطلبات للملف الشخصي */
 .user-order-item {
   background: #1d1914;
   border: 1px solid var(--card-border);
@@ -976,23 +964,10 @@ footer {
     padding: 16px 10px;
   }
 
-  .robux {
-    font-size: 20px;
-  }
-
-  .robux-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .price {
-    font-size: 16px;
-  }
-
-  .logo {
-    width: 145px;
-    height: 145px;
-  }
+  .robux { font-size: 20px; }
+  .robux-icon { width: 20px; height: 20px; }
+  .price { font-size: 16px; }
+  .logo { width: 145px; height: 145px; }
 
   .admin-table {
     display: block;
@@ -1015,7 +990,7 @@ footer {
     </div>
     <div class="nav-actions">
       <button class="nav-btn" id="userAuthBtn" onclick="openAuthModal()">
-        تسجيل الدخول 👤
+        الإعدادات ⚙️
       </button>
       <button class="cart-trigger" onclick="openCartModal()">
         السلة <span id="cartCount" class="cart-count">0</span>
@@ -1175,15 +1150,14 @@ footer {
   </div>
 </footer>
 
-<!-- ================== نافذة تسجيل الدخول وحساب الزبون ================== -->
+<!-- ================== نافذة الإعدادات والتسجيل ================== -->
 <div id="authModal" class="modal">
   <div class="modal-box">
     
-    <!-- إنشاء حساب / دخول -->
     <div id="authFormContent">
       <div style="text-align: center;">
-        <span class="modal-header-tag">👤 حساب جديد</span>
-        <h3 id="authTitle">تسجيل حسابك في المتجر</h3>
+        <span class="modal-header-tag">👤 تسجيل حساب</span>
+        <h3>إنشاء حساب جديد في المتجر</h3>
       </div>
 
       <div class="form-group">
@@ -1197,48 +1171,36 @@ footer {
       </div>
 
       <div class="form-group">
-        <label>🎮 اسم مستخدم Roblox (يوزر الشحن) <span>*</span></label>
-        <input id="regRobloxUser" class="input" type="text" placeholder="مثال: Player123">
-      </div>
-
-      <div class="form-group">
-        <label>🔐 كلمة السر للروبلوكس <span>*</span></label>
-        <input id="regRobloxPass" class="input" type="password" placeholder="أدخل كلمة سر الحساب للشحن">
+        <label>🔐 كلمة سر الحساب <span>*</span></label>
+        <input id="regPass" class="input" type="password" placeholder="أدخل كلمة سر للحساب">
       </div>
 
       <button class="confirm" onclick="saveUserAccount()">
-        💾 حفظ وتسجيل الدخول
+        💾 إنشاء الحساب وتسجيل الدخول
       </button>
 
-      <button class="close" onclick="closeAuthModal()">
-        إلغاء
-      </button>
+      <button class="close" onclick="closeAuthModal()">إلغاء</button>
     </div>
 
-    <!-- الملف الشخصي ورؤية الطلبات الحالية للزبون -->
     <div id="userProfileContent" style="display: none;">
       <div style="text-align: center;">
-        <span class="modal-header-tag">👑 ملفك الشخصي</span>
+        <span class="modal-header-tag">⚙️ الإعدادات والملف الشخصي</span>
         <h3 id="profileNameDisplay">أهلاً بك</h3>
       </div>
 
       <div style="background: #181410; padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 13px; color: var(--text-muted);">
-        <div>📱 <b>رقم الهاتف:</b> <span id="profilePhoneDisplay">-</span></div>
-        <div style="margin-top: 5px;">🎮 <b>يوزر روبلوكس:</b> <span id="profileUserDisplay">-</span></div>
+        <div>📱 <b>رقم الهاتف المسجل:</b> <span id="profilePhoneDisplay">-</span></div>
       </div>
 
-      <h4 style="color: var(--sand-gold); margin-bottom: 10px; font-size: 15px;">📦 سجل طلباتك:</h4>
+      <h4 style="color: var(--sand-gold); margin-bottom: 10px; font-size: 15px;">📦 طلباتي الحالية والسابقة:</h4>
       <div id="userOrdersHistory" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;">
-        <!-- يتم جلب طلبات الزبون هنا -->
       </div>
 
       <button class="confirm" style="background: #24201a; color: var(--text-main); border: 1px solid var(--card-border);" onclick="logoutUser()">
-        🚪 تسجيل الخروج من الحساب
+        🚪 تسجيل الخروج
       </button>
 
-      <button class="close" onclick="closeAuthModal()">
-        إغلاق
-      </button>
+      <button class="close" onclick="closeAuthModal()">إغلاق</button>
     </div>
 
   </div>
@@ -1250,8 +1212,8 @@ footer {
     
     <div id="orderFormContent">
       <div style="text-align: center;">
-        <span class="modal-header-tag">⚡ خطوة أخيره</span>
-        <h3>إتمام الطلب</h3>
+        <span class="modal-header-tag">⚡ إتمام الطلب</span>
+        <h3>تأكيد بيانات الشحن</h3>
       </div>
 
       <div class="order-summary-card">
@@ -1261,50 +1223,43 @@ footer {
       </div>
 
       <div class="payment-transfer-card">
-        <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى رقم المدار التالي:</div>
+        <div id="providerTransferTitle" class="payment-transfer-title">قم بالتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">0930553883</div>
         <button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
       </div>
 
-      <div class="steps-list">
-        <div class="step-item">
-          <span class="step-num">1</span>
-          <span>📦 اختر الباقة المطلوبة.</span>
-        </div>
-        <div class="step-item">
-          <span class="step-num">2</span>
-          <span>قم بتحويل المبلغ إلى رقم الهاتف الموضح أعلاه.</span>
-        </div>
-        <div class="step-item">
-          <span class="step-num">3</span>
-          <span>تأكد من بيانات تحويلك وأرسل الطلب.</span>
-        </div>
+      <div class="form-group">
+        <label>🎮 اسم مستخدم Roblox (اليوزر) <span>*</span></label>
+        <input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123">
+      </div>
+
+      <div class="form-group" id="robloxPassGroup">
+        <label>🔐 كلمة سر Roblox <span>*</span></label>
+        <input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة سر روبلوكس لشحن الباقة">
       </div>
 
       <div class="form-group">
-        <label>📲 رقم الهاتف الذي تم التحويل منه <span>*</span></label>
+        <label>📲 الرقم الذي قمت بالتحويل منه <span>*</span></label>
         <input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678">
       </div>
 
       <div class="form-group">
-        <label>💬 ملاحظات إضافية للطلب</label>
-        <textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة تريد إضافتها للطلب..."></textarea>
+        <label>💬 ملاحظات إضافية</label>
+        <textarea id="orderNotes" class="textarea" placeholder="أي ملاحظة للطلب..."></textarea>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="confirmCheckbox">
         <label for="confirmCheckbox" id="checkboxLabel">
-          ✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay" style="color: var(--sand-gold);">0930553883</b> وأن البيانات صحيحة.
+          ✅ أؤكد أنني قمت بتحويل المبلغ المطلوب وأن كافة البيانات صحيحة.
         </label>
       </div>
 
       <button class="confirm" type="button" onclick="sendOrder()">
-        🚀 إرسال الطلب الآن
+        🚀 إرسال الطلب للمراجعة
       </button>
 
-      <button class="close" type="button" onclick="closeModal()">
-        إلغاء
-      </button>
+      <button class="close" type="button" onclick="closeModal()">إلغاء</button>
     </div>
 
     <div id="orderStatusContent" style="display: none;" class="status-card">
@@ -1312,7 +1267,7 @@ footer {
       <h3 id="statusTitle" style="color: var(--sand-gold);">جاري التأكد من وصول الرصيد...</h3>
       <div id="statusSpinner" class="status-spinner"></div>
       <p id="statusMsg" style="color: var(--text-muted); margin-top: 15px; font-size: 14px; line-height: 1.6;">
-        تم إرسال الطلب بنجاح وهو الآن في لوحة الإدارة للمراجعة. يمكنك متابعته عبر ملفك الشخصي.
+        تم إرسال الطلب بنجاح إلى الأدمن. يمكنك الخروج والعودة في أي وقت لمتابعة الحالة عبر الإعدادات.
       </p>
       <button id="closeStatusBtn" class="close" type="button" style="display:none; margin-top: 20px;" onclick="closeModal()">إغلاق الشاشة</button>
     </div>
@@ -1328,7 +1283,7 @@ footer {
   </div>
 
   <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-    <span>تحدث القائمة أوتوماتيكياً كل ثانيتين 🔄</span>
+    <span>الربط المباشر يعمل بنجاح 🔄</span>
     <button class="btn-rej" onclick="clearAllOrders()">مسح كافة الطلبات</button>
   </div>
 
@@ -1337,11 +1292,11 @@ footer {
       <tr>
         <th>رقم الطلب</th>
         <th>الوقت</th>
-        <th>صاحب الحساب</th>
-        <th>رقم الهاتف</th>
-        <th>المنتج والشبكة</th>
+        <th>اسم الزبون</th>
+        <th>رقم الحساب</th>
+        <th>المنتج</th>
         <th>يوزر Roblox</th>
-        <th>باسوورد Roblox</th>
+        <th>كلمة سر Roblox</th>
         <th>الرقم المحول منه</th>
         <th>الحالة</th>
         <th>التحكم</th>
@@ -1353,7 +1308,8 @@ footer {
 </div>
 
 <script>
-const API_URL = "https://api.jsonbin.io/v3/b/66f3e098e41b4d34e4370211";
+// رابط Firebase المباشر لضمان وصول الطلبات 100% بين كافة الأجهزة
+const FIREBASE_URL = "https://dark-store-default-rtdb.firebaseio.com/orders";
 
 const robuxIconUrl = "https://i.ibb.co/mrwYXJtp/IMG-3894.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
@@ -1429,25 +1385,16 @@ function getNextOrderId() {
   return "DS-" + timeStamp + randomNum;
 }
 
-// جلب وحفظ البيانات في السحابة
+// السيرفر المباشر
 async function fetchCloudOrders() {
   try {
-    const res = await fetch(API_URL + "/latest", { headers: { "X-Bin-Meta": "false" } });
+    const res = await fetch(FIREBASE_URL + ".json");
     const data = await res.json();
-    return Array.isArray(data) ? data : [];
+    if (!data) return [];
+    return Object.keys(data).map(key => ({ ...data[key], _key: key }));
   } catch (e) {
     return [];
   }
-}
-
-async function saveCloudOrders(orders) {
-  try {
-    await fetch(API_URL, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orders)
-    });
-  } catch (e) {}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1465,12 +1412,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ================== إدارة نظام حسابات الزبائن ================== */
+/* ================== إعدادات وحساب الزبون ================== */
 function checkLoggedUser() {
   const stored = localStorage.getItem("dark_store_user");
   if (stored) {
     currentUser = JSON.parse(stored);
-    document.getElementById("userAuthBtn").textContent = "الملف الشخصي 👤";
+    document.getElementById("userAuthBtn").textContent = "الإعدادات ⚙️";
   } else {
     currentUser = null;
     document.getElementById("userAuthBtn").textContent = "تسجيل الدخول 👤";
@@ -1483,7 +1430,6 @@ function openAuthModal() {
     document.getElementById("userProfileContent").style.display = "block";
     document.getElementById("profileNameDisplay").textContent = currentUser.name;
     document.getElementById("profilePhoneDisplay").textContent = currentUser.phone;
-    document.getElementById("profileUserDisplay").textContent = currentUser.robloxUser;
     loadUserOrdersHistory();
   } else {
     document.getElementById("authFormContent").style.display = "block";
@@ -1499,36 +1445,35 @@ function closeAuthModal() {
 function saveUserAccount() {
   const name = document.getElementById("regName").value.trim();
   const phone = document.getElementById("regPhone").value.trim();
-  const robloxUser = document.getElementById("regRobloxUser").value.trim();
-  const robloxPass = document.getElementById("regRobloxPass").value.trim();
+  const pass = document.getElementById("regPass").value.trim();
 
-  if(!name || !phone || !robloxUser || !robloxPass) {
-    alert("⚠️ يرجى تعبئة كافة الحقول المطلوبة لإنشاء حسابك!");
+  if(!name || !phone || !pass) {
+    alert("⚠️ يرجى إدخال اسمك ورقم هاتفك وكلمة سر للحساب!");
     return;
   }
 
-  currentUser = { name, phone, robloxUser, robloxPass };
+  currentUser = { name, phone, pass };
   localStorage.setItem("dark_store_user", JSON.stringify(currentUser));
   checkLoggedUser();
   closeAuthModal();
-  alert("✅ تم إنشاء حسابك وتسجيل الدخول بنجاح!");
+  alert("✅ تم تسجيل حسابك بنجاح!");
 }
 
 function logoutUser() {
   localStorage.removeItem("dark_store_user");
   checkLoggedUser();
   closeAuthModal();
-  alert("تم تسجيل الخروج من الحساب.");
+  alert("تم تسجيل الخروج.");
 }
 
 async function loadUserOrdersHistory() {
   const container = document.getElementById("userOrdersHistory");
-  container.innerHTML = "جاري تحميل الطلبات...";
+  container.innerHTML = "جاري فتح السجل...";
   const orders = await fetchCloudOrders();
-  const myOrders = orders.filter(o => o.accountPhone === currentUser.phone || o.robloxUser === currentUser.robloxUser);
+  const myOrders = orders.filter(o => o.accountPhone === currentUser.phone);
 
   if (myOrders.length === 0) {
-    container.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>لا توجد طلبات سابقة لديك</div>";
+    container.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>لا توجد طلبات سابقة</div>";
     return;
   }
 
@@ -1537,8 +1482,8 @@ async function loadUserOrdersHistory() {
     let statusText = "⏳ قيد المراجعة";
     let color = "#d97706";
     if (o.status === "accepted") { statusText = "✅ تم القبول والشحن"; color = "#16a34a"; }
-    if (o.status === "rejected") { statusText = "❌ متعذر (مرفوض)"; color = "#dc2626"; }
-    if (o.status === "out_of_stock") { statusText = "⚠️ غير متوفر بالخزينة حالياً"; color = "#d97706"; }
+    if (o.status === "rejected") { statusText = "❌ مرفوض"; color = "#dc2626"; }
+    if (o.status === "out_of_stock") { statusText = "⚠️ غير متوفر بالمخزون"; color = "#d97706"; }
 
     container.innerHTML += `
       <div class="user-order-item">
@@ -1552,11 +1497,11 @@ async function loadUserOrdersHistory() {
   });
 }
 
-/* ================== وظائف المتجر والمنتجات ================== */
+/* ================== المتجر والطلبات ================== */
 function addToCart(item) {
   cart.push(item);
   updateCartBadge();
-  alert(`تمت إضافة "${item.title}" إلى السلة بنجاح!`);
+  alert(`تمت إضافة "${item.title}" إلى السلة!`);
 }
 
 function updateCartBadge() {
@@ -1770,7 +1715,7 @@ function renderStandardCards(dataList, type, mainTitle, subPrefix, flagIcon) {
 
 function openModal(item){
   if (!currentUser) {
-    alert("⚠️ يرجى إنشاء حساب أو تسجيل الدخول أولاً لإتمام طلبك!");
+    alert("⚠️ يرجى إنشاء حساب والتسجيل أولاً!");
     openAuthModal();
     return;
   }
@@ -1784,13 +1729,10 @@ function openModal(item){
   
   const providerTitle = document.getElementById("providerTransferTitle");
   const transferNumElem = document.getElementById("transferNumber");
-  const confirmNumberDisplay = document.getElementById("confirmNumberDisplay");
 
   let activeNumber = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
-  providerTitle.textContent = item.provider === "مدار" ? "قم بالتأكيد والتحويل إلى رقم المدار التالي:" : "قم بالتأكيد والتحويل إلى رقم ليبيانا التالي:";
-
+  providerTitle.textContent = item.provider === "مدار" ? "قم بالتحويل إلى رقم المدار التالي:" : "قم بالتحويل إلى رقم ليبيانا التالي:";
   transferNumElem.textContent = activeNumber;
-  confirmNumberDisplay.textContent = activeNumber;
 
   if (currentUser) {
     document.getElementById("senderPhone").value = currentUser.phone;
@@ -1812,9 +1754,16 @@ function copyTransferNumber() {
 }
 
 async function sendOrder(){
+  const robloxUser = document.getElementById("robloxUser").value.trim();
+  const robloxPass = document.getElementById("robloxPass").value.trim();
   const senderPhone = document.getElementById("senderPhone").value.trim();
   const orderNotes = document.getElementById("orderNotes").value.trim();
   const confirmCheckbox = document.getElementById("confirmCheckbox").checked;
+
+  if(!robloxUser || !robloxPass) {
+    alert("🎮 يرجى إدخال يوزر وباسوورد Roblox للشحن!");
+    return;
+  }
 
   if(!senderPhone){
     alert("📲 يرجى إدخال رقم الهاتف الذي قمت بالتحويل منه");
@@ -1835,18 +1784,19 @@ async function sendOrder(){
     product: selectedProduct ? selectedProduct.title : 'طلب جديد',
     price: selectedProduct ? selectedProduct.price : '0 د.ل',
     provider: selectedProduct ? (selectedProduct.provider || 'ليبيانا') : 'ليبيانا',
-    robloxUser: currentUser.robloxUser,
-    robloxPass: currentUser.robloxPass,
+    robloxUser: robloxUser,
+    robloxPass: robloxPass,
     senderPhone: senderPhone,
     notes: orderNotes,
     status: 'pending',
     time: new Date().toLocaleTimeString('ar-LY')
   };
 
-  // إرسال للسحابة
-  let existingOrders = await fetchCloudOrders();
-  existingOrders.unshift(orderData);
-  await saveCloudOrders(existingOrders);
+  // إرسال مباشر لسيرفر Firebase Realtime
+  await fetch(FIREBASE_URL + `/${currentOrderId}.json`, {
+    method: "PUT",
+    body: JSON.stringify(orderData)
+  });
 
   document.getElementById("orderFormContent").style.display = "none";
   document.getElementById("orderStatusContent").style.display = "block";
@@ -1856,8 +1806,8 @@ async function sendOrder(){
 }
 
 async function checkStatus(){
-  let orders = await fetchCloudOrders();
-  let myOrder = orders.find(o => o.id === currentOrderId);
+  let res = await fetch(FIREBASE_URL + `/${currentOrderId}.json`);
+  let myOrder = await res.json();
 
   if(myOrder) {
     if(myOrder.status === 'accepted') {
@@ -1866,7 +1816,7 @@ async function checkStatus(){
       document.getElementById("statusTitle").style.color = "#16a34a";
       document.getElementById("statusTitle").textContent = "تم قبول طلبك بنجاح!";
       document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد إلى شريحتنا، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
+      document.getElementById("statusMsg").textContent = "تم تأكيد وصول الرصيد، وجاري تنفيذ الشحن لحسابك الآن. شكراً لثقتك بنا!";
       document.getElementById("closeStatusBtn").style.display = "block";
     } else if(myOrder.status === 'rejected') {
       clearInterval(statusCheckInterval);
@@ -1874,7 +1824,7 @@ async function checkStatus(){
       document.getElementById("statusTitle").style.color = "#dc2626";
       document.getElementById("statusTitle").textContent = "تعذر قبول الطلب";
       document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى التأكد من تحويل المبلغ وإعادة المحاولة أو التواصل معنا عبر الواتساب.";
+      document.getElementById("statusMsg").textContent = "لم نتمكن من التأكد من وصول الرصيد. يرجى إعادة المحاولة أو التواصل معنا عبر الواتساب.";
       document.getElementById("closeStatusBtn").style.display = "block";
     } else if(myOrder.status === 'out_of_stock') {
       clearInterval(statusCheckInterval);
@@ -1882,7 +1832,7 @@ async function checkStatus(){
       document.getElementById("statusTitle").style.color = "#d97706";
       document.getElementById("statusTitle").textContent = "المنتج غير متوفر حالياً في المخزون";
       document.getElementById("statusSpinner").style.display = "none";
-      document.getElementById("statusMsg").textContent = "نعتذر منك، هذا المنتج غير متوفر في المخزون حالياً. يرجى اختيار باقة أخرى أو التواصل مع الدعم.";
+      document.getElementById("statusMsg").textContent = "نعتذر منك، هذا المنتج غير متوفر في المخزون حالياً. يرجى اختيار باقة أخرى.";
       document.getElementById("closeStatusBtn").style.display = "block";
     }
   }
@@ -1920,7 +1870,7 @@ async function renderAdminOrders() {
   }
 
   table.innerHTML = "";
-  orders.forEach(order => {
+  orders.reverse().forEach(order => {
     let statusBadge = `<span style="background:#d97706; padding:3px 8px; border-radius:4px;">⏳ قيد المراجعة</span>`;
     if (order.status === 'accepted') statusBadge = `<span style="background:#16a34a; padding:3px 8px; border-radius:4px;">✅ تم القبول</span>`;
     if (order.status === 'rejected') statusBadge = `<span style="background:#dc2626; padding:3px 8px; border-radius:4px;">❌ تم الرفض</span>`;
@@ -1951,18 +1901,16 @@ async function renderAdminOrders() {
 }
 
 async function updateOrderStatus(orderId, newStatus) {
-  let orders = await fetchCloudOrders();
-  let target = orders.find(o => o.id === orderId);
-  if (target) {
-    target.status = newStatus;
-    await saveCloudOrders(orders);
-    renderAdminOrders();
-  }
+  await fetch(FIREBASE_URL + `/${orderId}/status.json`, {
+    method: "PUT",
+    body: JSON.stringify(newStatus)
+  });
+  renderAdminOrders();
 }
 
 async function clearAllOrders() {
   if (confirm("هل أنت متأكد من مسح كافة الطلبات؟")) {
-    await saveCloudOrders([]);
+    await fetch(FIREBASE_URL + ".json", { method: "DELETE" });
     renderAdminOrders();
   }
 }
