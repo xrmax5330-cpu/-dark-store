@@ -1726,18 +1726,34 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// صوت جرس إشعار ناعم وفخم يشبه نغمة نوتيفي الأيفون (Apple Chime)
 function playAlertSound() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.4);
+    
+    // النغمة الأولى (عالية وناعمة)
+    const osc1 = audioCtx.createOscillator();
+    const gain1 = audioCtx.createGain();
+    osc1.type = "sine";
+    osc1.frequency.setValueAtTime(1046.50, audioCtx.currentTime); // C6 Note
+    gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    osc1.connect(gain1);
+    gain1.connect(audioCtx.destination);
+    osc1.start(audioCtx.currentTime);
+    osc1.stop(audioCtx.currentTime + 0.3);
+
+    // النغمة الثانية (أعلى ومكملة للجرس)
+    const osc2 = audioCtx.createOscillator();
+    const gain2 = audioCtx.createGain();
+    osc2.type = "sine";
+    osc2.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.08); // E6 Note
+    gain2.gain.setValueAtTime(0.35, audioCtx.currentTime + 0.08);
+    gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    osc2.connect(gain2);
+    gain2.connect(audioCtx.destination);
+    osc2.start(audioCtx.currentTime + 0.08);
+    osc2.stop(audioCtx.currentTime + 0.5);
   } catch(e) {}
 }
 
@@ -1835,7 +1851,7 @@ function initBackgroundAdminListener() {
   db.collection("orders").onSnapshot((snapshot) => {
     document.getElementById("statActiveOrdersNum").textContent = snapshot.size;
     if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
-      playAlertSound();
+      playAlertSound(); // تشغيل صوت الإشعار الجميل
       const latestDoc = snapshot.docs[snapshot.docs.length - 1];
       if(latestDoc) {
         const ord = latestDoc.data();
@@ -1980,7 +1996,7 @@ function logoutUser() {
   openAuthModal();
 }
 
-// عرض طلبات الزبون بكامل التفاصيل (اسم المنتج، الحالة، التاريخ، السعر، رقم المحول منه)
+// عرض طلبات الزبون بكامل التفاصيل
 function renderMyOrdersModalList() {
   const container = document.getElementById("modalMyOrdersList");
   container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري تحميل طلباتك...</div>`;
@@ -2260,6 +2276,7 @@ function sendOrder(){
     };
 
     db.collection("orders").doc(currentOrderId).set(orderData).then(() => {
+      playAlertSound(); // تشغيل صوت الإشعار الهادئ والجذاب عند إرسال الزبون للطلب
       document.getElementById("viewOrderId").textContent = currentOrderId;
       document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price})`;
       
@@ -2500,7 +2517,6 @@ function changeStatusAndNotify(orderId, newStatus) {
 
   const storeUrl = window.location.href.split('#')[0];
   
-  // نصوص مرتبة بدون إيموجيات معقدة تسبب الرمز الأسود
   const msg = `مرحباً ${o.userOwner}\n\nتحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n- الحالة الجديدة: ${statusText}\n- السعر: ${o.price}\n\nتستطيع متابعة حالة طلبك مباشرة من الموقع عبر الرابط:\n${storeUrl}`;
 
   const waUrl = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
