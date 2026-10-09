@@ -1546,7 +1546,7 @@ footer {
   <div class="admin-tabs">
     <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">📦 إدارة الطلبات</button>
     <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">👥 حسابات العملاء</button>
-    <button id="tabLogsBtn" class="admin-tab-btn" onclick="switchAdminTab('logs')">📋 سجلات المحذوفات</button>
+    <button id="tabLogsBtn" class="admin-tab-btn" onclick="switchAdminTab('logs')">📋 سجلات الطلبات السابقة</button>
   </div>
 
   <div id="adminOrdersSection">
@@ -1694,7 +1694,6 @@ let selectedProduct = null;
 let cart = [];
 
 let currentOrderId = null;
-let statusUnsubscribe = null;
 let adminUnsubscribe = null;
 let homeOrderUnsubscribe = null;
 let currentUser = null;
@@ -1706,7 +1705,7 @@ let pendingRegData = null;
 let generatedOtpCode = "";
 
 function getNextOrderId() {
-  let seq = parseInt(localStorage.getItem("dark_store_order_seq") || "0") + 1;
+  let seq = parseInt(localStorage.getItem("dark_store_order_seq") || "1000") + 1;
   localStorage.setItem("dark_store_order_seq", seq);
   return `${seq}#`;
 }
@@ -1734,7 +1733,7 @@ function initBackgroundAdminListener() {
       const latestDoc = snapshot.docs[snapshot.docs.length - 1];
       if(latestDoc) {
         const ord = latestDoc.data();
-        showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب: ${ord.product} (${ord.price})`);
+        showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب رقم ${ord.id}: ${ord.product}`);
       }
     }
     lastOrdersCount = snapshot.size;
@@ -1907,7 +1906,7 @@ function renderMyOrdersModalList() {
       div.className = "order-detail-card-box";
       div.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:8px;">
-          <span style="font-weight:900; color:#fff;">طلب ${o.id}</span>
+          <span style="font-weight:900; color:#fff;">رقم الطلب: ${o.id}</span>
           <span class="order-badge ${badgeClass}">${statusText}</span>
         </div>
         <div style="font-size:11px; color:var(--text-muted);">التوقيت: ${o.time}</div>
@@ -2073,10 +2072,12 @@ function openModal(item){
   document.getElementById("modal").classList.add("show");
 }
 
-function closeModal() { document.getElementById("modal").classList.remove("show"); if(statusUnsubscribe) statusUnsubscribe(); }
+function closeModal() { document.getElementById("modal").classList.remove("show"); }
 function copyTransferNumber() { navigator.clipboard.writeText(document.getElementById("transferNumber").textContent); alert("✅ تم نسخ الرقم!"); }
 
 function sendOrder(){
+  if(!currentUser) { alert("يجيب تسجيل الدخول أولاً!"); openAuthModal(); return; }
+
   const robloxUser = document.getElementById("robloxUser").value.trim();
   const robloxPass = document.getElementById("robloxPass").value.trim();
   const senderPhone = document.getElementById("senderPhone").value.trim();
@@ -2110,7 +2111,10 @@ function sendOrder(){
       document.getElementById("viewOrderProduct").textContent = selectedProduct.title;
       document.getElementById("orderFormContent").style.display = "none";
       document.getElementById("orderStatusContent").style.display = "block";
-      document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، استفسار بخصوص طلبي ${currentOrderId}`)}`;
+      document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، استفسار بخصوص طلبي رقم ${currentOrderId}`)}`;
+      listenToHomeActiveOrder();
+    }).catch((err) => {
+      alert("حدث خطأ أثناء إرسال الطلب: " + err.message);
     });
   };
   reader.readAsDataURL(receiptFile);
@@ -2123,36 +2127,45 @@ function openAdminPanelPrompt() { if(prompt("أدخل كلمة سر الأدمن
 function openAdminPanel() {
   document.getElementById("adminPanelModal").classList.add("show");
   switchAdminTab('orders');
-  if(!adminUnsubscribe) {
-    adminUnsubscribe = db.collection("orders").onSnapshot((snapshot) => { renderAdminOrdersList(snapshot); });
-  }
+  loadAdminOrdersList();
   loadAdminUsersList();
   loadAdminLogsList();
 }
-function closeAdminPanel() { document.getElementById("adminPanelModal").classList.remove("show"); if(adminUnsubscribe) { adminUnsubscribe(); adminUnsubscribe = null; } }
+function closeAdminPanel() { document.getElementById("adminPanelModal").classList.remove("show"); }
 
 function switchAdminTab(tabName) {
   ['orders','users','logs'].forEach(t => {
     document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}Btn`).classList.toggle("active", t === tabName);
     document.getElementById(`admin${t.charAt(0).toUpperCase() + t.slice(1)}Section`).style.display = t === tabName ? "block" : "none";
   });
+  if(tabName === 'orders') loadAdminOrdersList();
+  if(tabName === 'logs') loadAdminLogsList();
 }
 
-function renderAdminOrdersList(snapshot) {
+function loadAdminOrdersList() {
   const container = document.getElementById("adminOrdersList");
-  cachedOrdersMap = {};
-  if(snapshot.empty) { container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد طلبات 📭</div>`; return; }
-  container.innerHTML = "";
-  let i = 1;
-  snapshot.forEach(doc => {
-    const o = doc.data(); cachedOrdersMap[o.id] = o;
-    const div = document.createElement("div"); div.className = "admin-order-card";
-    div.onclick = () => openAdminDetail(o.id);
-    div.innerHTML = `
-      <div class="admin-order-info"><div class="admin-order-num">${i}</div><div><h4>طلب ${o.id} (${o.product})</h4><p>الزبون: ${o.userOwner}</p></div></div>
-      <div><span class="order-badge badge-pending">${o.status}</span></div>`;
-    container.appendChild(div);
-    i++;
+  container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:20px;">جاري تحميل الطلبات...</div>`;
+  
+  db.collection("orders").get().then((snapshot) => {
+    cachedOrdersMap = {};
+    if(snapshot.empty) { container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد طلبات نشطة 📭</div>`; return; }
+    container.innerHTML = "";
+    let i = 1;
+    snapshot.forEach(doc => {
+      const o = doc.data(); 
+      cachedOrdersMap[o.id] = o;
+      const div = document.createElement("div"); 
+      div.className = "admin-order-card";
+      div.onclick = () => openAdminDetail(o.id);
+      div.innerHTML = `
+        <div class="admin-order-info">
+          <div class="admin-order-num">${i}</div>
+          <div><h4>طلب رقم ${o.id} - ${o.product}</h4><p>الزبون: ${o.userOwner} | الهاتف: ${o.userPhone}</p></div>
+        </div>
+        <div><span class="order-badge badge-pending">${o.status}</span></div>`;
+      container.appendChild(div);
+      i++;
+    });
   });
 }
 
@@ -2167,17 +2180,35 @@ function loadAdminUsersList() {
 }
 
 function loadAdminLogsList() {
+  const c = document.getElementById("adminLogsList");
+  c.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:20px;">جاري التحميل...</div>`;
+  
   db.collection("order_logs").get().then(snap => {
-    const c = document.getElementById("adminLogsList"); c.innerHTML = "";
+    c.innerHTML = "";
+    cachedOrdersMap = cachedOrdersMap || {};
+    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات سابقة.</div>`; return; }
+    
+    let i = 1;
     snap.forEach(d => {
       const l = d.data();
-      c.innerHTML += `<div class="admin-log-card"><div><h4>طلب ${l.id} (${l.product})</h4><p>الحالة: ${l.status}</p></div></div>`;
+      cachedOrdersMap[l.id] = l;
+      c.innerHTML += `
+        <div class="admin-log-card" onclick="openAdminDetail('${l.id}')">
+          <div class="admin-order-info">
+            <div class="admin-order-num">${i}</div>
+            <div><h4>طلب رقم ${l.id} - ${l.product}</h4><p>الزبون: ${l.userOwner} | الحالة: ${l.status}</p></div>
+          </div>
+          <div><span class="order-badge badge-completed">أرشيف</span></div>
+        </div>`;
+      i++;
     });
   });
 }
 
 function openAdminDetail(orderId) {
-  const o = cachedOrdersMap[orderId]; if(!o) return;
+  const o = cachedOrdersMap[orderId]; 
+  if(!o) { alert("عذراً، لم يتم العثور على بيانات هذا الطلب."); return; }
+  
   const content = document.getElementById("adminDetailContent");
   
   let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
@@ -2191,20 +2222,21 @@ function openAdminDetail(orderId) {
   const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉`)}`;
 
   content.innerHTML = `
-    <div class="detail-row"><span>رقم الطلب:</span><b>${o.id}</b></div>
+    <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
     <div class="detail-row"><span>الزبون:</span><b>${o.userOwner} (${o.userPhone})</b></div>
     <div class="detail-row"><span>المنتج:</span><b>${o.product} (${o.price})</b></div>
-    <div class="detail-row"><span>اليوزر:</span><b style="color:#fde047;">${o.robloxUser}</b></div>
+    <div class="detail-row"><span>يوزر الحساب:</span><b style="color:#60a5fa;">${o.robloxUser}</b></div>
+    <div class="detail-row"><span>رقم المحفظة المحول منها:</span><b>${o.senderPhone}</b></div>
     <div style="margin-top:10px;"><img src="${o.receiptImage}" class="receipt-preview-img"></div>
     <div style="margin-top:15px; text-align:center;">
       <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">أزرار إرسال الرسائل عبر الواتساب للزبون:</div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
         <a href="${waReview}" target="_blank" class="admin-btn admin-btn-wa">قيد المراجعة 💬</a>
-        <a href="${waPrep}" target="_blank" class="admin-btn admin-btn-wa" style="background:#9333ea;">سيتم تجهيز طلبك 💬</a>
+        <a href="${waPrep}" target="_blank" class="admin-btn admin-btn-wa" style="background:#9333ea;">تجهيز الطلب 💬</a>
         <a href="${waAcc}" target="_blank" class="admin-btn admin-btn-wa" style="background:#2563eb;">قيد التنفيذ 💬</a>
-        <a href="${waUnav}" target="_blank" class="admin-btn admin-btn-wa" style="background:#d97706;">المنتج غير متوفر 💬</a>
-        <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">تم رفض طلبك 💬</a>
-        <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم تسليم طلبك 💬</a>
+        <a href="${waUnav}" target="_blank" class="admin-btn admin-btn-wa" style="background:#d97706;">غير متوفر 💬</a>
+        <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">رفض الطلب 💬</a>
+        <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم التسليم 💬</a>
       </div>
       <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل</button>
@@ -2218,15 +2250,17 @@ function closeAdminDetailModal() { document.getElementById("adminDetailModal").c
 
 function updateOrderStatus(orderId, newStatus) {
   const o = cachedOrdersMap[orderId]; if(!o) return;
-  db.collection("order_logs").add({ ...o, status: newStatus, deletedAt: new Date().toLocaleString('ar-LY') }).then(() => {
+  db.collection("order_logs").doc(orderId).set({ ...o, status: newStatus, deletedAt: new Date().toLocaleString('ar-LY') }).then(() => {
     db.collection("orders").doc(orderId).delete().then(() => {
       alert("✅ تمت الأرشفة بنجاح!");
       closeAdminDetailModal();
+      loadAdminOrdersList();
+      loadAdminLogsList();
     });
   });
 }
-function clearAllOrders() { if(confirm("مسح الكل؟")) db.collection("orders").get().then(s => s.forEach(d => d.ref.delete())); }
-function clearAllLogs() { if(confirm("مسح السجلات؟")) db.collection("order_logs").get().then(s => s.forEach(d => d.ref.delete())); }
+function clearAllOrders() { if(confirm("مسح الكل؟")) db.collection("orders").get().then(s => s.forEach(d => d.ref.delete())).then(() => loadAdminOrdersList()); }
+function clearAllLogs() { if(confirm("مسح السجلات؟")) db.collection("order_logs").get().then(s => s.forEach(d => d.ref.delete())).then(() => loadAdminLogsList()); }
 </script>
 
 </body>
