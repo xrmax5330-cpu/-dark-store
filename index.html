@@ -1534,10 +1534,10 @@ footer {
   </div>
 </div>
 
-<!-- نافذة طلباتي -->
+<!-- نافذة طلباتي (تظهر تفاصيل المنتجات كاملة للزبون) -->
 <div id="myOrdersModal" class="modal">
   <div class="modal-box">
-    <div style="text-align: center;"><span class="modal-header-tag">📦 الطلبات</span><h3 style="margin-bottom: 5px;">سجل طلباتك السابقة</h3></div>
+    <div style="text-align: center;"><span class="modal-header-tag">📦 طلباتي</span><h3 style="margin-bottom: 5px;">سجل طلباتك الكاملة</h3></div>
     <div class="filter-tabs-container">
       <button class="filter-tab-btn active" onclick="filterOrdersTab('all', this)">الكل</button>
       <button class="filter-tab-btn" onclick="filterOrdersTab('pending', this)">قيد المراجعة</button>
@@ -1545,7 +1545,7 @@ footer {
       <button class="filter-tab-btn" onclick="filterOrdersTab('completed', this)">مكتمل</button>
       <button class="filter-tab-btn" onclick="filterOrdersTab('rejected', this)">ملغي / مرفوض</button>
     </div>
-    <div id="modalMyOrdersList" style="max-height: 400px; overflow-y: auto;"><div style="text-align:center; color:var(--text-muted); padding:25px;">جاري تحميل طلباتك...</div></div>
+    <div id="modalMyOrdersList" style="max-height: 420px; overflow-y: auto;"><div style="text-align:center; color:var(--text-muted); padding:25px;">جاري تحميل طلباتك...</div></div>
     <button class="close" onclick="closeMyOrdersModal()">إغلاق النافذة</button>
   </div>
 </div>
@@ -1980,9 +1980,10 @@ function logoutUser() {
   openAuthModal();
 }
 
+// عرض طلبات الزبون بكامل التفاصيل (اسم المنتج، الحالة، التاريخ، السعر، رقم المحول منه)
 function renderMyOrdersModalList() {
   const container = document.getElementById("modalMyOrdersList");
-  container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري التحميل...</div>`;
+  container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري تحميل طلباتك...</div>`;
 
   Promise.all([
     db.collection("orders").where("userOwner", "==", currentUser.username).get(),
@@ -1993,7 +1994,10 @@ function renderMyOrdersModalList() {
     activeSnap.forEach(d => orders.push(d.data()));
     logsSnap.forEach(d => orders.push(d.data()));
 
-    if(orders.length === 0) { container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات سابقة.</div>`; return; }
+    if(orders.length === 0) { 
+      container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات سابقة مسجلة في حسابك.</div>`; 
+      return; 
+    }
     orders.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
     let filtered = orders.filter(o => {
@@ -2005,26 +2009,34 @@ function renderMyOrdersModalList() {
       return true;
     });
 
-    if(filtered.length === 0) { container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات هنا.</div>`; return; }
+    if(filtered.length === 0) { 
+      container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:25px;">لا توجد طلبات هنا حسب الفلتر المختار.</div>`; 
+      return; 
+    }
 
     filtered.forEach(o => {
       let badgeClass = 'badge-pending';
-      let statusText = 'قيد المراجعة ⏳';
-      if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'في التجهيز ⏳'; }
-      else if(o.status === 'accepted') { badgeClass = 'badge-accepted'; statusText = 'قيد التنفيذ ⚙️'; }
-      else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'تم التسليم ✅'; }
-      else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'غير متوفر ⚠️'; }
-      else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'تم رفض الطلب ❌'; }
+      let statusText = 'قيد المراجعة';
+      if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'في التجهيز'; }
+      else if(o.status === 'accepted') { badgeClass = 'badge-accepted'; statusText = 'قيد التنفيذ'; }
+      else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'تم التسليم'; }
+      else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'غير متوفر'; }
+      else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'تم رفض الطلب'; }
 
       const div = document.createElement("div");
       div.className = "order-detail-card-box";
       div.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:8px;">
-          <span style="font-weight:900; color:#fff;">رقم الطلب: ${o.id}</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--line); padding-bottom:8px;">
+          <span style="font-weight:900; color:#fde047; font-size:13px;">رقم الطلب: #${o.id}</span>
           <span class="order-badge ${badgeClass}">${statusText}</span>
         </div>
-        <div style="font-size:11px; color:var(--text-muted);">التوقيت: ${o.time}</div>
-        <div style="font-size:13px; font-weight:bold; color:#fff; margin-top:4px;">المنتج: ${o.product} (${o.price})</div>
+        <div style="display:flex; flex-direction:column; gap:5px; font-size:13px;">
+          <div><b style="color:var(--text-muted);">📦 اسم المنتج:</b> <span style="color:#fff; font-weight:bold;">${o.product}</span></div>
+          <div><b style="color:var(--text-muted);">💰 السعر:</b> <span style="color:#38bdf8; font-weight:bold;">${o.price}</span></div>
+          <div><b style="color:var(--text-muted);">📲 رقم المُحوِّل منه:</b> <span style="color:#34d399; font-weight:bold;">${o.senderPhone || 'غير مدرج'}</span></div>
+          <div><b style="color:var(--text-muted);">👤 يوزر Roblox:</b> <span style="color:#fff;">${o.robloxUser || 'غير مدرج'}</span></div>
+          <div><b style="color:var(--text-muted);">📅 تاريخ الطلب:</b> <span style="color:#a3a3a3; font-size:11px;">${o.time}</span></div>
+        </div>
       `;
       container.appendChild(div);
     });
@@ -2068,12 +2080,12 @@ function listenToHomeActiveOrder() {
       document.getElementById("homeOrderProductText").textContent = `${latest.product} (${latest.price})`;
       
       const badge = document.getElementById("homeOrderStatusBadge");
-      if(latest.status === 'pending') { badge.className = 'order-badge badge-pending'; badge.textContent = 'قيد المراجعة ⏳'; }
-      else if(latest.status === 'preparing') { badge.className = 'order-badge badge-preparing'; badge.textContent = 'في التجهيز ⏳'; }
-      else if(latest.status === 'accepted') { badge.className = 'order-badge badge-accepted'; badge.textContent = 'قيد التنفيذ ⚙️'; }
-      else if(latest.status === 'completed') { badge.className = 'order-badge badge-completed'; badge.textContent = 'تم التسليم ✅'; }
-      else if(latest.status === 'unavailable') { badge.className = 'order-badge badge-unavailable'; badge.textContent = 'غير متوفر ⚠️'; }
-      else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض الطلب ❌'; }
+      if(latest.status === 'pending') { badge.className = 'order-badge badge-pending'; badge.textContent = 'قيد المراجعة'; }
+      else if(latest.status === 'preparing') { badge.className = 'order-badge badge-preparing'; badge.textContent = 'في التجهيز'; }
+      else if(latest.status === 'accepted') { badge.className = 'order-badge badge-accepted'; badge.textContent = 'قيد التنفيذ'; }
+      else if(latest.status === 'completed') { badge.className = 'order-badge badge-completed'; badge.textContent = 'تم التسليم'; }
+      else if(latest.status === 'unavailable') { badge.className = 'order-badge badge-unavailable'; badge.textContent = 'غير متوفر'; }
+      else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض الطلب'; }
 
       updateVisualSteps(latest.status);
       document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، أود الاستفسار عن طلبي رقم ${latest.id} (${latest.product})`)}`;
@@ -2191,7 +2203,6 @@ function copyToClipboard(text, labelName) {
   });
 }
 
-// دالة تضغط وتصغر حجم الصورة لتفادي أخطاء Firebase Document
 function compressImage(file, callback) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -2350,7 +2361,7 @@ function loadAdminUsersList() {
 function openAdminUserDetail(username) {
   const modal = document.getElementById("adminUserDetailModal");
   const content = document.getElementById("adminUserDetailContent");
-  content.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري جلب سجل طلبات الزبون...</div>`;
+  content.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جلب سجل طلبات الزبون...</div>`;
   modal.classList.add("show");
 
   Promise.all([
@@ -2454,12 +2465,12 @@ function openAdminDetail(orderId) {
     <div style="margin-top:15px; text-align:center;">
       <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب والتوجه الفوري لواتساب الزبون:</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:12px;">
-        <button onclick="changeStatusAndNotify('${o.id}', 'pending')" class="admin-btn" style="background:#d97706; color:#fff;">قيد المراجعة ⏳</button>
-        <button onclick="changeStatusAndNotify('${o.id}', 'preparing')" class="admin-btn" style="background:#9333ea; color:#fff;">في التجهيز ⏳</button>
-        <button onclick="changeStatusAndNotify('${o.id}', 'accepted')" class="admin-btn" style="background:#2563eb; color:#fff;">قيد التنفيذ ⚙️</button>
-        <button onclick="changeStatusAndNotify('${o.id}', 'completed')" class="admin-btn" style="background:#16a34a; color:#fff;">تم التسليم ✅</button>
-        <button onclick="changeStatusAndNotify('${o.id}', 'unavailable')" class="admin-btn" style="background:#6b7280; color:#fff;">غير متوفر ⚠️</button>
-        <button onclick="changeStatusAndNotify('${o.id}', 'rejected')" class="admin-btn" style="background:#dc2626; color:#fff;">رفض الطلب ❌</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'pending')" class="admin-btn" style="background:#d97706; color:#fff;">قيد المراجعة</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'preparing')" class="admin-btn" style="background:#9333ea; color:#fff;">في التجهيز</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'accepted')" class="admin-btn" style="background:#2563eb; color:#fff;">قيد التنفيذ</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'completed')" class="admin-btn" style="background:#16a34a; color:#fff;">تم التسليم</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'unavailable')" class="admin-btn" style="background:#6b7280; color:#fff;">غير متوفر</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'rejected')" class="admin-btn" style="background:#dc2626; color:#fff;">رفض الطلب</button>
       </div>
       <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل ✅</button>
@@ -2471,26 +2482,26 @@ function openAdminDetail(orderId) {
 
 function closeAdminDetailModal() { document.getElementById("adminDetailModal").classList.remove("show"); }
 
-/* ✨ دالة تغيير حالة الطلب وتوجيه الأدمن تلقائياً لواتساب الزبون مع الرسالة المجهزة ✨ */
 function changeStatusAndNotify(orderId, newStatus) {
   const o = cachedOrdersMap[orderId];
   if(!o) return;
 
-  // جهّز رقم الزبون
   let phone = o.senderPhone || o.userPhone;
   let cleanPhone = phone.startsWith('0') ? phone.substring(1) : phone;
   let fullPhone = "218" + cleanPhone;
 
-  let statusArabic = "";
-  if(newStatus === 'pending') statusArabic = "قيد المراجعة ⏳";
-  else if(newStatus === 'preparing') statusArabic = "في التجهيز ⏳";
-  else if(newStatus === 'accepted') statusArabic = "قيد التنفيذ ⚙️";
-  else if(newStatus === 'completed') statusArabic = "تم التسليم بنجاح ✅";
-  else if(newStatus === 'unavailable') statusArabic = "غير متوفر حالياً ⚠️";
-  else if(newStatus === 'rejected') statusArabic = "تم رفض الطلب ❌";
+  let statusText = "";
+  if(newStatus === 'pending') statusText = "قيد المراجعة";
+  else if(newStatus === 'preparing') statusText = "في التجهيز";
+  else if(newStatus === 'accepted') statusText = "قيد التنفيذ";
+  else if(newStatus === 'completed') statusText = "تم التسليم بنجاح";
+  else if(newStatus === 'unavailable') statusText = "غير متوفر حالياً";
+  else if(newStatus === 'rejected') statusText = "تم رفض الطلب";
 
   const storeUrl = window.location.href.split('#')[0];
-  const msg = `مرحباً ${o.userOwner} 👋\nتحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n📌 الحالة الجديدة: ${statusArabic}\n💰 السعر: ${o.price}\n\nتستطيع متابعة حالة طلبك مباشرة من الموقع عبر الرابط:\n${storeUrl}`;
+  
+  // نصوص مرتبة بدون إيموجيات معقدة تسبب الرمز الأسود
+  const msg = `مرحباً ${o.userOwner}\n\nتحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n- الحالة الجديدة: ${statusText}\n- السعر: ${o.price}\n\nتستطيع متابعة حالة طلبك مباشرة من الموقع عبر الرابط:\n${storeUrl}`;
 
   const waUrl = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
 
@@ -2498,7 +2509,6 @@ function changeStatusAndNotify(orderId, newStatus) {
     status: newStatus
   }).then(() => {
     closeAdminDetailModal();
-    // فتح الواتساب مباشرة للتواصل مع الزبون
     window.open(waUrl, '_blank');
   }).catch(err => {
     alert("❌ حدث خطأ أثناء التحديث: " + err.message);
