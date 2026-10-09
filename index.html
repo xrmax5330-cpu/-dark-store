@@ -487,8 +487,8 @@ section {
 }
 
 .provider-btn img {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -532,12 +532,31 @@ section {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
 }
 
-.effect-img {
+.effect-img-wrap {
+  position: relative;
   width: 100%;
   height: 120px;
+  margin-bottom: 8px;
+}
+
+.effect-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
-  margin-bottom: 8px;
+}
+
+.provider-badge-top-right {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  z-index: 3;
 }
 
 .effect-title {
@@ -583,7 +602,7 @@ section {
 .badge-tag {
   position: absolute;
   top: -8px;
-  right: 12px;
+  left: 12px;
   background: #fff;
   color: #000;
   font-size: 10px;
@@ -591,7 +610,7 @@ section {
   padding: 2px 8px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.8);
-  z-index: 2;
+  z-index: 4;
 }
 
 .notice {
@@ -1369,7 +1388,7 @@ footer {
       <span class="sidebar-item-icon">⭐</span>
       <span>التقييمات</span>
     </div>
-    <a href="https://wa.me/218927816884" target="_blank" class="sidebar-item" style="border-color: rgba(37,211,102,0.3); background: rgba(37,211,102,0.05);">
+    <a href="whatsapp://send?phone=218927816884" class="sidebar-item" style="border-color: rgba(37,211,102,0.3); background: rgba(37,211,102,0.05);">
       <span class="sidebar-item-icon">💬</span>
       <span>واتساب الدعم الفني</span>
     </a>
@@ -1423,7 +1442,7 @@ footer {
         <div class="order-step-item" id="hstep-5"><div class="order-step-circle">5</div><div class="order-step-label">تم التسليم</div></div>
       </div>
       <div style="font-size:11px; color:var(--text-muted); margin-top:2px; text-align:center;">رقم الطلب: <span id="homeOrderIdText">#</span></div>
-      <a id="homeWhatsappDirectBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px; text-decoration:none;">💬 إرسال طلبي للواتساب</a>
+      <a id="homeWhatsappDirectBtn" href="#" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px; text-decoration:none;">💬 إرسال طلبي للواتساب</a>
     </div>
   </div>
 
@@ -1470,7 +1489,7 @@ footer {
   </section>
 </main>
 
-<a href="https://wa.me/218927816884" target="_blank" class="whatsapp-float" title="تواصل معنا عبر الواتساب">💬</a>
+<a href="whatsapp://send?phone=218927816884" class="whatsapp-float" title="تواصل معنا عبر الواتساب">💬</a>
 
 <footer>
   DARK STORE © 2026 | جميع الحقوق محفوظة
@@ -1534,7 +1553,7 @@ footer {
   </div>
 </div>
 
-<!-- نافذة طلباتي (تظهر تفاصيل المنتجات كاملة للزبون) -->
+<!-- نافذة طلباتي -->
 <div id="myOrdersModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;"><span class="modal-header-tag">📦 طلباتي</span><h3 style="margin-bottom: 5px;">سجل طلباتك الكاملة</h3></div>
@@ -1598,7 +1617,7 @@ footer {
       </div>
       <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استقبال طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
-      <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 14px; margin-bottom: 10px; padding: 13px; text-decoration:none;">
+      <a id="modalWhatsappStatusBtn" href="#" class="confirm" style="background:#25d366; color:#fff; font-size: 14px; margin-bottom: 10px; padding: 13px; text-decoration:none;">
         💬 إرسال طلبي للواتساب
       </a>
 
@@ -1726,16 +1745,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// صوت جرس إشعار ناعم وفخم يشبه نغمة نوتيفي الأيفون (Apple Chime)
 function playAlertSound() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
-    // النغمة الأولى (عالية وناعمة)
     const osc1 = audioCtx.createOscillator();
     const gain1 = audioCtx.createGain();
     osc1.type = "sine";
-    osc1.frequency.setValueAtTime(1046.50, audioCtx.currentTime); // C6 Note
+    osc1.frequency.setValueAtTime(1046.50, audioCtx.currentTime);
     gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
     gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
     osc1.connect(gain1);
@@ -1743,11 +1760,10 @@ function playAlertSound() {
     osc1.start(audioCtx.currentTime);
     osc1.stop(audioCtx.currentTime + 0.3);
 
-    // النغمة الثانية (أعلى ومكملة للجرس)
     const osc2 = audioCtx.createOscillator();
     const gain2 = audioCtx.createGain();
     osc2.type = "sine";
-    osc2.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.08); // E6 Note
+    osc2.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.08);
     gain2.gain.setValueAtTime(0.35, audioCtx.currentTime + 0.08);
     gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
     osc2.connect(gain2);
@@ -1757,6 +1773,7 @@ function playAlertSound() {
   } catch(e) {}
 }
 
+const robuxImgUrl = "https://i.ibb.co/gMN49Hg8/IMG-4123.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
@@ -1764,34 +1781,32 @@ const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
 const STORE_WHATSAPP = "218927816884";
 
-// تم ربط الصورة بمدار تلقائياً لكافة باقات المدار
 const madarPrices = [
-  {robux:10, price: "5 مدار", rawPrice: "5", img: madarImgData},
-  {robux:20, price: "7 مدار", rawPrice: "7", img: madarImgData},
-  {robux:30, price: "13 مدار", rawPrice: "13", img: madarImgData},
-  {robux:40, price: "15 مدار", rawPrice: "15", img: madarImgData},
-  {robux:80, price: "20 مدار", rawPrice: "20", badge: "🌟 الأكثر طلباً", img: madarImgData},
-  {robux:120, price: "35 مدار", rawPrice: "35", img: madarImgData},
-  {robux:160, price: "47 مدار", rawPrice: "47", img: madarImgData},
-  {robux:200, price: "50 مدار", rawPrice: "50", img: madarImgData},
-  {robux:400, price: "83 مدار", rawPrice: "83", badge: "🕑 عرض خاص", img: madarImgData},
-  {robux:500, price: "85 مدار", rawPrice: "85", badge: "🔥 أفضل سعر", img: madarImgData},
-  {robux:1000, price: "160 مدار", rawPrice: "160", img: madarImgData}
+  {robux:10, price: "5 مدار", rawPrice: "5"},
+  {robux:20, price: "7 مدار", rawPrice: "7"},
+  {robux:30, price: "13 مدار", rawPrice: "13"},
+  {robux:40, price: "15 مدار", rawPrice: "15"},
+  {robux:80, price: "20 مدار", rawPrice: "20", badge: "🌟 الأكثر طلباً"},
+  {robux:120, price: "35 مدار", rawPrice: "35"},
+  {robux:160, price: "47 مدار", rawPrice: "47"},
+  {robux:200, price: "50 مدار", rawPrice: "50"},
+  {robux:400, price: "83 مدار", rawPrice: "83", badge: "🕑 عرض خاص"},
+  {robux:500, price: "85 مدار", rawPrice: "85", badge: "🔥 أفضل سعر"},
+  {robux:1000, price: "160 مدار", rawPrice: "160"}
 ];
 
-// تم ربط الصورة بليبيانا تلقائياً لكافة باقات ليبيانا
 const libyanaPrices = [
-  {robux:10, price: "3 ليبيانا", rawPrice: "3", img: libyanaImgData},
-  {robux:20, price: "5 ليبيانا", rawPrice: "5", img: libyanaImgData},
-  {robux:30, price: "7 ليبيانا", rawPrice: "7", img: libyanaImgData},
-  {robux:40, price: "10 ليبيانا", rawPrice: "10", img: libyanaImgData},
-  {robux:50, price: "13 ليبيانا", rawPrice: "13", img: libyanaImgData},
-  {robux:80, price: "15 ليبيانا", rawPrice: "15", badge: "🌟 الأكثر طلباً", img: libyanaImgData},
-  {robux:120, price: "35 ليبيانا", rawPrice: "35", img: libyanaImgData},
-  {robux:160, price: "45 ليبيانا", rawPrice: "45", img: libyanaImgData},
-  {robux:400, price: "80 ليبيانا", rawPrice: "80", badge: "🔥 أفضل سعر", img: libyanaImgData},
-  {robux:500, price: "85 ليبيانا", rawPrice: "85", img: libyanaImgData},
-  {robux:1000, price: "130 ليبيانا", rawPrice: "130", img: libyanaImgData}
+  {robux:10, price: "3 ليبيانا", rawPrice: "3"},
+  {robux:20, price: "5 ليبيانا", rawPrice: "5"},
+  {robux:30, price: "7 ليبيانا", rawPrice: "7"},
+  {robux:40, price: "10 ليبيانا", rawPrice: "10"},
+  {robux:50, price: "13 ليبيانا", rawPrice: "13"},
+  {robux:80, price: "15 ليبيانا", rawPrice: "15", badge: "🌟 الأكثر طلباً"},
+  {robux:120, price: "35 ليبيانا", rawPrice: "35"},
+  {robux:160, price: "45 ليبيانا", rawPrice: "45"},
+  {robux:400, price: "80 ليبيانا", rawPrice: "80", badge: "🔥 أفضل سعر"},
+  {robux:500, price: "85 ليبيانا", rawPrice: "85"},
+  {robux:1000, price: "130 ليبيانا", rawPrice: "130"}
 ];
 
 const effectsList = [
@@ -1852,7 +1867,7 @@ function initBackgroundAdminListener() {
   db.collection("orders").onSnapshot((snapshot) => {
     document.getElementById("statActiveOrdersNum").textContent = snapshot.size;
     if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
-      playAlertSound(); // تشغيل صوت الإشعار الجميل
+      playAlertSound();
       const latestDoc = snapshot.docs[snapshot.docs.length - 1];
       if(latestDoc) {
         const ord = latestDoc.data();
@@ -1997,7 +2012,6 @@ function logoutUser() {
   openAuthModal();
 }
 
-// عرض طلبات الزبون بكامل التفاصيل
 function renderMyOrdersModalList() {
   const container = document.getElementById("modalMyOrdersList");
   container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري تحميل طلباتك...</div>`;
@@ -2105,7 +2119,7 @@ function listenToHomeActiveOrder() {
       else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض الطلب'; }
 
       updateVisualSteps(latest.status);
-      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`👋 مرحباً Dark Store ، أود الاستفسار عن طلبي رقم ${latest.id} (${latest.product})`)}`;
+      document.getElementById("homeWhatsappDirectBtn").href = `whatsapp://send?phone=${STORE_WHATSAPP}&text=${encodeURIComponent(`👋 مرحباً Dark Store ، أود الاستفسار عن طلبي رقم ${latest.id} (${latest.product})`)}`;
     }
   });
 }
@@ -2145,12 +2159,18 @@ function showRobuxPrices(provider){
   document.getElementById("libyanaBtn").classList.toggle("active", provider !== "madar");
   const pricesBox = document.getElementById("prices");
   pricesBox.innerHTML = "";
+
+  const providerLogoSrc = provider === "madar" ? madarImgData : libyanaImgData;
+
   (provider === "madar" ? madarPrices : libyanaPrices).forEach(item => {
     const card = document.createElement("div");
     card.className = "effect-card";
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
-      <img src="${item.img}" class="effect-img">
+      <div class="effect-img-wrap">
+        <img src="${robuxImgUrl}" class="effect-img" alt="Robux">
+        <img src="${providerLogoSrc}" class="provider-badge-top-right" alt="${provider}">
+      </div>
       <div class="effect-title">Robux ${item.robux}</div>
       <div class="effect-price">${item.price}</div>
       <div class="btn-group-card">
@@ -2168,7 +2188,9 @@ function showEffectsPrices(){
     const card = document.createElement("div"); card.className = "effect-card";
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
-      <img src="${item.img}" class="effect-img">
+      <div class="effect-img-wrap">
+        <img src="${item.img}" class="effect-img">
+      </div>
       <div class="effect-title">${item.name}</div>
       <div class="effect-price">${item.price} د.ل</div>
       <div class="btn-group-card"><button class="effect-buy-btn">شراء</button></div>`;
@@ -2277,12 +2299,12 @@ function sendOrder(){
     };
 
     db.collection("orders").doc(currentOrderId).set(orderData).then(() => {
-      playAlertSound(); // تشغيل صوت الإشعار الهادئ والجذاب عند إرسال الزبون للطلب
+      playAlertSound();
       document.getElementById("viewOrderId").textContent = currentOrderId;
       document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price})`;
       
       const waMsg = `👋 مرحباً Dark Store ، أود التأكيد واستكمال طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
-      document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
+      document.getElementById("modalWhatsappStatusBtn").href = `whatsapp://send?phone=${STORE_WHATSAPP}&text=${encodeURIComponent(waMsg)}`;
 
       document.getElementById("orderFormContent").style.display = "none";
       document.getElementById("orderStatusContent").style.display = "block";
@@ -2500,7 +2522,6 @@ function openAdminDetail(orderId) {
 
 function closeAdminDetailModal() { document.getElementById("adminDetailModal").classList.remove("show"); }
 
-// الرسائل المرسلة للزبون مع إيموجيات مرتبة ومنسقة جداً
 function changeStatusAndNotify(orderId, newStatus) {
   const o = cachedOrdersMap[orderId];
   if(!o) return;
@@ -2521,13 +2542,14 @@ function changeStatusAndNotify(orderId, newStatus) {
   
   const msg = `👋 أهلاً بك عزيزي ${o.userOwner}\n\n📌 تحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n📌 الحالة الجديدة: ${statusText}\n💰 السعر: ${o.price}\n\n🔗 تستطيع متابعة حالة طلبك مباشرة عبر الرابط:\n${storeUrl}`;
 
-  const waUrl = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
+  // رابط الواتساب المباشر لفتح التطبيق فوراً والحفاظ على الإيموجيات
+  const waUrl = `whatsapp://send?phone=${fullPhone}&text=${encodeURIComponent(msg)}`;
 
   db.collection("orders").doc(orderId).update({
     status: newStatus
   }).then(() => {
     closeAdminDetailModal();
-    window.open(waUrl, '_blank');
+    window.location.href = waUrl;
   }).catch(err => {
     alert("❌ حدث خطأ أثناء التحديث: " + err.message);
   });
