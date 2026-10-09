@@ -1197,7 +1197,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 7px 0;
+  padding: 8px 0;
   border-bottom: 1px solid var(--line);
   font-size: 12px;
 }
@@ -1224,6 +1224,21 @@ footer {
 .admin-btn-comp { background: #16a34a; color: #fff; }
 .admin-btn-rej { background: #dc2626; color: #fff; }
 .admin-btn-wa { background: #25d366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.admin-copy-mini-btn {
+  background: #222;
+  color: #38bdf8;
+  border: 1px solid #333;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.admin-copy-mini-btn:hover {
+  background: #38bdf8;
+  color: #000;
+}
 </style>
 </head>
 
@@ -1409,7 +1424,7 @@ footer {
   <div><button class="admin-trigger-btn" onclick="openAdminPanelPrompt()">⚙️ لوحة الإدارة</button></div>
 </footer>
 
-<!-- نافذة التسجيل والتحقق -->
+<!-- نافذة تسجيل الدخول والتحقق -->
 <div id="authModal" class="modal">
   <div class="auth-custom-box">
     <div style="text-align: center;">
@@ -1498,7 +1513,8 @@ footer {
       <div class="payment-transfer-card">
         <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">-</div>
-        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">✅📦ضروري يكون عندك وتس ل تشاهد حالة طلبك</div>
+        <button class="copy-btn" onclick="copyTransferNumber()">📋 نسخ رقم التحويل</button>
+        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك وتس ل تشاهد حالة طلبك</div>
       </div>
       <div class="steps-list">
         <div class="step-item"><span class="step-num">1</span><span>حول المبلغ إلى رقم المحفظة أعلاه.</span></div>
@@ -2081,7 +2097,19 @@ function openModal(item){
 }
 
 function closeModal() { document.getElementById("modal").classList.remove("show"); }
-function copyTransferNumber() { navigator.clipboard.writeText(document.getElementById("transferNumber").textContent); alert("✅ تم نسخ الرقم!"); }
+function copyTransferNumber() { 
+  navigator.clipboard.writeText(document.getElementById("transferNumber").textContent); 
+  alert("✅ تم نسخ رقم التحويل!"); 
+}
+
+// دالة عامة لنسخ أي نص بضغطة زر وتنبيه السريّع
+function copyToClipboard(text, labelName) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert(`✅ تم نسخ ${labelName} بنجاح: ${text}`);
+  }).catch(() => {
+    alert("❌ فشل النسخ، يرجى التحديد يدوياً.");
+  });
+}
 
 function sendOrder(){
   if(!currentUser) { alert("يجيب تسجيل الدخول أولاً!"); openAuthModal(); return; }
@@ -2118,7 +2146,6 @@ function sendOrder(){
       document.getElementById("viewOrderId").textContent = currentOrderId;
       document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price} د.ل)`;
       
-      // تحديث رابط الواتساب في نافذة النجاح ليحتوي على رسالة استفسار عن الطلب ورقم المتجر
       const waMsg = `مرحباً Dark Store، استفسار بخصوص طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
       document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
 
@@ -2242,14 +2269,42 @@ function openAdminDetail(orderId) {
   const waRej = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgRej)}`;
   const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgComp)}`;
 
+  // تم إضافة أزرار النسخ السريعة (copyToClipboard) بجانب اليوزر، الباسورد، ورقم المُحوِّل
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
-    <div class="detail-row"><span>الزبون:</span><b>${o.userOwner} (${o.userPhone})</b></div>
-    <div class="detail-row"><span>المنتج:</span><b>${o.product} (${o.price} د.ل)</b></div>
-    <div class="detail-row"><span>التاريخ:</span><b style="color:#a3a3a3; font-size:11px;">${o.time}</b></div>
-    <div class="detail-row"><span>يوزر الحساب:</span><b style="color:#60a5fa;">${o.robloxUser}</b></div>
-    <div class="detail-row"><span>رقم المحفظة المحول منها:</span><b>${o.senderPhone}</b></div>
-    <div style="margin-top:10px;"><img src="${o.receiptImage}" class="receipt-preview-img"></div>
+    <div class="detail-row"><span>صاحب الحساب:</span><b>${o.userOwner}</b></div>
+    <div class="detail-row"><span>التاريخ والوقت:</span><b style="color:#a3a3a3; font-size:11px;">${o.time}</b></div>
+    <div class="detail-row"><span>المنتج المطلوب:</span><b>${o.product}</b></div>
+    <div class="detail-row"><span>السعر:</span><b>${o.price} د.ل</b></div>
+    
+    <div class="detail-row">
+      <span>اليوزر المطلوب:</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <b style="color:#38bdf8;" id="txtUser_${o.id}">${o.robloxUser}</b>
+        <button class="admin-copy-mini-btn" onclick="copyToClipboard('${o.robloxUser}', 'اليوزر')">📋 نسخ</button>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <span>كلمة السر:</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <b style="color:#fde047;" id="txtPass_${o.id}">${o.robloxPass}</b>
+        <button class="admin-copy-mini-btn" onclick="copyToClipboard('${o.robloxPass}', 'كلمة السر')">📋 نسخ</button>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <span>رقم المُحوِّل:</span>
+      <div style="display:flex; align-items: center; gap:6px;">
+        <b style="color:#34d399;" id="txtPhone_${o.id}">${o.senderPhone}</b>
+        <button class="admin-copy-mini-btn" onclick="copyToClipboard('${o.senderPhone}', 'رقم المُحوِّل')">📋 نسخ</button>
+      </div>
+    </div>
+
+    <div class="detail-row"><span>الحالة الحالية:</span><b>${o.status}</b></div>
+    
+    <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة إيصال التحويل (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
+    
     <div style="margin-top:15px; text-align:center;">
       <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">أزرار إرسال الرسائل عبر الواتساب للزبون:</div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
