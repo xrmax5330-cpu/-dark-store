@@ -24,6 +24,7 @@
   --text-muted: #888888;
   --line: #1a1a1a;
   --whatsapp-green: #25d366;
+  --admin-accent: #6366f1;
 }
 
 * {
@@ -300,7 +301,7 @@ nav {
   z-index: 1;
 }
 
-/* شريط تتبع الطلب النشط في الرئيسية */
+/* شريط تتبع الطلب النشط */
 .home-active-order-banner {
   max-width: 750px;
   margin: 25px auto 0;
@@ -549,10 +550,21 @@ section {
 }
 
 .effect-price {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 900;
   color: var(--accent-silver);
   margin-bottom: 8px;
+}
+
+.unavail-tag {
+  color: #f87171 !important;
+  background: rgba(220, 38, 38, 0.15);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 900;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  width: 100%;
 }
 
 .btn-group-card {
@@ -731,7 +743,6 @@ footer {
   display: flex;
 }
 
-/* تنسيق نافذة تسجيل الدخول بالخلفية الجديدة */
 .auth-custom-box {
   width: 100%;
   max-width: 450px;
@@ -1026,23 +1037,10 @@ footer {
   font-size: 38px;
   margin-bottom: 5px;
 }
-.status-spinner {
-  border: 3px solid #222;
-  border-top: 3px solid #fff;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  animation: spin 1s linear infinite;
-  margin: 10px auto;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
 .order-badge {
   display: inline-block;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 800;
@@ -1054,125 +1052,201 @@ footer {
 .badge-rejected { background: rgba(220, 38, 38, 0.15); color: #f87171; border: 1px solid #dc2626; }
 .badge-unavailable { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid #6b7280; }
 
-/* لوحة الأدمن */
+/* ========================================================= */
+/* ✨ تصميم لوحة تحكم الأدمن الجديد والمطور بالكامل ✨ */
+/* ========================================================= */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
-  background: #000;
-  color: #fff;
+  background: #08080a;
+  color: #f3f4f6;
   z-index: 4000;
   display: none;
   flex-direction: column;
-  padding: 20px;
   overflow-y: auto;
 }
 .admin-panel-modal.show {
   display: flex;
 }
-.admin-header {
+
+.admin-navbar {
+  background: #111116;
+  border-bottom: 1px solid #22222e;
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  border-bottom: 2px solid var(--card-border);
-  padding-bottom: 15px;
-}
-.admin-title-box h2 {
-  font-size: 20px;
-  color: #fff;
-  font-weight: 900;
-}
-.admin-title-box p {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 3px;
+  sticky: top: 0;
+  z-index: 100;
 }
 
-.admin-tabs {
+.admin-brand-box {
   display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
+
+.admin-brand-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+}
+
+.admin-brand-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+}
+.admin-brand-subtitle {
+  font-size: 11px;
+  color: #888;
+}
+
+.admin-body-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* كروت الإحصائيات الفخمة */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #12121a;
+  border: 1px solid #222232;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.stat-info h5 {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+.stat-info .num {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.stat-icon-wrapper {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.admin-tabs-bar {
+  display: flex;
+  gap: 10px;
+  background: #111116;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid #22222e;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
 .admin-tab-btn {
   flex: 1;
-  min-width: 120px;
-  padding: 10px;
+  min-width: 130px;
+  padding: 12px;
   border-radius: 10px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  color: #9ca3af;
   font-weight: bold;
   cursor: pointer;
   font-size: 13px;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
   text-align: center;
-}
-.admin-tab-btn.active {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.admin-actions-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-  gap: 10px;
-  background: var(--card-bg);
-  padding: 10px 15px;
-  border-radius: 12px;
-  border: 1px solid var(--card-border);
-  font-size: 12px;
+.admin-tab-btn.active {
+  background: #6366f1;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+}
+
+.admin-card-container {
+  background: #111116;
+  border: 1px solid #22222e;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
 .admin-orders-list, .admin-users-list, .admin-logs-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 60vh;
-  overflow-y: auto;
+  gap: 12px;
 }
+
 .admin-order-card, .admin-user-card, .admin-log-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: #181824;
+  border: 1px solid #2a2a3c;
   border-radius: 14px;
-  padding: 14px 18px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
   cursor: pointer;
 }
 .admin-order-card:hover, .admin-user-card:hover, .admin-log-card:hover {
-  border-color: #555;
-  background: var(--card-hover);
+  border-color: #6366f1;
+  background: #202030;
+  transform: translateY(-2px);
 }
+
 .admin-order-info {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
+
 .admin-order-num {
-  background: #fff;
-  color: #000;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .admin-detail-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(12px);
   z-index: 5000;
   display: none;
   align-items: center;
@@ -1182,53 +1256,58 @@ footer {
 .admin-detail-modal.show {
   display: flex;
 }
+
 .admin-detail-box {
-  background: #0a0a0a;
-  border: 1px solid #444;
-  border-radius: 18px;
+  background: #12121a;
+  border: 1px solid #2d2d42;
+  border-radius: 20px;
   width: 100%;
-  max-width: 480px;
-  padding: 20px;
+  max-width: 520px;
+  padding: 24px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.95);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.95);
 }
+
 .detail-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #222232;
+  font-size: 13px;
 }
 .detail-row:last-child { border-bottom: none; }
+
 .receipt-preview-img {
   width: 100%;
-  max-height: 200px;
+  max-height: 220px;
   object-fit: contain;
-  border-radius: 10px;
-  border: 2px solid #444;
+  border-radius: 12px;
+  border: 1px solid #333348;
   margin-top: 8px;
+  background: #000;
 }
 
 .admin-btn {
-  padding: 7px 10px;
-  border-radius: 7px;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   border: none;
   transition: all 0.2s;
-  margin: 2px;
+  margin: 3px;
 }
-.admin-btn-comp { background: #16a34a; color: #fff; }
-.admin-btn-rej { background: #dc2626; color: #fff; }
+.admin-btn-comp { background: #10b981; color: #fff; }
+.admin-btn-rej { background: #ef4444; color: #fff; }
 .admin-btn-wa { background: #25d366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+
 .admin-copy-mini-btn {
-  background: #222;
+  background: #222232;
   color: #38bdf8;
-  border: 1px solid #333;
-  padding: 3px 8px;
+  border: 1px solid #333348;
+  padding: 4px 10px;
   border-radius: 6px;
   font-size: 11px;
   font-weight: bold;
@@ -1288,7 +1367,7 @@ footer {
   <div class="sidebar-menu-items">
     <div class="sidebar-item" onclick="toggleSidebar(); openProfileModal()">
       <span class="sidebar-item-icon">👤</span>
-      <span>حسابي (عرض حسابي واشتراكاتك)</span>
+      <span>حسابي (عرض حسابك)</span>
     </div>
     <div class="sidebar-item" onclick="toggleSidebar(); scrollToPrices()">
       <span class="sidebar-item-icon">🛍️</span>
@@ -1324,7 +1403,7 @@ footer {
       <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>1.</b> اختر الباقة أو المنتج المطلوب.</div>
       <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>2.</b> قم بتحويل المبلغ إلى رقم المحفظة أو أرسل كرت شحن.</div>
       <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>3.</b> أدخل بياناتك وأرفق الصورة المطلوبة وأرسل الطلب.</div>
-      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>4.</b> تابع حالة طلبك (ستصلك رسائل وتساب بكل تحديث).</div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>4.</b> تابع حالة طلبك (ستصلك رسائل واتساب بكل تحديث).</div>
     </div>
     <button class="close" onclick="closeGuideModal()" style="margin-top: 0;">إغلاق النافذة</button>
   </div>
@@ -1352,7 +1431,7 @@ footer {
         <div class="order-step-item" id="hstep-5"><div class="order-step-circle">5</div><div class="order-step-label">تم التسليم</div></div>
       </div>
       <div style="font-size:11px; color:var(--text-muted); margin-top:2px; text-align:center;">رقم الطلب: <span id="homeOrderIdText">#</span></div>
-      <a id="homeWhatsappDirectBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px;">💬 تواصل معانا عبر وتس</a>
+      <a id="homeWhatsappDirectBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px;">💬 تواصل معنا عبر الواتساب</a>
     </div>
   </div>
 
@@ -1407,7 +1486,7 @@ footer {
     <div id="noticeBox" class="notice">اختر الكمية أو المنتج المناسب لك ثم اضغط شراء أو أضفها للسلة.</div>
 
     <div id="reviewsSection" class="reviews-section">
-      <div class="title"><h2>👤آراء العملاء</h2><p>❣️ثقة زبائننا هي سر نجاحونا</p></div>
+      <div class="title"><h2>👤آراء العملاء</h2><p>❣️ثقة زبائننا هي سر نجاحنا</p></div>
       <div class="reviews-grid">
         <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"سرعة خيالية في التسليم وتعامل راقي جداً، أنصح بالتعامل معهم."</div><div class="review-author">- أحمد المصراتي</div></div>
         <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"أفضل متجر لشحن الروبوكس والأسعار ممتازة مقارنة بغيرهم."</div><div class="review-author">- طارق الزوي</div></div>
@@ -1424,41 +1503,28 @@ footer {
   <div><button class="admin-trigger-btn" onclick="openAdminPanelPrompt()">⚙️ لوحة الإدارة</button></div>
 </footer>
 
-<!-- نافذة تسجيل الدخول والتحقق -->
+<!-- نافذة تسجيل الدخول برقم الهاتف فقط -->
 <div id="authModal" class="modal">
   <div class="auth-custom-box">
     <div style="text-align: center;">
-      <span class="modal-header-tag" id="authTagBadge">🔐 DARK STORE</span>
-      <h3 id="authModalTitle">إنشاء حساب جديد</h3>
+      <span class="modal-header-tag" id="authTagBadge">📱 DARK STORE</span>
+      <h3 id="authModalTitle">دخول برقم الهاتف</h3>
     </div>
 
-    <!-- خطوة 1: إدخال البيانات -->
-    <div id="registerFormContainer">
-      <div class="form-group"><label>👤 اسم المستخدم (بالإنجليزية فقط) <span>*</span></label><input id="regUsername" class="input" type="text" placeholder="Example: darkstore"></div>
-      <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="regPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
-      <div class="form-group"><label>📱 رقم الهاتف (رقمك للواتساب) <span>*</span></label><input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
-      <button class="confirm" onclick="proceedToVerification()">📩 التابع لخطوة التحقق</button>
-      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToLogin()">لديك حساب من قبل؟ تسجيل دخول</button></div>
-    </div>
-
-    <!-- خطوة 2: إدخال كود التحقق العشوائي -->
-    <div id="verifyCodeContainer" style="display: none; text-align: center;">
-      <div style="background: rgba(20, 20, 20, 0.9); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
-        <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">🔢 رمز التحقق المطلوب إدخاله:</div>
-        <div id="generatedOtpDisplay" style="font-size: 28px; font-weight: 950; color: #34d399; letter-spacing: 6px; margin: 10px 0;">1018</div>
-        <div style="font-size: 11px; color: #fde047; font-weight: bold; margin-top: 5px;">يرجى كتابة رمز التحقق الخاص بك تحت ⬇️</div>
+    <!-- نموذج التسجيل بـ رقم الهاتف -->
+    <div id="phoneAuthContainer">
+      <div class="form-group">
+        <label>📱 رقم الهاتف <span>*</span></label>
+        <div style="display: flex; gap: 8px; direction: ltr;">
+          <span style="background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); padding: 11px; border-radius: 10px; color: #fff; font-weight: bold; font-size: 13px;">+218</span>
+          <input id="userPhoneInput" class="input" type="tel" placeholder="09xxxxxxx" style="direction: rtl; flex: 1;">
+        </div>
       </div>
-      <div class="form-group"><label>🔢 أدخل كود التحقق المكون من 4 أرقام <span>*</span></label><input id="enteredOtpInput" class="input" type="text" placeholder="أدخل الكود هنا" style="text-align: center; font-size: 18px; letter-spacing: 2px;"></div>
-      <button class="confirm" onclick="verifyAndCompleteRegister()">✅ تأكيد وتفعيل الحساب</button>
-      <button class="close" onclick="switchToRegister()">رجوع</button>
-    </div>
-
-    <!-- تسجيل الدخول -->
-    <div id="loginFormContainer" style="display: none;">
-      <div class="form-group"><label>👤 اسم المستخدم (اليوزر) <span>*</span></label><input id="logUsername" class="input" type="text" placeholder="أدخل اسم المستخدم"></div>
-      <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="logPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
-      <button class="confirm" onclick="handleLogin()">🔑 تسجيل الدخول</button>
-      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToRegister()">ليس لديك حساب؟ إنشاء حساب جديد</button></div>
+      <div class="form-group">
+        <label>🔒 كلمة السر الخاصة بك <span>*</span></label>
+        <input id="userPassInput" class="input" type="password" placeholder="أدخل كلمة السر للحساب">
+      </div>
+      <button class="confirm" onclick="handlePhoneAuth()">🚀 الدخول إلى المتجر</button>
     </div>
   </div>
 </div>
@@ -1467,7 +1533,7 @@ footer {
 <div id="profileModal" class="modal">
   <div class="auth-custom-box" style="max-width: 500px;">
     <div style="text-align: center; margin-bottom: 20px;">
-      <span class="modal-header-tag">👤 لوحة التحكم الخاصة بك</span>
+      <span class="modal-header-tag">👤 بيانات حسابك</span>
       <h3 style="font-size: 26px;">الملف الشخصي</h3>
     </div>
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #4ade80; padding: 12px; border-radius: 14px; font-size: 14px; font-weight: bold; margin-bottom: 20px;">
@@ -1475,9 +1541,7 @@ footer {
       <span>حسابك مفعل تستطيع الشراء</span>
     </div>
     <div style="background: rgba(20, 20, 20, 0.85); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; margin-bottom: 20px; text-align: right;">
-      <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">اسم الحساب:</div><div style="font-size: 16px; font-weight: 900; color: #fff;" id="profUserVal">-</div></div>
-      <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">كلمة السر:</div><div style="font-size: 16px; font-weight: 900; color: #fde047; font-family: monospace;" id="profPassVal">-</div></div>
-      <div><div style="font-size: 11px; color: var(--text-muted);">رقم الهاتف (الواتساب):</div><div style="font-size: 16px; font-weight: 900; color: #34d399;" id="profContactVal">-</div></div>
+      <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">رقم الهاتف المسجل:</div><div style="font-size: 18px; font-weight: 900; color: #34d399;" id="profPhoneVal">-</div></div>
     </div>
     <button onclick="logoutUser()" style="width: 100%; padding: 14px; background: #dc2626; color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 900; cursor: pointer; margin-bottom: 10px;">تسجيل خروج 🚪</button>
     <button class="close" onclick="closeProfileModal()">إغلاق النافذة</button>
@@ -1504,7 +1568,7 @@ footer {
 <div id="modal" class="modal">
   <div class="modal-box">
     <div id="orderFormContent">
-      <div style="text-align: center;"><span class="modal-header-tag">⚡ خطوة أخيره</span><h3>إتمام الطلب</h3></div>
+      <div style="text-align: center;"><span class="modal-header-tag">⚡ خطوة أخيرة</span><h3>إتمام الطلب</h3></div>
       <div class="order-summary-card">
         <div class="order-summary-title">ملخص الطلب</div>
         <div id="orderItemTitle" class="order-summary-item">-</div>
@@ -1515,7 +1579,7 @@ footer {
         <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">-</div>
         <button class="copy-btn" onclick="copyTransferNumber()">📋 نسخ رقم التحويل</button>
-        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك وتس ل تشاهد حالة طلبك</div>
+        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك واتساب لمشاهدة حالة طلبك</div>
       </div>
 
       <div class="steps-list" id="stepsListBox">
@@ -1524,13 +1588,13 @@ footer {
         <div class="step-item"><span class="step-num">3</span><span id="stepText3">أرفق سكرين شوت إيصال التحويل وأرسل الطلب.</span></div>
       </div>
 
-      <div class="form-group" id="robloxUserGroup"><label>👤اسم مستخدم Roblox / الأيدي <span>*</span></label><input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123"></div>
+      <div class="form-group" id="robloxUserGroup"><label>👤 اسم مستخدم Roblox / الأيدي <span>*</span></label><input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123"></div>
       
-      <div class="form-group" id="senderPhoneGroup"><label>📲رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
+      <div class="form-group" id="senderPhoneGroup"><label>📲 رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
       
       <div class="form-group"><label id="receiptLabelText">🖼️ صورة إيصال التحويل <span>*</span></label><input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;"></div>
       
-      <div class="form-group"><label>💬ملاحظات إضافية</label><textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة..."></textarea></div>
+      <div class="form-group"><label>💬 ملاحظات إضافية</label><textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة..."></textarea></div>
       
       <div class="checkbox-group" id="checkboxGroupBox">
         <input type="checkbox" id="confirmCheckbox">
@@ -1549,10 +1613,10 @@ footer {
         <div style="margin-bottom: 6px;"><b>رقم الطلب:</b> <span id="viewOrderId" style="color:#fde047; font-weight:900;"></span></div>
         <div><b>المنتج المطلـوب:</b> <span id="viewOrderProduct" style="color:#fff;"></span></div>
       </div>
-      <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استلاستباق طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
+      <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استقبال طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
       <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-bottom: 10px; padding: 12px; text-decoration:none;">
-        💬 شاهد طلبك من واتساب (218927816884+)
+        💬 شاهد طلبك من واتساب (+218927816884)
       </a>
 
       <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px;" onclick="closeModal()">
@@ -1562,49 +1626,116 @@ footer {
   </div>
 </div>
 
-<!-- لوحة الأدمن الفخمة -->
+<!-- ========================================================= -->
+<!-- 👑 لوحة تحكم الأدمن الجديدة والمتطورة 👑 -->
+<!-- ========================================================= -->
 <div id="adminPanelModal" class="admin-panel-modal">
-  <div class="admin-header">
-    <div class="admin-title-box">
-      <h2>👑 لوحة تحكم DARK STORE</h2>
-      <p>إدارة الطلبات والواتساب وحسابات العملاء</p>
+  
+  <div class="admin-navbar">
+    <div class="admin-brand-box">
+      <div class="admin-brand-icon">⚡</div>
+      <div>
+        <div class="admin-brand-title">DARK STORE ADMIN</div>
+        <div class="admin-brand-subtitle">نظام الإدارة المباشر والتفاعل الفوري</div>
+      </div>
     </div>
-    <button class="admin-btn admin-btn-rej" style="padding: 8px 14px;" onclick="closeAdminPanel()">إغلاق اللوحة ✖</button>
+    <button class="admin-btn admin-btn-rej" style="padding: 10px 18px; border-radius:10px; font-weight:900;" onclick="closeAdminPanel()">إغلاق اللوحة ✖</button>
   </div>
 
-  <div class="admin-tabs">
-    <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">📦 إدارة الطلبات</button>
-    <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">👥 حسابات العملاء</button>
-    <button id="tabLogsBtn" class="admin-tab-btn" onclick="switchAdminTab('logs')">📋 سجلات الطلبات السابقة</button>
-  </div>
-
-  <div id="adminOrdersSection">
-    <div class="admin-actions-bar">
-      <span>🔔 التنبيهات والربط بالواتساب مفعل</span>
-      <button class="admin-btn admin-btn-rej" onclick="clearAllOrders()">🗑️ مسح كافة الطلبات</button>
+  <div class="admin-body-container">
+    
+    <!-- كروت إحصائيات سريعة -->
+    <div class="admin-stats-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <h5>الطلبات النشطة</h5>
+          <div class="num" id="statActiveOrdersNum">0</div>
+        </div>
+        <div class="stat-icon-wrapper" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">📦</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h5>العملاء المسجلين</h5>
+          <div class="num" id="statUsersNum">0</div>
+        </div>
+        <div class="stat-icon-wrapper" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">👥</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h5>السجلات المؤرشفة</h5>
+          <div class="num" id="statLogsNum">0</div>
+        </div>
+        <div class="stat-icon-wrapper" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">📂</div>
+      </div>
     </div>
-    <div id="adminOrdersList" class="admin-orders-list"><div style="text-align:center; color:#a3a3a3; padding:30px;">جاري تحميل الطلبات...</div></div>
-  </div>
 
-  <div id="adminUsersSection" style="display: none;">
-    <div class="admin-actions-bar"><span>👥 قائمة الزبائن المسجلين</span></div>
-    <div id="adminUsersList" class="admin-users-list"><div style="text-align:center; color:#a3a3a3; padding:30px;">جاري التحميل...</div></div>
-  </div>
+    <!-- أزرار التنقل بين الأقسام -->
+    <div class="admin-tabs-bar">
+      <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">
+        <span>📦</span> <span>الطلبات الواردة</span>
+      </button>
+      <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">
+        <span>👥</span> <span>قائمة العملاء</span>
+      </button>
+      <button id="tabLogsBtn" class="admin-tab-btn" onclick="switchAdminTab('logs')">
+        <span>📋</span> <span>أرشيف الطلبات</span>
+      </button>
+    </div>
 
-  <div id="adminLogsSection" style="display: none;">
-    <div class="admin-actions-bar"><span>📋 سجل الطلبات المنتهية</span><button class="admin-btn admin-btn-rej" onclick="clearAllLogs()">🗑️ مسح السجلات</button></div>
-    <div id="adminLogsList" class="admin-logs-list"><div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات.</div></div>
+    <!-- قسم الطلبات -->
+    <div id="adminOrdersSection" class="admin-card-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:900; color:#fff;">الطلبات الواردة حالياً</h3>
+        <button class="admin-btn admin-btn-rej" onclick="clearAllOrders()">🗑️ مسح كافة الطلبات</button>
+      </div>
+      <div id="adminOrdersList" class="admin-orders-list">
+        <div style="text-align:center; color:#888; padding:30px;">جاري تحميل الطلبات...</div>
+      </div>
+    </div>
+
+    <!-- قسم العملاء -->
+    <div id="adminUsersSection" class="admin-card-container" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:900; color:#fff;">قائمة العملاء وطلباتهم</h3>
+      </div>
+      <div id="adminUsersList" class="admin-users-list">
+        <div style="text-align:center; color:#888; padding:30px;">جاري التحميل...</div>
+      </div>
+    </div>
+
+    <!-- قسم الأرشيف -->
+    <div id="adminLogsSection" class="admin-card-container" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:900; color:#fff;">سجل الطلبات المؤرشفة</h3>
+        <button class="admin-btn admin-btn-rej" onclick="clearAllLogs()">🗑️ مسح الأرشيف</button>
+      </div>
+      <div id="adminLogsList" class="admin-logs-list">
+        <div style="text-align:center; color:#888; padding:30px;">لا توجد سجلات.</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <!-- نافذة تفاصيل الطلب للأدمن -->
 <div id="adminDetailModal" class="admin-detail-modal">
   <div class="admin-detail-box">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--line); padding-bottom:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #2d2d42; padding-bottom:10px;">
       <h3 id="detModalTitle" style="color:#fff; font-size:17px;">تفاصيل الطلب</h3>
       <button class="admin-btn admin-btn-rej" onclick="closeAdminDetailModal()">إغلاق ✖</button>
     </div>
     <div id="adminDetailContent"></div>
+  </div>
+</div>
+
+<!-- نافذة تفاصيل العميل للأدمن -->
+<div id="adminUserDetailModal" class="admin-detail-modal">
+  <div class="admin-detail-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #2d2d42; padding-bottom:10px;">
+      <h3 style="color:#fff; font-size:17px;">👤 سجل وتفاصيل العميل</h3>
+      <button class="admin-btn admin-btn-rej" onclick="closeAdminUserDetailModal()">إغلاق ✖</button>
+    </div>
+    <div id="adminUserDetailContent"></div>
   </div>
 </div>
 
@@ -1646,10 +1777,10 @@ const LIBYANA_NUMBER = "0927816884";
 const STORE_WHATSAPP = "218927816884";
 
 const madarPrices = [
-  {robux:10, price: "3 مدار (تخفيض الجمعة 🔥)", rawPrice: "3", img: robuxImgUrl},
-  {robux:20, price: "5 مدار (تخفيض الجمعة 🔥)", rawPrice: "5", img: robuxImgUrl},
+  {robux:10, price: "3 مدار", rawPrice: "3", img: robuxImgUrl},
+  {robux:20, price: "5 مدار", rawPrice: "5", img: robuxImgUrl},
   {robux:30, price: "10", rawPrice: "10", img: robuxImgUrl},
-  {robux:40, price: "13 مدار (تخفيض الجمعة 🔥)", rawPrice: "13", img: robuxImgUrl},
+  {robux:40, price: "13 مدار", rawPrice: "13", img: robuxImgUrl},
   {robux:80, price: "20", rawPrice: "20", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
   {robux:120, price: "35", rawPrice: "35", img: robuxImgUrl},
   {robux:160, price: "47", rawPrice: "47", img: robuxImgUrl},
@@ -1660,12 +1791,12 @@ const madarPrices = [
 ];
 
 const libyanaPrices = [
-  {robux:10, price: "2 ليبيانا (تخفيض الجمعة 🔥)", rawPrice: "2", img: robuxImgUrl},
-  {robux:20, price: "4 ليبيانا (تخفيض الجمعة 🔥)", rawPrice: "4", img: robuxImgUrl},
+  {robux:10, price: "2 ليبيانا", rawPrice: "2", img: robuxImgUrl},
+  {robux:20, price: "4 ليبيانا", rawPrice: "4", img: robuxImgUrl},
   {robux:30, price: "7", rawPrice: "7", img: robuxImgUrl},
   {robux:40, price: "10", rawPrice: "10", img: robuxImgUrl},
   {robux:50, price: "13", rawPrice: "13", img: robuxImgUrl},
-  {robux:80, price: "14 ليبيانا (تخفيض الجمعة 🔥)", rawPrice: "14", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
+  {robux:80, price: "14 ليبيانا", rawPrice: "14", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
   {robux:120, price: "35", rawPrice: "35", img: robuxImgUrl},
   {robux:160, price: "45", rawPrice: "45", img: robuxImgUrl},
   {robux:400, price: "80", rawPrice: "85", badge: "🔥افضل سعر", img: robuxImgUrl},
@@ -1723,15 +1854,11 @@ let selectedProduct = null;
 let cart = [];
 
 let currentOrderId = null;
-let adminUnsubscribe = null;
 let homeOrderUnsubscribe = null;
 let currentUser = null;
 let lastOrdersCount = -1;
 let cachedOrdersMap = {};
 let currentOrdersFilter = 'all';
-
-let pendingRegData = null;
-let generatedOtpCode = "";
 
 function getNextOrderId() {
   let seq = parseInt(localStorage.getItem("dark_store_order_seq") || "1000") + 1;
@@ -1757,15 +1884,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initBackgroundAdminListener() {
   db.collection("orders").onSnapshot((snapshot) => {
+    document.getElementById("statActiveOrdersNum").textContent = snapshot.size;
     if(lastOrdersCount !== -1 && snapshot.size > lastOrdersCount) {
       playAlertSound();
       const latestDoc = snapshot.docs[snapshot.docs.length - 1];
       if(latestDoc) {
         const ord = latestDoc.data();
-        showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب رقم ${ord.id}: ${ord.product}`);
+        showLiveToast(`الزبون (${ord.userPhone || 'زائر'}) طلب رقم ${ord.id}: ${ord.product}`);
       }
     }
     lastOrdersCount = snapshot.size;
+  });
+
+  db.collection("users").onSnapshot((s) => {
+    document.getElementById("statUsersNum").textContent = s.size;
+  });
+
+  db.collection("order_logs").onSnapshot((s) => {
+    document.getElementById("statLogsNum").textContent = s.size;
   });
 }
 
@@ -1780,93 +1916,50 @@ function closeLiveToast() { document.getElementById("adminLiveToast").classList.
 function toggleSidebar() { document.getElementById("sidebarOverlay").classList.toggle("show"); document.getElementById("sidebarDrawer").classList.toggle("show"); }
 function openGuideModal() { document.getElementById("guideModal").classList.add("show"); }
 function closeGuideModal() { document.getElementById("guideModal").classList.remove("show"); }
-function openAuthModal() { document.getElementById("authModal").classList.add("show"); switchToRegister(); }
-function closeAuthModal() { document.getElementById("authModal").classList.remove("show"); }
+function openAuthModal() { document.getElementById("authModal").classList.add("show"); }
 
-function switchToLogin() {
-  document.getElementById("registerFormContainer").style.display = "none";
-  document.getElementById("verifyCodeContainer").style.display = "none";
-  document.getElementById("loginFormContainer").style.display = "block";
-  document.getElementById("authModalTitle").textContent = "تسجيل الدخول";
-  document.getElementById("authTagBadge").textContent = "🔑 مرحباً بك مجدداً";
-}
+/* تسجيل الدخول المباشر برقم الهاتف فقط */
+function handlePhoneAuth() {
+  const phoneVal = document.getElementById("userPhoneInput").value.trim();
+  const passVal = document.getElementById("userPassInput").value.trim();
 
-function switchToRegister() {
-  document.getElementById("loginFormContainer").style.display = "none";
-  document.getElementById("verifyCodeContainer").style.display = "none";
-  document.getElementById("registerFormContainer").style.display = "block";
-  document.getElementById("authModalTitle").textContent = "إنشاء حساب جديد";
-  document.getElementById("authTagBadge").textContent = "🔐 DARK STORE";
-}
+  if(!phoneVal || !passVal) { alert("يرجى إدخال رقم الهاتف وكلمة السر!"); return; }
 
-function proceedToVerification() {
-  const userVal = document.getElementById("regUsername").value.trim();
-  const passVal = document.getElementById("regPassword").value.trim();
-  const phoneVal = document.getElementById("regPhone").value.trim();
+  let formattedPhone = phoneVal;
+  if(formattedPhone.startsWith("0")) formattedPhone = formattedPhone.substring(1);
+  const fullPhone = "218" + formattedPhone;
 
-  if(!userVal || !passVal || !phoneVal) { alert("يرجى ملء كافة الحقول!"); return; }
-  if(!/^[A-Za-z]+$/.test(userVal)) { alert("❌ اسم المستخدم بالإنجليزية فقط بدون أرقام أو مسافات!"); return; }
-  if(userVal.length < 5) { alert("❌ اسم المستخدم يجب ألا يقل عن 5 حروف!"); return; }
-
-  db.collection("users").doc(userVal).get().then((doc) => {
+  db.collection("users").doc(fullPhone).get().then((doc) => {
     if(doc.exists) {
-      alert("❌ اسم المستخدم موجود مسبقاً.");
+      if(doc.data().password === passVal) {
+        currentUser = { phone: fullPhone, password: passVal };
+        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+        document.getElementById("authModal").classList.remove("show");
+        listenToHomeActiveOrder();
+        alert("✅ تم تسجيل الدخول بنجاح!");
+      } else {
+        alert("❌ كلمة السر غير صحيحة لهذا الرقم!");
+      }
     } else {
-      pendingRegData = { username: userVal, password: passVal, phone: phoneVal };
-      generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
-      document.getElementById("generatedOtpDisplay").textContent = generatedOtpCode;
-
-      document.getElementById("registerFormContainer").style.display = "none";
-      document.getElementById("verifyCodeContainer").style.display = "block";
-      document.getElementById("authModalTitle").textContent = "رمز التحقق";
-      document.getElementById("authTagBadge").textContent = "📲 تفعيل الحساب";
-    }
-  });
-}
-
-function verifyAndCompleteRegister() {
-  const enteredCode = document.getElementById("enteredOtpInput").value.trim();
-  if(enteredCode !== generatedOtpCode) { alert("❌ كود التحقق غير صحيح!"); return; }
-
-  const userData = {
-    username: pendingRegData.username,
-    password: pendingRegData.password,
-    phone: pendingRegData.phone,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-
-  db.collection("users").doc(pendingRegData.username).set(userData).then(() => {
-    currentUser = { username: pendingRegData.username, password: pendingRegData.password, contact: pendingRegData.phone };
-    localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-    closeAuthModal();
-    listenToHomeActiveOrder();
-    alert("🎉 تم تسجيل حسابك في الموقع بنجاح، حسابك مفعل تستطيع الشراء!");
-  });
-}
-
-function handleLogin() {
-  const userVal = document.getElementById("logUsername").value.trim();
-  const passVal = document.getElementById("logPassword").value.trim();
-
-  db.collection("users").doc(userVal).get().then((doc) => {
-    if(!doc.exists || doc.data().password !== passVal) {
-      alert("❌ اسم المستخدم أو كلمة السر غير صحيحة!");
-    } else {
-      const u = doc.data();
-      currentUser = { username: u.username, password: u.password, contact: u.phone };
-      localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-      closeAuthModal();
-      listenToHomeActiveOrder();
-      alert("✅ تم تسجيل الدخول بنجاح!");
+      const userData = {
+        phone: fullPhone,
+        password: passVal,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      db.collection("users").doc(fullPhone).set(userData).then(() => {
+        currentUser = { phone: fullPhone, password: passVal };
+        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+        document.getElementById("authModal").classList.remove("show");
+        listenToHomeActiveOrder();
+        alert("🎉 تم إنشاء حساب جديد برقم هاتفك بنجاح!");
+      });
     }
   });
 }
 
 function openProfileModal() {
   if(!currentUser) { openAuthModal(); return; }
-  document.getElementById("profUserVal").textContent = currentUser.username;
-  document.getElementById("profPassVal").textContent = currentUser.password;
-  document.getElementById("profContactVal").textContent = currentUser.contact;
+  document.getElementById("profPhoneVal").textContent = "+" + currentUser.phone;
   document.getElementById("profileModal").classList.add("show");
 }
 function closeProfileModal() { document.getElementById("profileModal").classList.remove("show"); }
@@ -1900,8 +1993,8 @@ function renderMyOrdersModalList() {
   container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري التحميل...</div>`;
 
   Promise.all([
-    db.collection("orders").where("userOwner", "==", currentUser.username).get(),
-    db.collection("order_logs").where("userOwner", "==", currentUser.username).get()
+    db.collection("orders").where("userOwner", "==", currentUser.phone).get(),
+    db.collection("order_logs").where("userOwner", "==", currentUser.phone).get()
   ]).then(([activeSnap, logsSnap]) => {
     container.innerHTML = "";
     let orders = [];
@@ -1967,7 +2060,7 @@ function listenToHomeActiveOrder() {
   if(!currentUser) return;
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
 
-  homeOrderUnsubscribe = db.collection("orders").where("userOwner", "==", currentUser.username).onSnapshot((snapshot) => {
+  homeOrderUnsubscribe = db.collection("orders").where("userOwner", "==", currentUser.phone).onSnapshot((snapshot) => {
     const banner = document.getElementById("homeActiveOrderBanner");
     if(snapshot.empty) { banner.classList.remove("show"); return; }
 
@@ -2026,6 +2119,7 @@ function switchCategory(cat) {
   else if(cat === "xbox") showXboxPrices();
 }
 
+/* 🔥 وضع عبارة غير متوفر على جميع باقات الروبوكس 🔥 */
 function showRobuxPrices(provider){
   currentProvider = provider;
   document.getElementById("madarBtn").classList.toggle("active", provider === "madar");
@@ -2036,15 +2130,10 @@ function showRobuxPrices(provider){
     const card = document.createElement("div");
     card.className = "effect-card";
     card.innerHTML = `
-      ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <img src="${item.img}" class="effect-img">
       <div class="effect-title">Robux ${item.robux}</div>
       <div class="effect-price">${item.price} د.ل</div>
-      <div class="btn-group-card">
-        <button class="effect-buy-btn">شراء</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس', price:'${item.price}', rawPrice:'${item.rawPrice}'})">+</button>
-      </div>`;
-    card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: 'robux', title: `Robux ${item.robux}`, price: `${item.price} د.ل`, provider: provider === "madar" ? "مدار" : "ليبيانا" });
+      <div class="unavail-tag">🚫 غير متوفر حالياً</div>`;
     pricesBox.appendChild(card);
   });
 }
@@ -2136,7 +2225,7 @@ function copyToClipboard(text, labelName) {
 }
 
 function sendOrder(){
-  if(!currentUser) { alert("يجيب تسجيل الدخول أولاً!"); openAuthModal(); return; }
+  if(!currentUser) { alert("يجب تسجيل الدخول أولاً!"); openAuthModal(); return; }
 
   const robloxUser = document.getElementById("robloxUser").value.trim();
   const receiptFile = document.getElementById("receiptImageInput").files[0];
@@ -2160,8 +2249,8 @@ function sendOrder(){
     const currentDate = new Date().toLocaleString('ar-LY');
     const orderData = {
       id: currentOrderId,
-      userOwner: currentUser.username,
-      userPhone: currentUser.contact,
+      userOwner: currentUser.phone,
+      userPhone: currentUser.phone,
       product: selectedProduct.title,
       price: selectedProduct.price,
       robloxUser: robloxUser,
@@ -2208,16 +2297,18 @@ function switchAdminTab(tabName) {
     document.getElementById(`admin${t.charAt(0).toUpperCase() + t.slice(1)}Section`).style.display = t === tabName ? "block" : "none";
   });
   if(tabName === 'orders') loadAdminOrdersList();
+  if(tabName === 'users') loadAdminUsersList();
   if(tabName === 'logs') loadAdminLogsList();
 }
 
+/* حل مشكلة عدم وصول الطلبات والربط الفوري الحقيقي */
 function loadAdminOrdersList() {
   const container = document.getElementById("adminOrdersList");
-  container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:20px;">جاري تحميل الطلبات...</div>`;
+  container.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري تحميل الطلبات...</div>`;
   
-  db.collection("orders").get().then((snapshot) => {
+  db.collection("orders").onSnapshot((snapshot) => {
     cachedOrdersMap = {};
-    if(snapshot.empty) { container.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد طلبات نشطة 📭</div>`; return; }
+    if(snapshot.empty) { container.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا توجد طلبات نشطة 📭</div>`; return; }
     container.innerHTML = "";
     let i = 1;
     snapshot.forEach(doc => {
@@ -2229,7 +2320,10 @@ function loadAdminOrdersList() {
       div.innerHTML = `
         <div class="admin-order-info">
           <div class="admin-order-num">${i}</div>
-          <div><h4>طلب رقم ${o.id} - ${o.product}</h4><p>الزبون: ${o.userOwner} | الهاتف: ${o.userPhone}</p></div>
+          <div>
+            <h4 style="color:#fff; font-size:14px; margin-bottom:4px;">طلب رقم ${o.id} - ${o.product}</h4>
+            <p style="font-size:12px; color:#888;">الزبون: +${o.userPhone} | السعر: ${o.price} د.ل</p>
+          </div>
         </div>
         <div><span class="order-badge badge-pending">${o.status}</span></div>`;
       container.appendChild(div);
@@ -2238,24 +2332,84 @@ function loadAdminOrdersList() {
   });
 }
 
+/* تفاصيل حسابات الزبائن مع الطلبات السابقة لكل زبون */
 function loadAdminUsersList() {
+  const c = document.getElementById("adminUsersList"); 
+  c.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري تحميل العملاء...</div>`;
+  
   db.collection("users").get().then(snap => {
-    const c = document.getElementById("adminUsersList"); c.innerHTML = "";
+    c.innerHTML = "";
+    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا يوجد زبائن مسجلين.</div>`; return; }
+    
     snap.forEach(d => {
       const u = d.data();
-      c.innerHTML += `<div class="admin-user-card"><div><h4>${u.username}</h4><p>هاتف: ${u.phone}</p></div></div>`;
+      const div = document.createElement("div");
+      div.className = "admin-user-card";
+      div.onclick = () => openAdminUserDetail(u.phone);
+      div.innerHTML = `
+        <div class="admin-order-info">
+          <div class="admin-order-num" style="background:rgba(16,185,129,0.15); color:#34d399;">👤</div>
+          <div>
+            <h4 style="color:#fff; font-size:14px; margin-bottom:2px;">+${u.phone}</h4>
+            <p style="font-size:11px; color:#888;">انقر للبحث والمشاهدة الكاملة لطلبات هذا الزبون</p>
+          </div>
+        </div>
+        <button class="admin-copy-mini-btn">عرض السجل 📋</button>`;
+      c.appendChild(div);
     });
   });
 }
 
+function openAdminUserDetail(userPhone) {
+  const modal = document.getElementById("adminUserDetailModal");
+  const content = document.getElementById("adminUserDetailContent");
+  content.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري جلب سجل طلبات الزبون...</div>`;
+  modal.classList.add("show");
+
+  Promise.all([
+    db.collection("orders").where("userOwner", "==", userPhone).get(),
+    db.collection("order_logs").where("userOwner", "==", userPhone).get()
+  ]).then(([actSnap, logSnap]) => {
+    let allUserOrders = [];
+    actSnap.forEach(d => allUserOrders.push(d.data()));
+    logSnap.forEach(d => allUserOrders.push(d.data()));
+
+    let ordersHtml = "";
+    if(allUserOrders.length === 0) {
+      ordersHtml = `<div style="color:#888; font-size:12px; text-align:center; padding:10px;">لا توجد طلبات مسجلة لهذا الرقم.</div>`;
+    } else {
+      allUserOrders.forEach(o => {
+        ordersHtml += `
+          <div style="background:#181824; border:1px solid #2d2d42; border-radius:10px; padding:10px; margin-bottom:8px; font-size:12px;">
+            <div style="display:flex; justify-content:space-between; color:#fff; font-weight:bold; margin-bottom:4px;">
+              <span>رقم الطلب: ${o.id}</span>
+              <span style="color:#818cf8;">${o.status}</span>
+            </div>
+            <div style="color:#aaa;">المنتج: ${o.product} (${o.price} د.ل)</div>
+            <div style="color:#666; font-size:10px; margin-top:2px;">التاريخ: ${o.time}</div>
+          </div>`;
+      });
+    }
+
+    content.innerHTML = `
+      <div class="detail-row"><span>رقم الهاتف:</span><b style="color:#34d399; font-size:15px;">+${userPhone}</b></div>
+      <div style="margin-top:15px;">
+        <h4 style="color:#fff; font-size:13px; margin-bottom:10px;">📦 كشوفات وسجل كافة طلبات هذا الزبون:</h4>
+        <div style="max-height:300px; overflow-y:auto;">${ordersHtml}</div>
+      </div>`;
+  });
+}
+
+function closeAdminUserDetailModal() { document.getElementById("adminUserDetailModal").classList.remove("show"); }
+
 function loadAdminLogsList() {
   const c = document.getElementById("adminLogsList");
-  c.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:20px;">جاري التحميل...</div>`;
+  c.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري التحميل...</div>`;
   
   db.collection("order_logs").get().then(snap => {
     c.innerHTML = "";
     cachedOrdersMap = cachedOrdersMap || {};
-    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#a3a3a3; padding:30px;">لا توجد سجلات سابقة.</div>`; return; }
+    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا توجد سجلات سابقة.</div>`; return; }
     
     let i = 1;
     snap.forEach(d => {
@@ -2265,7 +2419,10 @@ function loadAdminLogsList() {
         <div class="admin-log-card" onclick="openAdminDetail('${l.id}')">
           <div class="admin-order-info">
             <div class="admin-order-num">${i}</div>
-            <div><h4>طلب رقم ${l.id} - ${l.product}</h4><p>الزبون: ${l.userOwner} | الحالة: ${l.status}</p></div>
+            <div>
+              <h4 style="color:#fff; font-size:14px;">طلب رقم ${l.id} - ${l.product}</h4>
+              <p style="font-size:11px; color:#888;">الزبون: +${l.userPhone} | الحالة: ${l.status}</p>
+            </div>
           </div>
           <div><span class="order-badge badge-completed">أرشيف</span></div>
         </div>`;
@@ -2279,18 +2436,16 @@ function openAdminDetail(orderId) {
   if(!o) { alert("عذراً، لم يتم العثور على بيانات هذا الطلب."); return; }
   
   const content = document.getElementById("adminDetailContent");
-  
-  let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
-  let fullUserPhone = "218" + cleanUserPhone;
+  let fullUserPhone = o.userPhone.startsWith('+') ? o.userPhone.replace('+', '') : o.userPhone;
 
   const storeUrl = window.location.href.split('#')[0];
 
-  const msgReview = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgPrep = `مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgAcc = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgUnav = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج (${o.product}) غير متوفر حالياً ⚠️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgRej = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgComp = `مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgReview = `مرحباً بك، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgPrep = `مرحباً بك، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgAcc = `مرحباً بك، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgUnav = `مرحباً بك، نأسف لإبلاغك بأن المنتج (${o.product}) غير متوفر حالياً ⚠️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgRej = `مرحباً بك، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgComp = `مرحباً بك، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
 
   const waReview = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgReview)}`;
   const waPrep = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgPrep)}`;
@@ -2301,7 +2456,7 @@ function openAdminDetail(orderId) {
 
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
-    <div class="detail-row"><span>صاحب الحساب:</span><b>${o.userOwner}</b></div>
+    <div class="detail-row"><span>رقم هاتف الزبون:</span><b style="color:#34d399;">+${o.userPhone}</b></div>
     <div class="detail-row"><span>التاريخ والوقت:</span><b style="color:#a3a3a3; font-size:11px;">${o.time}</b></div>
     <div class="detail-row"><span>المنتج المطلوب:</span><b>${o.product}</b></div>
     <div class="detail-row"><span>السعر:</span><b>${o.price} د.ل</b></div>
@@ -2324,10 +2479,10 @@ function openAdminDetail(orderId) {
 
     <div class="detail-row"><span>الحالة الحالية:</span><b>${o.status}</b></div>
     
-    <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة الإيصال أو الكرت (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
+    <div style="margin-top:10px;"><div style="font-size:11px; color:#888; margin-bottom:4px;">صورة الإيصال أو الكرت:</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
     
     <div style="margin-top:15px; text-align:center;">
-      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">أزرار إرسال الرسائل عبر الواتساب للزبون:</div>
+      <div style="font-size:11px; color:#888; margin-bottom:8px;">إرسال تحديثات حالة الطلب للزبون بالواتساب:</div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
         <a href="${waReview}" target="_blank" class="admin-btn admin-btn-wa">قيد المراجعة 💬</a>
         <a href="${waPrep}" target="_blank" class="admin-btn admin-btn-wa" style="background:#9333ea;">تجهيز الطلب 💬</a>
@@ -2336,7 +2491,7 @@ function openAdminDetail(orderId) {
         <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">رفض الطلب ❌</a>
         <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم التسليم ✅</a>
       </div>
-      <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
+      <div style="border-top:1px solid #2d2d42; padding-top:10px; display:flex; justify-content:center; gap:5px;">
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل</button>
         <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">أرشفة كمرفوض</button>
       </div>
