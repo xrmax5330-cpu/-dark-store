@@ -24,7 +24,6 @@
   --text-muted: #888888;
   --line: #1a1a1a;
   --whatsapp-green: #25d366;
-  --admin-accent: #6366f1;
 }
 
 * {
@@ -301,7 +300,7 @@ nav {
   z-index: 1;
 }
 
-/* شريط تتبع الطلب النشط */
+/* شريط تتبع الطلب النشط في الرئيسية */
 .home-active-order-banner {
   max-width: 750px;
   margin: 25px auto 0;
@@ -419,26 +418,26 @@ section {
 }
 
 .category-box {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
   margin-bottom: 30px;
 }
 
 .cat-btn {
-  padding: 14px 10px;
+  min-width: 160px;
+  padding: 14px 20px;
   border-radius: 14px;
   border: 1px solid var(--card-border);
   background: var(--card-bg);
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   transition: all 0.3s ease;
 }
 
@@ -447,7 +446,6 @@ section {
   height: 26px;
   object-fit: contain;
   border-radius: 6px;
-  filter: grayscale(30%);
 }
 
 .cat-btn:hover {
@@ -550,21 +548,10 @@ section {
 }
 
 .effect-price {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 900;
   color: var(--accent-silver);
   margin-bottom: 8px;
-}
-
-.unavail-tag {
-  color: #f87171 !important;
-  background: rgba(220, 38, 38, 0.15);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 900;
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  width: 100%;
 }
 
 .btn-group-card {
@@ -1040,7 +1027,7 @@ footer {
 
 .order-badge {
   display: inline-block;
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 800;
@@ -1052,9 +1039,7 @@ footer {
 .badge-rejected { background: rgba(220, 38, 38, 0.15); color: #f87171; border: 1px solid #dc2626; }
 .badge-unavailable { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid #6b7280; }
 
-/* ========================================================= */
-/* ✨ تصميم لوحة تحكم الأدمن الجديد والمطور بالكامل ✨ */
-/* ========================================================= */
+/* ✨ تصميم لوحة تحكم الأدمن المطور والجديد ✨ */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
@@ -1076,7 +1061,8 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  sticky: top: 0;
+  position: sticky;
+  top: 0;
   z-index: 100;
 }
 
@@ -1115,7 +1101,7 @@ footer {
   padding: 24px;
 }
 
-/* كروت الإحصائيات الفخمة */
+/* كروت إحصائيات الأدمن */
 .admin-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1367,7 +1353,7 @@ footer {
   <div class="sidebar-menu-items">
     <div class="sidebar-item" onclick="toggleSidebar(); openProfileModal()">
       <span class="sidebar-item-icon">👤</span>
-      <span>حسابي (عرض حسابك)</span>
+      <span>حسابي (عرض حسابي واشتراكاتك)</span>
     </div>
     <div class="sidebar-item" onclick="toggleSidebar(); scrollToPrices()">
       <span class="sidebar-item-icon">🛍️</span>
@@ -1440,32 +1426,19 @@ footer {
       <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
     </div>
 
+    <!-- الإبقاء فقط على الروبوكس والأفكتات -->
     <div class="category-box">
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
         <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
-        <span>روبوكس (تخفيضات الجمعة 🔥)</span>
+        <span>روبوكس</span>
       </button>
-      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')"><span>الأفكتات</span></button>
-      <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
-        <img src="https://i.ibb.co/yFzL2CH2/IMG-4898.png" alt="أيتونز" class="cat-icon-img">
-        <span>أيتونز</span>
-      </button>
-      <button id="catPsBtn" class="cat-btn" onclick="switchCategory('ps')">
-        <img src="https://i.ibb.co/bjXVwKjF/IMG-4900.webp" alt="بلايستيشن" class="cat-icon-img">
-        <span>بلايستيشن</span>
-      </button>
-      <button id="catXboxBtn" class="cat-btn" onclick="switchCategory('xbox')">
-        <img src="https://i.ibb.co/nsWPPM0v/IMG-4899.jpg" alt="إكس بوكس" class="cat-icon-img">
-        <span>إكس بوكس</span>
-      </button>
-      <button id="catPubgBtn" class="cat-btn" onclick="switchCategory('pubg')">
-        <img src="https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" alt="ببجي" class="cat-icon-img">
-        <span>ببجي</span>
+      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
+        <span>💣 أفكتات روبلوكس</span>
       </button>
     </div>
 
     <div id="robuxHeader">
-      <div class="title"><h2>اختر الباقة وطريقة الدفع المناسبة (تخفيضات الجمعة 🔥)</h2><p>💸اختر طريقة الدفع</p></div>
+      <div class="title"><h2>اختر الباقة وطريقة الدفع المناسبة</h2><p>💸 اختر طريقة الدفع</p></div>
       <div class="provider-box">
         <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
           <img id="madarLogoImg" src="" alt="مدار"><span>مدار</span>
@@ -1476,21 +1449,17 @@ footer {
       </div>
     </div>
 
-    <div id="effectsHeader" style="display: none;"><div class="title"><h2>💣أفكتات روبلوكس</h2><p>الدفع عن طريق ليبيانا</p></div></div>
-    <div id="itunesHeader" style="display: none;"><div class="title"><h2>أيتونز ( أمريكا🇺🇸 )</h2><p>الدفع عن طريق ليبيانا أو كرت شحن</p></div></div>
-    <div id="psHeader" style="display: none;"><div class="title"><h2>شبكة بلاي ستيشن ( أمريكا )</h2><p>بطاقات بلايستيشن ستور الأمريكية</p></div></div>
-    <div id="pubgHeader" style="display: none;"><div class="title"><h2>ببجي موبايل</h2><p>شحن عن طريق الأيدي (ID)</p></div></div>
-    <div id="xboxHeader" style="display: none;"><div class="title"><h2>إكس بوكس ( أمريكا )</h2><p>بطاقات هدايا أمريكية</p></div></div>
+    <div id="effectsHeader" style="display: none;"><div class="title"><h2>💣 أفكتات روبلوكس</h2><p>الدفع عن طريق ليبيانا أو مدار</p></div></div>
 
     <div id="prices" class="effects-grid"></div>
     <div id="noticeBox" class="notice">اختر الكمية أو المنتج المناسب لك ثم اضغط شراء أو أضفها للسلة.</div>
 
     <div id="reviewsSection" class="reviews-section">
-      <div class="title"><h2>👤آراء العملاء</h2><p>❣️ثقة زبائننا هي سر نجاحنا</p></div>
+      <div class="title"><h2>👤 آراء العملاء</h2><p>❣️ ثقة زبائننا هي سر نجاحنا</p></div>
       <div class="reviews-grid">
         <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"سرعة خيالية في التسليم وتعامل راقي جداً، أنصح بالتعامل معهم."</div><div class="review-author">- أحمد المصراتي</div></div>
         <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"أفضل متجر لشحن الروبوكس والأسعار ممتازة مقارنة بغيرهم."</div><div class="review-author">- طارق الزوي</div></div>
-        <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"شحنت ببجي ووصل الشحن في أقل من 5 دقائق، شكراً لكم."</div><div class="review-author">- أسامة العبيدي</div></div>
+        <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"وصل الشحن في أقل من 5 دقائق، شكراً لكم."</div><div class="review-author">- أسامة العبيدي</div></div>
       </div>
     </div>
   </section>
@@ -1503,28 +1472,41 @@ footer {
   <div><button class="admin-trigger-btn" onclick="openAdminPanelPrompt()">⚙️ لوحة الإدارة</button></div>
 </footer>
 
-<!-- نافذة تسجيل الدخول برقم الهاتف فقط -->
+<!-- نافذة تسجيل الدخول والتحقق -->
 <div id="authModal" class="modal">
   <div class="auth-custom-box">
     <div style="text-align: center;">
-      <span class="modal-header-tag" id="authTagBadge">📱 DARK STORE</span>
-      <h3 id="authModalTitle">دخول برقم الهاتف</h3>
+      <span class="modal-header-tag" id="authTagBadge">🔐 DARK STORE</span>
+      <h3 id="authModalTitle">إنشاء حساب جديد</h3>
     </div>
 
-    <!-- نموذج التسجيل بـ رقم الهاتف -->
-    <div id="phoneAuthContainer">
-      <div class="form-group">
-        <label>📱 رقم الهاتف <span>*</span></label>
-        <div style="display: flex; gap: 8px; direction: ltr;">
-          <span style="background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); padding: 11px; border-radius: 10px; color: #fff; font-weight: bold; font-size: 13px;">+218</span>
-          <input id="userPhoneInput" class="input" type="tel" placeholder="09xxxxxxx" style="direction: rtl; flex: 1;">
-        </div>
+    <!-- خطوة 1: إدخال البيانات -->
+    <div id="registerFormContainer">
+      <div class="form-group"><label>👤 اسم المستخدم (بالإنجليزية فقط) <span>*</span></label><input id="regUsername" class="input" type="text" placeholder="Example: darkstore"></div>
+      <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="regPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
+      <div class="form-group"><label>📱 رقم الهاتف (رقمك للواتساب) <span>*</span></label><input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
+      <button class="confirm" onclick="proceedToVerification()">📩 التابع لخطوة التحقق</button>
+      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToLogin()">لديك حساب من قبل؟ تسجيل دخول</button></div>
+    </div>
+
+    <!-- خطوة 2: إدخال كود التحقق العشوائي -->
+    <div id="verifyCodeContainer" style="display: none; text-align: center;">
+      <div style="background: rgba(20, 20, 20, 0.9); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
+        <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">🔢 رمز التحقق المطلوب إدخاله:</div>
+        <div id="generatedOtpDisplay" style="font-size: 28px; font-weight: 950; color: #34d399; letter-spacing: 6px; margin: 10px 0;">1018</div>
+        <div style="font-size: 11px; color: #fde047; font-weight: bold; margin-top: 5px;">يرجى كتابة رمز التحقق الخاص بك تحت ⬇️</div>
       </div>
-      <div class="form-group">
-        <label>🔒 كلمة السر الخاصة بك <span>*</span></label>
-        <input id="userPassInput" class="input" type="password" placeholder="أدخل كلمة السر للحساب">
-      </div>
-      <button class="confirm" onclick="handlePhoneAuth()">🚀 الدخول إلى المتجر</button>
+      <div class="form-group"><label>🔢 أدخل كود التحقق المكون من 4 أرقام <span>*</span></label><input id="enteredOtpInput" class="input" type="text" placeholder="أدخل الكود هنا" style="text-align: center; font-size: 18px; letter-spacing: 2px;"></div>
+      <button class="confirm" onclick="verifyAndCompleteRegister()">✅ تأكيد وتفعيل الحساب</button>
+      <button class="close" onclick="switchToRegister()">رجوع</button>
+    </div>
+
+    <!-- تسجيل الدخول -->
+    <div id="loginFormContainer" style="display: none;">
+      <div class="form-group"><label>👤 اسم المستخدم (اليوزر) <span>*</span></label><input id="logUsername" class="input" type="text" placeholder="أدخل اسم المستخدم"></div>
+      <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="logPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
+      <button class="confirm" onclick="handleLogin()">🔑 تسجيل الدخول</button>
+      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToRegister()">ليس لديك حساب؟ إنشاء حساب جديد</button></div>
     </div>
   </div>
 </div>
@@ -1533,7 +1515,7 @@ footer {
 <div id="profileModal" class="modal">
   <div class="auth-custom-box" style="max-width: 500px;">
     <div style="text-align: center; margin-bottom: 20px;">
-      <span class="modal-header-tag">👤 بيانات حسابك</span>
+      <span class="modal-header-tag">👤 لوحة التحكم الخاصة بك</span>
       <h3 style="font-size: 26px;">الملف الشخصي</h3>
     </div>
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #4ade80; padding: 12px; border-radius: 14px; font-size: 14px; font-weight: bold; margin-bottom: 20px;">
@@ -1541,7 +1523,9 @@ footer {
       <span>حسابك مفعل تستطيع الشراء</span>
     </div>
     <div style="background: rgba(20, 20, 20, 0.85); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; margin-bottom: 20px; text-align: right;">
-      <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">رقم الهاتف المسجل:</div><div style="font-size: 18px; font-weight: 900; color: #34d399;" id="profPhoneVal">-</div></div>
+      <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">اسم الحساب:</div><div style="font-size: 16px; font-weight: 900; color: #fff;" id="profUserVal">-</div></div>
+      <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">كلمة السر:</div><div style="font-size: 16px; font-weight: 900; color: #fde047; font-family: monospace;" id="profPassVal">-</div></div>
+      <div><div style="font-size: 11px; color: var(--text-muted);">رقم الهاتف (الواتساب):</div><div style="font-size: 16px; font-weight: 900; color: #34d399;" id="profContactVal">-</div></div>
     </div>
     <button onclick="logoutUser()" style="width: 100%; padding: 14px; background: #dc2626; color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 900; cursor: pointer; margin-bottom: 10px;">تسجيل خروج 🚪</button>
     <button class="close" onclick="closeProfileModal()">إغلاق النافذة</button>
@@ -1568,7 +1552,7 @@ footer {
 <div id="modal" class="modal">
   <div class="modal-box">
     <div id="orderFormContent">
-      <div style="text-align: center;"><span class="modal-header-tag">⚡ خطوة أخيرة</span><h3>إتمام الطلب</h3></div>
+      <div style="text-align: center;"><span class="modal-header-tag">⚡ خطوة أخيره</span><h3>إتمام الطلب</h3></div>
       <div class="order-summary-card">
         <div class="order-summary-title">ملخص الطلب</div>
         <div id="orderItemTitle" class="order-summary-item">-</div>
@@ -1579,7 +1563,7 @@ footer {
         <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">-</div>
         <button class="copy-btn" onclick="copyTransferNumber()">📋 نسخ رقم التحويل</button>
-        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك واتساب لمشاهدة حالة طلبك</div>
+        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك وتساب لمشاهدة حالة طلبك</div>
       </div>
 
       <div class="steps-list" id="stepsListBox">
@@ -1616,7 +1600,7 @@ footer {
       <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استقبال طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
       <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-bottom: 10px; padding: 12px; text-decoration:none;">
-        💬 شاهد طلبك من واتساب (+218927816884)
+        💬 شاهد طلبك من واتساب (218927816884+)
       </a>
 
       <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px;" onclick="closeModal()">
@@ -1627,7 +1611,7 @@ footer {
 </div>
 
 <!-- ========================================================= -->
-<!-- 👑 لوحة تحكم الأدمن الجديدة والمتطورة 👑 -->
+<!-- 👑 لوحة تحكم الأدمن الجديدة والمتطورة بالكامل 👑 -->
 <!-- ========================================================= -->
 <div id="adminPanelModal" class="admin-panel-modal">
   
@@ -1636,7 +1620,7 @@ footer {
       <div class="admin-brand-icon">⚡</div>
       <div>
         <div class="admin-brand-title">DARK STORE ADMIN</div>
-        <div class="admin-brand-subtitle">نظام الإدارة المباشر والتفاعل الفوري</div>
+        <div class="admin-brand-subtitle">لوحة التحكم السريعة والربط المباشر بالطلبات</div>
       </div>
     </div>
     <button class="admin-btn admin-btn-rej" style="padding: 10px 18px; border-radius:10px; font-weight:900;" onclick="closeAdminPanel()">إغلاق اللوحة ✖</button>
@@ -1644,18 +1628,18 @@ footer {
 
   <div class="admin-body-container">
     
-    <!-- كروت إحصائيات سريعة -->
+    <!-- كروت إحصائيات الأدمن السريعة -->
     <div class="admin-stats-grid">
       <div class="stat-card">
         <div class="stat-info">
-          <h5>الطلبات النشطة</h5>
+          <h5>الطلبات الواردة</h5>
           <div class="num" id="statActiveOrdersNum">0</div>
         </div>
         <div class="stat-icon-wrapper" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">📦</div>
       </div>
       <div class="stat-card">
         <div class="stat-info">
-          <h5>العملاء المسجلين</h5>
+          <h5>حسابات الزبائن</h5>
           <div class="num" id="statUsersNum">0</div>
         </div>
         <div class="stat-icon-wrapper" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">👥</div>
@@ -1669,16 +1653,16 @@ footer {
       </div>
     </div>
 
-    <!-- أزرار التنقل بين الأقسام -->
+    <!-- أزرار التنقل -->
     <div class="admin-tabs-bar">
       <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">
-        <span>📦</span> <span>الطلبات الواردة</span>
+        <span>📦</span> <span>إدارة الطلبات</span>
       </button>
       <button id="tabUsersBtn" class="admin-tab-btn" onclick="switchAdminTab('users')">
-        <span>👥</span> <span>قائمة العملاء</span>
+        <span>👥</span> <span>حسابات العملاء</span>
       </button>
       <button id="tabLogsBtn" class="admin-tab-btn" onclick="switchAdminTab('logs')">
-        <span>📋</span> <span>أرشيف الطلبات</span>
+        <span>📋</span> <span>أرشيف الطلبات المنتهية</span>
       </button>
     </div>
 
@@ -1693,21 +1677,21 @@ footer {
       </div>
     </div>
 
-    <!-- قسم العملاء -->
+    <!-- قسم حسابات العملاء -->
     <div id="adminUsersSection" class="admin-card-container" style="display: none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-size:16px; font-weight:900; color:#fff;">قائمة العملاء وطلباتهم</h3>
+        <h3 style="font-size:16px; font-weight:900; color:#fff;">قائمة حسابات الزبائن المسجلين</h3>
       </div>
       <div id="adminUsersList" class="admin-users-list">
         <div style="text-align:center; color:#888; padding:30px;">جاري التحميل...</div>
       </div>
     </div>
 
-    <!-- قسم الأرشيف -->
+    <!-- قسم أرشيف الطلبات -->
     <div id="adminLogsSection" class="admin-card-container" style="display: none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-size:16px; font-weight:900; color:#fff;">سجل الطلبات المؤرشفة</h3>
-        <button class="admin-btn admin-btn-rej" onclick="clearAllLogs()">🗑️ مسح الأرشيف</button>
+        <h3 style="font-size:16px; font-weight:900; color:#fff;">سجل الطلبات السابقة والمؤرشفة</h3>
+        <button class="admin-btn admin-btn-rej" onclick="clearAllLogs()">🗑️ مسح السجلات</button>
       </div>
       <div id="adminLogsList" class="admin-logs-list">
         <div style="text-align:center; color:#888; padding:30px;">لا توجد سجلات.</div>
@@ -1728,11 +1712,11 @@ footer {
   </div>
 </div>
 
-<!-- نافذة تفاصيل العميل للأدمن -->
+<!-- نافذة تفاصيل العميل وسجل طلباته -->
 <div id="adminUserDetailModal" class="admin-detail-modal">
   <div class="admin-detail-box">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #2d2d42; padding-bottom:10px;">
-      <h3 style="color:#fff; font-size:17px;">👤 سجل وتفاصيل العميل</h3>
+      <h3 style="color:#fff; font-size:17px;">👤 بيانات وسجل طلبات الزبون</h3>
       <button class="admin-btn admin-btn-rej" onclick="closeAdminUserDetailModal()">إغلاق ✖</button>
     </div>
     <div id="adminUserDetailContent"></div>
@@ -1776,76 +1760,50 @@ const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
 const STORE_WHATSAPP = "218927816884";
 
+/* 🔥 الأسعار المعدلة حسب الطلب 🔥 */
 const madarPrices = [
-  {robux:10, price: "3 مدار", rawPrice: "3", img: robuxImgUrl},
-  {robux:20, price: "5 مدار", rawPrice: "5", img: robuxImgUrl},
-  {robux:30, price: "10", rawPrice: "10", img: robuxImgUrl},
-  {robux:40, price: "13 مدار", rawPrice: "13", img: robuxImgUrl},
-  {robux:80, price: "20", rawPrice: "20", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
-  {robux:120, price: "35", rawPrice: "35", img: robuxImgUrl},
-  {robux:160, price: "47", rawPrice: "47", img: robuxImgUrl},
-  {robux:200, price: "50", rawPrice: "50", img: robuxImgUrl},
-  {robux:400, price: "83", rawPrice: "83", badge: "🕑عرض خاص", img: robuxImgUrl},
-  {robux:500, price: "85", rawPrice: "85", badge: "🔥افضل سعر", img: robuxImgUrl},
-  {robux:1000, price: "160", rawPrice: "160", img: robuxImgUrl}
+  {robux:10, price: "5 مدار", rawPrice: "5", img: robuxImgUrl},
+  {robux:20, price: "7 مدار", rawPrice: "7", img: robuxImgUrl},
+  {robux:30, price: "13 مدار", rawPrice: "13", img: robuxImgUrl},
+  {robux:40, price: "15 مدار", rawPrice: "15", img: robuxImgUrl},
+  {robux:80, price: "20 مدار", rawPrice: "20", badge: "🌟 الأكثر طلباً", img: robuxImgUrl},
+  {robux:120, price: "35 مدار", rawPrice: "35", img: robuxImgUrl},
+  {robux:160, price: "47 مدار", rawPrice: "47", img: robuxImgUrl},
+  {robux:200, price: "50 مدار", rawPrice: "50", img: robuxImgUrl},
+  {robux:400, price: "83 مدار", rawPrice: "83", badge: "🕑 عرض خاص", img: robuxImgUrl},
+  {robux:500, price: "85 مدار", rawPrice: "85", badge: "🔥 أفضل سعر", img: robuxImgUrl},
+  {robux:1000, price: "160 مدار", rawPrice: "160", img: robuxImgUrl}
 ];
 
 const libyanaPrices = [
-  {robux:10, price: "2 ليبيانا", rawPrice: "2", img: robuxImgUrl},
-  {robux:20, price: "4 ليبيانا", rawPrice: "4", img: robuxImgUrl},
-  {robux:30, price: "7", rawPrice: "7", img: robuxImgUrl},
-  {robux:40, price: "10", rawPrice: "10", img: robuxImgUrl},
-  {robux:50, price: "13", rawPrice: "13", img: robuxImgUrl},
-  {robux:80, price: "14 ليبيانا", rawPrice: "14", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
-  {robux:120, price: "35", rawPrice: "35", img: robuxImgUrl},
-  {robux:160, price: "45", rawPrice: "45", img: robuxImgUrl},
-  {robux:400, price: "80", rawPrice: "85", badge: "🔥افضل سعر", img: robuxImgUrl},
-  {robux:500, price: "85", rawPrice: "75", img: robuxImgUrl},
-  {robux:1000, price: "130", rawPrice: "130", img: robuxImgUrl}
+  {robux:10, price: "3 ليبيانا", rawPrice: "3", img: robuxImgUrl},
+  {robux:20, price: "5 ليبيانا", rawPrice: "5", img: robuxImgUrl},
+  {robux:30, price: "7 ليبيانا", rawPrice: "7", img: robuxImgUrl},
+  {robux:40, price: "10 ليبيانا", rawPrice: "10", img: robuxImgUrl},
+  {robux:50, price: "13 ليبيانا", rawPrice: "13", img: robuxImgUrl},
+  {robux:80, price: "15 ليبيانا", rawPrice: "15", badge: "🌟 الأكثر طلباً", img: robuxImgUrl},
+  {robux:120, price: "35 ليبيانا", rawPrice: "35", img: robuxImgUrl},
+  {robux:160, price: "45 ليبيانا", rawPrice: "45", img: robuxImgUrl},
+  {robux:400, price: "80 ليبيانا", rawPrice: "80", badge: "🔥 أفضل سعر", img: robuxImgUrl},
+  {robux:500, price: "85 ليبيانا", rawPrice: "85", img: robuxImgUrl},
+  {robux:1000, price: "130 ليبيانا", rawPrice: "130", img: robuxImgUrl}
 ];
 
 const effectsList = [
   { name: "افكت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
   { name: "افكت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
-  { name: "💸افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
+  { name: "💸 افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
   { name: "افكت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
   { name: "افكت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
   { name: "افكت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
-  { name: "🔥افكت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
+  { name: "🔥 افكت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
   { name: "افكت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
   { name: "افكت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
-  { name: "🎈افكت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
-  { name: "🖤افكت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
-  { name: "🟨افكت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
-  { name: "⚡️افكت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
-  { name: "🪙افكت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
-];
-
-const itunesPrices = [
-  { amount: "🇺🇸2$", price: 35, img: "https://i.ibb.co/yFzL2CH2/IMG-4898.png" },
-  { amount: "🇺🇸3$", price: 43, img: "https://i.ibb.co/yFzL2CH2/IMG-4898.png" },
-  { amount: "🇺🇸4$", price: 55, img: "https://i.ibb.co/yFzL2CH2/IMG-4898.png" },
-  { amount: "🇺🇸5$", price: 68, img: "https://i.ibb.co/yFzL2CH2/IMG-4898.png" },
-  { amount: "🇺🇸10$", price: 134, badge: "الأكثر طلباً", img: "https://i.ibb.co/yFzL2CH2/IMG-4898.png" },
-  { amount: "🇺🇸25$", price: 330, img: "https://i.ibb.co/yFzL2CH2/IMG-4898.png" }
-];
-
-const psPrices = [
-  { amount: "10$", price: 130, badge: "الأكثر طلباً", img: "https://i.ibb.co/bjXVwKjF/IMG-4900.webp" },
-  { amount: "25$", price: 320, img: "https://i.ibb.co/bjXVwKjF/IMG-4900.webp" }
-];
-
-const pubgPrices = [
-  { uc: "60 UC", price: 13, img: "https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" },
-  { uc: "160 UC", price: 27, img: "https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" },
-  { uc: "325 UC", price: 64, badge: "شائع", img: "https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" },
-  { uc: "660 UC", price: 128, badge: "عرض ممتاز", img: "https://i.ibb.co/KpKjv8jM/IMG-4902.jpg" }
-];
-
-const xboxPrices = [
-  { amount: "10$", price: 130, img: "https://i.ibb.co/nsWPPM0v/IMG-4899.jpg" },
-  { amount: "15$", price: 190, img: "https://i.ibb.co/nsWPPM0v/IMG-4899.jpg" },
-  { amount: "25$", price: 315, img: "https://i.ibb.co/nsWPPM0v/IMG-4899.jpg" }
+  { name: "🎈 افكت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
+  { name: "🖤 افكت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
+  { name: "🟨 افكت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
+  { name: "⚡️ افكت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "🪙 افكت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
 ];
 
 let currentCategory = "robux"; 
@@ -1859,6 +1817,9 @@ let currentUser = null;
 let lastOrdersCount = -1;
 let cachedOrdersMap = {};
 let currentOrdersFilter = 'all';
+
+let pendingRegData = null;
+let generatedOtpCode = "";
 
 function getNextOrderId() {
   let seq = parseInt(localStorage.getItem("dark_store_order_seq") || "1000") + 1;
@@ -1890,7 +1851,7 @@ function initBackgroundAdminListener() {
       const latestDoc = snapshot.docs[snapshot.docs.length - 1];
       if(latestDoc) {
         const ord = latestDoc.data();
-        showLiveToast(`الزبون (${ord.userPhone || 'زائر'}) طلب رقم ${ord.id}: ${ord.product}`);
+        showLiveToast(`الزبون (${ord.userOwner || 'زائر'}) طلب رقم ${ord.id}: ${ord.product}`);
       }
     }
     lastOrdersCount = snapshot.size;
@@ -1916,50 +1877,93 @@ function closeLiveToast() { document.getElementById("adminLiveToast").classList.
 function toggleSidebar() { document.getElementById("sidebarOverlay").classList.toggle("show"); document.getElementById("sidebarDrawer").classList.toggle("show"); }
 function openGuideModal() { document.getElementById("guideModal").classList.add("show"); }
 function closeGuideModal() { document.getElementById("guideModal").classList.remove("show"); }
-function openAuthModal() { document.getElementById("authModal").classList.add("show"); }
+function openAuthModal() { document.getElementById("authModal").classList.add("show"); switchToRegister(); }
+function closeAuthModal() { document.getElementById("authModal").classList.remove("show"); }
 
-/* تسجيل الدخول المباشر برقم الهاتف فقط */
-function handlePhoneAuth() {
-  const phoneVal = document.getElementById("userPhoneInput").value.trim();
-  const passVal = document.getElementById("userPassInput").value.trim();
+function switchToLogin() {
+  document.getElementById("registerFormContainer").style.display = "none";
+  document.getElementById("verifyCodeContainer").style.display = "none";
+  document.getElementById("loginFormContainer").style.display = "block";
+  document.getElementById("authModalTitle").textContent = "تسجيل الدخول";
+  document.getElementById("authTagBadge").textContent = "🔑 مرحباً بك مجدداً";
+}
 
-  if(!phoneVal || !passVal) { alert("يرجى إدخال رقم الهاتف وكلمة السر!"); return; }
+function switchToRegister() {
+  document.getElementById("loginFormContainer").style.display = "none";
+  document.getElementById("verifyCodeContainer").style.display = "none";
+  document.getElementById("registerFormContainer").style.display = "block";
+  document.getElementById("authModalTitle").textContent = "إنشاء حساب جديد";
+  document.getElementById("authTagBadge").textContent = "🔐 DARK STORE";
+}
 
-  let formattedPhone = phoneVal;
-  if(formattedPhone.startsWith("0")) formattedPhone = formattedPhone.substring(1);
-  const fullPhone = "218" + formattedPhone;
+function proceedToVerification() {
+  const userVal = document.getElementById("regUsername").value.trim();
+  const passVal = document.getElementById("regPassword").value.trim();
+  const phoneVal = document.getElementById("regPhone").value.trim();
 
-  db.collection("users").doc(fullPhone).get().then((doc) => {
+  if(!userVal || !passVal || !phoneVal) { alert("يرجى ملء كافة الحقول!"); return; }
+  if(!/^[A-Za-z]+$/.test(userVal)) { alert("❌ اسم المستخدم بالإنجليزية فقط بدون أرقام أو مسافات!"); return; }
+  if(userVal.length < 5) { alert("❌ اسم المستخدم يجب ألا يقل عن 5 حروف!"); return; }
+
+  db.collection("users").doc(userVal).get().then((doc) => {
     if(doc.exists) {
-      if(doc.data().password === passVal) {
-        currentUser = { phone: fullPhone, password: passVal };
-        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-        document.getElementById("authModal").classList.remove("show");
-        listenToHomeActiveOrder();
-        alert("✅ تم تسجيل الدخول بنجاح!");
-      } else {
-        alert("❌ كلمة السر غير صحيحة لهذا الرقم!");
-      }
+      alert("❌ اسم المستخدم موجود مسبقاً.");
     } else {
-      const userData = {
-        phone: fullPhone,
-        password: passVal,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      db.collection("users").doc(fullPhone).set(userData).then(() => {
-        currentUser = { phone: fullPhone, password: passVal };
-        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-        document.getElementById("authModal").classList.remove("show");
-        listenToHomeActiveOrder();
-        alert("🎉 تم إنشاء حساب جديد برقم هاتفك بنجاح!");
-      });
+      pendingRegData = { username: userVal, password: passVal, phone: phoneVal };
+      generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
+      document.getElementById("generatedOtpDisplay").textContent = generatedOtpCode;
+
+      document.getElementById("registerFormContainer").style.display = "none";
+      document.getElementById("verifyCodeContainer").style.display = "block";
+      document.getElementById("authModalTitle").textContent = "رمز التحقق";
+      document.getElementById("authTagBadge").textContent = "📲 تفعيل الحساب";
+    }
+  });
+}
+
+function verifyAndCompleteRegister() {
+  const enteredCode = document.getElementById("enteredOtpInput").value.trim();
+  if(enteredCode !== generatedOtpCode) { alert("❌ كود التحقق غير صحيح!"); return; }
+
+  const userData = {
+    username: pendingRegData.username,
+    password: pendingRegData.password,
+    phone: pendingRegData.phone,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  db.collection("users").doc(pendingRegData.username).set(userData).then(() => {
+    currentUser = { username: pendingRegData.username, password: pendingRegData.password, contact: pendingRegData.phone };
+    localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+    closeAuthModal();
+    listenToHomeActiveOrder();
+    alert("🎉 تم تسجيل حسابك في الموقع بنجاح، حسابك مفعل تستطيع الشراء!");
+  });
+}
+
+function handleLogin() {
+  const userVal = document.getElementById("logUsername").value.trim();
+  const passVal = document.getElementById("logPassword").value.trim();
+
+  db.collection("users").doc(userVal).get().then((doc) => {
+    if(!doc.exists || doc.data().password !== passVal) {
+      alert("❌ اسم المستخدم أو كلمة السر غير صحيحة!");
+    } else {
+      const u = doc.data();
+      currentUser = { username: u.username, password: u.password, contact: u.phone };
+      localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+      closeAuthModal();
+      listenToHomeActiveOrder();
+      alert("✅ تم تسجيل الدخول بنجاح!");
     }
   });
 }
 
 function openProfileModal() {
   if(!currentUser) { openAuthModal(); return; }
-  document.getElementById("profPhoneVal").textContent = "+" + currentUser.phone;
+  document.getElementById("profUserVal").textContent = currentUser.username;
+  document.getElementById("profPassVal").textContent = currentUser.password;
+  document.getElementById("profContactVal").textContent = currentUser.contact;
   document.getElementById("profileModal").classList.add("show");
 }
 function closeProfileModal() { document.getElementById("profileModal").classList.remove("show"); }
@@ -1993,8 +1997,8 @@ function renderMyOrdersModalList() {
   container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">جاري التحميل...</div>`;
 
   Promise.all([
-    db.collection("orders").where("userOwner", "==", currentUser.phone).get(),
-    db.collection("order_logs").where("userOwner", "==", currentUser.phone).get()
+    db.collection("orders").where("userOwner", "==", currentUser.username).get(),
+    db.collection("order_logs").where("userOwner", "==", currentUser.username).get()
   ]).then(([activeSnap, logsSnap]) => {
     container.innerHTML = "";
     let orders = [];
@@ -2060,7 +2064,7 @@ function listenToHomeActiveOrder() {
   if(!currentUser) return;
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
 
-  homeOrderUnsubscribe = db.collection("orders").where("userOwner", "==", currentUser.phone).onSnapshot((snapshot) => {
+  homeOrderUnsubscribe = db.collection("orders").where("userOwner", "==", currentUser.username).onSnapshot((snapshot) => {
     const banner = document.getElementById("homeActiveOrderBanner");
     if(snapshot.empty) { banner.classList.remove("show"); return; }
 
@@ -2107,19 +2111,17 @@ function filterProducts() {
 function switchCategory(cat) {
   currentCategory = cat;
   document.getElementById("searchInput").value = "";
-  ['robux','effects','itunes','ps','pubg','xbox'].forEach(k => {
-    document.getElementById(`cat${k.charAt(0).toUpperCase() + k.slice(1)}Btn`).classList.toggle("active", k === cat);
-    document.getElementById(`${k}Header`).style.display = k === cat ? "block" : "none";
-  });
+  
+  document.getElementById("catRobuxBtn").classList.toggle("active", cat === "robux");
+  document.getElementById("catEffectsBtn").classList.toggle("active", cat === "effects");
+
+  document.getElementById("robuxHeader").style.display = cat === "robux" ? "block" : "none";
+  document.getElementById("effectsHeader").style.display = cat === "effects" ? "block" : "none";
+
   if(cat === "robux") showRobuxPrices(currentProvider);
   else if(cat === "effects") showEffectsPrices();
-  else if(cat === "itunes") showItunesPrices();
-  else if(cat === "ps") showPsPrices();
-  else if(cat === "pubg") showPubgPrices();
-  else if(cat === "xbox") showXboxPrices();
 }
 
-/* 🔥 وضع عبارة غير متوفر على جميع باقات الروبوكس 🔥 */
 function showRobuxPrices(provider){
   currentProvider = provider;
   document.getElementById("madarBtn").classList.toggle("active", provider === "madar");
@@ -2130,10 +2132,15 @@ function showRobuxPrices(provider){
     const card = document.createElement("div");
     card.className = "effect-card";
     card.innerHTML = `
+      ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <img src="${item.img}" class="effect-img">
       <div class="effect-title">Robux ${item.robux}</div>
-      <div class="effect-price">${item.price} د.ل</div>
-      <div class="unavail-tag">🚫 غير متوفر حالياً</div>`;
+      <div class="effect-price">${item.price}</div>
+      <div class="btn-group-card">
+        <button class="effect-buy-btn">شراء</button>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس', price:'${item.price}', rawPrice:'${item.rawPrice}'})">+</button>
+      </div>`;
+    card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: 'robux', title: `Robux ${item.robux}`, price: `${item.price}`, provider: provider === "madar" ? "مدار" : "ليبيانا" });
     pricesBox.appendChild(card);
   });
 }
@@ -2153,29 +2160,6 @@ function showEffectsPrices(){
   });
 }
 
-function showItunesPrices(){ renderCardGrid(itunesPrices, 'أيتونز', 'card'); }
-function showPsPrices(){ renderCardGrid(psPrices, 'بلايستيشن', 'card'); }
-function showXboxPrices(){ renderCardGrid(xboxPrices, 'إكس بوكس', 'card'); }
-function showPubgPrices(){
-  const box = document.getElementById("prices"); box.innerHTML = "";
-  pubgPrices.forEach(item => {
-    const card = document.createElement("div"); card.className = "effect-card";
-    card.innerHTML = `<img src="${item.img}" class="effect-img"><div class="effect-title">ببجي (${item.uc})</div><div class="effect-price">${item.price} د.ل</div><button class="effect-buy-btn">شراء</button>`;
-    card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: 'pubg', title: `ببجي (${item.uc})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
-    box.appendChild(card);
-  });
-}
-
-function renderCardGrid(dataList, title, orderType) {
-  const box = document.getElementById("prices"); box.innerHTML = "";
-  dataList.forEach(item => {
-    const card = document.createElement("div"); card.className = "effect-card";
-    card.innerHTML = `<img src="${item.img}" class="effect-img"><div class="effect-title">${title} (${item.amount})</div><div class="effect-price">${item.price} د.ل</div><button class="effect-buy-btn">شراء</button>`;
-    card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: orderType, title: `${title} (${item.amount})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
-    box.appendChild(card);
-  });
-}
-
 function openModal(item){
   if(!currentUser) { openAuthModal(); return; }
   selectedProduct = item;
@@ -2184,28 +2168,18 @@ function openModal(item){
   document.getElementById("orderItemTitle").textContent = item.title;
   document.getElementById("orderItemPrice").textContent = item.price;
   
-  const isCardProduct = (item.type === 'card');
+  document.getElementById("transferCardBox").style.display = "block";
+  document.getElementById("stepsListBox").style.display = "block";
+  document.getElementById("senderPhoneGroup").style.display = "block";
+  document.getElementById("checkboxGroupBox").style.display = "block";
+  document.getElementById("receiptLabelText").innerHTML = `🖼️ صورة إيصال التحويل <span>*</span>`;
 
-  if(isCardProduct) {
-    document.getElementById("transferCardBox").style.display = "none";
-    document.getElementById("stepsListBox").style.display = "none";
-    document.getElementById("senderPhoneGroup").style.display = "none";
-    document.getElementById("checkboxGroupBox").style.display = "none";
-    document.getElementById("receiptLabelText").innerHTML = `🖼️ ارسل صورة الكرت <span>*</span>`;
-  } else {
-    document.getElementById("transferCardBox").style.display = "block";
-    document.getElementById("stepsListBox").style.display = "block";
-    document.getElementById("senderPhoneGroup").style.display = "block";
-    document.getElementById("checkboxGroupBox").style.display = "block";
-    document.getElementById("receiptLabelText").innerHTML = `🖼️ صورة إيصال التحويل <span>*</span>`;
-
-    const num = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
-    document.getElementById("transferNumber").textContent = num;
-    document.getElementById("confirmNumberDisplay").textContent = num;
-    document.getElementById("stepText1").textContent = "حول المبلغ إلى رقم المحفظة أعلاه.";
-    document.getElementById("stepText3").textContent = "أرفق سكرين شوت إيصال التحويل وأرسل الطلب.";
-    document.getElementById("confirmTextSpan").textContent = "✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم";
-  }
+  const num = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
+  document.getElementById("transferNumber").textContent = num;
+  document.getElementById("confirmNumberDisplay").textContent = num;
+  document.getElementById("stepText1").textContent = "حول المبلغ إلى رقم المحفظة أعلاه.";
+  document.getElementById("stepText3").textContent = "أرفق سكرين شوت إيصال التحويل وأرسل الطلب.";
+  document.getElementById("confirmTextSpan").textContent = "✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم";
 
   document.getElementById("modal").classList.add("show");
 }
@@ -2229,14 +2203,10 @@ function sendOrder(){
 
   const robloxUser = document.getElementById("robloxUser").value.trim();
   const receiptFile = document.getElementById("receiptImageInput").files[0];
-  const isCardProduct = (selectedProduct.type === 'card');
+  const senderPhone = document.getElementById("senderPhone").value.trim();
 
-  let senderPhone = "كرت شحن";
-  if(!isCardProduct) {
-    senderPhone = document.getElementById("senderPhone").value.trim();
-    if(!senderPhone || !document.getElementById("confirmCheckbox").checked) {
-      alert("يرجى ملء كافة الحقول المطلوبة وتأكيد التحويل!"); return;
-    }
+  if(!senderPhone || !document.getElementById("confirmCheckbox").checked) {
+    alert("يرجى ملء كافة الحقول المطلوبة وتأكيد التحويل!"); return;
   }
 
   if(!robloxUser || !receiptFile){
@@ -2249,8 +2219,8 @@ function sendOrder(){
     const currentDate = new Date().toLocaleString('ar-LY');
     const orderData = {
       id: currentOrderId,
-      userOwner: currentUser.phone,
-      userPhone: currentUser.phone,
+      userOwner: currentUser.username,
+      userPhone: currentUser.contact,
       product: selectedProduct.title,
       price: selectedProduct.price,
       robloxUser: robloxUser,
@@ -2263,7 +2233,7 @@ function sendOrder(){
 
     db.collection("orders").doc(currentOrderId).set(orderData).then(() => {
       document.getElementById("viewOrderId").textContent = currentOrderId;
-      document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price} د.ل)`;
+      document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price})`;
       
       const waMsg = `مرحباً Dark Store، استفسار بخصوص طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
       document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
@@ -2301,7 +2271,7 @@ function switchAdminTab(tabName) {
   if(tabName === 'logs') loadAdminLogsList();
 }
 
-/* حل مشكلة عدم وصول الطلبات والربط الفوري الحقيقي */
+/* 🔥 حل مشكلة استلام الطلب الرابع والربط اللحظي المستمر 🔥 */
 function loadAdminOrdersList() {
   const container = document.getElementById("adminOrdersList");
   container.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري تحميل الطلبات...</div>`;
@@ -2322,7 +2292,7 @@ function loadAdminOrdersList() {
           <div class="admin-order-num">${i}</div>
           <div>
             <h4 style="color:#fff; font-size:14px; margin-bottom:4px;">طلب رقم ${o.id} - ${o.product}</h4>
-            <p style="font-size:12px; color:#888;">الزبون: +${o.userPhone} | السعر: ${o.price} د.ل</p>
+            <p style="font-size:12px; color:#888;">الزبون: ${o.userOwner} | الهاتف: ${o.userPhone}</p>
           </div>
         </div>
         <div><span class="order-badge badge-pending">${o.status}</span></div>`;
@@ -2332,26 +2302,25 @@ function loadAdminOrdersList() {
   });
 }
 
-/* تفاصيل حسابات الزبائن مع الطلبات السابقة لكل زبون */
 function loadAdminUsersList() {
   const c = document.getElementById("adminUsersList"); 
-  c.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري تحميل العملاء...</div>`;
+  c.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري التحميل...</div>`;
   
   db.collection("users").get().then(snap => {
     c.innerHTML = "";
-    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا يوجد زبائن مسجلين.</div>`; return; }
+    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا يوجد عملاء مسجلين.</div>`; return; }
     
     snap.forEach(d => {
       const u = d.data();
       const div = document.createElement("div");
       div.className = "admin-user-card";
-      div.onclick = () => openAdminUserDetail(u.phone);
+      div.onclick = () => openAdminUserDetail(u.username);
       div.innerHTML = `
         <div class="admin-order-info">
           <div class="admin-order-num" style="background:rgba(16,185,129,0.15); color:#34d399;">👤</div>
           <div>
-            <h4 style="color:#fff; font-size:14px; margin-bottom:2px;">+${u.phone}</h4>
-            <p style="font-size:11px; color:#888;">انقر للبحث والمشاهدة الكاملة لطلبات هذا الزبون</p>
+            <h4 style="color:#fff; font-size:14px; margin-bottom:2px;">${u.username}</h4>
+            <p style="font-size:11px; color:#888;">هاتف: ${u.phone || 'غير مدرج'}</p>
           </div>
         </div>
         <button class="admin-copy-mini-btn">عرض السجل 📋</button>`;
@@ -2360,15 +2329,15 @@ function loadAdminUsersList() {
   });
 }
 
-function openAdminUserDetail(userPhone) {
+function openAdminUserDetail(username) {
   const modal = document.getElementById("adminUserDetailModal");
   const content = document.getElementById("adminUserDetailContent");
   content.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري جلب سجل طلبات الزبون...</div>`;
   modal.classList.add("show");
 
   Promise.all([
-    db.collection("orders").where("userOwner", "==", userPhone).get(),
-    db.collection("order_logs").where("userOwner", "==", userPhone).get()
+    db.collection("orders").where("userOwner", "==", username).get(),
+    db.collection("order_logs").where("userOwner", "==", username).get()
   ]).then(([actSnap, logSnap]) => {
     let allUserOrders = [];
     actSnap.forEach(d => allUserOrders.push(d.data()));
@@ -2376,7 +2345,7 @@ function openAdminUserDetail(userPhone) {
 
     let ordersHtml = "";
     if(allUserOrders.length === 0) {
-      ordersHtml = `<div style="color:#888; font-size:12px; text-align:center; padding:10px;">لا توجد طلبات مسجلة لهذا الرقم.</div>`;
+      ordersHtml = `<div style="color:#888; font-size:12px; text-align:center; padding:10px;">لا توجد طلبات مسجلة لهذا الحساب.</div>`;
     } else {
       allUserOrders.forEach(o => {
         ordersHtml += `
@@ -2385,16 +2354,16 @@ function openAdminUserDetail(userPhone) {
               <span>رقم الطلب: ${o.id}</span>
               <span style="color:#818cf8;">${o.status}</span>
             </div>
-            <div style="color:#aaa;">المنتج: ${o.product} (${o.price} د.ل)</div>
+            <div style="color:#aaa;">المنتج: ${o.product} (${o.price})</div>
             <div style="color:#666; font-size:10px; margin-top:2px;">التاريخ: ${o.time}</div>
           </div>`;
       });
     }
 
     content.innerHTML = `
-      <div class="detail-row"><span>رقم الهاتف:</span><b style="color:#34d399; font-size:15px;">+${userPhone}</b></div>
+      <div class="detail-row"><span>اسم الزبون:</span><b style="color:#34d399; font-size:15px;">${username}</b></div>
       <div style="margin-top:15px;">
-        <h4 style="color:#fff; font-size:13px; margin-bottom:10px;">📦 كشوفات وسجل كافة طلبات هذا الزبون:</h4>
+        <h4 style="color:#fff; font-size:13px; margin-bottom:10px;">📦 سجل وكشوفات كافة طلبات هذا الزبون:</h4>
         <div style="max-height:300px; overflow-y:auto;">${ordersHtml}</div>
       </div>`;
   });
@@ -2421,7 +2390,7 @@ function loadAdminLogsList() {
             <div class="admin-order-num">${i}</div>
             <div>
               <h4 style="color:#fff; font-size:14px;">طلب رقم ${l.id} - ${l.product}</h4>
-              <p style="font-size:11px; color:#888;">الزبون: +${l.userPhone} | الحالة: ${l.status}</p>
+              <p style="font-size:11px; color:#888;">الزبون: ${l.userOwner} | الحالة: ${l.status}</p>
             </div>
           </div>
           <div><span class="order-badge badge-completed">أرشيف</span></div>
@@ -2436,16 +2405,18 @@ function openAdminDetail(orderId) {
   if(!o) { alert("عذراً، لم يتم العثور على بيانات هذا الطلب."); return; }
   
   const content = document.getElementById("adminDetailContent");
-  let fullUserPhone = o.userPhone.startsWith('+') ? o.userPhone.replace('+', '') : o.userPhone;
+  
+  let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
+  let fullUserPhone = "218" + cleanUserPhone;
 
   const storeUrl = window.location.href.split('#')[0];
 
-  const msgReview = `مرحباً بك، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgPrep = `مرحباً بك، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgAcc = `مرحباً بك، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgUnav = `مرحباً بك، نأسف لإبلاغك بأن المنتج (${o.product}) غير متوفر حالياً ⚠️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgRej = `مرحباً بك، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
-  const msgComp = `مرحباً بك، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgReview = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
+  const msgPrep = `مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
+  const msgAcc = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
+  const msgUnav = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج (${o.product}) غير متوفر حالياً ⚠️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
+  const msgRej = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
+  const msgComp = `مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
 
   const waReview = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgReview)}`;
   const waPrep = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgPrep)}`;
@@ -2456,10 +2427,10 @@ function openAdminDetail(orderId) {
 
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
-    <div class="detail-row"><span>رقم هاتف الزبون:</span><b style="color:#34d399;">+${o.userPhone}</b></div>
+    <div class="detail-row"><span>صاحب الحساب:</span><b>${o.userOwner}</b></div>
     <div class="detail-row"><span>التاريخ والوقت:</span><b style="color:#a3a3a3; font-size:11px;">${o.time}</b></div>
     <div class="detail-row"><span>المنتج المطلوب:</span><b>${o.product}</b></div>
-    <div class="detail-row"><span>السعر:</span><b>${o.price} د.ل</b></div>
+    <div class="detail-row"><span>السعر:</span><b>${o.price}</b></div>
     
     <div class="detail-row">
       <span>اليوزر المطلوب:</span>
@@ -2479,10 +2450,10 @@ function openAdminDetail(orderId) {
 
     <div class="detail-row"><span>الحالة الحالية:</span><b>${o.status}</b></div>
     
-    <div style="margin-top:10px;"><div style="font-size:11px; color:#888; margin-bottom:4px;">صورة الإيصال أو الكرت:</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
+    <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة الإيصال (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
     
     <div style="margin-top:15px; text-align:center;">
-      <div style="font-size:11px; color:#888; margin-bottom:8px;">إرسال تحديثات حالة الطلب للزبون بالواتساب:</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">أزرار إرسال الرسائل عبر الواتساب للزبون:</div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
         <a href="${waReview}" target="_blank" class="admin-btn admin-btn-wa">قيد المراجعة 💬</a>
         <a href="${waPrep}" target="_blank" class="admin-btn admin-btn-wa" style="background:#9333ea;">تجهيز الطلب 💬</a>
@@ -2491,7 +2462,7 @@ function openAdminDetail(orderId) {
         <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">رفض الطلب ❌</a>
         <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم التسليم ✅</a>
       </div>
-      <div style="border-top:1px solid #2d2d42; padding-top:10px; display:flex; justify-content:center; gap:5px;">
+      <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل</button>
         <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">أرشفة كمرفوض</button>
       </div>
