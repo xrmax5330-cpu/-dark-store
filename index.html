@@ -1046,7 +1046,7 @@ footer {
 .badge-rejected { background: rgba(220, 38, 38, 0.15); color: #f87171; border: 1px solid #dc2626; }
 .badge-unavailable { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid #6b7280; }
 
-/* تصميم لوحة تحكم الأدمن المطور */
+/* لوحة الأدمن */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
@@ -1282,8 +1282,8 @@ footer {
 }
 
 .admin-btn {
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 9px 14px;
+  border-radius: 10px;
   font-weight: bold;
   font-size: 12px;
   cursor: pointer;
@@ -1359,7 +1359,7 @@ footer {
   <div class="sidebar-menu-items">
     <div class="sidebar-item" onclick="toggleSidebar(); openProfileModal()">
       <span class="sidebar-item-icon">👤</span>
-      <span>حسابي (عرض حسابي واشتراكاتك)</span>
+      <span>حسابي (عرض حسابي وااشتراكاتك)</span>
     </div>
     <div class="sidebar-item" onclick="toggleSidebar(); scrollToPrices()">
       <span class="sidebar-item-icon">🛍️</span>
@@ -1584,12 +1584,11 @@ footer {
         <label for="confirmCheckbox"><span id="confirmTextSpan">✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم</span> <b id="confirmNumberDisplay">0</b> وأن البيانات صحيحة.</label>
       </div>
 
-      <!-- زر الإرسال المزود بحماية منع الضغط المكرر -->
       <button id="sendOrderSubmitBtn" class="confirm" onclick="sendOrder()">🚀 إرسال الطلب</button>
       <button class="close" onclick="closeModal()">إلغاء</button>
     </div>
 
-    <!-- ✨ النافذة التي تظهر للزبون فور إرسال الطلب ✨ -->
+    <!-- النافذة التي تظهر للزبون مباشرة فور إرسال الطلب -->
     <div id="orderStatusContent" style="display: none;" class="status-card">
       <div class="status-icon" style="font-size: 45px; margin-bottom: 10px;">⏳</div>
       <h3 style="color: #fff; font-size: 22px; margin-bottom: 8px;">طلبك قيد المراجعة</h3>
@@ -1599,14 +1598,12 @@ footer {
       </div>
       <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استقبال طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
-      <!-- زر إرسال الطلب للواتساب -->
       <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 14px; margin-bottom: 10px; padding: 13px; text-decoration:none;">
         💬 إرسال طلبي للواتساب
       </a>
 
-      <!-- زر أكمل التسوق -->
       <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px; margin-top:0;" onclick="closeModal()">
-        🛍️ أكمل التسوق
+        🛍️ تابع التصفح
       </button>
     </div>
   </div>
@@ -2013,11 +2010,11 @@ function renderMyOrdersModalList() {
     filtered.forEach(o => {
       let badgeClass = 'badge-pending';
       let statusText = 'قيد المراجعة ⏳';
-      if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'سيتم تجهيز طلبك ⏳'; }
+      if(o.status === 'preparing') { badgeClass = 'badge-preparing'; statusText = 'في التجهيز ⏳'; }
       else if(o.status === 'accepted') { badgeClass = 'badge-accepted'; statusText = 'قيد التنفيذ ⚙️'; }
-      else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'مكتمل ✅'; }
-      else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'المنتج غير متوفر حالياً ⚠️'; }
-      else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'تم رفض طلبك ❌'; }
+      else if(o.status === 'completed') { badgeClass = 'badge-completed'; statusText = 'تم التسليم ✅'; }
+      else if(o.status === 'unavailable') { badgeClass = 'badge-unavailable'; statusText = 'غير متوفر ⚠️'; }
+      else if(o.status === 'rejected') { badgeClass = 'badge-rejected'; statusText = 'تم رفض الطلب ❌'; }
 
       const div = document.createElement("div");
       div.className = "order-detail-card-box";
@@ -2027,7 +2024,7 @@ function renderMyOrdersModalList() {
           <span class="order-badge ${badgeClass}">${statusText}</span>
         </div>
         <div style="font-size:11px; color:var(--text-muted);">التوقيت: ${o.time}</div>
-        <div style="font-size:13px; font-weight:bold; color:#fff; margin-top:4px;">المنتج: ${o.product} (${o.price} د.ل)</div>
+        <div style="font-size:13px; font-weight:bold; color:#fff; margin-top:4px;">المنتج: ${o.product} (${o.price})</div>
       `;
       container.appendChild(div);
     });
@@ -2051,7 +2048,6 @@ function updateVisualSteps(status) {
   }
 }
 
-/* ✨ استماع مباشر للطلب النشط وتحديثه أعلى الصفحة الرئيسية فور تغيير الحالة من الأدمن ✨ */
 function listenToHomeActiveOrder() {
   if(!currentUser) return;
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
@@ -2073,14 +2069,14 @@ function listenToHomeActiveOrder() {
       
       const badge = document.getElementById("homeOrderStatusBadge");
       if(latest.status === 'pending') { badge.className = 'order-badge badge-pending'; badge.textContent = 'قيد المراجعة ⏳'; }
-      else if(latest.status === 'preparing') { badge.className = 'order-badge badge-preparing'; badge.textContent = 'سيتم تجهيز طلبك ⏳'; }
+      else if(latest.status === 'preparing') { badge.className = 'order-badge badge-preparing'; badge.textContent = 'في التجهيز ⏳'; }
       else if(latest.status === 'accepted') { badge.className = 'order-badge badge-accepted'; badge.textContent = 'قيد التنفيذ ⚙️'; }
       else if(latest.status === 'completed') { badge.className = 'order-badge badge-completed'; badge.textContent = 'تم التسليم ✅'; }
-      else if(latest.status === 'unavailable') { badge.className = 'order-badge badge-unavailable'; badge.textContent = 'المنتج غير متوفر حالياً ⚠️'; }
-      else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض طلبك ❌'; }
+      else if(latest.status === 'unavailable') { badge.className = 'order-badge badge-unavailable'; badge.textContent = 'غير متوفر ⚠️'; }
+      else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض الطلب ❌'; }
 
       updateVisualSteps(latest.status);
-      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، أود استكمال طلب كود/خدمة رقم ${latest.id} (${latest.product})`)}`;
+      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، أود الاستفسار عن طلبي رقم ${latest.id} (${latest.product})`)}`;
     }
   });
 }
@@ -2156,7 +2152,6 @@ function openModal(item){
   if(!currentUser) { openAuthModal(); return; }
   selectedProduct = item;
   
-  // إعادة تفعيل زر الإرسال عند فتح نافذة جديدة
   const submitBtn = document.getElementById("sendOrderSubmitBtn");
   submitBtn.disabled = false;
   submitBtn.textContent = "🚀 إرسال الطلب";
@@ -2196,7 +2191,27 @@ function copyToClipboard(text, labelName) {
   });
 }
 
-/* ✨ دالة إرسال الطلب مع منع تكرار الضغط المباشر وحماية النظام ✨ */
+// دالة تضغط وتصغر حجم الصورة لتفادي أخطاء Firebase Document
+function compressImage(file, callback) {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function(event) {
+    const img = new Image();
+    img.src = event.target.result;
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const MAX_WIDTH = 800;
+      const scaleSize = MAX_WIDTH / img.width;
+      canvas.width = (img.width > MAX_WIDTH) ? MAX_WIDTH : img.width;
+      canvas.height = (img.width > MAX_WIDTH) ? img.height * scaleSize : img.height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      callback(canvas.toDataURL('image/jpeg', 0.6));
+    };
+  };
+}
+
 function sendOrder(){
   if(!currentUser) { alert("يجب تسجيل الدخول أولاً!"); openAuthModal(); return; }
 
@@ -2212,13 +2227,11 @@ function sendOrder(){
     alert("يرجى إدخال يوزر حساب Roblox وإرفاق الصورة المطلوبة!"); return;
   }
 
-  // تعطيل الزر فور الضغط لمنع إرسال طلبات مكررة متتابعة
   const submitBtn = document.getElementById("sendOrderSubmitBtn");
   submitBtn.disabled = true;
   submitBtn.textContent = "جاري إرسال الطلب... ⏳";
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
+  compressImage(receiptFile, function(compressedBase64) {
     currentOrderId = getNextOrderId();
     const currentDate = new Date().toLocaleString('ar-LY');
     const orderData = {
@@ -2229,7 +2242,7 @@ function sendOrder(){
       price: selectedProduct.price,
       robloxUser: robloxUser,
       senderPhone: senderPhone,
-      receiptImage: e.target.result,
+      receiptImage: compressedBase64,
       status: 'pending',
       time: currentDate,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -2239,23 +2252,19 @@ function sendOrder(){
       document.getElementById("viewOrderId").textContent = currentOrderId;
       document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price})`;
       
-      // تجهيز رابط الواتساب المباشر للطلب
-      const waMsg = `مرحباً Dark Store، أود استكمال طلب رقم ${currentOrderId} (${selectedProduct.title})`;
+      const waMsg = `مرحباً Dark Store، أود التأكيد واستكمال طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
       document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
 
-      // إخفاء النموذج وإظهار نافذة الحالة المأكولة
       document.getElementById("orderFormContent").style.display = "none";
       document.getElementById("orderStatusContent").style.display = "block";
       
-      // إعادة تفعيل الاستماع والتحديث في الرئيسية
       listenToHomeActiveOrder();
     }).catch((err) => {
       alert("حدث خطأ أثناء إرسال الطلب: " + err.message);
       submitBtn.disabled = false;
       submitBtn.textContent = "🚀 إرسال الطلب";
     });
-  };
-  reader.readAsDataURL(receiptFile);
+  });
 }
 
 function scrollToPrices() { document.getElementById("pricesSection").scrollIntoView({ behavior:"smooth" }); }
@@ -2301,7 +2310,7 @@ function loadAdminOrdersList() {
           <div class="admin-order-num">${i}</div>
           <div>
             <h4 style="color:#fff; font-size:14px; margin-bottom:4px;">طلب رقم ${o.id} - ${o.product}</h4>
-            <p style="font-size:12px; color:#888;">الزبون: ${o.userOwner} | الهاتف: ${o.userPhone}</p>
+            <p style="font-size:12px; color:#888;">الزبون: ${o.userOwner} | المحوِّل: ${o.senderPhone}</p>
           </div>
         </div>
         <div><span class="order-badge badge-pending">${o.status}</span></div>`;
@@ -2414,25 +2423,6 @@ function openAdminDetail(orderId) {
   if(!o) { alert("عذراً، لم يتم العثور على بيانات هذا الطلب."); return; }
   
   const content = document.getElementById("adminDetailContent");
-  
-  let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
-  let fullUserPhone = "218" + cleanUserPhone;
-
-  const storeUrl = window.location.href.split('#')[0];
-
-  const msgReview = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
-  const msgPrep = `مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
-  const msgAcc = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
-  const msgUnav = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج (${o.product}) غير متوفر حالياً ⚠️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
-  const msgRej = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
-  const msgComp = `مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price}\n\nرابط طلبك لمشاهدته من الموقع 🌟\n${storeUrl}`;
-
-  const waReview = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgReview)}`;
-  const waPrep = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgPrep)}`;
-  const waAcc = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgAcc)}`;
-  const waUnav = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgUnav)}`;
-  const waRej = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgRej)}`;
-  const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgComp)}`;
 
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
@@ -2462,12 +2452,14 @@ function openAdminDetail(orderId) {
     <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة الإيصال (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
     
     <div style="margin-top:15px; text-align:center;">
-      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب وإرسال التحديث للزبون:</div>
-      <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب والتوجه الفوري لواتساب الزبون:</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:12px;">
         <button onclick="changeStatusAndNotify('${o.id}', 'pending')" class="admin-btn" style="background:#d97706; color:#fff;">قيد المراجعة ⏳</button>
         <button onclick="changeStatusAndNotify('${o.id}', 'preparing')" class="admin-btn" style="background:#9333ea; color:#fff;">في التجهيز ⏳</button>
         <button onclick="changeStatusAndNotify('${o.id}', 'accepted')" class="admin-btn" style="background:#2563eb; color:#fff;">قيد التنفيذ ⚙️</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'completed')" class="admin-btn" style="background:#16a34a; color:#fff;">تم التسليم ✅</button>
         <button onclick="changeStatusAndNotify('${o.id}', 'unavailable')" class="admin-btn" style="background:#6b7280; color:#fff;">غير متوفر ⚠️</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'rejected')" class="admin-btn" style="background:#dc2626; color:#fff;">رفض الطلب ❌</button>
       </div>
       <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل ✅</button>
@@ -2479,15 +2471,37 @@ function openAdminDetail(orderId) {
 
 function closeAdminDetailModal() { document.getElementById("adminDetailModal").classList.remove("show"); }
 
-/* ✨ دالة تحديث حالة الطلب فوراً في قاعدة البيانات لتظهر للزبون لحظياً ✨ */
+/* ✨ دالة تغيير حالة الطلب وتوجيه الأدمن تلقائياً لواتساب الزبون مع الرسالة المجهزة ✨ */
 function changeStatusAndNotify(orderId, newStatus) {
+  const o = cachedOrdersMap[orderId];
+  if(!o) return;
+
+  // جهّز رقم الزبون
+  let phone = o.senderPhone || o.userPhone;
+  let cleanPhone = phone.startsWith('0') ? phone.substring(1) : phone;
+  let fullPhone = "218" + cleanPhone;
+
+  let statusArabic = "";
+  if(newStatus === 'pending') statusArabic = "قيد المراجعة ⏳";
+  else if(newStatus === 'preparing') statusArabic = "في التجهيز ⏳";
+  else if(newStatus === 'accepted') statusArabic = "قيد التنفيذ ⚙️";
+  else if(newStatus === 'completed') statusArabic = "تم التسليم بنجاح ✅";
+  else if(newStatus === 'unavailable') statusArabic = "غير متوفر حالياً ⚠️";
+  else if(newStatus === 'rejected') statusArabic = "تم رفض الطلب ❌";
+
+  const storeUrl = window.location.href.split('#')[0];
+  const msg = `مرحباً ${o.userOwner} 👋\nتحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n📌 الحالة الجديدة: ${statusArabic}\n💰 السعر: ${o.price}\n\nتستطيع متابعة حالة طلبك مباشرة من الموقع عبر الرابط:\n${storeUrl}`;
+
+  const waUrl = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
+
   db.collection("orders").doc(orderId).update({
     status: newStatus
   }).then(() => {
-    alert(`✅ تم تغيير حالة الطلب إلى: ${newStatus}`);
     closeAdminDetailModal();
+    // فتح الواتساب مباشرة للتواصل مع الزبون
+    window.open(waUrl, '_blank');
   }).catch(err => {
-    alert("❌ حدث خطأ: " + err.message);
+    alert("❌ حدث خطأ أثناء التحديث: " + err.message);
   });
 }
 
