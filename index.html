@@ -1364,7 +1364,7 @@ footer {
     <div class="category-box">
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
         <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
-        <span>روبوكس</span>
+        <span>روبوكس (تخفيضات الجمعة 🔥)</span>
       </button>
       <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')"><span>الأفكتات</span></button>
       <button id="catItunesBtn" class="cat-btn" onclick="switchCategory('itunes')">
@@ -1386,7 +1386,7 @@ footer {
     </div>
 
     <div id="robuxHeader">
-      <div class="title"><h2>اختر الباقة وطريقة الدفع المناسبة</h2><p>💸اختر طريقة الدفع</p></div>
+      <div class="title"><h2>اختر الباقة وطريقة الدفع المناسبة (تخفيضات الجمعة 🔥)</h2><p>💸اختر طريقة الدفع</p></div>
       <div class="provider-box">
         <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
           <img id="madarLogoImg" src="" alt="مدار"><span>مدار</span>
@@ -1528,7 +1528,6 @@ footer {
       
       <div class="form-group" id="senderPhoneGroup"><label>📲رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
       
-      <!-- صورة إيصال التحويل -->
       <div class="form-group"><label id="receiptLabelText">🖼️ صورة إيصال التحويل <span>*</span></label><input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;"></div>
       
       <div class="form-group"><label>💬ملاحظات إضافية</label><textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة..."></textarea></div>
@@ -1550,7 +1549,7 @@ footer {
         <div style="margin-bottom: 6px;"><b>رقم الطلب:</b> <span id="viewOrderId" style="color:#fde047; font-weight:900;"></span></div>
         <div><b>المنتج المطلـوب:</b> <span id="viewOrderProduct" style="color:#fff;"></span></div>
       </div>
-      <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استلام طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
+      <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استلاستباق طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
       <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-bottom: 10px; padding: 12px; text-decoration:none;">
         💬 شاهد طلبك من واتساب (218927816884+)
@@ -1647,31 +1646,31 @@ const LIBYANA_NUMBER = "0927816884";
 const STORE_WHATSAPP = "218927816884";
 
 const madarPrices = [
-  {robux:10, price: "3تخفيض🏷️", img: robuxImgUrl},
-  {robux:20, price: "5تخفيض🏷️", img: robuxImgUrl},
-  {robux:30, price: "10", img: robuxImgUrl},
-  {robux:40, price: "13تخفيض", img: robuxImgUrl},
-  {robux:80, price: 18, badge: "🌟الأكثر طلباً", img: robuxImgUrl},
-  {robux:120, price: 35, img: robuxImgUrl},
-  {robux:160, price: 47, img: robuxImgUrl},
-  {robux:200, price: "50", img: robuxImgUrl},
-  {robux:400, price: 83, badge: "🕑عرض خاص", img: robuxImgUrl},
-  {robux:500, price: 85, badge: "🔥افضل سعر", img: robuxImgUrl},
-  {robux:1000, price: 160, img: robuxImgUrl}
+  {robux:10, price: "3 مدار (تخفيض الجمعة 🔥)", rawPrice: "3", img: robuxImgUrl},
+  {robux:20, price: "5 مدار (تخفيض الجمعة 🔥)", rawPrice: "5", img: robuxImgUrl},
+  {robux:30, price: "10", rawPrice: "10", img: robuxImgUrl},
+  {robux:40, price: "13 مدار (تخفيض الجمعة 🔥)", rawPrice: "13", img: robuxImgUrl},
+  {robux:80, price: "20", rawPrice: "20", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
+  {robux:120, price: "35", rawPrice: "35", img: robuxImgUrl},
+  {robux:160, price: "47", rawPrice: "47", img: robuxImgUrl},
+  {robux:200, price: "50", rawPrice: "50", img: robuxImgUrl},
+  {robux:400, price: "83", rawPrice: "83", badge: "🕑عرض خاص", img: robuxImgUrl},
+  {robux:500, price: "85", rawPrice: "85", badge: "🔥افضل سعر", img: robuxImgUrl},
+  {robux:1000, price: "160", rawPrice: "160", img: robuxImgUrl}
 ];
 
 const libyanaPrices = [
-  {robux:10, price: "2تخفيض🏷️", img: robuxImgUrl},
-  {robux:20, price: "4تخفيض🏷️", img: robuxImgUrl},
-  {robux:30, price: "7", img: robuxImgUrl},
-  {robux:40, price: 10, img: robuxImgUrl},
-  {robux:50, price: "13", img: robuxImgUrl},
-  {robux:80, price: 14تخفيض🏷️, badge: "🌟الأكثر طلباً", img: robuxImgUrl},
-  {robux:120, price: 35, img: robuxImgUrl},
-  {robux:160, price: 45, img: robuxImgUrl},
-  {robux:400, price: 85, badge: "🔥افضل سعر", img: robuxImgUrl},
-  {robux:500, price: "75", img: robuxImgUrl},
-  {robux:1000, price: 130, img: robuxImgUrl}
+  {robux:10, price: "2 ليبيانا (تخفيض الجمعة 🔥)", rawPrice: "2", img: robuxImgUrl},
+  {robux:20, price: "4 ليبيانا (تخفيض الجمعة 🔥)", rawPrice: "4", img: robuxImgUrl},
+  {robux:30, price: "7", rawPrice: "7", img: robuxImgUrl},
+  {robux:40, price: "10", rawPrice: "10", img: robuxImgUrl},
+  {robux:50, price: "13", rawPrice: "13", img: robuxImgUrl},
+  {robux:80, price: "14 ليبيانا (تخفيض الجمعة 🔥)", rawPrice: "14", badge: "🌟الأكثر طلباً", img: robuxImgUrl},
+  {robux:120, price: "35", rawPrice: "35", img: robuxImgUrl},
+  {robux:160, price: "45", rawPrice: "45", img: robuxImgUrl},
+  {robux:400, price: "85", rawPrice: "85", badge: "🔥افضل سعر", img: robuxImgUrl},
+  {robux:500, price: "75", rawPrice: "75", img: robuxImgUrl},
+  {robux:1000, price: "130", rawPrice: "130", img: robuxImgUrl}
 ];
 
 const effectsList = [
@@ -2001,7 +2000,7 @@ function addToCart(item) { cart.push(item); document.getElementById("cartCount")
 function openCartModal() {
   if(!currentUser) { openAuthModal(); return; }
   if(cart.length === 0) { alert("السلة فارغة!"); return; }
-  let total = cart.reduce((s, i) => s + parseInt(i.price), 0);
+  let total = cart.reduce((s, i) => s + parseInt(i.rawPrice || i.price), 0);
   openModal({ type: 'cart', title: `السلة (${cart.length} منتجات)`, price: `${total} د.ل`, provider: 'ليبيانا' });
 }
 
@@ -2043,7 +2042,7 @@ function showRobuxPrices(provider){
       <div class="effect-price">${item.price} د.ل</div>
       <div class="btn-group-card">
         <button class="effect-buy-btn">شراء</button>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس', price:'${item.price}'})">+</button>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart({type:'robux', title:'${item.robux} روبوكس', price:'${item.price}', rawPrice:'${item.rawPrice}'})">+</button>
       </div>`;
     card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: 'robux', title: `Robux ${item.robux}`, price: `${item.price} د.ل`, provider: provider === "madar" ? "مدار" : "ليبيانا" });
     pricesBox.appendChild(card);
