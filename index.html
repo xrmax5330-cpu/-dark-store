@@ -1629,7 +1629,7 @@ footer {
   <img id="lightBoxImg" src="" alt="صورة الإيصال المكبرة">
 </div>
 
-<!-- نافذة التسجيل -->
+<!-- نافذة التسجيل والتحقق (مع كود الواتساب) -->
 <div id="authModal" class="modal">
   <div class="modal-box">
     <div style="text-align: center;">
@@ -1637,6 +1637,7 @@ footer {
       <h3 id="authModalTitle">إنشاء حساب جديد</h3>
     </div>
 
+    <!-- خطوة 1: ادخال البيانات -->
     <div id="registerFormContainer">
       <div class="form-group">
         <label>👤 اسم المستخدم (بالإنجليزية فقط، 5 أحرف فأكثر، بدون أرقام) <span>*</span></label>
@@ -1649,12 +1650,12 @@ footer {
       </div>
 
       <div class="form-group">
-        <label>📱 رقم الهاتف <span>*</span></label>
+        <label>📱 رقم الهاتف (ليبيانا / مدار) <span>*</span></label>
         <input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678">
       </div>
 
-      <button class="confirm" onclick="handleRegister()">
-        🚀 إنشاء حساب جديد
+      <button class="confirm" onclick="proceedToVerification()">
+        📩 إرسال كود التحقق عبر الواتساب
       </button>
 
       <div style="text-align:center; margin-top: 15px;">
@@ -1664,6 +1665,29 @@ footer {
       </div>
     </div>
 
+    <!-- خطوة 2: إدخال كود التحقق الذي وصل عبر الواتساب -->
+    <div id="verifyCodeContainer" style="display: none; text-align: center;">
+      <div style="background: #141414; padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
+        <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">📲 تم توليد كود التحقق لحسابك!</div>
+        <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">اضغط على الزر أدناه لإرسال الكود عبر الواتساب للمتجر، أو انسخه وأدخله هنا لتفعيل حسابك.</div>
+        <div id="generatedOtpDisplay" style="font-size: 26px; font-weight: 950; color: #34d399; letter-spacing: 4px; margin: 10px 0;">1234</div>
+        <a id="whatsappOtpLink" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 12px; padding: 8px; margin-bottom: 10px;">
+          💬 إرسال الكود عبر الواتساب للمتجر
+        </a>
+      </div>
+
+      <div class="form-group">
+        <label>🔢 أدخل كود التحقق المكون من 4 أرقام <span>*</span></label>
+        <input id="enteredOtpInput" class="input" type="text" placeholder="أدخل الكود هنا" style="text-align: center; font-size: 18px; letter-spacing: 2px;">
+      </div>
+
+      <button class="confirm" onclick="verifyAndCompleteRegister()">
+        ✅ تأكيد وتفعيل الحساب
+      </button>
+      <button class="close" onclick="switchToRegister()">رجوع</button>
+    </div>
+
+    <!-- تسجيل الدخول -->
     <div id="loginFormContainer" style="display: none;">
       <div class="form-group">
         <label>👤 اسم المستخدم (اليوزر) <span>*</span></label>
@@ -2032,6 +2056,10 @@ let cachedOrdersMap = {};
 let allOrdersData = [];
 let currentOrdersFilter = 'all';
 
+// متغيرات مؤقتة للتحقق من التسجيل عبر الواتساب
+let pendingRegData = null;
+let generatedOtpCode = "";
+
 function getNextOrderId() {
   let seq = parseInt(localStorage.getItem("dark_store_order_seq") || "0") + 1;
   localStorage.setItem("dark_store_order_seq", seq);
@@ -2113,20 +2141,24 @@ function closeAuthModal() {
 }
 
 function switchToLogin() {
-  document.getElementById("registerFormContainer").style.display = "none";
+  document.getElementById("registerFormContainer").style.display = "block";
+  document.getElementById("verifyCodeContainer").style.display = "none";
   document.getElementById("loginFormContainer").style.display = "block";
+  document.getElementById("registerFormContainer").style.display = "none";
   document.getElementById("authModalTitle").textContent = "تسجيل الدخول";
   document.getElementById("authTagBadge").textContent = "🔑 مرحباً بك مجدداً";
 }
 
 function switchToRegister() {
   document.getElementById("loginFormContainer").style.display = "none";
+  document.getElementById("verifyCodeContainer").style.display = "none";
   document.getElementById("registerFormContainer").style.display = "block";
   document.getElementById("authModalTitle").textContent = "إنشاء حساب جديد";
   document.getElementById("authTagBadge").textContent = "🔐 DARK STORE";
 }
 
-function handleRegister() {
+// الخطوة الأولى من التسجيل: التحقق من البيانات وتوليد كود الـ OTP ورابط الواتساب
+function proceedToVerification() {
   const userVal = document.getElementById("regUsername").value.trim();
   const passVal = document.getElementById("regPassword").value.trim();
   const phoneVal = document.getElementById("regPhone").value.trim();
@@ -2151,23 +2183,52 @@ function handleRegister() {
     if(doc.exists) {
       alert("❌ اسم المستخدم هذا موجود مسبقاً، يرجى اختيار يوزر آخر.");
     } else {
-      const userData = {
-        username: userVal,
-        password: passVal,
-        phone: phoneVal,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
+      pendingRegData = { username: userVal, password: passVal, phone: phoneVal };
+      generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
 
-      db.collection("users").doc(userVal).set(userData).then(() => {
-        currentUser = { username: userVal, password: passVal, contact: phoneVal };
-        localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
-        closeAuthModal();
-        listenToHomeActiveOrder();
-        alert("✅ تم إنشاء الحساب بنجاح وأهلاً بك في Dark Store!");
-      });
+      document.getElementById("generatedOtpDisplay").textContent = generatedOtpCode;
+      
+      const whatsappMsg = `🔐 طلب تفعيل حساب في Dark Store:\nاسم المستخدم: ${userVal}\nرقم الهاتف: ${phoneVal}\nرمز التحقق الخاص بي هو: ${generatedOtpCode}`;
+      document.getElementById("whatsappOtpLink").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(whatsappMsg)}`;
+
+      document.getElementById("registerFormContainer").style.display = "none";
+      document.getElementById("verifyCodeContainer").style.display = "block";
+      document.getElementById("authModalTitle").textContent = "رمز التحقق عبر الواتساب";
+      document.getElementById("authTagBadge").textContent = "📲 تحقق من رقمك";
     }
   }).catch((err) => {
     alert("حدث خطأ في الاتصال: " + err.message);
+  });
+}
+
+// الخطوة الثانية: إدخال الكود وتأكيد إنشاء الحساب
+function verifyAndCompleteRegister() {
+  const enteredCode = document.getElementById("enteredOtpInput").value.trim();
+  if(!enteredCode) {
+    alert("يرجى إدخال كود التحقق!");
+    return;
+  }
+
+  if(enteredCode !== generatedOtpCode) {
+    alert("❌ كود التحقق غير صحيح! تأكد من الكود المدخل.");
+    return;
+  }
+
+  const userData = {
+    username: pendingRegData.username,
+    password: pendingRegData.password,
+    phone: pendingRegData.phone,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  db.collection("users").doc(pendingRegData.username).set(userData).then(() => {
+    currentUser = { username: pendingRegData.username, password: pendingRegData.password, contact: pendingRegData.phone };
+    localStorage.setItem("dark_store_logged_user", JSON.stringify(currentUser));
+    closeAuthModal();
+    listenToHomeActiveOrder();
+    alert("🎉 تم تسجيل حسابك في الموقع بنجاح، حسابك مفعل تستطيع الشراء!");
+  }).catch((err) => {
+    alert("حدث خطأ أثناء حفظ الحساب: " + err.message);
   });
 }
 
@@ -2746,7 +2807,7 @@ function listenToOrderStatus(orderId){
         const msg = document.getElementById("statusMsg");
 
         if(myOrder.status === 'preparing') {
-          icon.textContent = "⏳"; title.style.color = "#c084fc"; title.textContent = "سيتم تجهيز طلبك، يرجى الانتظار..."; spinner.style.display = "block"; msg.textContent = "تم استلاستلام إيصالك وجاري تجهيز طلبك الآن.";
+          icon.textContent = "⏳"; title.style.color = "#c084fc"; title.textContent = "سيتم تجهيز طلبك، يرجى الانتظار..."; spinner.style.display = "block"; msg.textContent = "تم استلام إيصالك وجاري تجهيز طلبك الآن.";
         } else if(myOrder.status === 'accepted') {
           icon.textContent = "⚙️"; title.style.color = "#2563eb"; title.textContent = "قيد التنفيذ والشحن!"; spinner.style.display = "block"; msg.textContent = "تم التأكد من التحويل وقبول الطلب، جاري شحن حسابك.";
         } else if(myOrder.status === 'completed') {
