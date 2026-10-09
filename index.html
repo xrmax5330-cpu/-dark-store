@@ -731,6 +731,21 @@ footer {
   display: flex;
 }
 
+/* تنسيق نافذة تسجيل الدخول بالخلفية الجديدة المخصصة */
+.auth-custom-box {
+  width: 100%;
+  max-width: 450px;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png') center/cover no-repeat;
+  border: 1px solid var(--card-border);
+  border-top: 3px solid #fff;
+  border-radius: 22px;
+  padding: 30px 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+}
+
 .modal-box {
   width: 100%;
   max-width: 550px;
@@ -745,7 +760,7 @@ footer {
 }
 
 .modal-header-tag {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
@@ -753,15 +768,16 @@ footer {
   border-radius: 20px;
   display: inline-block;
   margin-bottom: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.modal-box h3 {
+.modal-box h3, .auth-custom-box h3 {
   text-align: center;
   font-size: 24px;
   font-weight: 900;
   margin-bottom: 15px;
   color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
 .filter-tabs-container {
@@ -911,6 +927,7 @@ footer {
   font-weight: bold;
   color: #fff;
   margin-bottom: 5px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
 }
 
 .form-group label span {
@@ -920,7 +937,7 @@ footer {
 .input, .textarea {
   width: 100%;
   padding: 11px 13px;
-  background: #000;
+  background: rgba(0, 0, 0, 0.85);
   color: var(--text-main);
   border: 1px solid var(--card-border);
   border-radius: 10px;
@@ -943,7 +960,7 @@ footer {
   align-items: flex-start;
   gap: 10px;
   margin-bottom: 16px;
-  background: var(--card-bg);
+  background: rgba(13, 13, 13, 0.9);
   padding: 10px;
   border-radius: 10px;
   border: 1px solid var(--card-border);
@@ -986,7 +1003,7 @@ footer {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  background: #141414;
+  background: rgba(20, 20, 20, 0.9);
   border: 1px solid var(--card-border);
   border-radius: 12px;
   color: var(--text-muted);
@@ -1392,9 +1409,9 @@ footer {
   <div><button class="admin-trigger-btn" onclick="openAdminPanelPrompt()">⚙️ لوحة الإدارة</button></div>
 </footer>
 
-<!-- نافذة التسجيل والتحقق بالواتساب -->
+<!-- نافذة التسجيل والتحقق بالواتساب (بالخلفية الجديدة) -->
 <div id="authModal" class="modal">
-  <div class="modal-box">
+  <div class="auth-custom-box">
     <div style="text-align: center;">
       <span class="modal-header-tag" id="authTagBadge">🔐 DARK STORE</span>
       <h3 id="authModalTitle">إنشاء حساب جديد</h3>
@@ -1406,12 +1423,12 @@ footer {
       <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="regPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
       <div class="form-group"><label>📱 رقم الهاتف (رقمك للواتساب) <span>*</span></label><input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
       <button class="confirm" onclick="proceedToVerification()">📩 توليد كود التحقق وإرساله عبر الواتساب</button>
-      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold;" onclick="switchToLogin()">لديك حساب من قبل؟ تسجيل دخول</button></div>
+      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToLogin()">لديك حساب من قبل؟ تسجيل دخول</button></div>
     </div>
 
     <!-- خطوة 2: إدخال كود التحقق -->
     <div id="verifyCodeContainer" style="display: none; text-align: center;">
-      <div style="background: #141414; padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
+      <div style="background: rgba(20, 20, 20, 0.9); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
         <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">📲 تم توليد كود التحقق لحسابك!</div>
         <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">اضغط على الزر أدناه لإرسال الكود عبر الواتساب، ثم أدخله أدناه لتفعيل حسابك.</div>
         <div id="generatedOtpDisplay" style="font-size: 26px; font-weight: 950; color: #34d399; letter-spacing: 4px; margin: 10px 0;">1234</div>
@@ -1427,23 +1444,23 @@ footer {
       <div class="form-group"><label>👤 اسم المستخدم (اليوزر) <span>*</span></label><input id="logUsername" class="input" type="text" placeholder="أدخل اسم المستخدم"></div>
       <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="logPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
       <button class="confirm" onclick="handleLogin()">🔑 تسجيل الدخول</button>
-      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold;" onclick="switchToRegister()">ليس لديك حساب؟ إنشاء حساب جديد</button></div>
+      <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToRegister()">ليس لديك حساب؟ إنشاء حساب جديد</button></div>
     </div>
   </div>
 </div>
 
-<!-- نافذة الملف الشخصي -->
+<!-- نافذة الملف الشخصي (بالخلفية الجديدة أيضاً) -->
 <div id="profileModal" class="modal">
-  <div class="modal-box" style="max-width: 580px;">
+  <div class="auth-custom-box" style="max-width: 500px;">
     <div style="text-align: center; margin-bottom: 20px;">
       <span class="modal-header-tag">👤 لوحة التحكم الخاصة بك</span>
       <h3 style="font-size: 26px;">الملف الشخصي</h3>
     </div>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981; color: #4ade80; padding: 12px; border-radius: 14px; font-size: 14px; font-weight: bold; margin-bottom: 20px;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #4ade80; padding: 12px; border-radius: 14px; font-size: 14px; font-weight: bold; margin-bottom: 20px;">
       <span style="width: 12px; height: 12px; background-color: #22c55e; border-radius: 50%;"></span>
       <span>حسابك مفعل تستطيع الشراء</span>
     </div>
-    <div style="background: #141414; border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; margin-bottom: 20px; text-align: right;">
+    <div style="background: rgba(20, 20, 20, 0.85); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; margin-bottom: 20px; text-align: right;">
       <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">اسم الحساب:</div><div style="font-size: 16px; font-weight: 900; color: #fff;" id="profUserVal">-</div></div>
       <div style="margin-bottom: 12px;"><div style="font-size: 11px; color: var(--text-muted);">كلمة السر:</div><div style="font-size: 16px; font-weight: 900; color: #fde047; font-family: monospace;" id="profPassVal">-</div></div>
       <div><div style="font-size: 11px; color: var(--text-muted);">رقم الهاتف (الواتساب):</div><div style="font-size: 16px; font-weight: 900; color: #34d399;" id="profContactVal">-</div></div>
@@ -1772,7 +1789,6 @@ function proceedToVerification() {
       generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
       document.getElementById("generatedOtpDisplay").textContent = generatedOtpCode;
 
-      // تصحيح الرابط بنجاح للآيفون والواتساب
       let cleanPhone = phoneVal.startsWith('0') ? phoneVal.substring(1) : phoneVal;
       let fullPhone = "218" + cleanPhone;
 
@@ -2171,7 +2187,6 @@ function openAdminDetail(orderId) {
   const o = cachedOrdersMap[orderId]; if(!o) return;
   const content = document.getElementById("adminDetailContent");
   
-  // تنظيف رقم هاتف الزبون لإرسال رسائل الواتساب بدون أخطاء على الآيفون
   let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
   let fullUserPhone = "218" + cleanUserPhone;
 
