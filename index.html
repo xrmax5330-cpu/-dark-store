@@ -1518,17 +1518,25 @@ footer {
       <button class="close" onclick="closeModal()">إلغاء</button>
     </div>
 
+    <!-- الواجهة بعد إرسال الطلب -->
     <div id="orderStatusContent" style="display: none;" class="status-card">
-      <div id="statusIcon" class="status-icon">⏳</div>
-      <h3 id="statusTitle" style="color: #fff;">تم إنشاء طلبك بنجاح!</h3>
-      <div id="statusSpinner" class="status-spinner"></div>
-      <div style="background:var(--card-bg); padding:12px; border-radius:10px; margin: 15px 0; border:1px solid var(--card-border); text-align:right; font-size:12px;">
-        <div><b>رقم الطلب:</b> <span id="viewOrderId" style="color:#fff;"></span></div>
-        <div><b>المنتج المطلـوب:</b> <span id="viewOrderProduct"></span></div>
+      <div class="status-icon" style="font-size: 45px; margin-bottom: 10px;">⏳</div>
+      <h3 style="color: #fff; font-size: 22px; margin-bottom: 8px;">طلبك قيد المراجعة</h3>
+      <div style="background:var(--card-bg); padding:14px; border-radius:12px; margin: 15px 0; border:1px solid var(--card-border); text-align:right; font-size:13px;">
+        <div style="margin-bottom: 6px;"><b>رقم الطلب:</b> <span id="viewOrderId" style="color:#fde047; font-weight:900;"></span></div>
+        <div><b>المنتج المطلـوب:</b> <span id="viewOrderProduct" style="color:#fff;"></span></div>
       </div>
-      <p id="statusMsg" style="color: var(--text-muted); font-size: 12px; line-height: 1.6;">تم استلام طلبك، وستصلك إشعارات وتساب بكل تحديث!</p>
-      <a id="modalWhatsappSmallBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-top: 15px; padding: 10px;">💬 تواصل معانا عبر وتس</a>
-      <button class="close" style="margin-top: 10px;" onclick="closeModal()">إغلاق الشاشة</button>
+      <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استلام طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
+      
+      <!-- زر شاهد طلبك من واتساب مع رقم المتجر -->
+      <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-bottom: 10px; padding: 12px; text-decoration:none;">
+        💬 شاهد طلبك من واتساب (218927816884+)
+      </a>
+
+      <!-- زر تابع التصفح في الموقع -->
+      <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px;" onclick="closeModal()">
+        🛍️ تابع التصفح في الموقع
+      </button>
     </div>
   </div>
 </div>
@@ -2108,10 +2116,14 @@ function sendOrder(){
 
     db.collection("orders").doc(currentOrderId).set(orderData).then(() => {
       document.getElementById("viewOrderId").textContent = currentOrderId;
-      document.getElementById("viewOrderProduct").textContent = selectedProduct.title;
+      document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price} د.ل)`;
+      
+      // تحديث رابط الواتساب في نافذة النجاح ليحتوي على رسالة استفسار عن الطلب ورقم المتجر
+      const waMsg = `مرحباً Dark Store، استفسار بخصوص طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
+      document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
+
       document.getElementById("orderFormContent").style.display = "none";
       document.getElementById("orderStatusContent").style.display = "block";
-      document.getElementById("modalWhatsappSmallBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، استفسار بخصوص طلبي رقم ${currentOrderId}`)}`;
       listenToHomeActiveOrder();
     }).catch((err) => {
       alert("حدث خطأ أثناء إرسال الطلب: " + err.message);
