@@ -1322,8 +1322,8 @@ footer {
     </div>
     <div style="display: flex; flex-direction: column; gap: 10px; text-align: right; margin-bottom: 20px;">
       <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>1.</b> اختر الباقة أو المنتج المطلوب.</div>
-      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>2.</b> قم بتحويل المبلغ إلى رقم المحفظة الظاهر في صفحة الدفع.</div>
-      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>3.</b> أدخل بياناتك وأرفق صورة إيصال التحويل وأرسل الطلب.</div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>2.</b> قم بتحويل المبلغ إلى رقم المحفظة أو أرسل كرت شحن.</div>
+      <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>3.</b> أدخل بياناتك وأرفق الصورة المطلوبة وأرسل الطلب.</div>
       <div style="background: #141414; border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 13px; color: #fff;"><b>4.</b> تابع حالة طلبك (ستصلك رسائل وتساب بكل تحديث).</div>
     </div>
     <button class="close" onclick="closeGuideModal()" style="margin-top: 0;">إغلاق النافذة</button>
@@ -1398,7 +1398,7 @@ footer {
     </div>
 
     <div id="effectsHeader" style="display: none;"><div class="title"><h2>💣أفكتات روبلوكس</h2><p>الدفع عن طريق ليبيانا</p></div></div>
-    <div id="itunesHeader" style="display: none;"><div class="title"><h2>أيتونز ( أمريكا🇺🇸 )</h2><p>الدفع عن طريق ليبيانا</p></div></div>
+    <div id="itunesHeader" style="display: none;"><div class="title"><h2>أيتونز ( أمريكا🇺🇸 )</h2><p>الدفع عن طريق ليبيانا أو كرت شحن</p></div></div>
     <div id="psHeader" style="display: none;"><div class="title"><h2>شبكة بلاي ستيشن ( أمريكا )</h2><p>بطاقات بلايستيشن ستور الأمريكية</p></div></div>
     <div id="pubgHeader" style="display: none;"><div class="title"><h2>ببجي موبايل</h2><p>شحن عن طريق الأيدي (ID)</p></div></div>
     <div id="xboxHeader" style="display: none;"><div class="title"><h2>إكس بوكس ( أمريكا )</h2><p>بطاقات هدايا أمريكية</p></div></div>
@@ -1510,26 +1510,34 @@ footer {
         <div id="orderItemTitle" class="order-summary-item">-</div>
         <div id="orderItemPrice" class="order-summary-price">-</div>
       </div>
-      <div class="payment-transfer-card">
+
+      <div class="payment-transfer-card" id="transferCardBox">
         <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">-</div>
         <button class="copy-btn" onclick="copyTransferNumber()">📋 نسخ رقم التحويل</button>
         <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك وتس ل تشاهد حالة طلبك</div>
       </div>
-      <div class="steps-list">
-        <div class="step-item"><span class="step-num">1</span><span>حول المبلغ إلى رقم المحفظة أعلاه.</span></div>
+
+      <div class="steps-list" id="stepsListBox">
+        <div class="step-item"><span class="step-num">1</span><span id="stepText1">حول المبلغ إلى رقم المحفظة أعلاه.</span></div>
         <div class="step-item"><span class="step-num">2</span><span>أدخل بياناتك المطلوبة (اليوزر، الكلمة، رقمك).</span></div>
-        <div class="step-item"><span class="step-num">3</span><span>أرفق سكرين شوت إيصال التحويل وأرسل الطلب.</span></div>
+        <div class="step-item"><span class="step-num">3</span><span id="stepText3">أرفق سكرين شوت إيصال التحويل وأرسل الطلب.</span></div>
       </div>
+
       <div class="form-group" id="robloxUserGroup"><label>👤اسم مستخدم Roblox / الأيدي <span>*</span></label><input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123"></div>
       <div class="form-group" id="robloxPassGroup"><label>🔐كلمة سر الحساب <span>*</span></label><input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة السر"></div>
-      <div class="form-group"><label>📲رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
-      <div class="form-group"><label>🖼️ صورة إيصال التحويل <span>*</span></label><input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;"></div>
+      <div class="form-group" id="senderPhoneGroup"><label>📲رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
+      
+      <!-- هنا التعديل: يتغير نص الليبل بناءً على نوع المنتج (كارت شحن أو تحويل رصيد) -->
+      <div class="form-group"><label id="receiptLabelText">🖼️ صورة إيصال التحويل <span>*</span></label><input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;"></div>
+      
       <div class="form-group"><label>💬ملاحظات إضافية</label><textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة..."></textarea></div>
-      <div class="checkbox-group">
+      
+      <div class="checkbox-group" id="checkboxGroupBox">
         <input type="checkbox" id="confirmCheckbox">
-        <label for="confirmCheckbox">✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم <b id="confirmNumberDisplay">0</b> وأن البيانات صحيحة.</label>
+        <label for="confirmCheckbox"><span id="confirmTextSpan">✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم</span> <b id="confirmNumberDisplay">0</b> وأن البيانات صحيحة.</label>
       </div>
+
       <button class="confirm" onclick="sendOrder()">🚀 إرسال الطلب</button>
       <button class="close" onclick="closeModal()">إلغاء</button>
     </div>
@@ -2059,9 +2067,9 @@ function showEffectsPrices(){
   });
 }
 
-function showItunesPrices(){ renderCardGrid(itunesPrices, 'أيتونز'); }
-function showPsPrices(){ renderCardGrid(psPrices, 'بلايستيشن'); }
-function showXboxPrices(){ renderCardGrid(xboxPrices, 'إكس بوكس'); }
+function showItunesPrices(){ renderCardGrid(itunesPrices, 'أيتونز', 'card'); }
+function showPsPrices(){ renderCardGrid(psPrices, 'بلايستيشن', 'card'); }
+function showXboxPrices(){ renderCardGrid(xboxPrices, 'إكس بوكس', 'card'); }
 function showPubgPrices(){
   const box = document.getElementById("prices"); box.innerHTML = "";
   pubgPrices.forEach(item => {
@@ -2072,12 +2080,12 @@ function showPubgPrices(){
   });
 }
 
-function renderCardGrid(dataList, title) {
+function renderCardGrid(dataList, title, orderType) {
   const box = document.getElementById("prices"); box.innerHTML = "";
   dataList.forEach(item => {
     const card = document.createElement("div"); card.className = "effect-card";
     card.innerHTML = `<img src="${item.img}" class="effect-img"><div class="effect-title">${title} (${item.amount})</div><div class="effect-price">${item.price} د.ل</div><button class="effect-buy-btn">شراء</button>`;
-    card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: 'card', title: `${title} (${item.amount})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
+    card.querySelector('.effect-buy-btn').onclick = () => openModal({ type: orderType, title: `${title} (${item.amount})`, price: `${item.price} د.ل`, provider: "ليبيانا" });
     box.appendChild(card);
   });
 }
@@ -2090,9 +2098,31 @@ function openModal(item){
   document.getElementById("orderItemTitle").textContent = item.title;
   document.getElementById("orderItemPrice").textContent = item.price;
   
-  const num = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
-  document.getElementById("transferNumber").textContent = num;
-  document.getElementById("confirmNumberDisplay").textContent = num;
+  const isCardProduct = (item.type === 'card');
+
+  if(isCardProduct) {
+    // إذا كان كرت شحن: نخفي خانة تحويل الرصيد ورقم المحفظة ونعدل التسميات
+    document.getElementById("transferCardBox").style.display = "none";
+    document.getElementById("stepsListBox").style.display = "none";
+    document.getElementById("senderPhoneGroup").style.display = "none";
+    document.getElementById("checkboxGroupBox").style.display = "none";
+    document.getElementById("receiptLabelText").innerHTML = `🖼️ ارسل صورة الكرت <span>*</span>`;
+  } else {
+    // إذا كان تحويل رصيد عادي
+    document.getElementById("transferCardBox").style.display = "block";
+    document.getElementById("stepsListBox").style.display = "block";
+    document.getElementById("senderPhoneGroup").style.display = "block";
+    document.getElementById("checkboxGroupBox").style.display = "block";
+    document.getElementById("receiptLabelText").innerHTML = `🖼️ صورة إيصال التحويل <span>*</span>`;
+
+    const num = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
+    document.getElementById("transferNumber").textContent = num;
+    document.getElementById("confirmNumberDisplay").textContent = num;
+    document.getElementById("stepText1").textContent = "حول المبلغ إلى رقم المحفظة أعلاه.";
+    document.getElementById("stepText3").textContent = "أرفق سكرين شوت إيصال التحويل وأرسل الطلب.";
+    document.getElementById("confirmTextSpan").textContent = "✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم";
+  }
+
   document.getElementById("modal").classList.add("show");
 }
 
@@ -2102,7 +2132,6 @@ function copyTransferNumber() {
   alert("✅ تم نسخ رقم التحويل!"); 
 }
 
-// دالة عامة لنسخ أي نص بضغطة زر وتنبيه السريّع
 function copyToClipboard(text, labelName) {
   navigator.clipboard.writeText(text).then(() => {
     alert(`✅ تم نسخ ${labelName} بنجاح: ${text}`);
@@ -2116,11 +2145,19 @@ function sendOrder(){
 
   const robloxUser = document.getElementById("robloxUser").value.trim();
   const robloxPass = document.getElementById("robloxPass").value.trim();
-  const senderPhone = document.getElementById("senderPhone").value.trim();
   const receiptFile = document.getElementById("receiptImageInput").files[0];
+  const isCardProduct = (selectedProduct.type === 'card');
 
-  if(!robloxUser || !senderPhone || !receiptFile || !document.getElementById("confirmCheckbox").checked){
-    alert("يرجى ملء الحقول وإرفاق الإيصال والتأكيد!"); return;
+  let senderPhone = "كرت شحن";
+  if(!isCardProduct) {
+    senderPhone = document.getElementById("senderPhone").value.trim();
+    if(!senderPhone || !document.getElementById("confirmCheckbox").checked) {
+      alert("يرجى ملء كافة الحقول المطلوبة وتأكيد التحويل!"); return;
+    }
+  }
+
+  if(!robloxUser || !receiptFile){
+    alert("يرجى إدخال يوزر حساب Roblox وإرفاق الصورة المطلوبة!"); return;
   }
 
   const reader = new FileReader();
@@ -2269,7 +2306,6 @@ function openAdminDetail(orderId) {
   const waRej = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgRej)}`;
   const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgComp)}`;
 
-  // تم إضافة أزرار النسخ السريعة (copyToClipboard) بجانب اليوزر، الباسورد، ورقم المُحوِّل
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
     <div class="detail-row"><span>صاحب الحساب:</span><b>${o.userOwner}</b></div>
@@ -2303,17 +2339,17 @@ function openAdminDetail(orderId) {
 
     <div class="detail-row"><span>الحالة الحالية:</span><b>${o.status}</b></div>
     
-    <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة إيصال التحويل (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
+    <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة الإيصال أو الكرت (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
     
     <div style="margin-top:15px; text-align:center;">
       <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">أزرار إرسال الرسائل عبر الواتساب للزبون:</div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
         <a href="${waReview}" target="_blank" class="admin-btn admin-btn-wa">قيد المراجعة 💬</a>
         <a href="${waPrep}" target="_blank" class="admin-btn admin-btn-wa" style="background:#9333ea;">تجهيز الطلب 💬</a>
-        <a href="${waAcc}" target="_blank" class="admin-btn admin-btn-wa" style="background:#2563eb;">قيد التنفيذ 💬</a>
-        <a href="${waUnav}" target="_blank" class="admin-btn admin-btn-wa" style="background:#d97706;">غير متوفر 💬</a>
-        <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">رفض الطلب 💬</a>
-        <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم التسليم 💬</a>
+        <a href="${waAcc}" target="_blank" class="admin-btn admin-btn-wa" style="background:#2563eb;">قيد التنفيذ ⚙️</a>
+        <a href="${waUnav}" target="_blank" class="admin-btn admin-btn-wa" style="background:#d97706;">غير متوفر ⚠️</a>
+        <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">رفض الطلب ❌</a>
+        <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم التسليم ✅</a>
       </div>
       <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
         <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل</button>
