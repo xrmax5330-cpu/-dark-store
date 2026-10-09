@@ -731,7 +731,7 @@ footer {
   display: flex;
 }
 
-/* تنسيق نافذة تسجيل الدخول بالخلفية الجديدة المخصصة */
+/* تنسيق نافذة تسجيل الدخول بالخلفية الجديدة */
 .auth-custom-box {
   width: 100%;
   max-width: 450px;
@@ -1409,7 +1409,7 @@ footer {
   <div><button class="admin-trigger-btn" onclick="openAdminPanelPrompt()">⚙️ لوحة الإدارة</button></div>
 </footer>
 
-<!-- نافذة التسجيل والتحقق بالواتساب (بالخلفية الجديدة) -->
+<!-- نافذة التسجيل والتحقق -->
 <div id="authModal" class="modal">
   <div class="auth-custom-box">
     <div style="text-align: center;">
@@ -1422,17 +1422,16 @@ footer {
       <div class="form-group"><label>👤 اسم المستخدم (بالإنجليزية فقط) <span>*</span></label><input id="regUsername" class="input" type="text" placeholder="Example: darkstore"></div>
       <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="regPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
       <div class="form-group"><label>📱 رقم الهاتف (رقمك للواتساب) <span>*</span></label><input id="regPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
-      <button class="confirm" onclick="proceedToVerification()">📩 توليد كود التحقق وإرساله عبر الواتساب</button>
+      <button class="confirm" onclick="proceedToVerification()">📩 التابع لخطوة التحقق</button>
       <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToLogin()">لديك حساب من قبل؟ تسجيل دخول</button></div>
     </div>
 
-    <!-- خطوة 2: إدخال كود التحقق -->
+    <!-- خطوة 2: إدخال كود التحقق العشوائي -->
     <div id="verifyCodeContainer" style="display: none; text-align: center;">
       <div style="background: rgba(20, 20, 20, 0.9); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
-        <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">📲 تم توليد كود التحقق لحسابك!</div>
-        <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">اضغط على الزر أدناه لإرسال الكود عبر الواتساب، ثم أدخله أدناه لتفعيل حسابك.</div>
-        <div id="generatedOtpDisplay" style="font-size: 26px; font-weight: 950; color: #34d399; letter-spacing: 4px; margin: 10px 0;">1234</div>
-        <a id="whatsappOtpLink" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 12px; padding: 8px; margin-bottom: 10px;">💬 إرسال كود التحقق عبر الواتساب</a>
+        <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">🔢 رمز التحقق المطلوب إدخاله:</div>
+        <div id="generatedOtpDisplay" style="font-size: 28px; font-weight: 950; color: #34d399; letter-spacing: 6px; margin: 10px 0;">1018</div>
+        <div style="font-size: 11px; color: #fde047; font-weight: bold; margin-top: 5px;">يرجى كتابة رمز التحقق الخاص بك تحت ⬇️</div>
       </div>
       <div class="form-group"><label>🔢 أدخل كود التحقق المكون من 4 أرقام <span>*</span></label><input id="enteredOtpInput" class="input" type="text" placeholder="أدخل الكود هنا" style="text-align: center; font-size: 18px; letter-spacing: 2px;"></div>
       <button class="confirm" onclick="verifyAndCompleteRegister()">✅ تأكيد وتفعيل الحساب</button>
@@ -1449,7 +1448,7 @@ footer {
   </div>
 </div>
 
-<!-- نافذة الملف الشخصي (بالخلفية الجديدة أيضاً) -->
+<!-- نافذة الملف الشخصي -->
 <div id="profileModal" class="modal">
   <div class="auth-custom-box" style="max-width: 500px;">
     <div style="text-align: center; margin-bottom: 20px;">
@@ -1499,7 +1498,7 @@ footer {
       <div class="payment-transfer-card">
         <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">-</div>
-        <button class="copy-btn" onclick="copyTransferNumber()">نسخ الرقم</button>
+        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك وتس ل تشاهد حالة طلبك</div>
       </div>
       <div class="steps-list">
         <div class="step-item"><span class="step-num">1</span><span>حول المبلغ إلى رقم المحفظة أعلاه.</span></div>
@@ -1789,15 +1788,9 @@ function proceedToVerification() {
       generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
       document.getElementById("generatedOtpDisplay").textContent = generatedOtpCode;
 
-      let cleanPhone = phoneVal.startsWith('0') ? phoneVal.substring(1) : phoneVal;
-      let fullPhone = "218" + cleanPhone;
-
-      const whatsappMsg = `🔐 طلب تفعيل حساب في Dark Store:\nاسم المستخدم: ${userVal}\nرقم الهاتف: ${phoneVal}\nرمز التحقق الخاص بك هو: ${generatedOtpCode}`;
-      document.getElementById("whatsappOtpLink").href = `https://wa.me/${fullPhone}?text=${encodeURIComponent(whatsappMsg)}`;
-
       document.getElementById("registerFormContainer").style.display = "none";
       document.getElementById("verifyCodeContainer").style.display = "block";
-      document.getElementById("authModalTitle").textContent = "رمز التحقق عبر الواتساب";
+      document.getElementById("authModalTitle").textContent = "رمز التحقق";
       document.getElementById("authTagBadge").textContent = "📲 تفعيل الحساب";
     }
   });
