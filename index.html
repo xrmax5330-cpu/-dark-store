@@ -993,7 +993,14 @@ footer {
   gap: 8px;
 }
 
-.confirm:hover {
+.confirm:disabled {
+  background: #555 !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}
+
+.confirm:hover:not(:disabled) {
   opacity: 0.85;
 }
 
@@ -1039,7 +1046,7 @@ footer {
 .badge-rejected { background: rgba(220, 38, 38, 0.15); color: #f87171; border: 1px solid #dc2626; }
 .badge-unavailable { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border: 1px solid #6b7280; }
 
-/* ✨ تصميم لوحة تحكم الأدمن المطور والجديد ✨ */
+/* تصميم لوحة تحكم الأدمن المطور */
 .admin-panel-modal {
   position: fixed;
   inset: 0;
@@ -1101,7 +1108,6 @@ footer {
   padding: 24px;
 }
 
-/* كروت إحصائيات الأدمن */
 .admin-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1401,10 +1407,10 @@ footer {
     <h1>DARK <span>STORE</span></h1>
     <p>🖤🔥 عالم الألعاب والإفكتات والبطاقات الرقمية بتصميم مظلم وفخم وسرعة فائقة</p>
 
-    <!-- شريط تتبع الطلب النشط -->
+    <!-- شريط تتبع الطلب النشط في الرئيسية -->
     <div id="homeActiveOrderBanner" class="home-active-order-banner">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-        <span style="font-size:12px; color:#fff; font-weight:bold;">📦 تتبع الطلب النشط:</span>
+        <span style="font-size:12px; color:#fff; font-weight:bold;">📦 حالة طلبك الحالي:</span>
         <span id="homeOrderStatusBadge" class="order-badge badge-pending">قيد المراجعة</span>
       </div>
       <div style="font-size:14px; font-weight:bold; color:#fff; margin-bottom: 5px;" id="homeOrderProductText">-</div>
@@ -1417,7 +1423,7 @@ footer {
         <div class="order-step-item" id="hstep-5"><div class="order-step-circle">5</div><div class="order-step-label">تم التسليم</div></div>
       </div>
       <div style="font-size:11px; color:var(--text-muted); margin-top:2px; text-align:center;">رقم الطلب: <span id="homeOrderIdText">#</span></div>
-      <a id="homeWhatsappDirectBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px;">💬 تواصل معنا عبر الواتساب</a>
+      <a id="homeWhatsappDirectBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; margin-top:12px; font-size:13px; padding:10px; text-decoration:none;">💬 إرسال طلبي للواتساب</a>
     </div>
   </div>
 
@@ -1426,7 +1432,6 @@ footer {
       <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
     </div>
 
-    <!-- الإبقاء فقط على الروبوكس والأفكتات -->
     <div class="category-box">
       <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
         <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
@@ -1480,7 +1485,6 @@ footer {
       <h3 id="authModalTitle">إنشاء حساب جديد</h3>
     </div>
 
-    <!-- خطوة 1: إدخال البيانات -->
     <div id="registerFormContainer">
       <div class="form-group"><label>👤 اسم المستخدم (بالإنجليزية فقط) <span>*</span></label><input id="regUsername" class="input" type="text" placeholder="Example: darkstore"></div>
       <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="regPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
@@ -1489,7 +1493,6 @@ footer {
       <div style="text-align:center; margin-top: 15px;"><button style="background:transparent; border:none; color:#fff; cursor:pointer; font-weight:bold; text-shadow: 0 1px 3px rgba(0,0,0,0.8);" onclick="switchToLogin()">لديك حساب من قبل؟ تسجيل دخول</button></div>
     </div>
 
-    <!-- خطوة 2: إدخال كود التحقق العشوائي -->
     <div id="verifyCodeContainer" style="display: none; text-align: center;">
       <div style="background: rgba(20, 20, 20, 0.9); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px;">
         <div style="font-size: 13px; color: #fff; font-weight: bold; margin-bottom: 6px;">🔢 رمز التحقق المطلوب إدخاله:</div>
@@ -1501,7 +1504,6 @@ footer {
       <button class="close" onclick="switchToRegister()">رجوع</button>
     </div>
 
-    <!-- تسجيل الدخول -->
     <div id="loginFormContainer" style="display: none;">
       <div class="form-group"><label>👤 اسم المستخدم (اليوزر) <span>*</span></label><input id="logUsername" class="input" type="text" placeholder="أدخل اسم المستخدم"></div>
       <div class="form-group"><label>🔒 كلمة السر <span>*</span></label><input id="logPassword" class="input" type="password" placeholder="أدخل كلمة السر"></div>
@@ -1548,7 +1550,7 @@ footer {
   </div>
 </div>
 
-<!-- نافذة إتمام الطلب -->
+<!-- نافذة إتمام الطلب وعرض الحالة -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <div id="orderFormContent">
@@ -1573,11 +1575,8 @@ footer {
       </div>
 
       <div class="form-group" id="robloxUserGroup"><label>👤 اسم مستخدم Roblox / الأيدي <span>*</span></label><input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123"></div>
-      
       <div class="form-group" id="senderPhoneGroup"><label>📲 رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
-      
       <div class="form-group"><label id="receiptLabelText">🖼️ صورة إيصال التحويل <span>*</span></label><input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;"></div>
-      
       <div class="form-group"><label>💬 ملاحظات إضافية</label><textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة..."></textarea></div>
       
       <div class="checkbox-group" id="checkboxGroupBox">
@@ -1585,11 +1584,12 @@ footer {
         <label for="confirmCheckbox"><span id="confirmTextSpan">✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم</span> <b id="confirmNumberDisplay">0</b> وأن البيانات صحيحة.</label>
       </div>
 
-      <button class="confirm" onclick="sendOrder()">🚀 إرسال الطلب</button>
+      <!-- زر الإرسال المزود بحماية منع الضغط المكرر -->
+      <button id="sendOrderSubmitBtn" class="confirm" onclick="sendOrder()">🚀 إرسال الطلب</button>
       <button class="close" onclick="closeModal()">إلغاء</button>
     </div>
 
-    <!-- الواجهة بعد إرسال الطلب -->
+    <!-- ✨ النافذة التي تظهر للزبون فور إرسال الطلب ✨ -->
     <div id="orderStatusContent" style="display: none;" class="status-card">
       <div class="status-icon" style="font-size: 45px; margin-bottom: 10px;">⏳</div>
       <h3 style="color: #fff; font-size: 22px; margin-bottom: 8px;">طلبك قيد المراجعة</h3>
@@ -1599,22 +1599,21 @@ footer {
       </div>
       <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استقبال طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
-      <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-bottom: 10px; padding: 12px; text-decoration:none;">
-        💬 شاهد طلبك من واتساب (218927816884+)
+      <!-- زر إرسال الطلب للواتساب -->
+      <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 14px; margin-bottom: 10px; padding: 13px; text-decoration:none;">
+        💬 إرسال طلبي للواتساب
       </a>
 
-      <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px;" onclick="closeModal()">
-        🛍️ تابع التصفح في الموقع
+      <!-- زر أكمل التسوق -->
+      <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px; margin-top:0;" onclick="closeModal()">
+        🛍️ أكمل التسوق
       </button>
     </div>
   </div>
 </div>
 
-<!-- ========================================================= -->
-<!-- 👑 لوحة تحكم الأدمن الجديدة والمتطورة بالكامل 👑 -->
-<!-- ========================================================= -->
+<!-- لوحة تحكم الأدمن -->
 <div id="adminPanelModal" class="admin-panel-modal">
-  
   <div class="admin-navbar">
     <div class="admin-brand-box">
       <div class="admin-brand-icon">⚡</div>
@@ -1627,8 +1626,6 @@ footer {
   </div>
 
   <div class="admin-body-container">
-    
-    <!-- كروت إحصائيات الأدمن السريعة -->
     <div class="admin-stats-grid">
       <div class="stat-card">
         <div class="stat-info">
@@ -1653,7 +1650,6 @@ footer {
       </div>
     </div>
 
-    <!-- أزرار التنقل -->
     <div class="admin-tabs-bar">
       <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">
         <span>📦</span> <span>إدارة الطلبات</span>
@@ -1666,7 +1662,6 @@ footer {
       </button>
     </div>
 
-    <!-- قسم الطلبات -->
     <div id="adminOrdersSection" class="admin-card-container">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <h3 style="font-size:16px; font-weight:900; color:#fff;">الطلبات الواردة حالياً</h3>
@@ -1677,7 +1672,6 @@ footer {
       </div>
     </div>
 
-    <!-- قسم حسابات العملاء -->
     <div id="adminUsersSection" class="admin-card-container" style="display: none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <h3 style="font-size:16px; font-weight:900; color:#fff;">قائمة حسابات الزبائن المسجلين</h3>
@@ -1687,7 +1681,6 @@ footer {
       </div>
     </div>
 
-    <!-- قسم أرشيف الطلبات -->
     <div id="adminLogsSection" class="admin-card-container" style="display: none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <h3 style="font-size:16px; font-weight:900; color:#fff;">سجل الطلبات السابقة والمؤرشفة</h3>
@@ -1697,7 +1690,6 @@ footer {
         <div style="text-align:center; color:#888; padding:30px;">لا توجد سجلات.</div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -1760,7 +1752,6 @@ const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
 const STORE_WHATSAPP = "218927816884";
 
-/* 🔥 الأسعار المعدلة حسب الطلب 🔥 */
 const madarPrices = [
   {robux:10, price: "5 مدار", rawPrice: "5", img: robuxImgUrl},
   {robux:20, price: "7 مدار", rawPrice: "7", img: robuxImgUrl},
@@ -2060,6 +2051,7 @@ function updateVisualSteps(status) {
   }
 }
 
+/* ✨ استماع مباشر للطلب النشط وتحديثه أعلى الصفحة الرئيسية فور تغيير الحالة من الأدمن ✨ */
 function listenToHomeActiveOrder() {
   if(!currentUser) return;
   if(homeOrderUnsubscribe) homeOrderUnsubscribe();
@@ -2077,7 +2069,7 @@ function listenToHomeActiveOrder() {
       currentOrderId = latest.id;
       banner.classList.add("show");
       document.getElementById("homeOrderIdText").textContent = latest.id;
-      document.getElementById("homeOrderProductText").textContent = `${latest.product} (${latest.price} د.ل)`;
+      document.getElementById("homeOrderProductText").textContent = `${latest.product} (${latest.price})`;
       
       const badge = document.getElementById("homeOrderStatusBadge");
       if(latest.status === 'pending') { badge.className = 'order-badge badge-pending'; badge.textContent = 'قيد المراجعة ⏳'; }
@@ -2088,7 +2080,7 @@ function listenToHomeActiveOrder() {
       else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض طلبك ❌'; }
 
       updateVisualSteps(latest.status);
-      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، استفسار بخصوص طلبي ${latest.id}`)}`;
+      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، أود استكمال طلب كود/خدمة رقم ${latest.id} (${latest.product})`)}`;
     }
   });
 }
@@ -2163,6 +2155,12 @@ function showEffectsPrices(){
 function openModal(item){
   if(!currentUser) { openAuthModal(); return; }
   selectedProduct = item;
+  
+  // إعادة تفعيل زر الإرسال عند فتح نافذة جديدة
+  const submitBtn = document.getElementById("sendOrderSubmitBtn");
+  submitBtn.disabled = false;
+  submitBtn.textContent = "🚀 إرسال الطلب";
+
   document.getElementById("orderFormContent").style.display = "block";
   document.getElementById("orderStatusContent").style.display = "none";
   document.getElementById("orderItemTitle").textContent = item.title;
@@ -2198,6 +2196,7 @@ function copyToClipboard(text, labelName) {
   });
 }
 
+/* ✨ دالة إرسال الطلب مع منع تكرار الضغط المباشر وحماية النظام ✨ */
 function sendOrder(){
   if(!currentUser) { alert("يجب تسجيل الدخول أولاً!"); openAuthModal(); return; }
 
@@ -2212,6 +2211,11 @@ function sendOrder(){
   if(!robloxUser || !receiptFile){
     alert("يرجى إدخال يوزر حساب Roblox وإرفاق الصورة المطلوبة!"); return;
   }
+
+  // تعطيل الزر فور الضغط لمنع إرسال طلبات مكررة متتابعة
+  const submitBtn = document.getElementById("sendOrderSubmitBtn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "جاري إرسال الطلب... ⏳";
 
   const reader = new FileReader();
   reader.onload = function(e) {
@@ -2235,14 +2239,20 @@ function sendOrder(){
       document.getElementById("viewOrderId").textContent = currentOrderId;
       document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price})`;
       
-      const waMsg = `مرحباً Dark Store، استفسار بخصوص طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
+      // تجهيز رابط الواتساب المباشر للطلب
+      const waMsg = `مرحباً Dark Store، أود استكمال طلب رقم ${currentOrderId} (${selectedProduct.title})`;
       document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
 
+      // إخفاء النموذج وإظهار نافذة الحالة المأكولة
       document.getElementById("orderFormContent").style.display = "none";
       document.getElementById("orderStatusContent").style.display = "block";
+      
+      // إعادة تفعيل الاستماع والتحديث في الرئيسية
       listenToHomeActiveOrder();
     }).catch((err) => {
       alert("حدث خطأ أثناء إرسال الطلب: " + err.message);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "🚀 إرسال الطلب";
     });
   };
   reader.readAsDataURL(receiptFile);
@@ -2271,7 +2281,6 @@ function switchAdminTab(tabName) {
   if(tabName === 'logs') loadAdminLogsList();
 }
 
-/* 🔥 حل مشكلة استلام الطلب الرابع والربط اللحظي المستمر 🔥 */
 function loadAdminOrdersList() {
   const container = document.getElementById("adminOrdersList");
   container.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري تحميل الطلبات...</div>`;
@@ -2453,24 +2462,34 @@ function openAdminDetail(orderId) {
     <div style="margin-top:10px;"><div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">صورة الإيصال (اضغط لتكبيرها):</div><img src="${o.receiptImage}" class="receipt-preview-img"></div>
     
     <div style="margin-top:15px; text-align:center;">
-      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">أزرار إرسال الرسائل عبر الواتساب للزبون:</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">تغيير حالة الطلب وإرسال التحديث للزبون:</div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
-        <a href="${waReview}" target="_blank" class="admin-btn admin-btn-wa">قيد المراجعة 💬</a>
-        <a href="${waPrep}" target="_blank" class="admin-btn admin-btn-wa" style="background:#9333ea;">تجهيز الطلب 💬</a>
-        <a href="${waAcc}" target="_blank" class="admin-btn admin-btn-wa" style="background:#2563eb;">قيد التنفيذ ⚙️</a>
-        <a href="${waUnav}" target="_blank" class="admin-btn admin-btn-wa" style="background:#d97706;">غير متوفر ⚠️</a>
-        <a href="${waRej}" target="_blank" class="admin-btn admin-btn-wa" style="background:#dc2626;">رفض الطلب ❌</a>
-        <a href="${waComp}" target="_blank" class="admin-btn admin-btn-wa" style="background:#16a34a;">تم التسليم ✅</a>
+        <button onclick="changeStatusAndNotify('${o.id}', 'pending')" class="admin-btn" style="background:#d97706; color:#fff;">قيد المراجعة ⏳</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'preparing')" class="admin-btn" style="background:#9333ea; color:#fff;">في التجهيز ⏳</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'accepted')" class="admin-btn" style="background:#2563eb; color:#fff;">قيد التنفيذ ⚙️</button>
+        <button onclick="changeStatusAndNotify('${o.id}', 'unavailable')" class="admin-btn" style="background:#6b7280; color:#fff;">غير متوفر ⚠️</button>
       </div>
       <div style="border-top:1px solid var(--line); padding-top:10px; display:flex; justify-content:center; gap:5px;">
-        <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل</button>
-        <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">أرشفة كمرفوض</button>
+        <button class="admin-btn admin-btn-comp" onclick="updateOrderStatus('${o.id}', 'completed')">أرشفة كمكتمل ✅</button>
+        <button class="admin-btn admin-btn-rej" onclick="updateOrderStatus('${o.id}', 'rejected')">أرشفة كمرفوض ❌</button>
       </div>
     </div>`;
   document.getElementById("adminDetailModal").classList.add("show");
 }
 
 function closeAdminDetailModal() { document.getElementById("adminDetailModal").classList.remove("show"); }
+
+/* ✨ دالة تحديث حالة الطلب فوراً في قاعدة البيانات لتظهر للزبون لحظياً ✨ */
+function changeStatusAndNotify(orderId, newStatus) {
+  db.collection("orders").doc(orderId).update({
+    status: newStatus
+  }).then(() => {
+    alert(`✅ تم تغيير حالة الطلب إلى: ${newStatus}`);
+    closeAdminDetailModal();
+  }).catch(err => {
+    alert("❌ حدث خطأ: " + err.message);
+  });
+}
 
 function updateOrderStatus(orderId, newStatus) {
   const o = cachedOrdersMap[orderId]; if(!o) return;
