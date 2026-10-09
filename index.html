@@ -2214,17 +2214,27 @@ function openAdminDetail(orderId) {
   let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
   let fullUserPhone = "218" + cleanUserPhone;
 
-  const waReview = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳`)}`;
-  const waPrep = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳`)}`;
-  const waAcc = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️`)}`;
-  const waUnav = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج الذي طلبته (${o.product}) غير متوفر في المخزون حالياً ⚠️`)}`;
-  const waRej = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌`)}`;
-  const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉`)}`;
+  const storeUrl = window.location.href.split('#')[0];
+
+  const msgReview = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgPrep = `مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgAcc = `مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgUnav = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج (${o.product}) غير متوفر حالياً ⚠️\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgRej = `مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+  const msgComp = `مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉\n📅 التاريخ: ${o.time}\n💰 السعر: ${o.price} د.ل\n\nرابط طلبك لمشاهدتة من الموقع 🌟\n${storeUrl}`;
+
+  const waReview = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgReview)}`;
+  const waPrep = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgPrep)}`;
+  const waAcc = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgAcc)}`;
+  const waUnav = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgUnav)}`;
+  const waRej = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgRej)}`;
+  const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(msgComp)}`;
 
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b style="color:#fde047; font-size:14px;">${o.id}</b></div>
     <div class="detail-row"><span>الزبون:</span><b>${o.userOwner} (${o.userPhone})</b></div>
-    <div class="detail-row"><span>المنتج:</span><b>${o.product} (${o.price})</b></div>
+    <div class="detail-row"><span>المنتج:</span><b>${o.product} (${o.price} د.ل)</b></div>
+    <div class="detail-row"><span>التاريخ:</span><b style="color:#a3a3a3; font-size:11px;">${o.time}</b></div>
     <div class="detail-row"><span>يوزر الحساب:</span><b style="color:#60a5fa;">${o.robloxUser}</b></div>
     <div class="detail-row"><span>رقم المحفظة المحول منها:</span><b>${o.senderPhone}</b></div>
     <div style="margin-top:10px;"><img src="${o.receiptImage}" class="receipt-preview-img"></div>
