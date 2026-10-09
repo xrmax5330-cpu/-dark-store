@@ -1757,7 +1757,6 @@ function playAlertSound() {
   } catch(e) {}
 }
 
-const robuxImgUrl = "https://i.ibb.co/gMN49Hg8/IMG-4123.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
 
@@ -1765,32 +1764,34 @@ const MADAR_NUMBER = "0930553883";
 const LIBYANA_NUMBER = "0927816884";
 const STORE_WHATSAPP = "218927816884";
 
+// تم ربط الصورة بمدار تلقائياً لكافة باقات المدار
 const madarPrices = [
-  {robux:10, price: "5 مدار", rawPrice: "5", img: robuxImgUrl},
-  {robux:20, price: "7 مدار", rawPrice: "7", img: robuxImgUrl},
-  {robux:30, price: "13 مدار", rawPrice: "13", img: robuxImgUrl},
-  {robux:40, price: "15 مدار", rawPrice: "15", img: robuxImgUrl},
-  {robux:80, price: "20 مدار", rawPrice: "20", badge: "🌟 الأكثر طلباً", img: robuxImgUrl},
-  {robux:120, price: "35 مدار", rawPrice: "35", img: robuxImgUrl},
-  {robux:160, price: "47 مدار", rawPrice: "47", img: robuxImgUrl},
-  {robux:200, price: "50 مدار", rawPrice: "50", img: robuxImgUrl},
-  {robux:400, price: "83 مدار", rawPrice: "83", badge: "🕑 عرض خاص", img: robuxImgUrl},
-  {robux:500, price: "85 مدار", rawPrice: "85", badge: "🔥 أفضل سعر", img: robuxImgUrl},
-  {robux:1000, price: "160 مدار", rawPrice: "160", img: robuxImgUrl}
+  {robux:10, price: "5 مدار", rawPrice: "5", img: madarImgData},
+  {robux:20, price: "7 مدار", rawPrice: "7", img: madarImgData},
+  {robux:30, price: "13 مدار", rawPrice: "13", img: madarImgData},
+  {robux:40, price: "15 مدار", rawPrice: "15", img: madarImgData},
+  {robux:80, price: "20 مدار", rawPrice: "20", badge: "🌟 الأكثر طلباً", img: madarImgData},
+  {robux:120, price: "35 مدار", rawPrice: "35", img: madarImgData},
+  {robux:160, price: "47 مدار", rawPrice: "47", img: madarImgData},
+  {robux:200, price: "50 مدار", rawPrice: "50", img: madarImgData},
+  {robux:400, price: "83 مدار", rawPrice: "83", badge: "🕑 عرض خاص", img: madarImgData},
+  {robux:500, price: "85 مدار", rawPrice: "85", badge: "🔥 أفضل سعر", img: madarImgData},
+  {robux:1000, price: "160 مدار", rawPrice: "160", img: madarImgData}
 ];
 
+// تم ربط الصورة بليبيانا تلقائياً لكافة باقات ليبيانا
 const libyanaPrices = [
-  {robux:10, price: "3 ليبيانا", rawPrice: "3", img: robuxImgUrl},
-  {robux:20, price: "5 ليبيانا", rawPrice: "5", img: robuxImgUrl},
-  {robux:30, price: "7 ليبيانا", rawPrice: "7", img: robuxImgUrl},
-  {robux:40, price: "10 ليبيانا", rawPrice: "10", img: robuxImgUrl},
-  {robux:50, price: "13 ليبيانا", rawPrice: "13", img: robuxImgUrl},
-  {robux:80, price: "15 ليبيانا", rawPrice: "15", badge: "🌟 الأكثر طلباً", img: robuxImgUrl},
-  {robux:120, price: "35 ليبيانا", rawPrice: "35", img: robuxImgUrl},
-  {robux:160, price: "45 ليبيانا", rawPrice: "45", img: robuxImgUrl},
-  {robux:400, price: "80 ليبيانا", rawPrice: "80", badge: "🔥 أفضل سعر", img: robuxImgUrl},
-  {robux:500, price: "85 ليبيانا", rawPrice: "85", img: robuxImgUrl},
-  {robux:1000, price: "130 ليبيانا", rawPrice: "130", img: robuxImgUrl}
+  {robux:10, price: "3 ليبيانا", rawPrice: "3", img: libyanaImgData},
+  {robux:20, price: "5 ليبيانا", rawPrice: "5", img: libyanaImgData},
+  {robux:30, price: "7 ليبيانا", rawPrice: "7", img: libyanaImgData},
+  {robux:40, price: "10 ليبيانا", rawPrice: "10", img: libyanaImgData},
+  {robux:50, price: "13 ليبيانا", rawPrice: "13", img: libyanaImgData},
+  {robux:80, price: "15 ليبيانا", rawPrice: "15", badge: "🌟 الأكثر طلباً", img: libyanaImgData},
+  {robux:120, price: "35 ليبيانا", rawPrice: "35", img: libyanaImgData},
+  {robux:160, price: "45 ليبيانا", rawPrice: "45", img: libyanaImgData},
+  {robux:400, price: "80 ليبيانا", rawPrice: "80", badge: "🔥 أفضل سعر", img: libyanaImgData},
+  {robux:500, price: "85 ليبيانا", rawPrice: "85", img: libyanaImgData},
+  {robux:1000, price: "130 ليبيانا", rawPrice: "130", img: libyanaImgData}
 ];
 
 const effectsList = [
@@ -2104,7 +2105,7 @@ function listenToHomeActiveOrder() {
       else if(latest.status === 'rejected') { badge.className = 'order-badge badge-rejected'; badge.textContent = 'تم رفض الطلب'; }
 
       updateVisualSteps(latest.status);
-      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`مرحباً Dark Store، أود الاستفسار عن طلبي رقم ${latest.id} (${latest.product})`)}`;
+      document.getElementById("homeWhatsappDirectBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(`👋 مرحباً Dark Store ، أود الاستفسار عن طلبي رقم ${latest.id} (${latest.product})`)}`;
     }
   });
 }
@@ -2280,7 +2281,7 @@ function sendOrder(){
       document.getElementById("viewOrderId").textContent = currentOrderId;
       document.getElementById("viewOrderProduct").textContent = `${selectedProduct.title} (${selectedProduct.price})`;
       
-      const waMsg = `مرحباً Dark Store، أود التأكيد واستكمال طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
+      const waMsg = `👋 مرحباً Dark Store ، أود التأكيد واستكمال طلبي رقم ${currentOrderId} (${selectedProduct.title})`;
       document.getElementById("modalWhatsappStatusBtn").href = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(waMsg)}`;
 
       document.getElementById("orderFormContent").style.display = "none";
@@ -2499,6 +2500,7 @@ function openAdminDetail(orderId) {
 
 function closeAdminDetailModal() { document.getElementById("adminDetailModal").classList.remove("show"); }
 
+// الرسائل المرسلة للزبون مع إيموجيات مرتبة ومنسقة جداً
 function changeStatusAndNotify(orderId, newStatus) {
   const o = cachedOrdersMap[orderId];
   if(!o) return;
@@ -2508,16 +2510,16 @@ function changeStatusAndNotify(orderId, newStatus) {
   let fullPhone = "218" + cleanPhone;
 
   let statusText = "";
-  if(newStatus === 'pending') statusText = "قيد المراجعة";
-  else if(newStatus === 'preparing') statusText = "في التجهيز";
-  else if(newStatus === 'accepted') statusText = "قيد التنفيذ";
-  else if(newStatus === 'completed') statusText = "تم التسليم بنجاح";
-  else if(newStatus === 'unavailable') statusText = "غير متوفر حالياً";
-  else if(newStatus === 'rejected') statusText = "تم رفض الطلب";
+  if(newStatus === 'pending') statusText = "قيد المراجعة ⏳";
+  else if(newStatus === 'preparing') statusText = "في التجهيز 📦";
+  else if(newStatus === 'accepted') statusText = "قيد التنفيذ ⚡";
+  else if(newStatus === 'completed') statusText = "تم التسليم بنجاح 🎉";
+  else if(newStatus === 'unavailable') statusText = "غير متوفر حالياً ⚠️";
+  else if(newStatus === 'rejected') statusText = "تم رفض الطلب ❌";
 
   const storeUrl = window.location.href.split('#')[0];
   
-  const msg = `مرحباً ${o.userOwner}\n\nتحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n- الحالة الجديدة: ${statusText}\n- السعر: ${o.price}\n\nتستطيع متابعة حالة طلبك مباشرة من الموقع عبر الرابط:\n${storeUrl}`;
+  const msg = `👋 أهلاً بك عزيزي ${o.userOwner}\n\n📌 تحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n📌 الحالة الجديدة: ${statusText}\n💰 السعر: ${o.price}\n\n🔗 تستطيع متابعة حالة طلبك مباشرة عبر الرابط:\n${storeUrl}`;
 
   const waUrl = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
 
