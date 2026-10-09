@@ -1520,15 +1520,15 @@ footer {
 
       <div class="steps-list" id="stepsListBox">
         <div class="step-item"><span class="step-num">1</span><span id="stepText1">حول المبلغ إلى رقم المحفظة أعلاه.</span></div>
-        <div class="step-item"><span class="step-num">2</span><span>أدخل بياناتك المطلوبة (اليوزر، الكلمة، رقمك).</span></div>
+        <div class="step-item"><span class="step-num">2</span><span>أدخل بياناتك المطلوبة (اليوزر، رقمك).</span></div>
         <div class="step-item"><span class="step-num">3</span><span id="stepText3">أرفق سكرين شوت إيصال التحويل وأرسل الطلب.</span></div>
       </div>
 
       <div class="form-group" id="robloxUserGroup"><label>👤اسم مستخدم Roblox / الأيدي <span>*</span></label><input id="robloxUser" class="input" type="text" placeholder="مثال: RobloxPlayer123"></div>
-      <div class="form-group" id="robloxPassGroup"><label>🔐كلمة سر الحساب <span>*</span></label><input id="robloxPass" class="input" type="password" placeholder="أدخل كلمة السر"></div>
+      
       <div class="form-group" id="senderPhoneGroup"><label>📲رقمك الذي تم التحويل منه <span>*</span></label><input id="senderPhone" class="input" type="tel" placeholder="مثال: 0912345678"></div>
       
-      <!-- هنا التعديل: يتغير نص الليبل بناءً على نوع المنتج (كارت شحن أو تحويل رصيد) -->
+      <!-- صورة إيصال التحويل -->
       <div class="form-group"><label id="receiptLabelText">🖼️ صورة إيصال التحويل <span>*</span></label><input id="receiptImageInput" class="input" type="file" accept="image/*" style="padding:8px;"></div>
       
       <div class="form-group"><label>💬ملاحظات إضافية</label><textarea id="orderNotes" class="textarea" placeholder="اكتب أي ملاحظة..."></textarea></div>
@@ -1552,12 +1552,10 @@ footer {
       </div>
       <p style="color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-bottom: 15px;">تم استلام طلبك بنجاح، وسنقوم بمراجعته وتجهيزه في أقرب وقت.</p>
       
-      <!-- زر شاهد طلبك من واتساب مع رقم المتجر -->
       <a id="modalWhatsappStatusBtn" href="#" target="_blank" class="confirm" style="background:#25d366; color:#fff; font-size: 13px; margin-bottom: 10px; padding: 12px; text-decoration:none;">
         💬 شاهد طلبك من واتساب (218927816884+)
       </a>
 
-      <!-- زر تابع التصفح في الموقع -->
       <button class="close" style="background: #1f1f1f; color: #fff; font-weight: bold; padding: 12px; border-radius: 12px;" onclick="closeModal()">
         🛍️ تابع التصفح في الموقع
       </button>
@@ -1663,12 +1661,12 @@ const madarPrices = [
 ];
 
 const libyanaPrices = [
-  {robux:10, price: "3", img: robuxImgUrl},
-  {robux:20, price: "5", img: robuxImgUrl},
+  {robux:10, price: "2تخفيض🏷️", img: robuxImgUrl},
+  {robux:20, price: "4تخفيض🏷️", img: robuxImgUrl},
   {robux:30, price: "7", img: robuxImgUrl},
   {robux:40, price: 10, img: robuxImgUrl},
   {robux:50, price: "13", img: robuxImgUrl},
-  {robux:80, price: 15, badge: "🌟الأكثر طلباً", img: robuxImgUrl},
+  {robux:80, price: 14تخفيض🏷️, badge: "🌟الأكثر طلباً", img: robuxImgUrl},
   {robux:120, price: 35, img: robuxImgUrl},
   {robux:160, price: 45, img: robuxImgUrl},
   {robux:400, price: 85, badge: "🔥افضل سعر", img: robuxImgUrl},
@@ -2101,14 +2099,12 @@ function openModal(item){
   const isCardProduct = (item.type === 'card');
 
   if(isCardProduct) {
-    // إذا كان كرت شحن: نخفي خانة تحويل الرصيد ورقم المحفظة ونعدل التسميات
     document.getElementById("transferCardBox").style.display = "none";
     document.getElementById("stepsListBox").style.display = "none";
     document.getElementById("senderPhoneGroup").style.display = "none";
     document.getElementById("checkboxGroupBox").style.display = "none";
     document.getElementById("receiptLabelText").innerHTML = `🖼️ ارسل صورة الكرت <span>*</span>`;
   } else {
-    // إذا كان تحويل رصيد عادي
     document.getElementById("transferCardBox").style.display = "block";
     document.getElementById("stepsListBox").style.display = "block";
     document.getElementById("senderPhoneGroup").style.display = "block";
@@ -2144,7 +2140,6 @@ function sendOrder(){
   if(!currentUser) { alert("يجيب تسجيل الدخول أولاً!"); openAuthModal(); return; }
 
   const robloxUser = document.getElementById("robloxUser").value.trim();
-  const robloxPass = document.getElementById("robloxPass").value.trim();
   const receiptFile = document.getElementById("receiptImageInput").files[0];
   const isCardProduct = (selectedProduct.type === 'card');
 
@@ -2171,7 +2166,6 @@ function sendOrder(){
       product: selectedProduct.title,
       price: selectedProduct.price,
       robloxUser: robloxUser,
-      robloxPass: robloxPass || 'لا يوجد',
       senderPhone: senderPhone,
       receiptImage: e.target.result,
       status: 'pending',
@@ -2318,14 +2312,6 @@ function openAdminDetail(orderId) {
       <div style="display:flex; align-items:center; gap:6px;">
         <b style="color:#38bdf8;" id="txtUser_${o.id}">${o.robloxUser}</b>
         <button class="admin-copy-mini-btn" onclick="copyToClipboard('${o.robloxUser}', 'اليوزر')">📋 نسخ</button>
-      </div>
-    </div>
-
-    <div class="detail-row">
-      <span>كلمة السر:</span>
-      <div style="display:flex; align-items:center; gap:6px;">
-        <b style="color:#fde047;" id="txtPass_${o.id}">${o.robloxPass}</b>
-        <button class="admin-copy-mini-btn" onclick="copyToClipboard('${o.robloxPass}', 'كلمة السر')">📋 نسخ</button>
       </div>
     </div>
 
