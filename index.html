@@ -1150,15 +1150,6 @@ footer {
   font-weight: 900;
   font-size: 13px;
 }
-.admin-order-details-text h4 {
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 2px;
-}
-.admin-order-details-text p {
-  font-size: 11px;
-  color: var(--text-muted);
-}
 
 .admin-detail-modal {
   position: fixed;
@@ -1213,10 +1204,7 @@ footer {
   transition: all 0.2s;
   margin: 2px;
 }
-.admin-btn-prep { background: #9333ea; color: #fff; }
-.admin-btn-acc { background: #2563eb; color: #fff; }
 .admin-btn-comp { background: #16a34a; color: #fff; }
-.admin-btn-unav { background: #d97706; color: #fff; }
 .admin-btn-rej { background: #dc2626; color: #fff; }
 .admin-btn-wa { background: #25d366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
 </style>
@@ -1784,8 +1772,12 @@ function proceedToVerification() {
       generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
       document.getElementById("generatedOtpDisplay").textContent = generatedOtpCode;
 
+      // تصحيح الرابط بنجاح للآيفون والواتساب
+      let cleanPhone = phoneVal.startsWith('0') ? phoneVal.substring(1) : phoneVal;
+      let fullPhone = "218" + cleanPhone;
+
       const whatsappMsg = `🔐 طلب تفعيل حساب في Dark Store:\nاسم المستخدم: ${userVal}\nرقم الهاتف: ${phoneVal}\nرمز التحقق الخاص بك هو: ${generatedOtpCode}`;
-      document.getElementById("whatsappOtpLink").href = `https://wa.me/${phoneVal}?text=${encodeURIComponent(whatsappMsg)}`;
+      document.getElementById("whatsappOtpLink").href = `https://wa.me/${fullPhone}?text=${encodeURIComponent(whatsappMsg)}`;
 
       document.getElementById("registerFormContainer").style.display = "none";
       document.getElementById("verifyCodeContainer").style.display = "block";
@@ -2179,13 +2171,16 @@ function openAdminDetail(orderId) {
   const o = cachedOrdersMap[orderId]; if(!o) return;
   const content = document.getElementById("adminDetailContent");
   
-  // روابط واتساب جاهزة لكل الحالات حسب طلبك
-  const waReview = `https://wa.me/${o.userPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳`)}`;
-  const waPrep = `https://wa.me/${o.userPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳`)}`;
-  const waAcc = `https://wa.me/${o.userPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️`)}`;
-  const waUnav = `https://wa.me/${o.userPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج الذي طلبته (${o.product}) غير متوفر في المخزون حالياً ⚠️`)}`;
-  const waRej = `https://wa.me/${o.userPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌`)}`;
-  const waComp = `https://wa.me/${o.userPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉`)}`;
+  // تنظيف رقم هاتف الزبون لإرسال رسائل الواتساب بدون أخطاء على الآيفون
+  let cleanUserPhone = o.userPhone.startsWith('0') ? o.userPhone.substring(1) : o.userPhone;
+  let fullUserPhone = "218" + cleanUserPhone;
+
+  const waReview = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن: قيد المراجعة ⏳`)}`;
+  const waPrep = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، سيتم تجهيز طلبك رقم ${o.id} (${o.product}) الآن ⏳`)}`;
+  const waAcc = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، طلبك رقم ${o.id} (${o.product}) أصبح الآن قيد التنفيذ ⚙️`)}`;
+  const waUnav = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، نأسف لإبلاغك بأن المنتج الذي طلبته (${o.product}) غير متوفر في المخزون حالياً ⚠️`)}`;
+  const waRej = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، نأسف لإبلاغك بأنه تم رفض طلبك رقم ${o.id} ❌`)}`;
+  const waComp = `https://wa.me/${fullUserPhone}?text=${encodeURIComponent(`مرحباً ${o.userOwner}، تم تسليم طلبك رقم ${o.id} (${o.product}) بنجاح! شكراً لثقتك في Dark Store 🎉`)}`;
 
   content.innerHTML = `
     <div class="detail-row"><span>رقم الطلب:</span><b>${o.id}</b></div>
