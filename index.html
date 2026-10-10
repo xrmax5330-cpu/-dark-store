@@ -60,6 +60,21 @@ button, input, textarea {
   align-items: center;
 }
 
+/* الشريط المتحرك التكتيكي الثاني */
+.hero-ticker-wrap {
+  background: rgba(15, 15, 15, 0.8);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 15px auto 0;
+}
+
 .ticker {
   display: inline-block;
   white-space: nowrap;
@@ -257,21 +272,49 @@ nav {
   pointer-events: none;
 }
 
+/* إطار اللوجو المتحرك الدوّار الفخم */
+.logo-container {
+  position: relative;
+  width: 156px;
+  height: 156px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.logo-container::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(from 0deg, #ffffff, #222222, #888888, #ffffff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotateLogoBorder 6s linear infinite;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes rotateLogoBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .logo {
-  width: 150px;
-  height: 150px;
+  width: 148px;
+  height: 148px;
   object-fit: cover;
   border-radius: 50%;
   display: block;
-  margin: 0 auto 20px;
-  border: 2px solid #333;
-  box-shadow: 
-    0 0 40px rgba(0, 0, 0, 0.9),
-    0 0 20px rgba(255, 255, 255, 0.15);
-  position: relative;
-  z-index: 1;
+  border: 1px solid #333;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
   transition: transform 0.4s ease;
 }
+
 .logo:hover {
   transform: scale(1.05) rotate(2deg);
 }
@@ -288,16 +331,6 @@ nav {
 .hero h1 span {
   color: var(--accent-silver);
   text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-}
-
-.hero p {
-  color: var(--text-muted);
-  font-size: 14px;
-  line-height: 1.6;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
 }
 
 /* شريط تتبع الطلب النشط في الرئيسية */
@@ -1344,7 +1377,7 @@ footer {
   <button onclick="closeLiveToast()" style="background: transparent; border: none; color: #888; font-size: 16px; cursor: pointer; padding: 4px;">✕</button>
 </div>
 
-<!-- شريط الإعلانات المتحرك -->
+<!-- شريط الإعلانات المتحرك العلوي -->
 <div class="ticker-wrap">
   <div class="ticker">
     <span class="ticker-item">سرعة في وصول الطلب ✅</span>
@@ -1423,9 +1456,24 @@ footer {
 
 <main>
   <div class="hero">
-    <img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png" class="logo" alt="Dark Store">
+    <!-- حاوية اللوجو مع الإطار المتحرك الدوّار الفخم -->
+    <div class="logo-container">
+      <img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png" class="logo" alt="Dark Store">
+    </div>
+
     <h1>DARK <span>STORE</span></h1>
-    <p>🖤🔥 عالم الألعاب والإفكتات والبطاقات الرقمية بتصميم مظلم وفخم وسرعة فائقة تخفيضات🎉</p>
+    
+    <!-- الشريط المتحرك الثاني المباشر بمنتصف الهيرو -->
+    <div class="hero-ticker-wrap">
+      <div class="ticker">
+        <span class="ticker-item">موقع شحن روبوكس🌟</span>
+        <span class="ticker-item">موقع ليبي🇱🇾</span>
+        <span class="ticker-item">افضل خيار لك ⚡️</span>
+        <span class="ticker-item">موقع شحن روبوكس🌟</span>
+        <span class="ticker-item">موقع ليبي🇱🇾</span>
+        <span class="ticker-item">افضل خيار لك ⚡️</span>
+      </div>
+    </div>
 
     <!-- شريط تتبع الطلب النشط في الرئيسية -->
     <div id="homeActiveOrderBanner" class="home-active-order-banner">
@@ -1804,10 +1852,10 @@ const libyanaPrices = [
   {robux:40, price: "10 ليبيانا", rawPrice: "10"},
   {robux:50, price: "13 ليبيانا", rawPrice: "13"},
   {robux:80, price: "15 ليبيانا", rawPrice: "15", badge: "🌟 الأكثر طلباً"},
-  {robux:100, price: "23 ليبيانا", rawPrice: "23"},
-  {robux:120, price: "32 ليبيانا", rawPrice: "32"},
+  {robux:100, price: "23 ليبيانا", rawPrice: "23", badge: "تخفيض🔥"},
+  {robux:120, price: "32 ليبيانا", rawPrice: "32", badge: "تخفيض🔥"},
   {robux:160, price: "40 ليبيانا", rawPrice: "40"},
-  {robux:200, price: "45 ليبيانا", rawPrice: "48"},
+  {robux:200, price: "45 ليبيانا", rawPrice: "48", badge: "تخفيض🔥"},
   {robux:400, price: "80 ليبيانا", rawPrice: "80", badge: "🔥 أفضل سعر"},
   {robux:500, price: "85 ليبيانا", rawPrice: "85"},
   {robux:1000, price: "135 ليبيانا", rawPrice: "130"}
@@ -2535,18 +2583,50 @@ function changeStatusAndNotify(orderId, newStatus) {
   let fullPhone = "218" + cleanPhone;
 
   let statusText = "";
-  if(newStatus === 'pending') statusText = "قيد المراجعة ⏳";
-  else if(newStatus === 'preparing') statusText = "في التجهيز 📦";
-  else if(newStatus === 'accepted') statusText = "قيد التنفيذ ⚡";
-  else if(newStatus === 'completed') statusText = "تم التسليم بنجاح 🎉";
-  else if(newStatus === 'unavailable') statusText = "غير متوفر حالياً ⚠️";
-  else if(newStatus === 'rejected') statusText = "تم رفض الطلب ❌";
+  let customDetails = "";
+
+  if (newStatus === 'pending') {
+    statusText = "قيد المراجعة ⏳";
+    customDetails = "تم استقبال طلبك بنجاح وجاري مراجعة الإيصال والبيانات من قبل الإدارة.";
+  } 
+  else if (newStatus === 'preparing') {
+    statusText = "طلبك قيد التجهيز 📦";
+    customDetails = "سوف نعلمك فور اكتمال طلبك ووصول الروبوكس لك ✨";
+  } 
+  else if (newStatus === 'accepted') {
+    statusText = "قيد التنفيذ ⚡";
+    customDetails = "جاري إرسال الطلب وحقنه في حسابك الآن، يرجى الانتظار بضع دقائق.";
+  } 
+  else if (newStatus === 'completed') {
+    statusText = "تم التسليم بنجاح 🎉";
+    customDetails = "تم شحن وتوصيل الطلب بحسابك بنجاح! نتمنى لك تجربة ممتعة 🖤";
+  } 
+  else if (newStatus === 'unavailable') {
+    statusText = "غير متوفر حالياً ⚠️";
+    customDetails = "عذراً، هذا المنتج غير متوفر في الوقت الحالي وسنحيطك علماً فور توفره.";
+  } 
+  else if (newStatus === 'rejected') {
+    statusText = "تم رفض الطلب ❌";
+    customDetails = "تواصل مع الدعم الفني للاستفسار عن سبب الرفض أو مراجعة بيانات التحويل.";
+  }
 
   const storeUrl = window.location.href.split('#')[0];
-  
-  const msg = `👋 أهلاً بك عزيزي ${o.userOwner}\n\n📌 تحديث بخصوص طلبك رقم #${o.id} (${o.product}):\n\n📌 الحالة الجديدة: ${statusText}\n💰 السعر: ${o.price}\n\n🔗 تستطيع متابعة حالة طلبك مباشرة عبر الرابط:\n${storeUrl}`;
 
-  // رابط الواتساب المباشر لفتح التطبيق فوراً والحفاظ على الإيموجيات
+  const msg = `👋 أهلاً بك عزيزي ${o.userOwner}
+
+📌 تحديث بخصوص طلبك رقم #${o.id} (${o.product})
+
+📍 الحالة: ${statusText}
+💬 ${customDetails}
+
+👤 يوزر روبلوكس: ${o.robloxUser}
+📱 رقم المُحوِّل: ${o.senderPhone}
+💰 السعر: ${o.price}
+⏰ وقت الطلب: ${o.time}
+
+🔗 لمتابعة حالة طلبك مباشرة:
+${storeUrl}`;
+
   const waUrl = `whatsapp://send?phone=${fullPhone}&text=${encodeURIComponent(msg)}`;
 
   db.collection("orders").doc(orderId).update({
