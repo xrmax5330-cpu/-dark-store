@@ -930,10 +930,19 @@ footer {
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
+  margin-bottom: 10px;
 }
 
 .copy-btn:hover {
   background: #ccc;
+}
+
+.dynamic-transfer-instruction {
+  font-size: 13px;
+  font-weight: 900;
+  color: #38bdf8;
+  margin-top: 6px;
+  margin-bottom: 8px;
 }
 
 .steps-list {
@@ -1633,7 +1642,11 @@ footer {
         <div id="providerTransferTitle" class="payment-transfer-title">قم بالتأكيد والتحويل إلى الرقم التالي:</div>
         <div class="transfer-number-box" id="transferNumber">-</div>
         <button class="copy-btn" onclick="copyTransferNumber()">📋 نسخ رقم التحويل</button>
-        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 6px;">ضروري يكون عندك وتساب لمشاهدة حالة طلبك</div>
+        
+        <!-- العبارة الديناميكية المضافة بحسب سعر المنتج المختار -->
+        <div id="dynamicTransferInstruction" class="dynamic-transfer-instruction">📲 قم بتحويل المبلغ لرقم المحفظة الموضح أعلاه</div>
+
+        <div style="color: #ef4444; font-size: 11px; font-weight: bold; margin-top: 4px;">ضروري يكون عندك وتساب لمشاهدة حالة طلبك</div>
       </div>
 
       <div class="steps-list" id="stepsListBox">
@@ -2273,6 +2286,10 @@ function openModal(item){
   const num = item.provider === "مدار" ? MADAR_NUMBER : LIBYANA_NUMBER;
   document.getElementById("transferNumber").textContent = num;
   document.getElementById("confirmNumberDisplay").textContent = num;
+
+  // تحديث عبارة قيمة التحويل ديناميكياً بحسب سعر المنتج المحدد
+  document.getElementById("dynamicTransferInstruction").textContent = `📲 قم بتحويل ${item.price} لرقم المحفظة الموضح أعلاه`;
+
   document.getElementById("stepText1").textContent = "حول المبلغ إلى رقم المحفظة أعلاه.";
   document.getElementById("stepText3").textContent = "أرفق سكرين شوت إيصال التحويل وأرسل الطلب.";
   document.getElementById("confirmTextSpan").textContent = "✅ أؤكد أنني قمت بتحويل المبلغ المطلوب إلى الرقم";
@@ -2492,30 +2509,46 @@ function openAdminUserDetail(username) {
 
 function closeAdminUserDetailModal() { document.getElementById("adminUserDetailModal").classList.remove("show"); }
 
+/* دالة جلب وعرض قائمة الأرشيف والسجلات بالتفصيل */
 function loadAdminLogsList() {
   const c = document.getElementById("adminLogsList");
-  c.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري التحميل...</div>`;
+  c.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">جاري تحميل السجلات...</div>`;
   
   db.collection("order_logs").get().then(snap => {
     c.innerHTML = "";
     cachedOrdersMap = cachedOrdersMap || {};
-    if(snap.empty) { c.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا توجد سجلات سابقة.</div>`; return; }
+    if(snap.empty) { 
+      c.innerHTML = `<div style="text-align:center; color:#888; padding:30px;">لا توجد طلبات مؤرشفة في السجل.</div>`; 
+      return; 
+    }
     
     let i = 1;
     snap.forEach(d => {
       const l = d.data();
       cachedOrdersMap[l.id] = l;
-      c.innerHTML += `
-        <div class="admin-log-card" onclick="openAdminDetail('${l.id}')">
-          <div class="admin-order-info">
-            <div class="admin-order-num">${i}</div>
-            <div>
-              <h4 style="color:#fff; font-size:14px;">طلب رقم ${l.id} - ${l.product}</h4>
-              <p style="font-size:11px; color:#888;">الزبون: ${l.userOwner} | الحالة: ${l.status}</p>
-            </div>
+
+      // تحديد لون ووسام الحالة في السجل
+      let badgeHtml = '';
+      if(l.status === 'completed') {
+        badgeHtml = `<span class="order-badge badge-completed">مكتمل ✅</span>`;
+      } else {
+        badgeHtml = `<span class="order-badge badge-rejected">مرفوض ❌</span>`;
+      }
+
+      const div = document.createElement("div");
+      div.className = "admin-log-card";
+      div.onclick = () => openAdminDetail(l.id);
+      div.innerHTML = `
+        <div class="admin-order-info">
+          <div class="admin-order-num">${i}</div>
+          <div>
+            <h4 style="color:#fff; font-size:14px; margin-bottom:3px;">طلب رقم #${l.id} - ${l.product}</h4>
+            <p style="font-size:11px; color:#888;">الزبون: ${l.userOwner} | اليوزر: ${l.robloxUser || 'غير مدخل'}</p>
           </div>
-          <div><span class="order-badge badge-completed">أرشيف</span></div>
-        </div>`;
+        </div>
+        <div>${badgeHtml}</div>`;
+      
+      c.appendChild(div);
       i++;
     });
   });
@@ -2639,17 +2672,29 @@ ${storeUrl}`;
   });
 }
 
+/* دالة نقل الطلب إلى السجلات والأرشيف (مكتمل أو مرفوض) */
 function updateOrderStatus(orderId, newStatus) {
-  const o = cachedOrdersMap[orderId]; if(!o) return;
-  db.collection("order_logs").doc(orderId).set({ ...o, status: newStatus, deletedAt: new Date().toLocaleString('ar-LY') }).then(() => {
+  const o = cachedOrdersMap[orderId]; 
+  if(!o) return;
+
+  const logData = {
+    ...o,
+    status: newStatus,
+    archivedAt: new Date().toLocaleString('ar-LY')
+  };
+
+  db.collection("order_logs").doc(orderId).set(logData).then(() => {
     db.collection("orders").doc(orderId).delete().then(() => {
-      alert("✅ تمت الأرشفة بنجاح!");
+      alert(newStatus === 'completed' ? "✅ تم أرشفة الطلب في السجلات كـ (مكتمل)!" : "❌ تم أرشفة الطلب في السجلات كـ (مرفوض)!");
       closeAdminDetailModal();
       loadAdminOrdersList();
       loadAdminLogsList();
     });
+  }).catch(err => {
+    alert("❌ حدث خطأ أثناء الأرشفة: " + err.message);
   });
 }
+
 function clearAllOrders() { if(confirm("مسح الكل؟")) db.collection("orders").get().then(s => s.forEach(d => d.ref.delete())).then(() => loadAdminOrdersList()); }
 function clearAllLogs() { if(confirm("مسح السجلات؟")) db.collection("order_logs").get().then(s => s.forEach(d => d.ref.delete())).then(() => loadAdminLogsList()); }
 </script>
