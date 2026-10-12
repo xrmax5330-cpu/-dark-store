@@ -24,8 +24,6 @@
   --text-muted: #888888;
   --line: #1a1a1a;
   --whatsapp-green: #25d366;
-  --blue-neon: #00f0ff;
-  --blue-glow: #0066ff;
 }
 
 * {
@@ -356,12 +354,12 @@ section {
   z-index: 4;
 }
 
-/* Modal نافذة إتمام الطلب الفخمة باللون الأزرق النيون والمعاد تصميمها */
+/* Modal نافذة إتمام الطلب الشيك بدون أي إطار أو دوران */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 5, 15, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -370,109 +368,58 @@ section {
 }
 
 .modal-box {
-  position: relative;
-  background: linear-gradient(145deg, #060b18, #03060f);
+  background: #0d0d0d;
   width: 100%;
   max-width: 480px;
-  border-radius: 26px;
-  padding: 30px 24px;
+  border-radius: 20px;
+  padding: 25px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 0 50px rgba(0, 150, 255, 0.3);
-  border: 1px solid transparent;
-}
-
-/* إطار دوار بالأزرق النيون الممتاز */
-.modal-box::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 28px;
-  padding: 2px;
-  background: conic-gradient(from 0deg, var(--blue-neon), #02112a, var(--blue-glow), #001f3f, var(--blue-neon));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: rotateBlueBorder 4s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes rotateBlueBorder {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  border: 1px solid #222;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 
 .modal-box h3 {
-  font-size: 22px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  margin-bottom: 18px;
   text-align: center;
   color: #fff;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.modal-box h3 span {
-  color: var(--blue-neon);
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  font-weight: bold;
 }
 
 .instruction-box {
-  background: rgba(0, 102, 255, 0.06);
-  border: 1px dashed rgba(0, 240, 255, 0.4);
-  padding: 16px;
-  border-radius: 16px;
-  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed #333;
+  padding: 15px;
+  border-radius: 14px;
+  margin-bottom: 18px;
   font-size: 13px;
-  line-height: 1.7;
-  position: relative;
-  overflow: hidden;
+  line-height: 1.6;
 }
 
-.instruction-box::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.instruction-title {
-  color: var(--blue-neon);
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.instruction-box strong {
+  color: #f59e0b;
 }
 
 .transfer-number-wrap {
   text-align: center;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .transfer-number {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
-  color: var(--blue-neon);
-  background: #020b18;
-  padding: 8px 18px;
-  border-radius: 12px;
+  color: #25d366;
+  background: #000;
+  padding: 6px 16px;
+  border-radius: 10px;
   display: inline-block;
-  letter-spacing: 2px;
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  letter-spacing: 1px;
+  border: 1px solid #222;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 14px;
   text-align: right;
 }
 
@@ -480,66 +427,48 @@ section {
   display: block;
   font-size: 13px;
   margin-bottom: 6px;
-  color: #88aacc;
-  font-weight: 600;
+  color: var(--text-muted);
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: rgba(2, 12, 28, 0.8);
-  border: 1px solid rgba(0, 102, 255, 0.3);
+  padding: 12px;
+  border-radius: 10px;
+  background: #141414;
+  border: 1px solid #262626;
   color: #fff;
   outline: none;
-  transition: all 0.3s ease;
   font-size: 14px;
 }
 
 .form-group input:focus {
-  border-color: var(--blue-neon);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-  background: rgba(2, 18, 42, 0.9);
+  border-color: #555;
 }
 
 .modal-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 22px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .modal-actions button {
   flex: 1;
-  padding: 13px;
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   border: none;
   font-size: 14px;
-  transition: 0.3s;
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, #00f0ff, #0066ff);
-  color: #000;
-  font-weight: 900;
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-}
-
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+  background: var(--whatsapp-green);
+  color: #fff;
 }
 
 .btn-close {
-  background: rgba(255, 255, 255, 0.08);
+  background: #222;
   color: #aaa;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-.btn-close:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
 }
 
 .admin-modal {
@@ -711,40 +640,41 @@ footer {
   </section>
 </main>
 
-<!-- نافذة إتمام الطلب الفخمة ذات الطابع الأزرق النيوني المحدثة -->
+<!-- نافذة إتمام الطلب النظيفة والجديدة -->
 <div id="checkoutModal" class="modal-overlay">
   <div class="modal-box">
-    <h3>💎 <span>إتمام الطلب</span></h3>
+    <h3>إتمام الطلب</h3>
     
     <div class="instruction-box">
-      <div class="instruction-title">⚡️ خطوات إتمام عملية الشراء:</div>
+      <strong>تعليمات الدفع:</strong><br>
       1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر تحت:<br>
       <div class="transfer-number-wrap">
         <div id="targetTransferNumber" class="transfer-number">0927816884</div>
       </div>
-      2️⃣ أكمل إدخال البيانات في الخانات بأسفل النافدة وتاكد منها.<br>
-      3️⃣ اضغط إرسال وسوف يتم تنفيذ وشحن طلبك في غضون لحظات!
+      2️⃣ أكمل إدخال البيانات تحت وتاكد من انك قمت بتحويل الرصيد .<br>
+      3️⃣ بعد إرسال الطلب سيتم تسليمه بعد ثوانٍ أو دقائق.
+      ⚠️ ملاحضة بسيطة : ادا لم تحول ايي رصيد لرقم الموجود لن يتم شحن الروبوكس اليك.
     </div>
 
     <form id="orderForm" onsubmit="submitOrder(event)">
       <div class="form-group">
-        <label>🎮 يوزر حسابك روبلوكس:</label>
+        <label>يوزر حسابك روبلوكس:</label>
         <input type="text" id="robloxUser" required placeholder="مثال: Player123">
       </div>
       <div class="form-group">
-        <label>📞 رقم هاتفك للتواصل:</label>
+        <label>رقم هاتفك للتواصل:</label>
         <input type="tel" id="userContactPhone" required placeholder="مثال: 092xxxxxxx">
       </div>
       <div class="form-group">
-        <label>📲 رقم الهاتف المحول منه:</label>
+        <label>رقم الهاتف المحول منه:</label>
         <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
       </div>
       <div class="form-group">
-        <label>🖼️ سكرين إيصال التحويل:</label>
+        <label>سكرين إيصال التحويل:</label>
         <input type="file" id="transferScreenshot" accept="image/*" required>
       </div>
       <div class="modal-actions">
-        <button type="submit" class="btn-submit">إرسال الطلب الآن 🚀</button>
+        <button type="submit" class="btn-submit">إرسال الطلب 🚀</button>
         <button type="button" class="btn-close" onclick="closeModal()">إلغاء</button>
       </div>
     </form>
