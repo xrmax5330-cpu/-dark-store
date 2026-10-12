@@ -358,7 +358,7 @@ section {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(10px);
   display: none;
   align-items: center;
@@ -467,26 +467,56 @@ section {
   color: #aaa;
 }
 
-/* تنسيق لوحة التحكم الاحترافية */
-.admin-modal {
-  max-width: 900px;
+/* صفحة لوحة التحكم الأنيقة والكبيرة جداً (Full Screen Page) */
+.admin-page-overlay {
+  position: fixed;
+  inset: 0;
+  background: #050505;
+  display: none;
+  z-index: 3000;
+  overflow-y: auto;
+  padding: 30px 20px;
+}
+
+.admin-page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.9);
+}
+
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #222;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.admin-page-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
 }
 
 .admin-tabs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #222;
-  padding-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 25px;
 }
 
 .admin-tab-btn {
-  background: #1a1a1a;
+  background: #161616;
   color: #888;
-  border: 1px solid #333;
-  padding: 10px 20px;
-  border-radius: 10px;
+  border: 1px solid #2d2d2d;
+  padding: 12px 24px;
+  border-radius: 12px;
   font-weight: bold;
+  font-size: 15px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -499,10 +529,10 @@ section {
 
 .admin-order-item {
   background: #141414;
-  border: 1px solid #262626;
-  padding: 14px;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  border: 1px solid #222;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -511,67 +541,107 @@ section {
 .admin-order-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .admin-order-id {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 900;
   color: #f59e0b;
 }
 
 .admin-order-summary {
-  font-size: 13px;
-  color: #aaa;
+  font-size: 14px;
+  color: #ccc;
 }
 
 .details-btn {
-  background: #222;
-  color: #fff;
-  border: 1px solid #444;
-  padding: 8px 14px;
-  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 13px;
+  transition: 0.2s;
 }
 
 .details-btn:hover {
-  background: #333;
+  background: #ddd;
 }
 
 .order-detail-view {
   background: #111;
-  border: 1px solid #333;
-  padding: 20px;
-  border-radius: 14px;
+  border: 1px solid #2a2a2a;
+  padding: 25px;
+  border-radius: 16px;
 }
 
 .order-detail-row {
-  margin-bottom: 12px;
-  font-size: 14px;
+  margin-bottom: 16px;
+  font-size: 15px;
   color: #ddd;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .order-detail-row span {
   color: #f59e0b;
   font-weight: bold;
+  font-size: 16px;
+}
+
+.copy-btn {
+  background: #25d366;
+  color: #000;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 5px;
 }
 
 .receipt-img {
   width: 100%;
-  max-height: 250px;
+  max-height: 380px;
   object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid #444;
-  margin: 10px 0;
+  border-radius: 12px;
+  border: 1px solid #333;
+  margin: 15px 0;
   background: #000;
 }
 
 .admin-action-bar {
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.admin-btn-accept {
+  background: #25d366;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.admin-btn-reject {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
 }
 
 .whatsapp-float {
@@ -724,12 +794,12 @@ footer {
   </div>
 </div>
 
-<!-- لوحة التحكم (Admin Modal الاحترافية) -->
-<div id="adminModal" class="modal-overlay">
-  <div class="modal-box admin-modal">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <h3 style="margin:0;">⚙️ لوحة التحكم - إدارة الطلبات</h3>
-      <button class="btn-close" style="width: auto; padding: 5px 12px;" onclick="closeAdminModal()">✕</button>
+<!-- صفحة لوحة التحكم الأنيقة والكبيرة جداً (Admin Panel Full Screen) -->
+<div id="adminPage" class="admin-page-overlay">
+  <div class="admin-page-container">
+    <div class="admin-page-header">
+      <div class="admin-page-title">⚙️ لوحة التحكم - إدارة المتجر</div>
+      <button class="btn-close" style="width: auto; padding: 8px 18px; border-radius: 10px;" onclick="closeAdminPage()">إغلاق اللوحة ✕</button>
     </div>
 
     <div class="admin-tabs">
@@ -738,7 +808,7 @@ footer {
     </div>
 
     <div id="adminContentArea">
-      <!-- محتوى الأقسام يتغير ديناميكياً هنا -->
+      <!-- يتم عرض الطلبات التفصيلية هنا -->
     </div>
   </div>
 </div>
@@ -751,7 +821,7 @@ footer {
 </footer>
 
 <script>
-const whatsappNumber = "218927816884";
+const whatsappNumber = "0927816884";
 const madarNumber = "0930553883";
 const libyanaNumber = "0927816884";
 
@@ -786,7 +856,7 @@ const effectsList = [
   { name: "🎈 افكت بالون", price: "33 د.ل", badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
   { name: "🖤 افكت قلب اسود", price: "33 د.ل", img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
   { name: "🟨 افكت دهب", price: "33 د.ل", img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
-  { name: "⚡️ افكت رعد", price: "33 д.ل", badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "⚡️ افكت رعد", price: "33 د.ل", badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
   { name: "🪙 افكت فضة", price: "33 د.ل", img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
 ];
 
@@ -794,14 +864,13 @@ let currentCategory = "robux";
 let currentProvider = "madar";
 let selectedProductData = null;
 
-// قاعدة بيانات محلية مؤقتة للطلبات والسجلات لتجربة لوحة التحكم فوراً
 let ordersList = [
   {
     id: "#2001",
     product: "Robux 80",
     price: "17 مدار",
     robloxUser: "GamerX",
-    userPhone: "0920000000",
+    userPhone: "0921112233",
     senderPhone: "0930553883",
     screenshot: "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg",
     date: "2026-10-12 07:30"
@@ -894,6 +963,23 @@ function filterProducts() {
   });
 }
 
+// دالة تحويل الرقم للواتساب بالشكل الصحيح
+function formatLibyaPhone(phone) {
+  let cleaned = phone.replace(/\D/g, '');
+  if (cleaned.startsWith('0')) {
+    cleaned = '218' + cleaned.substring(1);
+  } else if (!cleaned.startsWith('218')) {
+    cleaned = '218' + cleaned;
+  }
+  return cleaned;
+}
+
+function openWhatsAppDirect(phone, text) {
+  const formattedPhone = formatLibyaPhone(phone);
+  const url = `https://api.whatsapp.com/send?phone=${formattedPhone}&text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
 function submitOrder(e) {
   e.preventDefault();
   const robloxUser = document.getElementById("robloxUser").value;
@@ -903,7 +989,7 @@ function submitOrder(e) {
 
   const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
 
-  let screenshotUrl = "";
+  let screenshotUrl = "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg";
   if(fileInput.files && fileInput.files[0]) {
     screenshotUrl = URL.createObjectURL(fileInput.files[0]);
   }
@@ -921,11 +1007,8 @@ function submitOrder(e) {
 
   ordersList.push(newOrder);
 
-  // إرسال آمن للواتساب بدون أخطاء روابط
-  const message = `طلب جديد ${orderId}%0Aالمنتج: ${selectedProductData.itemName}%0Aالسعر: ${selectedProductData.price}%0Aيوزر روبلوكس: ${robloxUser}%0Aرقم التواصل: ${userContactPhone}%0Aرقم المحول: ${senderPhone}`;
-  const encodedMsg = encodeURIComponent(message).replace(/%250A/g, '%0A');
-  
-  window.open(`https://wa.me/${whatsappNumber}?text=${encodedMsg}`, '_blank');
+  const message = `طلب جديد ${orderId}\nالمنتج: ${selectedProductData.itemName}\nالسعر: ${selectedProductData.price}\nيوزر روبلوكس: ${robloxUser}\nرقم التواصل: ${userContactPhone}\nرقم المحول: ${senderPhone}`;
+  openWhatsAppDirect(whatsappNumber, message);
 
   alert(`تم إرسال طلبك برقم ${orderId} بنجاح!`);
   closeModal();
@@ -933,16 +1016,16 @@ function submitOrder(e) {
 
 function openAdminPanel() {
   const pass = prompt("أدخل كلمة مرور لوحة التحكم:");
-  if (pass === "Laytt") {
-    document.getElementById("adminModal").style.display = "flex";
+  if (pass === "laytt") {
+    document.getElementById("adminPage").style.display = "block";
     switchAdminTab('orders');
   } else if (pass !== null) {
     alert("كلمة المرور غير صحيحة!");
   }
 }
 
-function closeAdminModal() {
-  document.getElementById("adminModal").style.display = "none";
+function closeAdminPage() {
+  document.getElementById("adminPage").style.display = "none";
 }
 
 let currentAdminTab = 'orders';
@@ -958,7 +1041,7 @@ function renderAdminContent() {
   const area = document.getElementById("adminContentArea");
   if (currentAdminTab === 'orders') {
     if (ordersList.length === 0) {
-      area.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد طلبات جديدة حالياً.</p>`;
+      area.innerHTML = `<p style="text-align: center; color: #888; padding: 40px; font-size:16px;">لا توجد طلبات جديدة حالياً.</p>`;
       return;
     }
     let html = '';
@@ -967,27 +1050,27 @@ function renderAdminContent() {
         <div class="admin-order-item">
           <div class="admin-order-info">
             <span class="admin-order-id">${order.id}</span>
-            <span class="admin-order-summary">${order.product} - ${order.robloxUser}</span>
+            <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser}</span>
           </div>
-          <button class="details-btn" onclick="viewOrderDetails(${index})">تفاصيل الطلب 🔍</button>
+          <button class="details-btn" onclick="viewOrderDetails(${index})">عرض تفاصيل الطلب 🔍</button>
         </div>
       `;
     });
     area.innerHTML = html;
   } else {
     if (historyList.length === 0) {
-      area.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">سجلات الطلبات المكتملة فارغة.</p>`;
+      area.innerHTML = `<p style="text-align: center; color: #888; padding: 40px; font-size:16px;">سجلات الطلبات المكتملة فارغة.</p>`;
       return;
     }
     let html = '';
     historyList.forEach(order => {
       html += `
-        <div class="admin-order-item" style="opacity: 0.8;">
+        <div class="admin-order-item" style="opacity: 0.85;">
           <div class="admin-order-info">
-            <span class="admin-order-id" style="color: #25d366;">${order.id} (مكتمل)</span>
-            <span class="admin-order-summary">${order.product} - ${order.robloxUser}</span>
+            <span class="admin-order-id" style="color: #25d366;">${order.id} (مكتمل ✅)</span>
+            <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser}</span>
           </div>
-          <span style="font-size: 12px; color: #666;">${order.date}</span>
+          <span style="font-size: 13px; color: #777;">${order.date}</span>
         </div>
       `;
     });
@@ -1001,43 +1084,57 @@ function viewOrderDetails(index) {
   
   area.innerHTML = `
     <div class="order-detail-view">
-      <button class="details-btn" onclick="switchAdminTab('orders')" style="margin-bottom: 15px;">← العودة للقائمة</button>
+      <button class="details-btn" onclick="switchAdminTab('orders')" style="margin-bottom: 20px;">← العودة إلى القائمة</button>
       <div class="order-detail-row">رقم الطلب: <span>${order.id}</span></div>
       <div class="order-detail-row">المنتج المطلوب: <span>${order.product}</span></div>
       <div class="order-detail-row">السعر: <span>${order.price}</span></div>
-      <div class="order-detail-row">يوزر حساب روبلوكس: <span>${order.robloxUser}</span></div>
+      <div class="order-detail-row">
+        يوزر حساب روبلوكس: <span id="userToCopy">${order.robloxUser}</span>
+        <button class="copy-btn" onclick="copyRobloxUser('${order.robloxUser}')">📋 نسخ</button>
+      </div>
       <div class="order-detail-row">رقم هاتفك للتواصل: <span>${order.userPhone}</span></div>
       <div class="order-detail-row">رقم الهاتف المحول منه: <span>${order.senderPhone}</span></div>
-      <div class="order-detail-row">صورة الإيصال (سكرين التحويل):<br>
+      
+      <div style="margin-top: 15px;">
+        <div style="font-size: 14px; color: #ddd; margin-bottom: 8px;">صورة الإيصال (سكرين التحويل):</div>
         <img src="${order.screenshot}" class="receipt-img" alt="الإيصال">
       </div>
       
       <div class="admin-action-bar">
-        <button class="admin-btn-accept" style="flex:1; padding: 12px; font-size:14px;" onclick="completeOrder(${index})">تسليم الطلب ✅</button>
-        <button class="admin-btn-reject" style="flex:1; padding: 12px; font-size:14px;" onclick="rejectOrderAction('${order.userPhone}')">رفض الطلب ❌</button>
+        <button class="admin-btn-accept" style="flex:1;" onclick="completeOrder(${index})">تسليم الطلب ✅</button>
+        <button class="admin-btn-reject" style="flex:1;" onclick="rejectOrderAction(${index})">رفض الطلب ❌</button>
       </div>
     </div>
   `;
 }
 
+function copyRobloxUser(text) {
+  navigator.clipboard.writeText(text);
+  alert("تم نسخ يوزر روبلوكس بنجاح: " + text);
+}
+
 function completeOrder(index) {
   const order = ordersList[index];
-  
-  // فتح الواتساب للزبون برسالة التسليم
   const msg = `مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`;
-  window.open(`https://wa.me/${order.userPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  
+  openWhatsAppDirect(order.userPhone, msg);
 
-  // نقله إلى سجلات الطلبات وحذفه من الطلبات النشطة
   historyList.push(order);
   ordersList.splice(index, 1);
   
-  alert("تم تسليم الطلب ونقله إلى سجلات الطلبات بنجاح!");
+  alert("تم إرسال الرسالة ونقل الطلب إلى سجلات الطلبات المكتملة بنجاح!");
   switchAdminTab('orders');
 }
 
-function rejectOrderAction(clientPhone) {
+function rejectOrderAction(index) {
+  const order = ordersList[index];
   const msg = `طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`;
-  window.open(`https://wa.me/${clientPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  
+  openWhatsAppDirect(order.userPhone, msg);
+
+  ordersList.splice(index, 1);
+  alert("تم رفض الطلب وحذفه من القائمة.");
+  switchAdminTab('orders');
 }
 </script>
 
