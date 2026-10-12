@@ -960,6 +960,7 @@ document.addEventListener("DOMContentLoaded", () => {
   listenToCloudOrders();
 });
 
+// الاستماع للطلبات سحابياً بحيث تصل إلى أي أدمن يدخل اللوحة من أي جهاز فور إرسالها
 function listenToCloudOrders() {
   db.collection("dark_store_orders_v2").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
     globalOrders = [];
@@ -1040,7 +1041,6 @@ function showEffectsPrices(){
 function openCheckout(itemName, price, paymentMethod) {
   selectedProductData = { itemName, price, paymentMethod };
 
-  // تعبئة البيانات تلقائياً في الشاشة
   document.getElementById("summaryProductName").textContent = itemName;
   document.getElementById("summaryPaymentMethod").textContent = paymentMethod;
   document.getElementById("summaryPriceAmount").textContent = price;
@@ -1111,6 +1111,7 @@ function submitOrder(e) {
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   };
 
+  // حفظ الطلب سحابياً في قاعدة البيانات العامة لكي يراه الأدمن من أي جهاز
   db.collection("dark_store_orders_v2").add(orderData).then(() => {
     console.log("تم حفظ الطلب سحابياً بنجاح");
   }).catch((err) => {
