@@ -860,21 +860,10 @@ let currentCategory = "robux";
 let currentProvider = "madar";
 let selectedProductData = null;
 
-// إدارة التخزين المشترك للطلبات
+// نظام التخزين المحلي النظيف (يبدأ فارغاً تماماً بدون أي طلبات وهمية مسبقة)
 function getStoredOrders() {
   let orders = localStorage.getItem("dark_store_orders");
-  return orders ? JSON.parse(orders) : [
-    {
-      id: "#2001",
-      product: "Robux 80",
-      price: "17 مدار",
-      robloxUser: "GamerX",
-      userPhone: "0921112233",
-      senderPhone: "0930553883",
-      screenshot: "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg",
-      date: "12/10/2026, 08:00:00 AM"
-    }
-  ];
+  return orders ? JSON.parse(orders) : [];
 }
 
 function saveStoredOrders(orders) {
@@ -1017,12 +1006,12 @@ function submitOrder(e) {
     date: currentFullDate
   };
 
-  // حفظ الطلب في الذاكرة المشتركة لكي يصل للأدمن فوراً
+  // حفظ الطلب الجديد فوراً
   let orders = getStoredOrders();
   orders.push(newOrder);
   saveStoredOrders(orders);
 
-  // إرسال الرسالة للواتساب بنفس القالب تماماً
+  // إرسال الرسالة للواتساب بالصيغة المطلوبة تماماً
   const message = `🔥 *طلب جديد - DARK STORE* 🔥
 ━━━━━━━━━━━━━━━━━━
 🆔 *رقم الطلب:* ${orderId}
@@ -1036,7 +1025,7 @@ function submitOrder(e) {
 
 ⏰ *التاريخ والتوقيت:* ${currentFullDate}
 ━━━━━━━━━━━━━━━━━━
-⚡️يرجى الانتضار حتا يتم الرد عليك من قبل العميل و يسلمك طلبك!`;
+⚡️ يرجى الانتضار حتا يتم الرد عليك من قبل العميل لكي يسلمك طلبك!`;
 
   openWhatsAppDirect(whatsappNumber, message);
 
