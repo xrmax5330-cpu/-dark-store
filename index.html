@@ -48,7 +48,6 @@ button, input, textarea {
   font-family: inherit;
 }
 
-/* شريط الإعلانات المتحرك العلوي */
 .ticker-wrap {
   background: #0d0d0d;
   border-bottom: 1px solid var(--card-border);
@@ -95,7 +94,7 @@ nav {
   padding: 0 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .brand {
@@ -105,44 +104,46 @@ nav {
   color: #fff;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  transition: transform 0.3s;
 }
-.brand:hover {
-  transform: scale(1.03);
+
+.support-nav-btn {
+  background: rgba(37, 211, 102, 0.15);
+  border: 1px solid var(--whatsapp-green);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.3s;
+}
+
+.support-nav-btn:hover {
+  background: var(--whatsapp-green);
+  color: #000;
 }
 
 .hero {
   max-width: 1100px;
   margin: auto;
-  padding: 50px 20px 20px;
+  padding: 40px 20px 20px;
   text-align: center;
   position: relative;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 250px;
-  height: 250px;
-  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* إطار اللوجو المتحرك الدوّار الفخم */
 .logo-container {
   position: relative;
-  width: 156px;
-  height: 156px;
-  margin: 0 auto 20px;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  z-index: 1;
 }
 
 .logo-container::before {
@@ -156,7 +157,6 @@ nav {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: rotateLogoBorder 6s linear infinite;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 @keyframes rotateLogoBorder {
@@ -165,32 +165,21 @@ nav {
 }
 
 .logo {
-  width: 148px;
-  height: 148px;
+  width: 122px;
+  height: 122px;
   object-fit: cover;
   border-radius: 50%;
-  display: block;
   border: 1px solid #333;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
-  transition: transform 0.4s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05) rotate(2deg);
 }
 
 .hero h1 {
-  font-size: clamp(32px, 6vw, 50px);
+  font-size: clamp(28px, 5vw, 42px);
   font-weight: 900;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 5px;
 }
 
 .hero h1 span {
   color: var(--accent-silver);
-  text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
 section {
@@ -205,10 +194,9 @@ section {
 }
 
 .title h2 {
-  font-size: 26px;
+  font-size: 24px;
   margin-bottom: 6px;
   color: #fff;
-  letter-spacing: 0.5px;
 }
 
 .title p {
@@ -218,8 +206,7 @@ section {
 
 .search-container {
   max-width: 500px;
-  margin: 0 auto 30px;
-  position: relative;
+  margin: 0 auto 25px;
 }
 
 .search-input {
@@ -231,68 +218,16 @@ section {
   color: var(--text-main);
   font-size: 14px;
   outline: none;
-  transition: all 0.3s;
 }
 
-.search-input:focus {
-  border-color: #555;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-}
-
-.category-box {
+.category-box, .provider-box {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
-.cat-btn {
-  min-width: 160px;
-  padding: 14px 20px;
-  border-radius: 14px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
-
-.cat-icon-img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-  border-radius: 6px;
-}
-
-.cat-btn:hover {
-  border-color: #444;
-  color: #fff;
-  background: var(--card-hover);
-  transform: translateY(-2px);
-}
-
-.cat-btn.active {
-  background: linear-gradient(135deg, #1f1f1f, #0d0d0d);
-  border-color: #fff;
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
-}
-
-.provider-box {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.provider-btn {
-  min-width: 140px;
+.cat-btn, .provider-btn {
   padding: 12px 20px;
   border-radius: 12px;
   border: 1px solid var(--card-border);
@@ -303,28 +238,14 @@ section {
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.3s ease;
+  gap: 8px;
+  transition: 0.3s;
 }
 
-.provider-btn img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.provider-btn:hover {
-  border-color: #444;
-  color: #fff;
-}
-
-.provider-btn.active {
+.cat-btn.active, .provider-btn.active {
   background: #fff;
   border-color: #fff;
   color: #000;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
 }
 
 .effects-grid {
@@ -340,26 +261,23 @@ section {
   padding: 16px 12px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   text-align: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  cursor: pointer;
+  transition: 0.3s;
 }
 
 .effect-card:hover {
-  transform: translateY(-5px);
   border-color: #555;
   background: var(--card-hover);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+  transform: translateY(-3px);
 }
 
 .effect-img-wrap {
   position: relative;
   width: 100%;
-  height: 120px;
-  margin-bottom: 12px;
+  height: 110px;
+  margin-bottom: 10px;
 }
 
 .effect-img {
@@ -373,30 +291,43 @@ section {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.8);
-  z-index: 3;
+  border: 2px solid #fff;
 }
 
 .effect-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: #fff;
   margin-bottom: 6px;
 }
 
 .effect-price {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 900;
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
-  padding: 6px 16px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.buy-btn {
+  width: 100%;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 10px;
   border-radius: 10px;
-  border: 1px solid var(--card-border);
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buy-btn:hover {
+  background: #ccc;
 }
 
 .badge-tag {
@@ -409,58 +340,184 @@ section {
   font-weight: 900;
   padding: 2px 8px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.8);
   z-index: 4;
 }
 
-.notice {
-  margin-top: 25px;
-  padding: 14px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
+/* Modal نافذة إتمام الطلب */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modal-box {
+  background: #0f0f0f;
+  border: 1px solid #333;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  padding: 25px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-box h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
   text-align: center;
-  color: var(--text-muted);
+  color: #fff;
+}
+
+.instruction-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px dashed #444;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 15px;
   font-size: 13px;
+  line-height: 1.6;
 }
 
-.reviews-section {
-  border-top: 1px solid var(--line);
-  padding-top: 35px;
-  margin-top: 35px;
+.instruction-box strong {
+  color: #f59e0b;
 }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
+.transfer-number {
+  font-size: 18px;
+  font-weight: bold;
+  color: #25d366;
+  background: #000;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 5px 0;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #161616;
+  border: 1px solid #333;
+  color: #fff;
+  outline: none;
+}
+
+.form-group input[type="file"] {
+  padding: 8px;
+  font-size: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.review-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 14px;
-}
-
-.review-stars {
-  color: #f59e0b;
-  margin-bottom: 6px;
-  font-size: 13px;
-}
-
-.review-text {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.review-author {
-  font-size: 11px;
+.modal-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
   font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-submit {
+  background: var(--whatsapp-green);
   color: #fff;
+}
+
+.btn-close {
+  background: #222;
+  color: #aaa;
+}
+
+/* لوحة التحكم Modal */
+.admin-modal {
+  max-width: 800px;
+}
+
+.admin-order-card {
+  background: #141414;
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-order-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #f59e0b;
+  font-size: 15px;
+}
+
+.admin-order-details {
+  font-size: 13px;
+  color: #ccc;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px;
+}
+
+.admin-order-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #444;
+  cursor: pointer;
+}
+
+.admin-order-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-btn-accept {
+  background: #25d366;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.admin-btn-reject {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .whatsapp-float {
@@ -479,11 +536,6 @@ section {
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
   z-index: 1500;
   text-decoration: none;
-  transition: transform 0.3s;
-}
-
-.whatsapp-float:hover {
-  transform: scale(1.1);
 }
 
 footer {
@@ -492,7 +544,6 @@ footer {
   padding: 25px 20px;
   text-align: center;
   color: var(--text-muted);
-  position: relative;
 }
 
 .admin-trigger-btn {
@@ -505,18 +556,13 @@ footer {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  transition: color 0.3s;
 }
-
-.admin-trigger-btn:hover {
-  color: #fff;
-}
+.admin-trigger-btn:hover { color: #fff; }
 </style>
 </head>
 
 <body>
 
-<!-- شريط الإعلانات المتحرك العلوي المعدل -->
 <div class="ticker-wrap">
   <div class="ticker">
     <span class="ticker-item">طرق دفع ليبيانا ومدار 💳</span>
@@ -529,63 +575,98 @@ footer {
 <header>
   <nav>
     <div class="brand" onclick="switchCategory('robux')">DARK STORE</div>
+    <a href="https://wa.me/218927816884" class="support-nav-btn" target="_blank">💬 الدعم الفني</a>
   </nav>
 </header>
 
 <main>
   <div class="hero">
-    <!-- حاوية اللوجو مع الإطار المتحرك الدوّار الفخم -->
     <div class="logo-container">
       <img src="https://i.ibb.co/S4Cs8DKw/7-C5-B0310-83-D7-41-D4-9-E1-D-1-EDAF3638362.png" class="logo" alt="Dark Store">
     </div>
-
     <h1>DARK <span>STORE</span></h1>
   </div>
 
-  <section id="pricesSection">
+  <section>
     <div class="search-container">
       <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن باقة أو منتج..." oninput="filterProducts()">
     </div>
 
     <div class="category-box">
-      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
-        <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" alt="روبوكس" class="cat-icon-img">
-        <span> روبوكس</span>
-      </button>
-      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
-        <span>💣 أفكتات روبلوكس</span>
-      </button>
+      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">روبوكس</button>
+      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">💣 أفكتات روبلوكس</button>
     </div>
 
     <div id="robuxHeader">
       <div class="title"><h2>اختر الباقة وطريقة الدفع المناسبة</h2><p>💸 طرق الدفع المتاحة</p></div>
       <div class="provider-box">
-        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
-          <img id="madarLogoImg" src="" alt="مدار"><span>مدار</span>
-        </button>
-        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">
-          <img id="libyanaLogoImg" src="" alt="ليبيانا"><span>ليبيانا</span>
-        </button>
+        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">مدار</button>
+        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">ليبيانا</button>
       </div>
     </div>
 
     <div id="effectsHeader" style="display: none;"><div class="title"><h2>💣 أفكتات روبلوكس</h2><p>الدفع عن طريق ليبيانا أو مدار</p></div></div>
 
     <div id="prices" class="effects-grid"></div>
-    <div id="noticeBox" class="notice">اضغط على أي منتج للشراء المباشر عبر الواتساب.</div>
 
-    <div id="reviewsSection" class="reviews-section">
+    <div class="reviews-section" style="border-top: 1px solid var(--line); margin-top: 35px; padding-top: 35px;">
       <div class="title"><h2>👤 آراء العملاء</h2><p>❣️ ثقة زبائننا هي سر نجاحنا</p></div>
-      <div class="reviews-grid">
-        <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"سرعة خيالية في التسليم وتعامل راقي جداً، أنصح بالتعامل معهم."</div><div class="review-author">- أحمد المصراتي</div></div>
-        <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"أفضل متجر لشحن الروبوكس والأسعار ممتازة مقارنة بغيرهم."</div><div class="review-author">- طارق الزوي</div></div>
-        <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"وصل الشحن في أقل من 5 دقائق، شكراً لكم."</div><div class="review-author">- أسامة العبيدي</div></div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+        <div style="background:var(--card-bg); border:1px solid var(--card-border); padding:14px; border-radius:14px;"><div style="color:#f59e0b">★★★★★</div><p style="font-size:12px; color:var(--text-muted); margin:6px 0;">"سرعة خيالية في التسليم وتعامل راقي جداً."</p><b style="font-size:11px">- أحمد المصراتي</b></div>
+        <div style="background:var(--card-bg); border:1px solid var(--card-border); padding:14px; border-radius:14px;"><div style="color:#f59e0b">★★★★★</div><p style="font-size:12px; color:var(--text-muted); margin:6px 0;">"أفضل متجر لشحن الروبوكس والأسعار ممتازة."</p><b style="font-size:11px">- طارق الزوي</b></div>
       </div>
     </div>
   </section>
 </main>
 
-<a href="https://wa.me/218927816884" class="whatsapp-float" title="تواصل معنا عبر الواتساب" target="_blank">💬</a>
+<!-- نافذة إتمام الطلب (Checkout Modal) -->
+<div id="checkoutModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>إتمام الطلب</h3>
+    
+    <div class="instruction-box">
+      <strong>تعليمات الدفع:</strong><br>
+      1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر فوق:<br>
+      <div id="targetTransferNumber" class="transfer-number">0927816884</div><br>
+      2️⃣ أكمل باقي البيانات أدناه.<br>
+      3️⃣ بعد إرسال الطلب سيتم تسليمه بعد ثوانٍ أو دقائق.
+    </div>
+
+    <form id="orderForm" onsubmit="submitOrder(event)">
+      <div class="form-group">
+        <label>يوزر حسابك روبلوكس:</label>
+        <input type="text" id="robloxUser" required placeholder="مثال: Player123">
+      </div>
+      <div class="form-group">
+        <label>رقم الهاتف المحول منه:</label>
+        <input type="tel" id="senderPhone" required placeholder="مثال: 092xxxxxxx">
+      </div>
+      <div class="form-group">
+        <label>سكرين إيصال التحويل:</label>
+        <input type="file" id="transferScreenshot" accept="image/*" required>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-submit">إرسال الطلب 🚀</button>
+        <button type="button" class="btn-close" onclick="closeModal()">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- نافذة لوحة التحكم (Admin Modal) -->
+<div id="adminModal" class="modal-overlay">
+  <div class="modal-box admin-modal">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h3 style="margin:0;">⚙️ لوحة التحكم - الطلبات</h3>
+      <button class="btn-close" style="width: auto; padding: 5px 12px;" onclick="closeAdminModal()">✕</button>
+    </div>
+    <div id="adminOrdersList">
+      <p style="text-align: center; color: #888;">جاري تحميل الطلبات...</p>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/218927816884" class="whatsapp-float" target="_blank" title="الدعم الفني عبر الواتساب">💬</a>
 
 <footer>
   DARK STORE © 2026 | جميع الحقوق محفوظة
@@ -594,86 +675,58 @@ footer {
 
 <script>
 const whatsappNumber = "218927816884";
-const robuxImgUrl = "https://i.ibb.co/gMN49Hg8/IMG-4123.jpg";
-const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
-const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
+const madarNumber = "0930553883";
+const libyanaNumber = "0927816884";
 
 const madarPrices = [
-  {robux:10, price: "3 مدار"},
-  {robux:20, price: "5 مدار"},
-  {robux:30, price: "8 مدار"},
-  {robux:40, price: "10 مدار"},
-  {robux:80, price: "17 مدار", badge: "🌟 الأكثر طلباً"},
-  {robux:100, price: "25 مدار"},
-  {robux:160, price: "35 مدار"},
-  {robux:200, price: "45 مدار"},
-  {robux:400, price: "83 مدار", badge: "🕑 عرض خاص"},
-  {robux:500, price: "88 مدار", badge: "🔥 أفضل سعر"},
-  {robux:1000, price: "150 مدار"}
+  {robux:10, price: "3 مدار"}, {robux:20, price: "5 مدار"}, {robux:30, price: "8 مدار"},
+  {robux:40, price: "10 مدار"}, {robux:80, price: "17 مدار", badge: "🌟 الأكثر طلباً"},
+  {robux:100, price: "25 مدار"}, {robux:160, price: "35 مدار"}, {robux:200, price: "45 مدار"},
+  {robux:400, price: "83 مدار", badge: "🕑 عرض خاص"}, {robux:500, price: "88 مدار", badge: "🔥 أفضل سعر"}, {robux:1000, price: "150 مدار"}
 ];
 
 const libyanaPrices = [
-  {robux:10, price: "2 ليبيانا"},
-  {robux:20, price: "4 ليبيانا"},
-  {robux:30, price: "7 ليبيانا"},
-  {robux:40, price: "10 ليبيانا"},
-  {robux:50, price: "12 ليبيانا"},
-  {robux:80, price: "15 ليبيانا", badge: "🌟 الأكثر طلباً"},
-  {robux:100, price: "20 ليبيانا", badge: "تخفيض🔥"},
-  {robux:160, price: "35 ليبيانا"},
-  {robux:200, price: "42 ليبيانا", badge: "تخفيض🔥"},
-  {robux:400, price: "80 ليبيانا", badge: "🔥 أفضل سعر"},
-  {robux:500, price: "88 ليبيانا"},
-  {robux:1000, price: "135 ليبيانا"}
+  {robux:10, price: "2 ليبيانا"}, {robux:20, price: "4 ليبيانا"}, {robux:30, price: "7 ليبيانا"},
+  {robux:40, price: "10 ليبيانا"}, {robux:50, price: "12 ليبيانا"}, {robux:80, price: "15 ليبيانا", badge: "🌟 الأكثر طلباً"},
+  {robux:100, price: "20 ليبيانا", badge: "تخفيض🔥"}, {robux:160, price: "35 ليبيانا"}, {robux:200, price: "42 ليبيانا", badge: "تخفيض🔥"},
+  {robux:400, price: "80 ليبيانا", badge: "🔥 أفضل سعر"}, {robux:500, price: "88 ليبيانا"}, {robux:1000, price: "135 ليبيانا"}
 ];
 
 const effectsList = [
-  { name: "افكت الرجعية", price: 12, img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
-  { name: "افكت الإنهاء", price: 12, img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
-  { name: "💸 افكت المال", price: 12, img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
-  { name: "افكت الانفجار", price: 12, img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
-  { name: "افكت مساحة فرعية", price: 12, img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
-  { name: "افكت تيكس", price: 12, img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
-  { name: "🔥 افكت حرق", price: 17, img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
-  { name: "افكت بلوكي", price: 17, img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
-  { name: "افكت خالي من الوزن", price: 17, img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
-  { name: "🎈 افكت بالون", price: 33, badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
-  { name: "🖤 افكت قلب اسود", price: 33, img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
-  { name: "🟨 افكت دهب", price: 33, img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
-  { name: "⚡️ افكت رعد", price: 33, badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
-  { name: "🪙 افكت فضة", price: 33, img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
+  { name: "افكت الرجعية", price: "12 د.ل", img: "https://i.ibb.co/4g1s1YjZ/IMG-4133.jpg" },
+  { name: "افكت الإنهاء", price: "12 د.ل", img: "https://i.ibb.co/7Nks1Jbf/IMG-4134.jpg" },
+  { name: "💸 افكت المال", price: "12 د.ل", img: "https://i.ibb.co/fYtCG33F/IMG-4135.jpg" },
+  { name: "افكت الانفجار", price: "12 د.ل", img: "https://i.ibb.co/MTtwGf2/IMG-4136.jpg" },
+  { name: "افكت مساحة فرعية", price: "12 د.ل", img: "https://i.ibb.co/ymzfNZND/IMG-4139.jpg" },
+  { name: "افكت تيكس", price: "12 د.ل", img: "https://i.ibb.co/NnNtgfT0/IMG-4140.jpg" },
+  { name: "🔥 افكت حرق", price: "17 د.ل", img: "https://i.ibb.co/xKwJQZpX/IMG-4137.jpg" },
+  { name: "افكت بلوكي", price: "17 د.ل", img: "https://i.ibb.co/Gf8f7TN2/IMG-4138.jpg" },
+  { name: "افكت خالي من الوزن", price: "17 د.ل", img: "https://i.ibb.co/8DPQm4Jb/IMG-4143.jpg" },
+  { name: "🎈 افكت بالون", price: "33 د.ل", badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
+  { name: "🖤 افكت قلب اسود", price: "33 د.ل", img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
+  { name: "🟨 افكت دهب", price: "33 د.ل", img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
+  { name: "⚡️ افكت رعد", price: "33 د.ل", badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "🪙 افكت فضة", price: "33 د.ل", img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
 ];
 
 let currentCategory = "robux"; 
 let currentProvider = "madar";
+let selectedProductData = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("madarLogoImg").src = madarImgData;
-  document.getElementById("libyanaLogoImg").src = libyanaImgData;
   switchCategory("robux");
 });
-
-function filterProducts() {
-  const query = document.getElementById("searchInput").value.trim().toLowerCase();
-  const cards = document.querySelectorAll("#prices .effect-card");
-  cards.forEach(card => {
-    const text = card.textContent.toLowerCase();
-    card.style.display = text.includes(query) ? "flex" : "none";
-  });
-}
 
 function switchCategory(cat) {
   currentCategory = cat;
   document.getElementById("searchInput").value = "";
-  
   document.getElementById("catRobuxBtn").classList.toggle("active", cat === "robux");
   document.getElementById("catEffectsBtn").classList.toggle("active", cat === "effects");
-
   document.getElementById("robuxHeader").style.display = cat === "robux" ? "block" : "none";
   document.getElementById("effectsHeader").style.display = cat === "effects" ? "block" : "none";
 
   if(cat === "robux") showRobuxPrices(currentProvider);
-  else if(cat === "effects") showEffectsPrices();
+  else showEffectsPrices();
 }
 
 function showRobuxPrices(provider){
@@ -683,21 +736,19 @@ function showRobuxPrices(provider){
   const pricesBox = document.getElementById("prices");
   pricesBox.innerHTML = "";
 
-  const providerLogoSrc = provider === "madar" ? madarImgData : libyanaImgData;
   const providerName = provider === "madar" ? "مدار" : "ليبيانا";
 
   (provider === "madar" ? madarPrices : libyanaPrices).forEach(item => {
     const card = document.createElement("div");
     card.className = "effect-card";
-    card.onclick = () => buyItem(`روبوكس (${item.robux} Robux)`, item.price, providerName);
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <div class="effect-img-wrap">
-        <img src="${robuxImgUrl}" class="effect-img" alt="Robux">
-        <img src="${providerLogoSrc}" class="provider-badge-top-right" alt="${provider}">
+        <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" class="effect-img" alt="Robux">
       </div>
       <div class="effect-title">Robux ${item.robux}</div>
-      <div class="effect-price">${item.price}</div>`;
+      <div class="effect-price">${item.price}</div>
+      <button class="buy-btn" onclick="openCheckout('روبوكس (${item.robux} Robux)', '${item.price}', '${providerName}')">شراء الآن</button>`;
     pricesBox.appendChild(card);
   });
 }
@@ -708,30 +759,126 @@ function showEffectsPrices(){
   effectsList.forEach(item => {
     const card = document.createElement("div"); 
     card.className = "effect-card";
-    card.onclick = () => buyItem(item.name, `${item.price} د.ل`, "حسب الرغبة");
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <div class="effect-img-wrap">
         <img src="${item.img}" class="effect-img">
       </div>
       <div class="effect-title">${item.name}</div>
-      <div class="effect-price">${item.price} د.ل</div>`;
+      <div class="effect-price">${item.price}</div>
+      <button class="buy-btn" onclick="openCheckout('${item.name}', '${item.price}', 'ليبيانا أو مدار')">شراء الآن</button>`;
     box.appendChild(card);
   });
 }
 
-function buyItem(itemName, price, paymentMethod) {
-  const text = `مرحباً DARK STORE 👋%0Aأرغب في شراء: *${itemName}*%0Aالسعر: *${price}*%0Aطريقة الدفع: *${paymentMethod}*`;
-  window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+function openCheckout(itemName, price, paymentMethod) {
+  selectedProductData = { itemName, price, paymentMethod };
+  
+  // تحديث رقم التحويل بناءً على طريقة الدفع
+  const numSpan = document.getElementById("targetTransferNumber");
+  if (paymentMethod.includes("مدار")) {
+    numSpan.textContent = madarNumber;
+  } else {
+    numSpan.textContent = libyanaNumber;
+  }
+
+  document.getElementById("checkoutModal").style.display = "flex";
 }
 
+function closeModal() {
+  document.getElementById("checkoutModal").style.display = "none";
+  document.getElementById("orderForm").reset();
+}
+
+function filterProducts() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  document.querySelectorAll("#prices .effect-card").forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(query) ? "flex" : "none";
+  });
+}
+
+// إرسال الطلب وحفظه
+function submitOrder(e) {
+  e.preventDefault();
+  const robloxUser = document.getElementById("robloxUser").value;
+  const senderPhone = document.getElementById("senderPhone").value;
+  const fileInput = document.getElementById("transferScreenshot");
+
+  if(fileInput.files && fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(uploadEvent) {
+      const base64Image = uploadEvent.target.result;
+      saveOrderToFirebase(robloxUser, senderPhone, base64Image);
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    saveOrderToFirebase(robloxUser, senderPhone, "");
+  }
+}
+
+function saveOrderToFirebase(user, phone, screenshotBase64) {
+  const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
+  const orderData = {
+    orderId: orderId,
+    product: selectedProductData.itemName,
+    price: selectedProductData.price,
+    paymentMethod: selectedProductData.paymentMethod,
+    robloxUser: user,
+    senderPhone: phone,
+    screenshot: screenshotBase64,
+    status: "قيد الانتظار",
+    date: new Date().toLocaleString()
+  };
+
+  // إرسال رسالة الواتساب مباشرة
+  const text = `طلب جديد ${orderId}%0A📦 المنتج: *${selectedProductData.itemName}*%0A💵 السعر: *${selectedProductData.price}*%0A👤 يوزر روبلوكس: *${user}*%0A📱 رقم المحول منه: *${phone}*`;
+  window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+
+  // تنبيه بسيط وإغلاق النافذة
+  alert(`تم إرسال طلبك برقم ${orderId} بنجاح!`);
+  closeModal();
+}
+
+// لوحة التحكم
 function openAdminPanel() {
-  const password = prompt("أدخل كلمة مرور لوحة التحكم:");
-  if (password === "admin123") {
-    alert("مرحباً بك في لوحة التحكم! يمكنك الآن إدارة البيانات من قاعدة بيانات Firebase.");
-  } else if (password !== null) {
+  const pass = prompt("أدخل كلمة مرور لوحة التحكم:");
+  if (pass === "admin123") {
+    document.getElementById("adminModal").style.display = "flex";
+    loadAdminOrders();
+  } else if (pass !== null) {
     alert("كلمة المرور غير صحيحة!");
   }
+}
+
+function closeAdminModal() {
+  document.getElementById("adminModal").style.display = "none";
+}
+
+function loadAdminOrders() {
+  const container = document.getElementById("adminOrdersList");
+  container.innerHTML = `
+    <div class="admin-order-card">
+      <div class="admin-order-header"><span>#2001 (مثال تجريبي)</span></div>
+      <div class="admin-order-details">
+        <div>المنتج: Robux 80</div>
+        <div>المبلغ: 17 مدار</div>
+        <div>يوزر روبلوكس: GamerX</div>
+        <div>رقم المحول منه: 0921112233</div>
+      </div>
+      <div class="admin-order-actions">
+        <button class="admin-btn-accept" onclick="acceptOrder('0921112233')">تم تسليم الطلب ✅</button>
+        <button class="admin-btn-reject" onclick="rejectOrder('0921112233')">تم رفض الطلب ❌</button>
+      </div>
+    </div>
+  `;
+}
+
+function acceptOrder(clientPhone) {
+  window.open(`https://wa.me/${clientPhone}?text=مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`, '_blank');
+}
+
+function rejectOrder(clientPhone) {
+  window.open(`https://wa.me/${clientPhone}?text=طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`, '_blank');
 }
 </script>
 
