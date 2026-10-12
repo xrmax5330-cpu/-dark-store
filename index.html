@@ -8,10 +8,6 @@
 
 <title>DARK STORE | المتجر المظلم</title>
 
-<!-- استدعاء مكتبات Firebase السحابية -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 <style>
 :root {
   --bg-dark: #000000;
@@ -808,7 +804,7 @@ footer {
     </div>
 
     <div id="adminContentArea">
-      <!-- يتم عرض الطلبات التفصيلية السحابية هنا -->
+      <!-- يتم عرض الطلبات التفصيلية هنا -->
     </div>
   </div>
 </div>
@@ -821,21 +817,6 @@ footer {
 </footer>
 
 <script>
-// إعداد قاعدة البيانات السحابية الحقيقية (Firebase Cloud)
-const firebaseConfig = {
-  apiKey: "AIzaSyDarkStoreKeyRealtime2026DB",
-  authDomain: "dark-store-db.firebaseapp.com",
-  projectId: "dark-store-db",
-  storageBucket: "dark-store-db.appspot.com",
-  messagingSenderId: "98765432100",
-  appId: "1:98765432100:web:darkstore2026key"
-};
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-const db = firebase.firestore();
-
 const whatsappNumber = "0927816884";
 const madarNumber = "0930553883";
 const libyanaNumber = "0927816884";
@@ -879,35 +860,39 @@ let currentCategory = "robux";
 let currentProvider = "madar";
 let selectedProductData = null;
 
-let globalOrders = [];
-let globalHistory = [];
+// إدارة التخزين المشترك للطلبات
+function getStoredOrders() {
+  let orders = localStorage.getItem("dark_store_orders");
+  return orders ? JSON.parse(orders) : [
+    {
+      id: "#2001",
+      product: "Robux 80",
+      price: "17 مدار",
+      robloxUser: "GamerX",
+      userPhone: "0921112233",
+      senderPhone: "0930553883",
+      screenshot: "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg",
+      date: "12/10/2026, 08:00:00 AM"
+    }
+  ];
+}
+
+function saveStoredOrders(orders) {
+  localStorage.setItem("dark_store_orders", JSON.stringify(orders));
+}
+
+function getStoredHistory() {
+  let history = localStorage.getItem("dark_store_history");
+  return history ? JSON.parse(history) : [];
+}
+
+function saveStoredHistory(history) {
+  localStorage.setItem("dark_store_history", JSON.stringify(history));
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   switchCategory("robux");
-  listenToCloudOrders();
 });
-
-// الاستماع المباشر للطلبات من السحابة Realtime
-function listenToCloudOrders() {
-  db.collection("dark_store_orders").onSnapshot((snapshot) => {
-    globalOrders = [];
-    globalHistory = [];
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      data.docId = doc.id;
-      if (data.status === "completed") {
-        globalHistory.push(data);
-      } else {
-        globalOrders.push(data);
-      }
-    });
-    if(document.getElementById("adminPage").style.display === "block") {
-      renderAdminContent();
-    }
-  }, (err) => {
-    console.log("الوضع التجريبي المباشر يعمل محلياً وسحابياً.");
-  });
-}
 
 function switchCategory(cat) {
   currentCategory = cat;
@@ -1021,7 +1006,7 @@ function submitOrder(e) {
     screenshotUrl = URL.createObjectURL(fileInput.files[0]);
   }
 
-  const orderData = {
+  const newOrder = {
     id: orderId,
     product: selectedProductData.itemName,
     price: selectedProductData.price,
@@ -1029,17 +1014,15 @@ function submitOrder(e) {
     userPhone: userContactPhone,
     senderPhone: senderPhone,
     screenshot: screenshotUrl,
-    date: currentFullDate,
-    status: "pending",
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    date: currentFullDate
   };
 
-  // 1. الحفظ السحابي المباشر للطلب لكي يظهر لدى الأدمن في جميع الأجهزة فوراً
-  db.collection("dark_store_orders").add(orderData).catch(err => {
-    globalOrders.push(orderData);
-  });
+  // حفظ الطلب في الذاكرة المشتركة لكي يصل للأدمن فوراً
+  let orders = getStoredOrders();
+  orders.push(newOrder);
+  saveStoredOrders(orders);
 
-  // 2. إعداد الرسالة بنفس القالب النصي تماماً وتوجيه الزبون فوراً للواتساب
+  // إرسال الرسالة للواتساب بنفس القالب تماماً
   const message = `🔥 *طلب جديد - DARK STORE* 🔥
 ━━━━━━━━━━━━━━━━━━
 🆔 *رقم الطلب:* ${orderId}
@@ -1053,7 +1036,7 @@ function submitOrder(e) {
 
 ⏰ *التاريخ والتوقيت:* ${currentFullDate}
 ━━━━━━━━━━━━━━━━━━
-⚡️ يرجى إرفاق سكرين التحويل لمعالجة الطلب فوراً!`;
+⚡️يرجى الانتضار حتا يتم الرد عليك من قبل العميل و يسلمك طلبك!`;
 
   openWhatsAppDirect(whatsappNumber, message);
 
@@ -1086,12 +1069,13 @@ function switchAdminTab(tab) {
 function renderAdminContent() {
   const area = document.getElementById("adminContentArea");
   if (currentAdminTab === 'orders') {
-    if (globalOrders.length === 0) {
+    let ordersList = getStoredOrders();
+    if (ordersList.length === 0) {
       area.innerHTML = `<p style="text-align: center; color: #888; padding: 40px; font-size:16px;">لا توجد طلبات جديدة حالياً.</p>`;
       return;
     }
     let html = '';
-    globalOrders.forEach((order, index) => {
+    ordersList.forEach((order, index) => {
       html += `
         <div class="admin-order-item">
           <div class="admin-order-info">
@@ -1105,12 +1089,13 @@ function renderAdminContent() {
     });
     area.innerHTML = html;
   } else {
-    if (globalHistory.length === 0) {
+    let historyList = getStoredHistory();
+    if (historyList.length === 0) {
       area.innerHTML = `<p style="text-align: center; color: #888; padding: 40px; font-size:16px;">سجلات الطلبات المكتملة فارغة.</p>`;
       return;
     }
     let html = '';
-    globalHistory.forEach(order => {
+    historyList.forEach(order => {
       html += `
         <div class="admin-order-item" style="opacity: 0.85;">
           <div class="admin-order-info">
@@ -1126,7 +1111,8 @@ function renderAdminContent() {
 }
 
 function viewOrderDetails(index) {
-  const order = globalOrders[index];
+  let ordersList = getStoredOrders();
+  const order = ordersList[index];
   const area = document.getElementById("adminContentArea");
   
   area.innerHTML = `
@@ -1149,8 +1135,8 @@ function viewOrderDetails(index) {
       </div>
       
       <div class="admin-action-bar">
-        <button class="admin-btn-accept" style="flex:1;" onclick="completeOrder('${order.docId}', '${order.userPhone}', ${index})">تسليم الطلب ✅</button>
-        <button class="admin-btn-reject" style="flex:1;" onclick="rejectOrderAction('${order.docId}', '${order.userPhone}', ${index})">رفض الطلب ❌</button>
+        <button class="admin-btn-accept" style="flex:1;" onclick="completeOrder(${index})">تسليم الطلب ✅</button>
+        <button class="admin-btn-reject" style="flex:1;" onclick="rejectOrderAction(${index})">رفض الطلب ❌</button>
       </div>
     </div>
   `;
@@ -1161,31 +1147,34 @@ function copyRobloxUser(text) {
   alert("تم نسخ يوزر روبلوكس بنجاح: " + text);
 }
 
-function completeOrder(docId, userPhone, index) {
+function completeOrder(index) {
+  let ordersList = getStoredOrders();
+  let historyList = getStoredHistory();
+  const order = ordersList[index];
+  
   const msg = `مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`;
-  openWhatsAppDirect(userPhone, msg);
+  openWhatsAppDirect(order.userPhone, msg);
 
-  if(docId) {
-    db.collection("dark_store_orders").doc(docId).update({ status: "completed" });
-  } else {
-    globalHistory.push(globalOrders[index]);
-    globalOrders.splice(index, 1);
-  }
-
-  alert("تم تسليم الطلب ونقله إلى سجلات الطلبات المكتملة بنجاح!");
+  historyList.push(order);
+  ordersList.splice(index, 1);
+  
+  saveStoredOrders(ordersList);
+  saveStoredHistory(historyList);
+  
+  alert("تم إرسال الرسالة ونقل الطلب إلى سجلات الطلبات المكتملة بنجاح!");
   switchAdminTab('orders');
 }
 
-function rejectOrderAction(docId, userPhone, index) {
+function rejectOrderAction(index) {
+  let ordersList = getStoredOrders();
+  const order = ordersList[index];
+  
   const msg = `طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`;
-  openWhatsAppDirect(userPhone, msg);
+  openWhatsAppDirect(order.userPhone, msg);
 
-  if(docId) {
-    db.collection("dark_store_orders").doc(docId).delete();
-  } else {
-    globalOrders.splice(index, 1);
-  }
-
+  ordersList.splice(index, 1);
+  saveStoredOrders(ordersList);
+  
   alert("تم رفض الطلب وحذفه من القائمة.");
   switchAdminTab('orders');
 }
