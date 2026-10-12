@@ -345,6 +345,7 @@ section {
   text-align: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  cursor: pointer;
 }
 
 .effect-card:hover {
@@ -500,7 +501,10 @@ footer {
   color: #444;
   cursor: pointer;
   font-size: 11px;
-  margin-top: 8px;
+  margin-top: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   transition: color 0.3s;
 }
 
@@ -568,7 +572,7 @@ footer {
     <div id="effectsHeader" style="display: none;"><div class="title"><h2>💣 أفكتات روبلوكس</h2><p>الدفع عن طريق ليبيانا أو مدار</p></div></div>
 
     <div id="prices" class="effects-grid"></div>
-    <div id="noticeBox" class="notice">استعرض الأسعار والباقات المتاحة بكل سهولة.</div>
+    <div id="noticeBox" class="notice">اضغط على أي منتج للشراء المباشر عبر الواتساب.</div>
 
     <div id="reviewsSection" class="reviews-section">
       <div class="title"><h2>👤 آراء العملاء</h2><p>❣️ ثقة زبائننا هي سر نجاحنا</p></div>
@@ -581,13 +585,15 @@ footer {
   </section>
 </main>
 
-<a href="whatsapp://send?phone=218927816884" class="whatsapp-float" title="تواصل معنا عبر الواتساب">💬</a>
+<a href="https://wa.me/218927816884" class="whatsapp-float" title="تواصل معنا عبر الواتساب" target="_blank">💬</a>
 
 <footer>
   DARK STORE © 2026 | جميع الحقوق محفوظة
+  <button class="admin-trigger-btn" onclick="openAdminPanel()">⚙️ لوحة التحكم</button>
 </footer>
 
 <script>
+const whatsappNumber = "218927816884";
 const robuxImgUrl = "https://i.ibb.co/gMN49Hg8/IMG-4123.jpg";
 const madarImgData = "https://i.ibb.co/S4q6B4y0/IMG-3779.jpg";
 const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
@@ -648,9 +654,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function filterProducts() {
-  const query = document.getElementById("searchInput").value.toLowerCase();
-  Array.from(document.getElementById("prices").children).forEach(c => {
-    c.style.display = c.textContent.toLowerCase().includes(query) ? "" : "none";
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  const cards = document.querySelectorAll("#prices .effect-card");
+  cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(query) ? "flex" : "none";
   });
 }
 
@@ -676,10 +684,12 @@ function showRobuxPrices(provider){
   pricesBox.innerHTML = "";
 
   const providerLogoSrc = provider === "madar" ? madarImgData : libyanaImgData;
+  const providerName = provider === "madar" ? "مدار" : "ليبيانا";
 
   (provider === "madar" ? madarPrices : libyanaPrices).forEach(item => {
     const card = document.createElement("div");
     card.className = "effect-card";
+    card.onclick = () => buyItem(`روبوكس (${item.robux} Robux)`, item.price, providerName);
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <div class="effect-img-wrap">
@@ -693,9 +703,12 @@ function showRobuxPrices(provider){
 }
 
 function showEffectsPrices(){
-  const box = document.getElementById("prices"); box.innerHTML = "";
+  const box = document.getElementById("prices"); 
+  box.innerHTML = "";
   effectsList.forEach(item => {
-    const card = document.createElement("div"); card.className = "effect-card";
+    const card = document.createElement("div"); 
+    card.className = "effect-card";
+    card.onclick = () => buyItem(item.name, `${item.price} د.ل`, "حسب الرغبة");
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <div class="effect-img-wrap">
@@ -705,6 +718,20 @@ function showEffectsPrices(){
       <div class="effect-price">${item.price} د.ل</div>`;
     box.appendChild(card);
   });
+}
+
+function buyItem(itemName, price, paymentMethod) {
+  const text = `مرحباً DARK STORE 👋%0Aأرغب في شراء: *${itemName}*%0Aالسعر: *${price}*%0Aطريقة الدفع: *${paymentMethod}*`;
+  window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+}
+
+function openAdminPanel() {
+  const password = prompt("أدخل كلمة مرور لوحة التحكم:");
+  if (password === "admin123") {
+    alert("مرحباً بك في لوحة التحكم! يمكنك الآن إدارة البيانات من قاعدة بيانات Firebase.");
+  } else if (password !== null) {
+    alert("كلمة المرور غير صحيحة!");
+  }
 }
 </script>
 
