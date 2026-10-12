@@ -24,6 +24,7 @@
   --text-muted: #888888;
   --line: #1a1a1a;
   --whatsapp-green: #25d366;
+  --red-accent: #ff003c;
 }
 
 * {
@@ -242,6 +243,14 @@ section {
   transition: 0.3s;
 }
 
+.circle-btn-img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
 .cat-btn.active, .provider-btn.active {
   background: #fff;
   border-color: #fff;
@@ -291,10 +300,13 @@ section {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 2px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  z-index: 3;
 }
 
 .effect-title {
@@ -343,12 +355,12 @@ section {
   z-index: 4;
 }
 
-/* Modal نافذة إتمام الطلب */
+/* Modal نافذة إتمام الطلب مع الإطار الأحمر المتحرك */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(10px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -357,51 +369,76 @@ section {
 }
 
 .modal-box {
-  background: #0f0f0f;
-  border: 1px solid #333;
+  position: relative;
+  background: #0d0d0d;
   width: 100%;
   max-width: 480px;
-  border-radius: 20px;
-  padding: 25px;
+  border-radius: 24px;
+  padding: 28px 24px;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 0 35px rgba(255, 0, 60, 0.25);
+  border: 1px solid transparent;
+}
+
+/* الإطار الأحـمر المتحرك الدوار */
+.modal-box::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 26px;
+  padding: 2px;
+  background: conic-gradient(from 0deg, #ff003c, #111111, #ff003c, #440011, #ff003c);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotateRedBorder 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateRedBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .modal-box h3 {
-  font-size: 20px;
-  margin-bottom: 15px;
+  font-size: 22px;
+  margin-bottom: 18px;
   text-align: center;
   color: #fff;
+  font-weight: 900;
 }
 
 .instruction-box {
-  background: rgba(255,255,255,0.05);
-  border: 1px dashed #444;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255, 0, 60, 0.4);
   padding: 14px;
-  border-radius: 12px;
-  margin-bottom: 15px;
+  border-radius: 14px;
+  margin-bottom: 18px;
   font-size: 13px;
   line-height: 1.6;
 }
 
 .instruction-box strong {
-  color: #f59e0b;
+  color: #ff3366;
 }
 
 .transfer-number {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #25d366;
   background: #000;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  border-radius: 10px;
   display: inline-block;
-  margin: 5px 0;
+  margin: 6px 0;
   letter-spacing: 1px;
+  border: 1px solid #222;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 14px;
+  text-align: right;
 }
 
 .form-group label {
@@ -415,15 +452,15 @@ section {
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  background: #161616;
-  border: 1px solid #333;
+  background: #141414;
+  border: 1px solid #2a2a2a;
   color: #fff;
   outline: none;
+  transition: 0.3s;
 }
 
-.form-group input[type="file"] {
-  padding: 8px;
-  font-size: 12px;
+.form-group input:focus {
+  border-color: var(--red-accent);
 }
 
 .modal-actions {
@@ -451,7 +488,6 @@ section {
   color: #aaa;
 }
 
-/* لوحة التحكم Modal */
 .admin-modal {
   max-width: 800px;
 }
@@ -481,15 +517,6 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 6px;
-}
-
-.admin-order-img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #444;
-  cursor: pointer;
 }
 
 .admin-order-actions {
@@ -593,15 +620,26 @@ footer {
     </div>
 
     <div class="category-box">
-      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">روبوكس</button>
-      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">💣 أفكتات روبلوكس</button>
+      <button id="catRobuxBtn" class="cat-btn active" onclick="switchCategory('robux')">
+        <img src="https://i.ibb.co/DHYYgjSx/IMG-4123.jpg" class="circle-btn-img" alt="روبوكس">
+        <span>روبوكس</span>
+      </button>
+      <button id="catEffectsBtn" class="cat-btn" onclick="switchCategory('effects')">
+        <span>💣 أفكتات روبلوكس</span>
+      </button>
     </div>
 
     <div id="robuxHeader">
       <div class="title"><h2>اختر الباقة وطريقة الدفع المناسبة</h2><p>💸 طرق الدفع المتاحة</p></div>
       <div class="provider-box">
-        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">مدار</button>
-        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">ليبيانا</button>
+        <button id="madarBtn" class="provider-btn active" onclick="showRobuxPrices('madar')">
+          <img src="https://i.ibb.co/FLDV79QJ/IMG-5089.jpg" class="circle-btn-img" alt="مدار">
+          <span>مدار</span>
+        </button>
+        <button id="libyanaBtn" class="provider-btn" onclick="showRobuxPrices('libyana')">
+          <img src="https://i.ibb.co/ycGN6y0j/IMG-3778.png" class="circle-btn-img" alt="ليبيانا">
+          <span>ليبيانا</span>
+        </button>
       </div>
     </div>
 
@@ -619,17 +657,17 @@ footer {
   </section>
 </main>
 
-<!-- نافذة إتمام الطلب (Checkout Modal) -->
+<!-- نافذة إتمام الطلب الشيك المحدثة -->
 <div id="checkoutModal" class="modal-overlay">
   <div class="modal-box">
     <h3>إتمام الطلب</h3>
     
     <div class="instruction-box">
       <strong>تعليمات الدفع:</strong><br>
-      1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر فوق:<br>
+      1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر تحت:<br>
       <div id="targetTransferNumber" class="transfer-number">0927816884</div><br>
-      2️⃣ أكمل باقي البيانات أدناه.<br>
-      3️⃣ بعد إرسال الطلب سيتم تسليمه بعد ثوانٍ أو دقائق.
+      2️⃣ أكمل باقي البيانات و تاكد منها.<br>
+      3️⃣  بعد إرسال الطلب سيتم تسليمه بعد ثوانٍ أو دقائق.
     </div>
 
     <form id="orderForm" onsubmit="submitOrder(event)">
@@ -638,8 +676,12 @@ footer {
         <input type="text" id="robloxUser" required placeholder="مثال: Player123">
       </div>
       <div class="form-group">
+        <label>رقم هاتفك للتواصل:</label>
+        <input type="tel" id="userContactPhone" required placeholder="مثال: 092xxxxxxx">
+      </div>
+      <div class="form-group">
         <label>رقم الهاتف المحول منه:</label>
-        <input type="tel" id="senderPhone" required placeholder="مثال: 092xxxxxxx">
+        <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
       </div>
       <div class="form-group">
         <label>سكرين إيصال التحويل:</label>
@@ -677,6 +719,10 @@ footer {
 const whatsappNumber = "218927816884";
 const madarNumber = "0930553883";
 const libyanaNumber = "0927816884";
+
+const madarImgData = "https://i.ibb.co/FLDV79QJ/IMG-5089.jpg";
+const libyanaImgData = "https://i.ibb.co/ycGN6y0j/IMG-3778.png";
+const robuxImgUrl = "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg";
 
 const madarPrices = [
   {robux:10, price: "3 مدار"}, {robux:20, price: "5 مدار"}, {robux:30, price: "8 مدار"},
@@ -737,6 +783,7 @@ function showRobuxPrices(provider){
   pricesBox.innerHTML = "";
 
   const providerName = provider === "madar" ? "مدار" : "ليبيانا";
+  const providerBadgeSrc = provider === "madar" ? madarImgData : libyanaImgData;
 
   (provider === "madar" ? madarPrices : libyanaPrices).forEach(item => {
     const card = document.createElement("div");
@@ -744,7 +791,8 @@ function showRobuxPrices(provider){
     card.innerHTML = `
       ${item.badge ? `<div class="badge-tag">${item.badge}</div>` : ''}
       <div class="effect-img-wrap">
-        <img src="https://i.ibb.co/gMN49Hg8/IMG-4123.jpg" class="effect-img" alt="Robux">
+        <img src="${robuxImgUrl}" class="effect-img" alt="Robux">
+        <img src="${providerBadgeSrc}" class="provider-badge-top-right" alt="${provider}">
       </div>
       <div class="effect-title">Robux ${item.robux}</div>
       <div class="effect-price">${item.price}</div>
@@ -774,7 +822,6 @@ function showEffectsPrices(){
 function openCheckout(itemName, price, paymentMethod) {
   selectedProductData = { itemName, price, paymentMethod };
   
-  // تحديث رقم التحويل بناءً على طريقة الدفع
   const numSpan = document.getElementById("targetTransferNumber");
   if (paymentMethod.includes("مدار")) {
     numSpan.textContent = madarNumber;
@@ -797,52 +844,25 @@ function filterProducts() {
   });
 }
 
-// إرسال الطلب وحفظه
 function submitOrder(e) {
   e.preventDefault();
   const robloxUser = document.getElementById("robloxUser").value;
+  const userContactPhone = document.getElementById("userContactPhone").value;
   const senderPhone = document.getElementById("senderPhone").value;
-  const fileInput = document.getElementById("transferScreenshot");
 
-  if(fileInput.files && fileInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(uploadEvent) {
-      const base64Image = uploadEvent.target.result;
-      saveOrderToFirebase(robloxUser, senderPhone, base64Image);
-    };
-    reader.readAsDataURL(fileInput.files[0]);
-  } else {
-    saveOrderToFirebase(robloxUser, senderPhone, "");
-  }
-}
-
-function saveOrderToFirebase(user, phone, screenshotBase64) {
   const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
-  const orderData = {
-    orderId: orderId,
-    product: selectedProductData.itemName,
-    price: selectedProductData.price,
-    paymentMethod: selectedProductData.paymentMethod,
-    robloxUser: user,
-    senderPhone: phone,
-    screenshot: screenshotBase64,
-    status: "قيد الانتظار",
-    date: new Date().toLocaleString()
-  };
 
-  // إرسال رسالة الواتساب مباشرة
-  const text = `طلب جديد ${orderId}%0A📦 المنتج: *${selectedProductData.itemName}*%0A💵 السعر: *${selectedProductData.price}*%0A👤 يوزر روبلوكس: *${user}*%0A📱 رقم المحول منه: *${phone}*`;
+  const text = `طلب جديد ${orderId}%0A📦 المنتج: *${selectedProductData.itemName}*%0A💵 السعر: *${selectedProductData.price}*%0A👤 يوزر روبلوكس: *${robloxUser}*%0A📞 رقم التواصل: *${userContactPhone}*%0A📱 رقم المحول منه: *${senderPhone}*`;
+  
   window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
 
-  // تنبيه بسيط وإغلاق النافذة
   alert(`تم إرسال طلبك برقم ${orderId} بنجاح!`);
   closeModal();
 }
 
-// لوحة التحكم
 function openAdminPanel() {
   const pass = prompt("أدخل كلمة مرور لوحة التحكم:");
-  if (pass === "admin123") {
+  if (pass === "Laytt") {
     document.getElementById("adminModal").style.display = "flex";
     loadAdminOrders();
   } else if (pass !== null) {
@@ -858,16 +878,17 @@ function loadAdminOrders() {
   const container = document.getElementById("adminOrdersList");
   container.innerHTML = `
     <div class="admin-order-card">
-      <div class="admin-order-header"><span>#2001 (مثال تجريبي)</span></div>
+      <div class="admin-order-header"><span>#2001 (طلب تجريبي)</span></div>
       <div class="admin-order-details">
         <div>المنتج: Robux 80</div>
         <div>المبلغ: 17 مدار</div>
         <div>يوزر روبلوكس: GamerX</div>
-        <div>رقم المحول منه: 0921112233</div>
+        <div>رقم التواصل: 0920000000</div>
+        <div>رقم المحول منه: 0930553883</div>
       </div>
       <div class="admin-order-actions">
-        <button class="admin-btn-accept" onclick="acceptOrder('0921112233')">تم تسليم الطلب ✅</button>
-        <button class="admin-btn-reject" onclick="rejectOrder('0921112233')">تم رفض الطلب ❌</button>
+        <button class="admin-btn-accept" onclick="acceptOrder('0920000000')">تم تسليم الطلب ✅</button>
+        <button class="admin-btn-reject" onclick="rejectOrder('0920000000')">تم رفض الطلب ❌</button>
       </div>
     </div>
   `;
