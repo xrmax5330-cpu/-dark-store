@@ -354,6 +354,72 @@ section {
   z-index: 4;
 }
 
+/* نافذة اختيار طريقة الدفع الجديدة */
+.payment-choice-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.payment-choice-box {
+  background: #0d0d0d;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid #222;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  text-align: center;
+}
+
+.payment-choice-box h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.payment-choice-box p {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.payment-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.payment-option-btn {
+  background: #161616;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.payment-option-btn:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
 /* نافذة إتمام الطلب */
 .modal-overlay {
   position: fixed;
@@ -461,7 +527,7 @@ section {
   color: var(--text-muted);
 }
 
-.form-group input {
+.form-group input, .form-group textarea {
   width: 100%;
   padding: 12px;
   border-radius: 10px;
@@ -498,7 +564,7 @@ section {
   color: #aaa;
 }
 
-/* تنسيق النافذة المنبثقة الترحيبية (تظهر مع كل زيارة) */
+/* نافذة ترحيبية تظهر في كل دخول */
 .welcome-popup-overlay {
   position: fixed;
   inset: 0;
@@ -861,8 +927,27 @@ footer {
 <div id="welcomePopupModal" class="welcome-popup-overlay">
   <div class="welcome-popup-box">
     <h3>🔥 مرحباً بك في DARK STORE</h3>
-    <p>متجرك الموثوق لشحن ملاحضة ضروري يكون عندك وتس لو بتشحن روب ✅.</p>
+    <p>متجرك الموثوق لشحن الروبوكس وأفكتات روبلوكس بأفضل الأسعار وبطرق دفع ليبيانا ومدار.</p>
     <button class="welcome-popup-btn" onclick="closeWelcomePopup()">تصفح المتجر الآن 🚀</button>
+  </div>
+</div>
+
+<!-- نافذة اختيار طريقة الدفع (كروت - تحويل رصيد) -->
+<div id="paymentChoiceModal" class="payment-choice-overlay">
+  <div class="payment-choice-box">
+    <h3>اختر طريقة الدفع 💳</h3>
+    <p>حدد الطريقة التي تناسبك لإتمام شراء المنتج</p>
+    
+    <div class="payment-options-grid">
+      <button class="payment-option-btn" onclick="selectPaymentType('كروت')">
+        🎫 كروت
+      </button>
+      <button class="payment-option-btn" onclick="selectPaymentType('تحويل رصيد')">
+        💸 تحويل رصيد
+      </button>
+    </div>
+
+    <button type="button" class="btn-close" onclick="closePaymentChoiceModal()" style="width: 100%;">إلغاء</button>
   </div>
 </div>
 
@@ -881,20 +966,13 @@ footer {
         <strong id="summaryPaymentMethod">-</strong>
       </div>
       <div class="summary-item">
-        <span>💰 قم بتحويل:</span>
+        <span>💰 السعر المطلوب:</span>
         <strong id="summaryPriceAmount" class="summary-highlight">-</strong>
       </div>
     </div>
 
-    <div class="instruction-box">
-      <strong>تعليمات الدفع:</strong><br>
-      1️⃣ قم بتحويل الرصيد المطلوب إلى الرقم الظاهر تحت:<br>
-      <div class="transfer-number-wrap">
-        <div id="targetTransferNumber" class="transfer-number">0927816884</div>
-      </div>
-      2️⃣ أكمل إدخال البيانات في الخانات وتاكد منها.<br>
-      3️⃣ بعد ارسال الطلب سيتم نقلك الى الوتساب الخاص بنا و قم بارسال رسالة.
-    </div>
+    <!-- صندوق التعليمات الذي يتغير حسب طريقة الدفع -->
+    <div id="dynamicInstructionBox" class="instruction-box"></div>
 
     <form id="orderForm" onsubmit="submitOrder(event)">
       <div class="form-group">
@@ -905,14 +983,10 @@ footer {
         <label>رقم هاتفك للتواصل:</label>
         <input type="tel" id="userContactPhone" required placeholder="مثال: 092xxxxxxx">
       </div>
-      <div class="form-group">
-        <label>رقم هاتفك الي حولت بيه الرصيد:</label>
-        <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
-      </div>
-      <div class="form-group">
-        <label>ارسل سكرين تحويل الرصيد كامل:</label>
-        <input type="file" id="transferScreenshot" accept="image/*" required>
-      </div>
+      
+      <!-- الحقول المتغيرة بناءً على خيار الدفع -->
+      <div id="dynamicFormFields"></div>
+
       <div class="modal-actions">
         <button type="submit" class="btn-submit">إرسال الطلب 🚀</button>
         <button type="button" class="btn-close" onclick="closeModal()">إلغاء</button>
@@ -1002,7 +1076,7 @@ const effectsList = [
 
 let currentCategory = "robux"; 
 let currentProvider = "madar";
-let selectedProductData = null;
+let tempProductData = null;
 
 let globalOrders = [];
 let globalHistory = [];
@@ -1010,8 +1084,6 @@ let globalHistory = [];
 document.addEventListener("DOMContentLoaded", () => {
   switchCategory("robux");
   listenToCloudOrders();
-  
-  // إظهار نافذة الترحيب فور دخول الموقع في كل مرة (بدون حفظ في التخزين)
   document.getElementById("welcomePopupModal").style.display = "flex";
 });
 
@@ -1073,7 +1145,7 @@ function showRobuxPrices(provider){
       </div>
       <div class="effect-title">Robux ${item.robux}</div>
       <div class="effect-price">${item.price}</div>
-      <button class="buy-btn" onclick="openCheckout('روبوكس (${item.robux} Robux)', '${item.price}', '${providerName}')">شراء الآن</button>`;
+      <button class="buy-btn" onclick="openPaymentChoice('روبوكس (${item.robux} Robux)', '${item.price}', '${providerName}')">شراء الآن</button>`;
     pricesBox.appendChild(card);
   });
 }
@@ -1091,23 +1163,66 @@ function showEffectsPrices(){
       </div>
       <div class="effect-title">${item.name}</div>
       <div class="effect-price">${item.price}</div>
-      <button class="buy-btn" onclick="openCheckout('${item.name}', '${item.price}', 'ليبيانا أو مدار')">شراء الآن</button>`;
+      <button class="buy-btn" onclick="openPaymentChoice('${item.name}', '${item.price}', 'ليبيانا أو مدار')">شراء الآن</button>`;
     box.appendChild(card);
   });
 }
 
-function openCheckout(itemName, price, paymentMethod) {
-  selectedProductData = { itemName, price, paymentMethod };
+// الخطوة 1: عند الضغط على شراء الآن، تفتح نافذة خيار (كروت - تحويل رصيد)
+function openPaymentChoice(itemName, price, defaultProvider) {
+  tempProductData = { itemName, price, defaultProvider };
+  document.getElementById("paymentChoiceModal").style.display = "flex";
+}
 
-  document.getElementById("summaryProductName").textContent = itemName;
-  document.getElementById("summaryPaymentMethod").textContent = paymentMethod;
-  document.getElementById("summaryPriceAmount").textContent = price;
-  
-  const numSpan = document.getElementById("targetTransferNumber");
-  if (paymentMethod.includes("مدار")) {
-    numSpan.textContent = madarNumber;
+function closePaymentChoiceModal() {
+  document.getElementById("paymentChoiceModal").style.display = "none";
+}
+
+// الخطوة 2: عند اختيار طريقة الدفع يتم فتح نافذة إتمام الطلب وتخصيص محتواها
+function selectPaymentType(paymentType) {
+  closePaymentChoiceModal();
+
+  document.getElementById("summaryProductName").textContent = tempProductData.itemName;
+  document.getElementById("summaryPaymentMethod").textContent = paymentType;
+  document.getElementById("summaryPriceAmount").textContent = tempProductData.price;
+
+  const instructionBox = document.getElementById("dynamicInstructionBox");
+  const formFields = document.getElementById("dynamicFormFields");
+
+  if (paymentType === 'كروت') {
+    instructionBox.innerHTML = `
+      <strong>تعليمات الدفع بواسطة كروت:</strong><br>
+      1️⃣ قم بشراء كارت فئة مطابقة لسعر المنتج.<br>
+      2️⃣ اكتب رقم الكارت أو قم بإرساله في الخانة بالأسفل.<br>
+      3️⃣ بعد إرسال الطلب سيتم نقلك للواتساب لتأكيد العملية واستلام طلبك فوراً.
+    `;
+    formFields.innerHTML = `
+      <div class="form-group">
+        <label>أدخل كود / رقم الكارت:</label>
+        <textarea id="cardCodeInput" rows="3" required placeholder="اكتب أرقام الكارت هنا..."></textarea>
+      </div>
+    `;
   } else {
-    numSpan.textContent = libyanaNumber;
+    // تحويل رصيد
+    const targetNum = tempProductData.defaultProvider.includes("مدار") ? madarNumber : libyanaNumber;
+    instructionBox.innerHTML = `
+      <strong>تعليمات تحويل الرصيد:</strong><br>
+      1️⃣ قم بتحويل الرصيد المطلوب إلى الرقم التالي:<br>
+      <div class="transfer-number-wrap">
+        <div class="transfer-number">${targetNum}</div>
+      </div>
+      2️⃣ أدخل رقم هاتفك الذي حولت منه وارفق صورة إيصال التحويل.
+    `;
+    formFields.innerHTML = `
+      <div class="form-group">
+        <label>رقم هاتفك الي حولت بيه الرصيد:</label>
+        <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
+      </div>
+      <div class="form-group">
+        <label>ارسل سكرين تحويل الرصيد كامل:</label>
+        <input type="file" id="transferScreenshot" accept="image/*" required>
+      </div>
+    `;
   }
 
   document.getElementById("checkoutModal").style.display = "flex";
@@ -1145,25 +1260,37 @@ function submitOrder(e) {
   e.preventDefault();
   const robloxUser = document.getElementById("robloxUser").value;
   const userContactPhone = document.getElementById("userContactPhone").value;
-  const senderPhone = document.getElementById("senderPhone").value;
-  const fileInput = document.getElementById("transferScreenshot");
+  const paymentMethod = document.getElementById("summaryPaymentMethod").textContent;
 
   const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
   const currentFullDate = new Date().toLocaleString('en-US', { hour12: true });
 
-  let screenshotUrl = "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg";
-  if(fileInput.files && fileInput.files[0]) {
-    screenshotUrl = URL.createObjectURL(fileInput.files[0]);
+  let orderDataExtra = {};
+  let extraWhatsAppText = "";
+
+  if (paymentMethod === 'كروت') {
+    const cardCode = document.getElementById("cardCodeInput").value;
+    orderDataExtra = { cardCode: cardCode, screenshot: "نظام كروت" };
+    extraWhatsAppText = `🎫 *طريقة الدفع:* كروت\n🔑 *رقم الكارت:* ${cardCode}`;
+  } else {
+    const senderPhone = document.getElementById("senderPhone").value;
+    const fileInput = document.getElementById("transferScreenshot");
+    let screenshotUrl = "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg";
+    if(fileInput.files && fileInput.files[0]) {
+      screenshotUrl = URL.createObjectURL(fileInput.files[0]);
+    }
+    orderDataExtra = { senderPhone: senderPhone, screenshot: screenshotUrl };
+    extraWhatsAppText = `💸 *طريقة الدفع:* تحويل رصيد\n📲 *رقم المحول منه:* ${senderPhone}`;
   }
 
   const orderData = {
     id: orderId,
-    product: selectedProductData.itemName,
-    price: selectedProductData.price,
+    product: tempProductData.itemName,
+    price: tempProductData.price,
     robloxUser: robloxUser,
     userPhone: userContactPhone,
-    senderPhone: senderPhone,
-    screenshot: screenshotUrl,
+    paymentType: paymentMethod,
+    ...orderDataExtra,
     date: currentFullDate,
     status: "pending",
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -1178,20 +1305,19 @@ function submitOrder(e) {
   const message = `🔥 *طلب جديد - DARK STORE* 🔥
 ━━━━━━━━━━━━━━━━━━
 🆔 *رقم الطلب:* ${orderId}
-📦 *المنتج:* ${selectedProductData.itemName}
-💵 *السعر:* ${selectedProductData.price}
+📦 *المنتج:* ${tempProductData.itemName}
+💵 *السعر:* ${tempProductData.price}
+${extraWhatsAppText}
 
 👤 *بيانات الزبون:*
 🎮 *يوزر روبلوكس:* ${robloxUser}
 📞 *رقم التواصل:* ${userContactPhone}
-📲 *رقم المحول منه:* ${senderPhone}
 
 ⏰ *التاريخ والتوقيت:* ${currentFullDate}
 ━━━━━━━━━━━━━━━━━━
-⚡️يرجى الانتضار حتا يتم الرد عليك من قبل العميل ليسلمك طلبك!`;
+⚡️يرجى الانتضار حتى يتم الرد عليك من قبل المتجر ليسلمك طلبك!`;
 
   openWhatsAppDirect(whatsappNumber, message);
-
   closeModal();
 }
 
@@ -1214,7 +1340,6 @@ function switchAdminTab(tab) {
   currentAdminTab = tab;
   document.getElementById("tabOrdersBtn").classList.toggle("active", tab === 'orders');
   document.getElementById("tabHistoryBtn").classList.toggle("active", tab === 'history');
-  
   renderAdminContent();
 }
 
@@ -1231,7 +1356,7 @@ function renderAdminContent() {
         <div class="admin-order-item">
           <div class="admin-order-info">
             <span class="admin-order-id">${order.id}</span>
-            <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser}</span>
+            <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser} | الدفع: (${order.paymentType || 'رصيد'})</span>
             <span style="font-size: 11px; color: #666;">⏰ ${order.date}</span>
           </div>
           <div class="action-btns-group">
@@ -1267,6 +1392,19 @@ function viewOrderDetails(docId) {
   const order = globalOrders.find(o => o.docId === docId);
   if(!order) return;
   
+  let paymentDetailsHtml = "";
+  if (order.paymentType === 'كروت') {
+    paymentDetailsHtml = `<div class="order-detail-row">رقم الكارت: <span>${order.cardCode}</span></div>`;
+  } else {
+    paymentDetailsHtml = `
+      <div class="order-detail-row">رقم الهاتف المحول منه: <span>${order.senderPhone}</span></div>
+      <div style="margin-top: 15px;">
+        <div style="font-size: 14px; color: #ddd; margin-bottom: 8px;">صورة الإيصال (سكرين التحويل):</div>
+        <img src="${order.screenshot}" class="receipt-img" alt="الإيصال">
+      </div>
+    `;
+  }
+
   const area = document.getElementById("adminContentArea");
   area.innerHTML = `
     <div class="order-detail-view">
@@ -1275,17 +1413,14 @@ function viewOrderDetails(docId) {
       <div class="order-detail-row">تاريخ ووقت الطلب: <span>${order.date}</span></div>
       <div class="order-detail-row">المنتج المطلوب: <span>${order.product}</span></div>
       <div class="order-detail-row">السعر: <span>${order.price}</span></div>
+      <div class="order-detail-row">طريقة الدفع: <span>${order.paymentType || 'تحويل رصيد'}</span></div>
       <div class="order-detail-row">
         يوزر حساب روبلوكس: <span id="userToCopy">${order.robloxUser}</span>
         <button class="copy-btn" onclick="copyRobloxUser('${order.robloxUser}')">📋 نسخ</button>
       </div>
       <div class="order-detail-row">رقم هاتفك للتواصل: <span>${order.userPhone}</span></div>
-      <div class="order-detail-row">رقم الهاتف المحول منه: <span>${order.senderPhone}</span></div>
       
-      <div style="margin-top: 15px;">
-        <div style="font-size: 14px; color: #ddd; margin-bottom: 8px;">صورة الإيصال (سكرين التحويل):</div>
-        <img src="${order.screenshot}" class="receipt-img" alt="الإيصال">
-      </div>
+      ${paymentDetailsHtml}
       
       <div class="admin-action-bar">
         <button class="admin-btn-accept" onclick="completeOrder('${order.docId}', '${order.userPhone}')">تسليم الطلب ✅</button>
