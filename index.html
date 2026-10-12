@@ -467,7 +467,7 @@ section {
   color: #aaa;
 }
 
-/* صفحة لوحة التحكم الأنيقة والكبيرة جداً (Full Screen Page) */
+/* صفحة لوحة التحكم Full Screen Page */
 .admin-page-overlay {
   position: fixed;
   inset: 0;
@@ -794,7 +794,7 @@ footer {
   </div>
 </div>
 
-<!-- صفحة لوحة التحكم الأنيقة والكبيرة جداً (Admin Panel Full Screen) -->
+<!-- صفحة لوحة التحكم (Admin Panel Full Screen) -->
 <div id="adminPage" class="admin-page-overlay">
   <div class="admin-page-container">
     <div class="admin-page-header">
@@ -873,7 +873,7 @@ let ordersList = [
     userPhone: "0921112233",
     senderPhone: "0930553883",
     screenshot: "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg",
-    date: "2026-10-12 07:30"
+    date: "12/10/2026, 08:00:00 AM"
   }
 ];
 let historyList = [];
@@ -963,7 +963,6 @@ function filterProducts() {
   });
 }
 
-// دالة تحويل الرقم للواتساب بالشكل الصحيح
 function formatLibyaPhone(phone) {
   let cleaned = phone.replace(/\D/g, '');
   if (cleaned.startsWith('0')) {
@@ -988,6 +987,7 @@ function submitOrder(e) {
   const fileInput = document.getElementById("transferScreenshot");
 
   const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
+  const currentFullDate = new Date().toLocaleString('en-US', { hour12: true });
 
   let screenshotUrl = "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg";
   if(fileInput.files && fileInput.files[0]) {
@@ -1002,12 +1002,27 @@ function submitOrder(e) {
     userPhone: userContactPhone,
     senderPhone: senderPhone,
     screenshot: screenshotUrl,
-    date: new Date().toLocaleString()
+    date: currentFullDate
   };
 
   ordersList.push(newOrder);
 
-  const message = `طلب جديد ${orderId}\nالمنتج: ${selectedProductData.itemName}\nالسعر: ${selectedProductData.price}\nيوزر روبلوكس: ${robloxUser}\nرقم التواصل: ${userContactPhone}\nرقم المحول: ${senderPhone}`;
+  // رسالة الواتساب الفخمة المجهزة بالأيموجيات والتاريخ والوقت
+  const message = `🔥 *طلب جديد - DARK STORE* 🔥
+━━━━━━━━━━━━━━━━━━
+🆔 *رقم الطلب:* ${orderId}
+📦 *المنتج:* ${selectedProductData.itemName}
+💵 *السعر:* ${selectedProductData.price}
+
+👤 *بيانات الزبون:*
+🎮 *يوزر روبلوكس:* ${robloxUser}
+📞 *رقم التواصل:* ${userContactPhone}
+📲 *رقم المحول منه:* ${senderPhone}
+
+⏰ *التاريخ والتوقيت:* ${currentFullDate}
+━━━━━━━━━━━━━━━━━━
+⚡️ يرجى إرفاق سكرين التحويل لمعالجة الطلب فوراً!`;
+
   openWhatsAppDirect(whatsappNumber, message);
 
   alert(`تم إرسال طلبك برقم ${orderId} بنجاح!`);
@@ -1051,6 +1066,7 @@ function renderAdminContent() {
           <div class="admin-order-info">
             <span class="admin-order-id">${order.id}</span>
             <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser}</span>
+            <span style="font-size: 11px; color: #666;">⏰ ${order.date}</span>
           </div>
           <button class="details-btn" onclick="viewOrderDetails(${index})">عرض تفاصيل الطلب 🔍</button>
         </div>
@@ -1086,6 +1102,7 @@ function viewOrderDetails(index) {
     <div class="order-detail-view">
       <button class="details-btn" onclick="switchAdminTab('orders')" style="margin-bottom: 20px;">← العودة إلى القائمة</button>
       <div class="order-detail-row">رقم الطلب: <span>${order.id}</span></div>
+      <div class="order-detail-row">تاريخ ووقت الطلب: <span>${order.date}</span></div>
       <div class="order-detail-row">المنتج المطلوب: <span>${order.product}</span></div>
       <div class="order-detail-row">السعر: <span>${order.price}</span></div>
       <div class="order-detail-row">
