@@ -354,7 +354,7 @@ section {
   z-index: 4;
 }
 
-/* Modal نافذة إتمام الطلب الشيك بدون أي إطار أو دوران */
+/* نافذة إتمام الطلب */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -441,10 +441,6 @@ section {
   font-size: 14px;
 }
 
-.form-group input:focus {
-  border-color: #555;
-}
-
 .modal-actions {
   display: flex;
   gap: 10px;
@@ -471,63 +467,111 @@ section {
   color: #aaa;
 }
 
+/* تنسيق لوحة التحكم الاحترافية */
 .admin-modal {
-  max-width: 800px;
+  max-width: 900px;
 }
 
-.admin-order-card {
-  background: #141414;
-  border: 1px solid #333;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.admin-order-header {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  color: #f59e0b;
-  font-size: 15px;
-}
-
-.admin-order-details {
-  font-size: 13px;
-  color: #ccc;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 6px;
-}
-
-.admin-order-actions {
+.admin-tabs {
   display: flex;
   gap: 10px;
-  margin-top: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 10px;
 }
 
-.admin-btn-accept {
-  background: #25d366;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
+.admin-tab-btn {
+  background: #1a1a1a;
+  color: #888;
+  border: 1px solid #333;
+  padding: 10px 20px;
+  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-tab-btn.active {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.admin-order-item {
+  background: #141414;
+  border: 1px solid #262626;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-order-id {
+  font-size: 16px;
+  font-weight: bold;
+  color: #f59e0b;
+}
+
+.admin-order-summary {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.details-btn {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
   font-size: 12px;
 }
 
-.admin-btn-reject {
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
+.details-btn:hover {
+  background: #333;
+}
+
+.order-detail-view {
+  background: #111;
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.order-detail-row {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.order-detail-row span {
+  color: #f59e0b;
   font-weight: bold;
-  cursor: pointer;
-  font-size: 12px;
+}
+
+.receipt-img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #444;
+  margin: 10px 0;
+  background: #000;
+}
+
+.admin-action-bar {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .whatsapp-float {
@@ -640,20 +684,19 @@ footer {
   </section>
 </main>
 
-<!-- نافذة إتمام الطلب النظيفة والجديدة -->
+<!-- نافذة إتمام الطلب -->
 <div id="checkoutModal" class="modal-overlay">
   <div class="modal-box">
     <h3>إتمام الطلب</h3>
     
     <div class="instruction-box">
       <strong>تعليمات الدفع:</strong><br>
-      1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر تحت:<br>
+      1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر أدناه:<br>
       <div class="transfer-number-wrap">
         <div id="targetTransferNumber" class="transfer-number">0927816884</div>
       </div>
-      2️⃣ أكمل إدخال البيانات تحت وتاكد من انك قمت بتحويل الرصيد .<br>
+      2️⃣ أكمل إدخال البيانات في الخانات أدناه.<br>
       3️⃣ بعد إرسال الطلب سيتم تسليمه بعد ثوانٍ أو دقائق.
-      ⚠️ ملاحضة بسيطة : ادا لم تحول ايي رصيد لرقم الموجود لن يتم شحن الروبوكس اليك.
     </div>
 
     <form id="orderForm" onsubmit="submitOrder(event)">
@@ -670,7 +713,7 @@ footer {
         <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
       </div>
       <div class="form-group">
-        <label>سكرين التحويل قم بارسال سكرين التحويل:</label>
+        <label>سكرين إيصال التحويل:</label>
         <input type="file" id="transferScreenshot" accept="image/*" required>
       </div>
       <div class="modal-actions">
@@ -681,15 +724,21 @@ footer {
   </div>
 </div>
 
-<!-- نافذة لوحة التحكم (Admin Modal) -->
+<!-- لوحة التحكم (Admin Modal الاحترافية) -->
 <div id="adminModal" class="modal-overlay">
   <div class="modal-box admin-modal">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <h3 style="margin:0;">⚙️ لوحة التحكم - الطلبات</h3>
+      <h3 style="margin:0;">⚙️ لوحة التحكم - إدارة الطلبات</h3>
       <button class="btn-close" style="width: auto; padding: 5px 12px;" onclick="closeAdminModal()">✕</button>
     </div>
-    <div id="adminOrdersList">
-      <p style="text-align: center; color: #888;">جاري تحميل الطلبات...</p>
+
+    <div class="admin-tabs">
+      <button id="tabOrdersBtn" class="admin-tab-btn active" onclick="switchAdminTab('orders')">📦 الطلبات الجديدة</button>
+      <button id="tabHistoryBtn" class="admin-tab-btn" onclick="switchAdminTab('history')">📋 سجلات الطلبات</button>
+    </div>
+
+    <div id="adminContentArea">
+      <!-- محتوى الأقسام يتغير ديناميكياً هنا -->
     </div>
   </div>
 </div>
@@ -737,13 +786,28 @@ const effectsList = [
   { name: "🎈 افكت بالون", price: "33 د.ل", badge: "نادر", img: "https://i.ibb.co/bRmX1rvT/IMG-4142.jpg" },
   { name: "🖤 افكت قلب اسود", price: "33 د.ل", img: "https://i.ibb.co/FLvXYJPj/IMG-4141.jpg" },
   { name: "🟨 افكت دهب", price: "33 د.ل", img: "https://i.ibb.co/VYMxdhbR/IMG-4146.jpg" },
-  { name: "⚡️ افكت رعد", price: "33 د.ل", badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
+  { name: "⚡️ افكت رعد", price: "33 д.ل", badge: "شائع", img: "https://i.ibb.co/wZz4Mzkg/IMG-4145.jpg" },
   { name: "🪙 افكت فضة", price: "33 د.ل", img: "https://i.ibb.co/Nhz2fYp/IMG-4144.jpg" }
 ];
 
 let currentCategory = "robux"; 
 let currentProvider = "madar";
 let selectedProductData = null;
+
+// قاعدة بيانات محلية مؤقتة للطلبات والسجلات لتجربة لوحة التحكم فوراً
+let ordersList = [
+  {
+    id: "#2001",
+    product: "Robux 80",
+    price: "17 مدار",
+    robloxUser: "GamerX",
+    userPhone: "0920000000",
+    senderPhone: "0930553883",
+    screenshot: "https://i.ibb.co/DHYYgjSx/IMG-4123.jpg",
+    date: "2026-10-12 07:30"
+  }
+];
+let historyList = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   switchCategory("robux");
@@ -835,12 +899,33 @@ function submitOrder(e) {
   const robloxUser = document.getElementById("robloxUser").value;
   const userContactPhone = document.getElementById("userContactPhone").value;
   const senderPhone = document.getElementById("senderPhone").value;
+  const fileInput = document.getElementById("transferScreenshot");
 
   const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
 
-  const text = `طلب جديد ${orderId}%0A📦 المنتج: *${selectedProductData.itemName}*%0A💵 السعر: *${selectedProductData.price}*%0A👤 يوزر روبلوكس: *${robloxUser}*%0A📞 رقم التواصل: *${userContactPhone}*%0A📱 رقم المحول منه: *${senderPhone}*`;
+  let screenshotUrl = "";
+  if(fileInput.files && fileInput.files[0]) {
+    screenshotUrl = URL.createObjectURL(fileInput.files[0]);
+  }
+
+  const newOrder = {
+    id: orderId,
+    product: selectedProductData.itemName,
+    price: selectedProductData.price,
+    robloxUser: robloxUser,
+    userPhone: userContactPhone,
+    senderPhone: senderPhone,
+    screenshot: screenshotUrl,
+    date: new Date().toLocaleString()
+  };
+
+  ordersList.push(newOrder);
+
+  // إرسال آمن للواتساب بدون أخطاء روابط
+  const message = `طلب جديد ${orderId}%0Aالمنتج: ${selectedProductData.itemName}%0Aالسعر: ${selectedProductData.price}%0Aيوزر روبلوكس: ${robloxUser}%0Aرقم التواصل: ${userContactPhone}%0Aرقم المحول: ${senderPhone}`;
+  const encodedMsg = encodeURIComponent(message).replace(/%250A/g, '%0A');
   
-  window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodedMsg}`, '_blank');
 
   alert(`تم إرسال طلبك برقم ${orderId} بنجاح!`);
   closeModal();
@@ -848,9 +933,9 @@ function submitOrder(e) {
 
 function openAdminPanel() {
   const pass = prompt("أدخل كلمة مرور لوحة التحكم:");
-  if (pass === "laytt") {
+  if (pass === "Laytt") {
     document.getElementById("adminModal").style.display = "flex";
-    loadAdminOrders();
+    switchAdminTab('orders');
   } else if (pass !== null) {
     alert("كلمة المرور غير صحيحة!");
   }
@@ -860,32 +945,99 @@ function closeAdminModal() {
   document.getElementById("adminModal").style.display = "none";
 }
 
-function loadAdminOrders() {
-  const container = document.getElementById("adminOrdersList");
-  container.innerHTML = `
-    <div class="admin-order-card">
-      <div class="admin-order-header"><span>#2001 (طلب تجريبي)</span></div>
-      <div class="admin-order-details">
-        <div>المنتج: Robux 80</div>
-        <div>المبلغ: 17 مدار</div>
-        <div>يوزر روبلوكس: GamerX</div>
-        <div>رقم التواصل: 0920000000</div>
-        <div>رقم المحول منه: 0930553883</div>
+let currentAdminTab = 'orders';
+function switchAdminTab(tab) {
+  currentAdminTab = tab;
+  document.getElementById("tabOrdersBtn").classList.toggle("active", tab === 'orders');
+  document.getElementById("tabHistoryBtn").classList.toggle("active", tab === 'history');
+  
+  renderAdminContent();
+}
+
+function renderAdminContent() {
+  const area = document.getElementById("adminContentArea");
+  if (currentAdminTab === 'orders') {
+    if (ordersList.length === 0) {
+      area.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد طلبات جديدة حالياً.</p>`;
+      return;
+    }
+    let html = '';
+    ordersList.forEach((order, index) => {
+      html += `
+        <div class="admin-order-item">
+          <div class="admin-order-info">
+            <span class="admin-order-id">${order.id}</span>
+            <span class="admin-order-summary">${order.product} - ${order.robloxUser}</span>
+          </div>
+          <button class="details-btn" onclick="viewOrderDetails(${index})">تفاصيل الطلب 🔍</button>
+        </div>
+      `;
+    });
+    area.innerHTML = html;
+  } else {
+    if (historyList.length === 0) {
+      area.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">سجلات الطلبات المكتملة فارغة.</p>`;
+      return;
+    }
+    let html = '';
+    historyList.forEach(order => {
+      html += `
+        <div class="admin-order-item" style="opacity: 0.8;">
+          <div class="admin-order-info">
+            <span class="admin-order-id" style="color: #25d366;">${order.id} (مكتمل)</span>
+            <span class="admin-order-summary">${order.product} - ${order.robloxUser}</span>
+          </div>
+          <span style="font-size: 12px; color: #666;">${order.date}</span>
+        </div>
+      `;
+    });
+    area.innerHTML = html;
+  }
+}
+
+function viewOrderDetails(index) {
+  const order = ordersList[index];
+  const area = document.getElementById("adminContentArea");
+  
+  area.innerHTML = `
+    <div class="order-detail-view">
+      <button class="details-btn" onclick="switchAdminTab('orders')" style="margin-bottom: 15px;">← العودة للقائمة</button>
+      <div class="order-detail-row">رقم الطلب: <span>${order.id}</span></div>
+      <div class="order-detail-row">المنتج المطلوب: <span>${order.product}</span></div>
+      <div class="order-detail-row">السعر: <span>${order.price}</span></div>
+      <div class="order-detail-row">يوزر حساب روبلوكس: <span>${order.robloxUser}</span></div>
+      <div class="order-detail-row">رقم هاتفك للتواصل: <span>${order.userPhone}</span></div>
+      <div class="order-detail-row">رقم الهاتف المحول منه: <span>${order.senderPhone}</span></div>
+      <div class="order-detail-row">صورة الإيصال (سكرين التحويل):<br>
+        <img src="${order.screenshot}" class="receipt-img" alt="الإيصال">
       </div>
-      <div class="admin-order-actions">
-        <button class="admin-btn-accept" onclick="acceptOrder('0920000000')">تم تسليم الطلب ✅</button>
-        <button class="admin-btn-reject" onclick="rejectOrder('0920000000')">تم رفض الطلب ❌</button>
+      
+      <div class="admin-action-bar">
+        <button class="admin-btn-accept" style="flex:1; padding: 12px; font-size:14px;" onclick="completeOrder(${index})">تسليم الطلب ✅</button>
+        <button class="admin-btn-reject" style="flex:1; padding: 12px; font-size:14px;" onclick="rejectOrderAction('${order.userPhone}')">رفض الطلب ❌</button>
       </div>
     </div>
   `;
 }
 
-function acceptOrder(clientPhone) {
-  window.open(`https://wa.me/${clientPhone}?text=مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`, '_blank');
+function completeOrder(index) {
+  const order = ordersList[index];
+  
+  // فتح الواتساب للزبون برسالة التسليم
+  const msg = `مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`;
+  window.open(`https://wa.me/${order.userPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+
+  // نقله إلى سجلات الطلبات وحذفه من الطلبات النشطة
+  historyList.push(order);
+  ordersList.splice(index, 1);
+  
+  alert("تم تسليم الطلب ونقله إلى سجلات الطلبات بنجاح!");
+  switchAdminTab('orders');
 }
 
-function rejectOrder(clientPhone) {
-  window.open(`https://wa.me/${clientPhone}?text=طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`, '_blank');
+function rejectOrderAction(clientPhone) {
+  const msg = `طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`;
+  window.open(`https://wa.me/${clientPhone}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 </script>
 
