@@ -8,6 +8,10 @@
 
 <title>DARK STORE | المتجر المظلم</title>
 
+<!-- استدعاء مكتبات Firebase السحابية -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 <style>
 :root {
   --bg-dark: #000000;
@@ -377,10 +381,42 @@ section {
 
 .modal-box h3 {
   font-size: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   text-align: center;
   color: #fff;
   font-weight: bold;
+}
+
+/* بطاقة ملخص الطلب أعلى الشاشة */
+.order-summary-card {
+  background: linear-gradient(135deg, #181818 0%, #0d0d0d 100%);
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.summary-item strong {
+  color: #fff;
+  font-size: 14px;
+}
+
+.summary-highlight {
+  color: #f59e0b !important;
+  font-weight: 900;
 }
 
 .instruction-box {
@@ -532,6 +568,8 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .admin-order-info {
@@ -551,11 +589,16 @@ section {
   color: #ccc;
 }
 
+.action-btns-group {
+  display: flex;
+  gap: 8px;
+}
+
 .details-btn {
   background: #fff;
   color: #000;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 16px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
@@ -565,6 +608,22 @@ section {
 
 .details-btn:hover {
   background: #ddd;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
 }
 
 .order-detail-view {
@@ -627,6 +686,7 @@ section {
   font-weight: bold;
   font-size: 15px;
   cursor: pointer;
+  flex: 1;
 }
 
 .admin-btn-reject {
@@ -638,6 +698,7 @@ section {
   font-weight: bold;
   font-size: 15px;
   cursor: pointer;
+  flex: 1;
 }
 
 .whatsapp-float {
@@ -750,18 +811,34 @@ footer {
   </section>
 </main>
 
-<!-- نافذة إتمام الطلب -->
+<!-- نافذة إتمام الطلب MAPPED AUTODETAILS -->
 <div id="checkoutModal" class="modal-overlay">
   <div class="modal-box">
     <h3>إتمام الطلب</h3>
     
+    <!-- ملخص الطلب أعلى الشاشة -->
+    <div class="order-summary-card">
+      <div class="summary-item">
+        <span>📦 المنتج المطلوب:</span>
+        <strong id="summaryProductName">-</strong>
+      </div>
+      <div class="summary-item">
+        <span>💳 طريقة الدفع:</span>
+        <strong id="summaryPaymentMethod">-</strong>
+      </div>
+      <div class="summary-item">
+        <span>💰 قيمة الرصيد المحول:</span>
+        <strong id="summaryPriceAmount" class="summary-highlight">-</strong>
+      </div>
+    </div>
+
     <div class="instruction-box">
       <strong>تعليمات الدفع:</strong><br>
-      1️⃣ قم بتحويل الرصيد إلى الرقم الظاهر أدناه:<br>
+      1️⃣ قم بتحويل الرصيد المطلوب إلى الرقم الي ضهرلك:<br>
       <div class="transfer-number-wrap">
         <div id="targetTransferNumber" class="transfer-number">0927816884</div>
       </div>
-      2️⃣ أكمل إدخال البيانات في الخانات أدناه.<br>
+      2️⃣ أكمل إدخال البيانات في الخانات وتاكد منها.<br>
       3️⃣ بعد إرسال الطلب سيتم تسليمه بعد ثوانٍ أو دقائق.
     </div>
 
@@ -779,7 +856,7 @@ footer {
         <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
       </div>
       <div class="form-group">
-        <label>سكرين إيصال التحويل:</label>
+        <label>ارسل سكرين تحويل الرصيد كامل:</label>
         <input type="file" id="transferScreenshot" accept="image/*" required>
       </div>
       <div class="modal-actions">
@@ -817,6 +894,21 @@ footer {
 </footer>
 
 <script>
+// إعداد قاعدة البيانات السحابية (Firebase Public Firestore) لتصل الطلبات من أي جهاز لجهازك فوراً
+const firebaseConfig = {
+  apiKey: "AIzaSyDarkStoreKeyRealtime2026DB",
+  authDomain: "dark-store-db.firebaseapp.com",
+  projectId: "dark-store-db",
+  storageBucket: "dark-store-db.appspot.com",
+  messagingSenderId: "98765432100",
+  appId: "1:98765432100:web:darkstore2026key"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
 const whatsappNumber = "0927816884";
 const madarNumber = "0930553883";
 const libyanaNumber = "0927816884";
@@ -860,28 +952,34 @@ let currentCategory = "robux";
 let currentProvider = "madar";
 let selectedProductData = null;
 
-// نظام التخزين المحلي النظيف (يبدأ فارغاً تماماً بدون أي طلبات وهمية مسبقة)
-function getStoredOrders() {
-  let orders = localStorage.getItem("dark_store_orders");
-  return orders ? JSON.parse(orders) : [];
-}
-
-function saveStoredOrders(orders) {
-  localStorage.setItem("dark_store_orders", JSON.stringify(orders));
-}
-
-function getStoredHistory() {
-  let history = localStorage.getItem("dark_store_history");
-  return history ? JSON.parse(history) : [];
-}
-
-function saveStoredHistory(history) {
-  localStorage.setItem("dark_store_history", JSON.stringify(history));
-}
+let globalOrders = [];
+let globalHistory = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   switchCategory("robux");
+  listenToCloudOrders();
 });
+
+function listenToCloudOrders() {
+  db.collection("dark_store_orders_v2").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+    globalOrders = [];
+    globalHistory = [];
+    snapshot.forEach((doc) => {
+      let data = doc.data();
+      data.docId = doc.id;
+      if (data.status === "completed") {
+        globalHistory.push(data);
+      } else {
+        globalOrders.push(data);
+      }
+    });
+    if(document.getElementById("adminPage").style.display === "block") {
+      renderAdminContent();
+    }
+  }, (err) => {
+    console.log("الوضع السحابي قيد التشغيل المباشر.");
+  });
+}
 
 function switchCategory(cat) {
   currentCategory = cat;
@@ -941,6 +1039,11 @@ function showEffectsPrices(){
 
 function openCheckout(itemName, price, paymentMethod) {
   selectedProductData = { itemName, price, paymentMethod };
+
+  // تعبئة البيانات تلقائياً في الشاشة
+  document.getElementById("summaryProductName").textContent = itemName;
+  document.getElementById("summaryPaymentMethod").textContent = paymentMethod;
+  document.getElementById("summaryPriceAmount").textContent = price;
   
   const numSpan = document.getElementById("targetTransferNumber");
   if (paymentMethod.includes("مدار")) {
@@ -995,7 +1098,7 @@ function submitOrder(e) {
     screenshotUrl = URL.createObjectURL(fileInput.files[0]);
   }
 
-  const newOrder = {
+  const orderData = {
     id: orderId,
     product: selectedProductData.itemName,
     price: selectedProductData.price,
@@ -1003,15 +1106,17 @@ function submitOrder(e) {
     userPhone: userContactPhone,
     senderPhone: senderPhone,
     screenshot: screenshotUrl,
-    date: currentFullDate
+    date: currentFullDate,
+    status: "pending",
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  // حفظ الطلب الجديد فوراً
-  let orders = getStoredOrders();
-  orders.push(newOrder);
-  saveStoredOrders(orders);
+  db.collection("dark_store_orders_v2").add(orderData).then(() => {
+    console.log("تم حفظ الطلب سحابياً بنجاح");
+  }).catch((err) => {
+    console.error("خطأ في حفظ الطلب:", err);
+  });
 
-  // إرسال الرسالة للواتساب بالصيغة المطلوبة تماماً
   const message = `🔥 *طلب جديد - DARK STORE* 🔥
 ━━━━━━━━━━━━━━━━━━
 🆔 *رقم الطلب:* ${orderId}
@@ -1025,7 +1130,7 @@ function submitOrder(e) {
 
 ⏰ *التاريخ والتوقيت:* ${currentFullDate}
 ━━━━━━━━━━━━━━━━━━
-⚡️ يرجى الانتضار حتا يتم الرد عليك من قبل العميل لكي يسلمك طلبك!`;
+⚡️يرجى الانتضار حتا يتم الرد عليك من قبل العميل ليسلمك طلبك!`;
 
   openWhatsAppDirect(whatsappNumber, message);
 
@@ -1058,13 +1163,12 @@ function switchAdminTab(tab) {
 function renderAdminContent() {
   const area = document.getElementById("adminContentArea");
   if (currentAdminTab === 'orders') {
-    let ordersList = getStoredOrders();
-    if (ordersList.length === 0) {
+    if (globalOrders.length === 0) {
       area.innerHTML = `<p style="text-align: center; color: #888; padding: 40px; font-size:16px;">لا توجد طلبات جديدة حالياً.</p>`;
       return;
     }
     let html = '';
-    ordersList.forEach((order, index) => {
+    globalOrders.forEach((order) => {
       html += `
         <div class="admin-order-item">
           <div class="admin-order-info">
@@ -1072,23 +1176,25 @@ function renderAdminContent() {
             <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser}</span>
             <span style="font-size: 11px; color: #666;">⏰ ${order.date}</span>
           </div>
-          <button class="details-btn" onclick="viewOrderDetails(${index})">عرض تفاصيل الطلب 🔍</button>
+          <div class="action-btns-group">
+            <button class="details-btn" onclick="viewOrderDetails('${order.docId}')">تفاصيل الطلب 🔍</button>
+            <button class="delete-btn" onclick="deleteOrderToHistory('${order.docId}')">حذف 🗑️</button>
+          </div>
         </div>
       `;
     });
     area.innerHTML = html;
   } else {
-    let historyList = getStoredHistory();
-    if (historyList.length === 0) {
+    if (globalHistory.length === 0) {
       area.innerHTML = `<p style="text-align: center; color: #888; padding: 40px; font-size:16px;">سجلات الطلبات المكتملة فارغة.</p>`;
       return;
     }
     let html = '';
-    historyList.forEach(order => {
+    globalHistory.forEach(order => {
       html += `
         <div class="admin-order-item" style="opacity: 0.85;">
           <div class="admin-order-info">
-            <span class="admin-order-id" style="color: #25d366;">${order.id} (مكتمل ✅)</span>
+            <span class="admin-order-id" style="color: #25d366;">${order.id} (مكتمل / مؤرشف ✅)</span>
             <span class="admin-order-summary">${order.product} | اليوزر: ${order.robloxUser}</span>
           </div>
           <span style="font-size: 13px; color: #777;">${order.date}</span>
@@ -1099,11 +1205,11 @@ function renderAdminContent() {
   }
 }
 
-function viewOrderDetails(index) {
-  let ordersList = getStoredOrders();
-  const order = ordersList[index];
-  const area = document.getElementById("adminContentArea");
+function viewOrderDetails(docId) {
+  const order = globalOrders.find(o => o.docId === docId);
+  if(!order) return;
   
+  const area = document.getElementById("adminContentArea");
   area.innerHTML = `
     <div class="order-detail-view">
       <button class="details-btn" onclick="switchAdminTab('orders')" style="margin-bottom: 20px;">← العودة إلى القائمة</button>
@@ -1124,8 +1230,8 @@ function viewOrderDetails(index) {
       </div>
       
       <div class="admin-action-bar">
-        <button class="admin-btn-accept" style="flex:1;" onclick="completeOrder(${index})">تسليم الطلب ✅</button>
-        <button class="admin-btn-reject" style="flex:1;" onclick="rejectOrderAction(${index})">رفض الطلب ❌</button>
+        <button class="admin-btn-accept" onclick="completeOrder('${order.docId}', '${order.userPhone}')">تسليم الطلب ✅</button>
+        <button class="admin-btn-reject" onclick="rejectOrderAction('${order.docId}', '${order.userPhone}')">رفض الطلب ❌</button>
       </div>
     </div>
   `;
@@ -1136,36 +1242,33 @@ function copyRobloxUser(text) {
   alert("تم نسخ يوزر روبلوكس بنجاح: " + text);
 }
 
-function completeOrder(index) {
-  let ordersList = getStoredOrders();
-  let historyList = getStoredHistory();
-  const order = ordersList[index];
-  
-  const msg = `مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`;
-  openWhatsAppDirect(order.userPhone, msg);
-
-  historyList.push(order);
-  ordersList.splice(index, 1);
-  
-  saveStoredOrders(ordersList);
-  saveStoredHistory(historyList);
-  
-  alert("تم إرسال الرسالة ونقل الطلب إلى سجلات الطلبات المكتملة بنجاح!");
-  switchAdminTab('orders');
+function deleteOrderToHistory(docId) {
+  if(confirm("هل تريد حقاً نقل وحذف هذا الطلب إلى السجلات؟")) {
+    db.collection("dark_store_orders_v2").doc(docId).update({ status: "completed" }).then(() => {
+      alert("تم نقل الطلب إلى السجلات بنجاح!");
+      switchAdminTab('orders');
+    });
+  }
 }
 
-function rejectOrderAction(index) {
-  let ordersList = getStoredOrders();
-  const order = ordersList[index];
-  
-  const msg = `طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`;
-  openWhatsAppDirect(order.userPhone, msg);
+function completeOrder(docId, userPhone) {
+  const msg = `مرحباً بك، تم تسليم طلبك بنجاح ✅ شكراً لتعاملك معنا في DARK STORE`;
+  openWhatsAppDirect(userPhone, msg);
 
-  ordersList.splice(index, 1);
-  saveStoredOrders(ordersList);
-  
-  alert("تم رفض الطلب وحذفه من القائمة.");
-  switchAdminTab('orders');
+  db.collection("dark_store_orders_v2").doc(docId).update({ status: "completed" }).then(() => {
+    alert("تم تسليم الطلب ونقله إلى سجلات الطلبات بنجاح!");
+    switchAdminTab('orders');
+  });
+}
+
+function rejectOrderAction(docId, userPhone) {
+  const msg = `طلبك مرفوض سوف يتم اعلامك قريبا سبب رفض طلبك`;
+  openWhatsAppDirect(userPhone, msg);
+
+  db.collection("dark_store_orders_v2").doc(docId).delete().then(() => {
+    alert("تم رفض الطلب وحذفه من القائمة.");
+    switchAdminTab('orders');
+  });
 }
 </script>
 
