@@ -498,6 +498,61 @@ section {
   color: #aaa;
 }
 
+/* تنسيق النافذة المنبثقة الترحيبية (تظهر مع كل زيارة) */
+.welcome-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+  padding: 20px;
+}
+
+.welcome-popup-box {
+  background: #0d0d0d;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  border: 1px solid #333;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+}
+
+.welcome-popup-box h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #fff;
+  font-weight: 900;
+}
+
+.welcome-popup-box p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.welcome-popup-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.welcome-popup-btn:hover {
+  background: #ccc;
+}
+
 /* صفحة لوحة التحكم */
 .admin-page-overlay {
   position: fixed;
@@ -802,6 +857,15 @@ footer {
   </section>
 </main>
 
+<!-- نافذة ترحيبية تظهر في كل دخول -->
+<div id="welcomePopupModal" class="welcome-popup-overlay">
+  <div class="welcome-popup-box">
+    <h3>🔥 مرحباً بك في DARK STORE</h3>
+    <p>متجرك الموثوق لشحن الروبوكس وأفكتات روبلوكس بأفضل الأسعار وبطرق دفع ليبيانا ومدار.</p>
+    <button class="welcome-popup-btn" onclick="closeWelcomePopup()">تصفح المتجر الآن 🚀</button>
+  </div>
+</div>
+
 <!-- نافذة إتمام الطلب -->
 <div id="checkoutModal" class="modal-overlay">
   <div class="modal-box">
@@ -842,7 +906,7 @@ footer {
         <input type="tel" id="userContactPhone" required placeholder="مثال: 092xxxxxxx">
       </div>
       <div class="form-group">
-        <label>"رقم هاتفك الي حولت بيه الرصيد:</label>
+        <label>رقم هاتفك الي حولت بيه الرصيد:</label>
         <input type="tel" id="senderPhone" required placeholder="مثال: 091xxxxxxx">
       </div>
       <div class="form-group">
@@ -946,7 +1010,14 @@ let globalHistory = [];
 document.addEventListener("DOMContentLoaded", () => {
   switchCategory("robux");
   listenToCloudOrders();
+  
+  // إظهار نافذة الترحيب فور دخول الموقع في كل مرة (بدون حفظ في التخزين)
+  document.getElementById("welcomePopupModal").style.display = "flex";
 });
+
+function closeWelcomePopup() {
+  document.getElementById("welcomePopupModal").style.display = "none";
+}
 
 function listenToCloudOrders() {
   db.collection("dark_store_orders_v2").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
