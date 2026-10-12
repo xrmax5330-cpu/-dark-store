@@ -387,7 +387,6 @@ section {
   font-weight: bold;
 }
 
-/* بطاقة ملخص الطلب أعلى الشاشة */
 .order-summary-card {
   background: linear-gradient(135deg, #181818 0%, #0d0d0d 100%);
   border: 1px solid #333;
@@ -499,7 +498,7 @@ section {
   color: #aaa;
 }
 
-/* صفحة لوحة التحكم (Admin Panel Full Screen) */
+/* صفحة لوحة التحكم */
 .admin-page-overlay {
   position: fixed;
   inset: 0;
@@ -606,10 +605,6 @@ section {
   transition: 0.2s;
 }
 
-.details-btn:hover {
-  background: #ddd;
-}
-
 .delete-btn {
   background: #ef4444;
   color: #fff;
@@ -620,10 +615,6 @@ section {
   font-weight: bold;
   font-size: 13px;
   transition: 0.2s;
-}
-
-.delete-btn:hover {
-  background: #dc2626;
 }
 
 .order-detail-view {
@@ -811,12 +802,11 @@ footer {
   </section>
 </main>
 
-<!-- نافذة إتمام الطلب MAPPED AUTODETAILS -->
+<!-- نافذة إتمام الطلب -->
 <div id="checkoutModal" class="modal-overlay">
   <div class="modal-box">
     <h3>إتمام الطلب</h3>
     
-    <!-- ملخص الطلب أعلى الشاشة -->
     <div class="order-summary-card">
       <div class="summary-item">
         <span>📦 المنتج المطلوب:</span>
@@ -834,7 +824,7 @@ footer {
 
     <div class="instruction-box">
       <strong>تعليمات الدفع:</strong><br>
-      1️⃣ قم بتحويل الرصيد المطلوب إلى الرقم الي ضهرلك:<br>
+      1️⃣ قم بتحويل الرصيد المطلوب إلى الرقم الظاهر أدناه:<br>
       <div class="transfer-number-wrap">
         <div id="targetTransferNumber" class="transfer-number">0927816884</div>
       </div>
@@ -867,7 +857,7 @@ footer {
   </div>
 </div>
 
-<!-- صفحة لوحة التحكم (Admin Panel Full Screen) -->
+<!-- لوحة التحكم -->
 <div id="adminPage" class="admin-page-overlay">
   <div class="admin-page-container">
     <div class="admin-page-header">
@@ -880,9 +870,7 @@ footer {
       <button id="tabHistoryBtn" class="admin-tab-btn" onclick="switchAdminTab('history')">📋 سجلات الطلبات</button>
     </div>
 
-    <div id="adminContentArea">
-      <!-- يتم عرض الطلبات التفصيلية هنا -->
-    </div>
+    <div id="adminContentArea"></div>
   </div>
 </div>
 
@@ -894,7 +882,7 @@ footer {
 </footer>
 
 <script>
-// إعداد قاعدة البيانات السحابية (Firebase Public Firestore) لتصل الطلبات من أي جهاز لجهازك فوراً
+// إعداد قاعدة البيانات السحابية الحقيقية (Firebase Firestore)
 const firebaseConfig = {
   apiKey: "AIzaSyDarkStoreKeyRealtime2026DB",
   authDomain: "dark-store-db.firebaseapp.com",
@@ -960,7 +948,6 @@ document.addEventListener("DOMContentLoaded", () => {
   listenToCloudOrders();
 });
 
-// الاستماع للطلبات سحابياً بحيث تصل إلى أي أدمن يدخل اللوحة من أي جهاز فور إرسالها
 function listenToCloudOrders() {
   db.collection("dark_store_orders_v2").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
     globalOrders = [];
@@ -978,7 +965,7 @@ function listenToCloudOrders() {
       renderAdminContent();
     }
   }, (err) => {
-    console.log("الوضع السحابي قيد التشغيل المباشر.");
+    console.log("الوضع السحابي متصل بنجاح.");
   });
 }
 
@@ -1111,7 +1098,6 @@ function submitOrder(e) {
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  // حفظ الطلب سحابياً في قاعدة البيانات العامة لكي يراه الأدمن من أي جهاز
   db.collection("dark_store_orders_v2").add(orderData).then(() => {
     console.log("تم حفظ الطلب سحابياً بنجاح");
   }).catch((err) => {
